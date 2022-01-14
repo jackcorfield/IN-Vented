@@ -6,7 +6,6 @@
 #include <time.h>
 #include <windows.h>
 
-
 using namespace::std;
 
 // Change game name once decided upon
@@ -25,11 +24,8 @@ public:
 	void Logging();
 
 
-
 protected:
 
 private:
-
-
 
 };
