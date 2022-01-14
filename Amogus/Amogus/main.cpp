@@ -1,12 +1,11 @@
  #include "source.h"
 
-//int argc, char* argv[]
-int main() {
+Application* g_app = nullptr;
 
-	GL* newGameInstance = new GL();
-
-	newGameInstance->Run();
+int main() 
+{
+	g_app = new Application();
+	g_app->Init();
 
 	return 0;
-
 }

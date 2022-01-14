@@ -4,21 +4,35 @@
 
 #include "Renderer.h"
 
+struct GLFWwindow;
+
+struct WindowParams
+{
+	unsigned int windowWidth, windowHeight;
+	bool isFullscreen;
+	unsigned int MSAASamples;
+	const char* windowTitle;
+};
+
 // Change game name once decided upon
-class GL
+class Application
 {
 public:
 
-	GL();
+	Application();
+	~Application();
 
+	void Init();
 	void Run();
 
-	~GL(void);
+	GLFWwindow* m_window;
+	WindowParams m_windowParams;
 
 protected:
 
 private:
-	Renderer* m_renderer;
-	int WinID = NULL;
+	bool InitGL();
+	void TerminateOpenGL();
 
+	Renderer* m_renderer;
 };
