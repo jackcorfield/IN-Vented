@@ -1,8 +1,9 @@
 #include "source.h"
 
-int main(int argc, char* argv[]) {
+//int argc, char* argv[]
+int main() {
 
-	Init* newGameInstance = new Init(argc, argv);
+	GL* newGameInstance = new GL();
 
 	return 0;
 

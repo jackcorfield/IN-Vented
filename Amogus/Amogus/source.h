@@ -9,13 +9,13 @@
 using namespace::std;
 
 // Change game name once decided upon
-class Init
+class GL
 {
 public:
 
-	Init(int argc, char* argv[]);
+	GL();
 
-	~Init(void);
+	~GL(void);
 
 	void Render();
 
@@ -23,9 +23,13 @@ public:
 
 	void Logging();
 
+	bool InitGL();
+
 
 protected:
 
 private:
+
+	int WinID = NULL;
 
 };
