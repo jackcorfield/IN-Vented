@@ -6,6 +6,10 @@
 #include <iostream>
 #include "source.h"
 
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_glfw.h"
+#include "ImGui/imgui_impl_opengl3.h"
+
 extern Application* g_app;
 
 Renderer::Renderer()
@@ -19,6 +23,18 @@ Renderer::~Renderer()
 void Renderer::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// AP - ImGui rendering
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::Begin("Hello world!");
+	ImGui::Text("Hi hi hi hi hi hi");
+	ImGui::End();
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	// Cool rendering stuff
 
