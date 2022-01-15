@@ -47,5 +47,8 @@
     <ClInclude Include="InputMapping.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
