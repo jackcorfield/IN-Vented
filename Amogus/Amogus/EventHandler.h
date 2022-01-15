@@ -5,6 +5,40 @@
 #include <map>
 #include <typeindex>
 
+/*
+EXAMPLE USAGE:
+
+// Defined somewhere
+
+class MessageEvent : public Event
+{
+public:
+	MessageEvent(std::string msg) : m_msg(msg) {}
+	std::string m_msg;
+};
+
+class Reciever
+{
+public:
+	Reciever() {}
+
+	void PrintMsg(MessageEvent* e)
+	{
+		std::cout << e->m_msg << std::endl;
+	}
+};
+
+// Put this somewhere
+EventBus* bus = new EventBus();
+
+Reciever* reciever = new Reciever();
+bus->subscribe(reciever, &Reciever::PrintMsg);
+bus->publish(new MessageEvent("Hello world!"));
+
+delete bus;
+
+*/
+
 // Base event class
 // Descendents of this class will be what get pushed across when we publish an event
 class Event
