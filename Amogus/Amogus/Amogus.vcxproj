@@ -150,6 +150,7 @@
     <ClCompile Include="source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="InputMapping.h" />
     <ClInclude Include="Renderer.h" />
