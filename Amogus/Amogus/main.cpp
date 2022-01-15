@@ -4,7 +4,6 @@
 #include <iostream>
 
 Application* g_app = nullptr;
-EventBus g_eventBus;
 
 class MessageEvent : public Event
 {

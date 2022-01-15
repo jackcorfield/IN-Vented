@@ -5,12 +5,15 @@
 #include <map>
 #include <typeindex>
 
+// Base event class
+// Descendents of this class will be what get pushed across when we publish an event
 class Event
 {
 protected:
 	~Event() {};
 };
 
+// This is just an abstract interface for the subscriber
 class HandlerFunctionBase
 {
 public:
@@ -25,6 +28,9 @@ private:
 	virtual void call(Event*) = 0;
 };
 
+// This is what we view a subscriber to be
+// It's essentially just an instance, and the function that we want to call
+// Just so we remember who to call
 template<class T, class EventType> 
 class MemberFunctionHandler : public HandlerFunctionBase
 {
@@ -44,6 +50,8 @@ private:
 	MemberFunction m_function;
 };
 
+// Objects can "subscribe" to the event bus
+// So when something happens they're interested in, when the bus is "published", they'll be sent the published event
 typedef std::list<HandlerFunctionBase*> HandlerList;
 class EventBus
 {
