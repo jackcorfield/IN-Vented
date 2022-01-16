@@ -11,4 +11,5 @@ public:
 	void Render();
 
 private:
+	void DrawImGui();
 };
