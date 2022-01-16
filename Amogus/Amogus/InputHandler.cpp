@@ -1,9 +1,12 @@
 #include "InputHandler.h"
+#include "source.h"
 
 // Handler Will require JSON Parser to read KEYMAP.json data at start and load maps into memory, 
 // will also need to be passed across from InputMapper if mapping is changed.
 
 // Map file to read located at Data/Config/KEYMAP.json
+
+extern Application* g_app;
 
 InputHandler::InputHandler()
 {
@@ -12,11 +15,19 @@ InputHandler::InputHandler()
 
 }
 
-InputHandler::~InputHandler() 
+InputHandler::~InputHandler() {
+
+}
+
+void InputHandler::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	
+	std::cout << "PRESSING: " << key << std::endl;
+	// to test against the KEYMAP.json the "1" key should output 49 to console
+}
+
+void InputHandler::MouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
-
-
-
+	std::cout << "MOUSE POS: " << xpos << "," << ypos << std::endl;
 }
 
 void InputHandler::InputMapRead()
@@ -44,8 +55,8 @@ void InputHandler::InputMapRead()
 
 			//std::cout << "inputName" << std::endl;
 
-			std::string token = str.substr(str.find(":")+3, std::string::npos); // Grab Data after Colon
-			token = token.substr(0, token.find(",")-1); // Snip End off data
+			std::string token = str.substr(str.find(":") + 3, std::string::npos); // Grab Data after Colon
+			token = token.substr(0, token.find(",") - 1); // Snip End off data
 			inputName[mapIndex] = token;
 
 			std::cout << token << std::endl;

@@ -24,10 +24,9 @@ void Application::Init()
 	InitGL();
 
 	m_renderer = new Renderer();
-
-	//for testing - implement correctly later
-	InputHandler();
 	
+	InputHandler::InputHandler();
+
 	Run();
 }
 
@@ -73,6 +72,10 @@ bool Application::InitGL()
 
 	// Set glfw callback(s)
 	glfwSetFramebufferSizeCallback(m_window, frame_buffer_size_callback);
+
+	// Set input callback(s)
+	glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
+	glfwSetCursorPosCallback(m_window, InputHandler::MouseCallback);
 
 	// Prevents window from closing instantly
 	glfwSetWindowShouldClose(m_window, GL_FALSE);
