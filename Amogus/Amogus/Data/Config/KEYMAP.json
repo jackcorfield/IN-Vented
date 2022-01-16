@@ -1,0 +1,614 @@
+{
+    "keyboard": [
+        {
+            "inputName": "GLFW_KEY_UNKNOWN",
+            "inputID": "-1",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_SPACE",
+            "inputID": "32",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_APOSTROPHE",
+            "inputID": "39 /*'*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_COMMA",
+            "inputID": "44 /*,*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_MINUS",
+            "inputID": "45 /*-*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_PERIOD",
+            "inputID": "46 /*.*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_SLASH",
+            "inputID": "47 /*/*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_0",
+            "inputID": "48",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_1",
+            "inputID": "49",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_2",
+            "inputID": "50",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_3",
+            "inputID": "51",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_4",
+            "inputID": "52",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_5",
+            "inputID": "53",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_6",
+            "inputID": "54",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_7",
+            "inputID": "55",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_8",
+            "inputID": "56",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_9",
+            "inputID": "57",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_SEMICOLON",
+            "inputID": "59 /*;*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_EQUAL",
+            "inputID": "61 /*=*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_A",
+            "inputID": "65",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_B",
+            "inputID": "66",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_C",
+            "inputID": "67",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_D",
+            "inputID": "68",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_E",
+            "inputID": "69",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F",
+            "inputID": "70",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_G",
+            "inputID": "71",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_H",
+            "inputID": "72",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_I",
+            "inputID": "73",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_J",
+            "inputID": "74",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_K",
+            "inputID": "75",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_L",
+            "inputID": "76",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_M",
+            "inputID": "77",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_N",
+            "inputID": "78",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_O",
+            "inputID": "79",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_P",
+            "inputID": "80",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_Q",
+            "inputID": "81",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_R",
+            "inputID": "82",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_S",
+            "inputID": "83",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_T",
+            "inputID": "84",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_U",
+            "inputID": "85",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_V",
+            "inputID": "86",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_W",
+            "inputID": "87",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_X",
+            "inputID": "88",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_Y",
+            "inputID": "89",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_Z",
+            "inputID": "90",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_LEFT_BRACKET",
+            "inputID": "91 /*[*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_BACKSLASH",
+            "inputID": "92 /*\\*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_RIGHT_BRACKET",
+            "inputID": "93 /*]*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_GRAVE_ACCENT",
+            "inputID": "96 /*`*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_WORLD_1",
+            "inputID": "161 /*non-US#1*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_WORLD_2",
+            "inputID": "162 /*non-US#2*/",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_ESCAPE",
+            "inputID": "256",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_ENTER",
+            "inputID": "257",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_TAB",
+            "inputID": "258",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_BACKSPACE",
+            "inputID": "259",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_INSERT",
+            "inputID": "260",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_DELETE",
+            "inputID": "261",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_RIGHT",
+            "inputID": "262",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_LEFT",
+            "inputID": "263",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_DOWN",
+            "inputID": "264",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_UP",
+            "inputID": "265",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_PAGE_UP",
+            "inputID": "266",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_PAGE_DOWN",
+            "inputID": "267",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_HOME",
+            "inputID": "268",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_END",
+            "inputID": "269",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_CAPS_LOCK",
+            "inputID": "280",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_SCROLL_LOCK",
+            "inputID": "281",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_NUM_LOCK",
+            "inputID": "282",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_PRINT_SCREEN",
+            "inputID": "283",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_PAUSE",
+            "inputID": "284",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F1",
+            "inputID": "290",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F2",
+            "inputID": "291",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F3",
+            "inputID": "292",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F4",
+            "inputID": "293",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F5",
+            "inputID": "294",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F6",
+            "inputID": "295",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F7",
+            "inputID": "296",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F8",
+            "inputID": "297",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F9",
+            "inputID": "298",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F10",
+            "inputID": "299",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F11",
+            "inputID": "300",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F12",
+            "inputID": "301",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F13",
+            "inputID": "302",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F14",
+            "inputID": "303",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F15",
+            "inputID": "304",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F16",
+            "inputID": "305",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F17",
+            "inputID": "306",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F18",
+            "inputID": "307",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F19",
+            "inputID": "308",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F20",
+            "inputID": "309",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F21",
+            "inputID": "310",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F22",
+            "inputID": "311",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F23",
+            "inputID": "312",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F24",
+            "inputID": "313",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_F25",
+            "inputID": "314",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_0",
+            "inputID": "320",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_1",
+            "inputID": "321",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_2",
+            "inputID": "322",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_3",
+            "inputID": "323",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_4",
+            "inputID": "324",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_5",
+            "inputID": "325",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_6",
+            "inputID": "326",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_7",
+            "inputID": "327",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_8",
+            "inputID": "328",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_9",
+            "inputID": "329",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_DECIMAL",
+            "inputID": "330",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_DIVIDE",
+            "inputID": "331",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_MULTIPLY",
+            "inputID": "332",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_SUBTRACT",
+            "inputID": "333",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_ADD",
+            "inputID": "334",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_ENTER",
+            "inputID": "335",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_KP_EQUAL",
+            "inputID": "336",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_LEFT_SHIFT",
+            "inputID": "340",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_LEFT_CONTROL",
+            "inputID": "341",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_LEFT_ALT",
+            "inputID": "342",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_LEFT_SUPER",
+            "inputID": "343",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_RIGHT_SHIFT",
+            "inputID": "344",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_RIGHT_CONTROL",
+            "inputID": "345",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_RIGHT_ALT",
+            "inputID": "346",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_RIGHT_SUPER",
+            "inputID": "347",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_MENU",
+            "inputID": "348",
+            "keyAction": ""
+        },
+        {
+            "inputName": "GLFW_KEY_LAST",
+            "inputID": "GLFW_KEY_MENU",
+            "keyAction": ""
+        }
+    ]
+}

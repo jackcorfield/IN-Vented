@@ -1,12 +1,13 @@
 #pragma once
-class InputMapping
+class InputMapper
 {
 public:
-	InputMapping();
-	~InputMapping();
+	InputMapper();
+	~InputMapper();
 
 	void InputMapRead();
 	void InputMapWrite();
+	void MapInput();
 
 protected:
 

@@ -16,7 +16,7 @@ void Application::Init()
 	m_windowParams =
 	{
 		1280, 720,
-		true,
+		false,
 		0,
 		"Engine"
 	};
