@@ -3,6 +3,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_glfw.h"
+#include "ImGui/imgui_impl_opengl3.h"
+
 void error_callback(int error, const char* description);
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -22,6 +26,7 @@ void Application::Init()
 	};
 
 	InitGL();
+	InitImGui();
 
 	m_renderer = new Renderer();
 
@@ -87,6 +92,20 @@ bool Application::InitGL()
 	glEnable(GL_DEPTH_TEST);
 	if (m_windowParams.MSAASamples > 0)
 		glEnable(GL_MULTISAMPLE);
+}
+
+void Application::InitImGui()
+{
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+
+	// Setup Platform/Renderer bindings
+	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+	ImGui_ImplOpenGL3_Init("#version 130");
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
 }
 
 void Application::TerminateOpenGL()

@@ -32,6 +32,7 @@ protected:
 
 private:
 	bool InitGL();
+	void InitImGui();
 	void TerminateOpenGL();
 
 	Renderer* m_renderer;
