@@ -25,6 +25,9 @@ void Application::Init()
 
 	m_renderer = new Renderer();
 
+	//for testing - implement correctly later
+	InputHandler();
+	
 	Run();
 }
 

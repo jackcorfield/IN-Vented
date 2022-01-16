@@ -145,7 +145,6 @@
     <ClCompile Include="dependencies\glad\src\glad.c" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="InputMapping.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -155,7 +154,6 @@
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="InputMapping.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="source.h" />

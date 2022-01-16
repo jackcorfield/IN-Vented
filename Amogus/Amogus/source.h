@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Renderer.h"
+#include "InputHandler.h"
 
 struct GLFWwindow;
 

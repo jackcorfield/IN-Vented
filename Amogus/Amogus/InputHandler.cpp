@@ -3,12 +3,12 @@
 // Handler Will require JSON Parser to read KEYMAP.json data at start and load maps into memory, 
 // will also need to be passed across from InputMapper if mapping is changed.
 
-// Map file to read located at Amogus/Data/Config/KEYMAP.json
+// Map file to read located at Data/Config/KEYMAP.json
 
 InputHandler::InputHandler()
 {
 
-
+	InputMapRead();
 
 }
 
@@ -16,5 +16,82 @@ InputHandler::~InputHandler()
 {
 
 
+
+}
+
+void InputHandler::InputMapRead()
+{
+	// Very quick and dirty string manip until a proper JSON parser is implemented
+
+	fs.open("Data/Config/KEYMAP.json");
+	if (fs.fail() || fs.bad()) {
+		std::cout << "BAD KEYMAP FILE" << std::endl;
+		return;
+	}
+
+	uint32_t mapIndex = 0;
+	std::string str;
+
+	while (getline(fs, str))
+	{
+		if (str.find("{") != std::string::npos) {
+
+		}
+		if (str.find("}") != std::string::npos) {
+
+		}
+		if (str.find("inputName") != std::string::npos) {
+
+			//std::cout << "inputName" << std::endl;
+
+			std::string token = str.substr(str.find(":")+3, std::string::npos); // Grab Data after Colon
+			token = token.substr(0, token.find(",")-1); // Snip End off data
+			inputName[mapIndex] = token;
+
+			std::cout << token << std::endl;
+
+		}
+		if (str.find("inputID") != std::string::npos) {
+
+			//std::cout << "inputID" << std::endl;
+
+			std::string token = str.substr(str.find(":") + 3, std::string::npos);
+			token = token.substr(0, token.find(",") - 1);
+			inputID[mapIndex] = token;
+
+			std::cout << token << std::endl;
+
+		}
+		if (str.find("keyAction") != std::string::npos) {
+
+			//std::cout << "keyAction" << std::endl;
+
+			std::string token = str.substr(str.find(":") + 3, std::string::npos);
+			token = token.substr(0, token.find(",") - 1);
+			keyAction[mapIndex] = token;
+
+			std::cout << token << std::endl;
+
+			mapIndex++;
+
+		}
+		//std::cout << str << std::endl;
+
+	}
+
+}
+
+void InputHandler::InputMapWrite()
+{
+
+
+
+}
+
+void InputHandler::MapInput()
+{
+
+	// Implement later with GUI
+	// May implement earlier via commands to build a keymap for testing until GUI is built
 
 }
