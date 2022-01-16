@@ -3,9 +3,6 @@
 #include <string>
 #include "Shader.h"
 
-class ComputeShader;
-class Shader;
-
 // Call these to compile and link shader programs
 namespace ShaderFactory
 {
