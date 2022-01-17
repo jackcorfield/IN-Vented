@@ -25,7 +25,7 @@ void Application::Init()
 
 	m_renderer = new Renderer();
 	
-	InputHandler::InputHandler();
+	InputHandler();
 
 	Run();
 }
