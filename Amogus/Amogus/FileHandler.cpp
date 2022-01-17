@@ -14,7 +14,7 @@ PNG_Data FileHandler::ReadPNG(const char* filename)
 	}
 	
 	PNG_Data data(image, width, height);
-	data.ToRGBA();
+	//data.ToRGBA(); this is inverting the colour and flipping the image when rendered by OpenGL. Is there a reason we need to use this?
 
 	return data;
 }
