@@ -11,6 +11,7 @@ void error_callback(int error, const char* description);
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 
 Application::Application() :
+	m_entityManager(nullptr),
 	m_renderer(nullptr)
 {	
 }
