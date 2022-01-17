@@ -3,9 +3,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <sstream>
+
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
+
+#include "EntityManager.h"
 
 void error_callback(int error, const char* description);
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
@@ -15,6 +19,15 @@ Application::Application() :
 	m_renderer(nullptr)
 {	
 }
+
+struct NameComponent
+{
+	NameComponent(const std::string& _name)
+		: Name(_name)
+	{}
+
+	std::string Name;
+};
 
 void Application::Init()
 {
@@ -29,6 +42,7 @@ void Application::Init()
 	InitGL();
 	InitImGui();
 
+	m_entityManager = new EntityManager();
 	m_renderer = new Renderer();
 
 	Run();

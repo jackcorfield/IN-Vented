@@ -29,6 +29,7 @@ public:
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
 
+	EntityManager* m_entityManager;
 protected:
 
 private:
@@ -36,6 +37,5 @@ private:
 	void InitImGui();
 	void TerminateOpenGL();
 
-	EntityManager* m_entityManager;
 	Renderer* m_renderer;
 };
