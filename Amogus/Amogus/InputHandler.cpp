@@ -2,8 +2,6 @@
 #include "source.h"
 
 // Handler Will require JSON Parser to read KEYMAP.json data at start and load maps into memory, 
-// will also need to be passed across from InputMapper if mapping is changed.
-
 // Map file to read located at Data/Config/KEYMAP.json
 
 extern Application* g_app;
@@ -15,12 +13,16 @@ InputHandler::InputHandler()
 
 }
 
-InputHandler::~InputHandler() {
+InputHandler::~InputHandler() 
+{
 
 }
 
-void InputHandler::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+void InputHandler::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) 
+{
 	
+	// This function will require a helper bool function to set iskeydown
+
 	std::cout << "PRESSING: " << key << std::endl;
 	// to test against the KEYMAP.json the "1" key should output 49 to console
 }
@@ -35,7 +37,8 @@ void InputHandler::InputMapRead()
 	// Very quick and dirty string manip until a proper JSON parser is implemented
 
 	fs.open("Data/Config/KEYMAP.json");
-	if (fs.fail() || fs.bad()) {
+	if (fs.fail() || fs.bad()) 
+	{
 		std::cout << "BAD KEYMAP FILE" << std::endl;
 		return;
 	}
@@ -45,13 +48,16 @@ void InputHandler::InputMapRead()
 
 	while (getline(fs, str))
 	{
-		if (str.find("{") != std::string::npos) {
-
+		if (str.find("{") != std::string::npos) 
+		{
+			// Do Something
 		}
-		if (str.find("}") != std::string::npos) {
-
+		if (str.find("}") != std::string::npos) 
+		{
+			// Do Something
 		}
-		if (str.find("inputName") != std::string::npos) {
+		if (str.find("inputName") != std::string::npos) 
+		{
 
 			//std::cout << "inputName" << std::endl;
 
@@ -62,7 +68,8 @@ void InputHandler::InputMapRead()
 			std::cout << token << std::endl;
 
 		}
-		if (str.find("inputID") != std::string::npos) {
+		if (str.find("inputID") != std::string::npos) 
+		{
 
 			//std::cout << "inputID" << std::endl;
 
@@ -73,7 +80,8 @@ void InputHandler::InputMapRead()
 			std::cout << token << std::endl;
 
 		}
-		if (str.find("keyAction") != std::string::npos) {
+		if (str.find("keyAction") != std::string::npos) 
+		{
 
 			//std::cout << "keyAction" << std::endl;
 
@@ -86,9 +94,12 @@ void InputHandler::InputMapRead()
 			mapIndex++;
 
 		}
+
 		//std::cout << str << std::endl;
 
 	}
+
+	// Store map here for quick routing of keys to actions during callback
 
 }
 
