@@ -1,0 +1,108 @@
+#pragma once
+
+#include <cstdint>
+#include <map>
+#include <typeindex>
+#include <vector>
+
+using Entity = uint32_t;
+const Entity MAX_ENTITIES = 65536;
+
+class EntityManager
+{
+public:
+	EntityManager()
+		: m_nextEntityID(1)
+	{
+
+	}
+
+	~EntityManager()
+	{
+		m_componentMap.clear();
+	}
+
+	Entity CreateEntity()
+	{
+		if (m_freeIDs.empty() == false)
+		{
+			Entity id = m_freeIDs[m_freeIDs.size() - 1];
+			m_freeIDs.pop_back();
+			return id;
+		}
+		else
+		{
+			if (m_nextEntityID < MAX_ENTITIES)
+			{
+				return m_nextEntityID++;
+			}
+			return 0;
+		}
+	}
+
+	void DeleteEntity(Entity entity)
+	{
+		if (entity < MAX_ENTITIES)
+		{
+			m_freeIDs.push_back(entity);
+			for (auto i = m_componentMap.begin(); i != m_componentMap.end(); i++)
+			{
+				delete i->second[entity];
+				i->second.erase(entity);
+			}
+		}
+	}
+
+	bool IsEntity(Entity entity)
+	{
+		return (entity < m_nextEntityID && std::find(m_freeIDs.begin(), m_freeIDs.end(), entity) == m_freeIDs.end());
+	}
+
+	template <typename T>
+	T* AddComponent(Entity entity)
+	{
+		if (!IsEntity(entity))
+			return nullptr;
+
+		T* component = new T();
+		std::pair<std::type_index, void*> p(typeid(T), component);
+
+		m_componentMap[typeid(T)].insert({ entity, component });
+
+		return component;
+	}
+
+	template <typename T>
+	bool HasComponent(Entity entity)
+	{
+		if (!IsEntity(entity))
+			return false;
+
+		if (m_componentMap.count(typeid(T)) == 0 || m_componentMap[typeid(T)].count(entity) == 0)
+			return false;
+
+		return true;
+	}
+
+	template <typename T>
+	T* GetComponent(Entity entity)
+	{
+		return (T*)(m_componentMap[typeid(T)][entity]);
+	}
+
+	template <typename T>
+	bool RemoveComponent(Entity entity)
+	{
+		if (!IsEntity(entity))
+			return false;
+
+		m_componentMap[typeid(T)].erase(entity);
+		return true;
+	}
+
+private:
+	unsigned int m_nextEntityID;
+	std::vector<Entity> m_freeIDs;
+
+	std::map<std::type_index, std::map<Entity, void*>> m_componentMap;
+};

@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Renderer.h"
+#include "EntityManager.h"
 
 struct GLFWwindow;
 
@@ -35,4 +36,5 @@ private:
 	void TerminateOpenGL();
 
 	Renderer* m_renderer;
+	EntityManager* m_entityManager;
 };

@@ -152,6 +152,7 @@
     <ClCompile Include="source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />
