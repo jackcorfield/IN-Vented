@@ -159,6 +159,7 @@
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imconfig.h" />
@@ -180,6 +181,11 @@
     <ClInclude Include="ShaderFactory.h" />
     <ClInclude Include="source.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Texture2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DefaultSpriteF.glsl" />
+    <None Include="DefaultSpriteV.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

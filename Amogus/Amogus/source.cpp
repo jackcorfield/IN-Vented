@@ -50,14 +50,14 @@ Application::~Application()
 
 bool Application::InitGL()
 {
-	glfwSetErrorCallback(error_callback);
-
 	// Initialise glfw
 	if (!glfwInit())
 	{
 		std::cerr << "Failed to initialise GLFW!" << std::endl;
 		return false;
 	}
+
+	glfwSetErrorCallback(error_callback);
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -85,10 +85,10 @@ bool Application::InitGL()
 		std::cerr << "Failed to initialise glad!" << std::endl;
 		return false;
 	}
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	if (m_windowParams.MSAASamples > 0)
 		glEnable(GL_MULTISAMPLE);

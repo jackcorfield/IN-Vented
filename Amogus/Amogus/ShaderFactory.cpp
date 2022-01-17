@@ -90,7 +90,7 @@ namespace ShaderFactory
 	void CheckShaderProgramLinkErrors(const GLuint programID)
 	{
 		GLint logLength;
-		glGetShaderiv(programID, GL_INFO_LOG_LENGTH, &logLength);
+		glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &logLength);
 
 		if (logLength > 0)
 		{

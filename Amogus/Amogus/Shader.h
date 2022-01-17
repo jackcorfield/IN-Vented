@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm.hpp>
 #include <string>
 
 // Stores ID of a shader program and abstracts interaction with it.
@@ -16,11 +17,16 @@ public:
 
 	void SetUniform(const std::string& name, const bool value) const;
 	void SetUniform(const std::string& name, const int value) const;
+	void SetUniform(const std::string& name, const unsigned int value) const;
 	void SetUniform(const std::string& name, const float value) const;
-	void SetUniform(const std::string& name, const float x, const float y) const; // Vector2
-	void SetUniform(const std::string& name, const float x, const float y, const float z) const; // Vector3
-	void SetUniform(const std::string& name, const float x, const float y, const float z, const float w) const; // Vector4
-	void SetUniform(const std::string& name, const float* value) const; // Matrix4
+	void SetUniform(const std::string& name, const float x, const float y) const; // vec2
+	void SetUniform(const std::string& name, const glm::vec2& value) const;
+	void SetUniform(const std::string& name, const float x, const float y, const float z) const; // vec3
+	void SetUniform(const std::string& name, const glm::vec3& value) const;
+	void SetUniform(const std::string& name, const float x, const float y, const float z, const float w) const; // vec4
+	void SetUniform(const std::string& name, const glm::vec4& value) const;
+	void SetUniform(const std::string& name, const glm::mat3& value) const;
+	void SetUniform(const std::string& name, const glm::mat4& value) const;
 
 private:
 	// Not copyable
