@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <map>
 #include <typeindex>
+#include <utility>
 #include <vector>
 
 using Entity = uint32_t;
@@ -58,13 +59,13 @@ public:
 		return (entity < m_nextEntityID && std::find(m_freeIDs.begin(), m_freeIDs.end(), entity) == m_freeIDs.end());
 	}
 
-	template <typename T>
-	T* AddComponent(Entity entity)
+	template <typename T, class ...ARGS>
+	T* AddComponent(Entity entity, ARGS&&... params)
 	{
 		if (!IsEntity(entity))
 			return nullptr;
 
-		T* component = new T();
+		T* component = new T(std::forward<ARGS>(params)...);
 		m_componentMap[typeid(T)].insert({ entity, component });
 
 		return component;
@@ -96,6 +97,32 @@ public:
 
 		m_componentMap[typeid(T)].erase(entity);
 		return true;
+	}
+
+	template <typename T>
+	std::vector<T*> GetAllComponentsOfType()
+	{
+		std::vector<T*> vec;
+		for (auto it = m_componentMap[typeid(T)].begin(); it != m_componentMap[typeid(T)].end(); it++)
+		{
+			vec.push_back((T*)it->second);
+		}
+		return vec;
+	}
+
+	template <typename T>
+	Entity GetEntityFromComponent(T* component)
+	{
+		auto res = std::find_if(m_componentMap[typeid(T)].begin(), m_componentMap[typeid(T)].end(), [&](const std::pair<Entity, void*>& param)
+			{
+				return param.second == (void*)component;
+			});
+
+		if (res != m_componentMap[typeid(T)].end())
+		{
+			return res->first;
+		}
+		return 0;
 	}
 
 private:

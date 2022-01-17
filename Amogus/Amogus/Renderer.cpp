@@ -7,6 +7,7 @@
 #include <iostream>
 #include "source.h"
 
+#include "EntityManager.h"
 #include "ShaderFactory.h"
 
 #include "ImGui/imgui.h"
@@ -19,7 +20,7 @@ void CheckGLErrors();
 
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"))
-{
+{   
     unsigned int VBO;
     SpriteVertex vertices[] = {
         // pos      // texCoords
@@ -49,16 +50,16 @@ Renderer::Renderer() :
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-	m_sprite = new Sprite(glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), 0.0f, m_defaultShader);
+
+    Entity e = g_app->m_entityManager->CreateEntity();
+    g_app->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+    g_app->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
 }
 
 Renderer::~Renderer()
 {
     delete m_defaultShader;
     m_defaultShader = nullptr;
-
-    delete m_sprite;
-    m_sprite = nullptr;
 }
 
 void Renderer::DrawImGui()
@@ -76,7 +77,7 @@ void Renderer::DrawImGui()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void Renderer::DrawSprite(Sprite* sprite)
+void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
 {
     Shader* shader = sprite->GetShader();
     shader->Use();
@@ -88,13 +89,13 @@ void Renderer::DrawSprite(Sprite* sprite)
 
     // Translate, then rotate, then scale
 	glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(sprite->GetPosition(), 0.0f));  
+    model = glm::translate(model, glm::vec3(transform->m_position, 0.0f));  
 
-    model = glm::translate(model, glm::vec3(0.5f * sprite->GetSize().x, 0.5f * sprite->GetSize().y, 0.0f)); // Moves rotation origin to center
-    model = glm::rotate(model, glm::radians(sprite->GetRotate()), glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::translate(model, glm::vec3(-0.5f * sprite->GetSize().x, -0.5f * sprite->GetSize().y, 0.0f)); // Moves origin back
+    model = glm::translate(model, glm::vec3(0.5f * transform->m_size.x, 0.5f * transform->m_size.y, 0.0f)); // Moves rotation origin to center
+    model = glm::rotate(model, glm::radians(transform->m_rotate), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::translate(model, glm::vec3(-0.5f * transform->m_size.x, -0.5f * transform->m_size.y, 0.0f)); // Moves origin back
 
-    model = glm::scale(model, glm::vec3(sprite->GetSize() * 200.0f, 1.0f));
+    model = glm::scale(model, glm::vec3(transform->m_size * 200.0f, 1.0f));
   
 	shader->SetUniform("model", model);
 	shader->SetUniform("spriteColor", sprite->GetColour());
@@ -114,8 +115,15 @@ void Renderer::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Cool rendering stuff
-    DrawSprite(m_sprite);
+    std::vector<Sprite*> sprites = g_app->m_entityManager->GetAllComponentsOfType<Sprite>();
+    for (Sprite* sprite : sprites)
+    {
+        Entity entity = g_app->m_entityManager->GetEntityFromComponent<Sprite>(sprite);
+        Transform* transform = g_app->m_entityManager->GetComponent<Transform>(entity);
+
+        DrawSprite(sprite, transform);
+    }
+
 	DrawImGui();
 
 	glfwSwapBuffers(g_app->m_window);
