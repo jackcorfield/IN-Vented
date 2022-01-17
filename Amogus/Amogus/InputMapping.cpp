@@ -6,6 +6,8 @@ InputMap InputMapping::InputMapRead(std::string filename)
 {
 	// Very quick and dirty string manip until a proper JSON parser is decided on
 
+	// This should be rebuilt in format ACTION, BIND1, BIND2
+
 	std::map<std::string, std::string> keyMap;
 	InputMap keyMapData(keyMap);
 
@@ -24,7 +26,7 @@ InputMap InputMapping::InputMapRead(std::string filename)
 
 	while (getline(fs, str))
 	{
-
+		// Not required however can be helpful in locating what numerical keyIDs match what input
 		//if (str.find("inputName") != std::string::npos) 
 		//{
 		//
@@ -50,14 +52,13 @@ InputMap InputMapping::InputMapRead(std::string filename)
 		{
 
 			std::string token = str.substr(str.find(":") + 3, std::string::npos);
-			token = token.substr(0, token.find(",") - 1);
+			token = token.substr(0, token.length()-1);
 			keyAction = token;
 
 			std::cout << keyAction << std::endl;
 
-
-
 		}
+
 		keyMapData.MapInput(inputID, keyAction);
 	}
 
@@ -66,8 +67,8 @@ InputMap InputMapping::InputMapRead(std::string filename)
 
 void InputMapping::InputMapWrite()
 {
-
-
+	
+	// reverse read to search for inputID's and then apply required action to them
 
 }
 

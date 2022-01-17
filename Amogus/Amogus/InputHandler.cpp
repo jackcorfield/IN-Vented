@@ -7,7 +7,7 @@ InputMap* loadedMap;
 InputHandler::InputHandler()
 {
 	// Map file to read located at Data/Config/KEYMAP.json
-	*loadedMap = InputMapping::InputMapRead("Data/Config/KEYMAP.json");
+	loadedMap = new InputMap(InputMapping::InputMapRead("Data/Config/KEYMAP.json"));
 }
 
 InputHandler::~InputHandler() 
@@ -27,16 +27,29 @@ void InputHandler::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 
 	CallAction(tempKey);
 
-	// to test against the KEYMAP.json the "1" key should output 49 to console
+	// to test against the KEYMAP.json the "F" key should output PayRespects to console
 }
 
 void InputHandler::MouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
 	//std::cout << "MOUSE POS: " << xpos << "," << ypos << std::endl;
 }
-void InputHandler::CallAction(std::string key) 
+
+void InputHandler::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-	std::string mapping = (*loadedMap->keyMap.find(key) != *loadedMap->keyMap.end() ? loadedMap->keyMap.find(key)->second : key);
+	// This function will require a helper bool function to set iskeydown
+
+	std::cout << "PRESSING: " << button << std::endl;
+
+	// Convert to string to find in stored keymap
+	std::string tempButton = std::to_string(button);
+
+	CallAction(tempButton);
+}
+
+void InputHandler::CallAction(std::string input) 
+{
+	std::string mapping = (loadedMap->keyMap.find(input) != loadedMap->keyMap.end() ? loadedMap->keyMap.find(input)->second : input);
 
 	std::cout << mapping << std::endl;
 

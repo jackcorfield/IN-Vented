@@ -1,492 +1,540 @@
 {
     "keyboard": [
-        {
-            "inputID": "-1",
-            "keyAction": ""
-        },
-        {
-            "inputID": "32",
-            "keyAction": ""
-        },
-        {
-            "inputID": "39",
-            "keyAction": ""
-        },
-        {
-            "inputID": "44",
-            "keyAction": ""
-        },
-        {
-            "inputID": "45",
-            "keyAction": ""
-        },
-        {
-            "inputID": "46",
-            "keyAction": ""
-        },
-        {
-            "inputID": "47",
-            "keyAction": ""
-        },
-        {
-            "inputID": "48",
-            "keyAction": ""
-        },
-        {
-            "inputID": "49",
-            "keyAction": ""
-        },
-        {
-            "inputID": "50",
-            "keyAction": ""
-        },
-        {
-            "inputID": "51",
-            "keyAction": ""
-        },
-        {
-            "inputID": "52",
-            "keyAction": ""
-        },
-        {
-            "inputID": "53",
-            "keyAction": ""
-        },
-        {
-            "inputID": "54",
-            "keyAction": ""
-        },
-        {
-            "inputID": "55",
-            "keyAction": ""
-        },
-        {
-            "inputID": "56",
-            "keyAction": ""
-        },
-        {
-            "inputID": "57",
-            "keyAction": ""
-        },
-        {
-            "inputID": "59",
-            "keyAction": ""
-        },
-        {
-            "inputID": "61",
-            "keyAction": ""
-        },
-        {
-            "inputID": "65",
-            "keyAction": ""
-        },
-        {
-            "inputID": "66",
-            "keyAction": ""
-        },
-        {
-            "inputID": "67",
-            "keyAction": ""
-        },
-        {
-            "inputID": "68",
-            "keyAction": ""
-        },
-        {
-            "inputID": "69",
-            "keyAction": ""
-        },
-        {
-            "inputID": "70",
-            "keyAction": "payRespects"
-        },
-        {
-            "inputID": "71",
-            "keyAction": ""
-        },
-        {
-            "inputID": "72",
-            "keyAction": ""
-        },
-        {
-            "inputID": "73",
-            "keyAction": ""
-        },
-        {
-            "inputID": "74",
-            "keyAction": ""
-        },
-        {
-            "inputID": "75",
-            "keyAction": ""
-        },
-        {
-            "inputID": "76",
-            "keyAction": ""
-        },
-        {
-            "inputID": "77",
-            "keyAction": ""
-        },
-        {
-            "inputID": "78",
-            "keyAction": ""
-        },
-        {
-            "inputID": "79",
-            "keyAction": ""
-        },
-        {
-            "inputID": "80",
-            "keyAction": ""
-        },
-        {
-            "inputID": "81",
-            "keyAction": ""
-        },
-        {
-            "inputID": "82",
-            "keyAction": ""
-        },
-        {
-            "inputID": "83",
-            "keyAction": ""
-        },
-        {
-            "inputID": "84",
-            "keyAction": ""
-        },
-        {
-            "inputID": "85",
-            "keyAction": ""
-        },
-        {
-            "inputID": "86",
-            "keyAction": ""
-        },
-        {
-            "inputID": "87",
-            "keyAction": ""
-        },
-        {
-            "inputID": "88",
-            "keyAction": ""
-        },
-        {
-            "inputID": "89",
-            "keyAction": ""
-        },
-        {
-            "inputID": "90",
-            "keyAction": ""
-        },
-        {
-            "inputID": "91",
-            "keyAction": ""
-        },
-        {
-            "inputID": "92",
-            "keyAction": ""
-        },
-        {
-            "inputID": "93",
-            "keyAction": ""
-        },
-        {
-            "inputID": "96",
-            "keyAction": ""
-        },
-        {
-            "inputID": "161",
-            "keyAction": ""
-        },
-        {
-            "inputID": "162",
-            "keyAction": ""
-        },
-        {
-            "inputID": "256",
-            "keyAction": ""
-        },
-        {
-            "inputID": "257",
-            "keyAction": ""
-        },
-        {
-            "inputID": "258",
-            "keyAction": ""
-        },
-        {
-            "inputID": "259",
-            "keyAction": ""
-        },
-        {
-            "inputID": "260",
-            "keyAction": ""
-        },
-        {
-            "inputID": "261",
-            "keyAction": ""
-        },
-        {
-            "inputID": "262",
-            "keyAction": ""
-        },
-        {
-            "inputID": "263",
-            "keyAction": ""
-        },
-        {
-            "inputID": "264",
-            "keyAction": ""
-        },
-        {
-            "inputID": "265",
-            "keyAction": ""
-        },
-        {
-            "inputID": "266",
-            "keyAction": ""
-        },
-        {
-            "inputID": "267",
-            "keyAction": ""
-        },
-        {
-            "inputID": "268",
-            "keyAction": ""
-        },
-        {
-            "inputID": "269",
-            "keyAction": ""
-        },
-        {
-            "inputID": "280",
-            "keyAction": ""
-        },
-        {
-            "inputID": "281",
-            "keyAction": ""
-        },
-        {
-            "inputID": "282",
-            "keyAction": ""
-        },
-        {
-            "inputID": "283",
-            "keyAction": ""
-        },
-        {
-            "inputID": "284",
-            "keyAction": ""
-        },
-        {
-            "inputID": "290",
-            "keyAction": ""
-        },
-        {
-            "inputID": "291",
-            "keyAction": ""
-        },
-        {
-            "inputID": "292",
-            "keyAction": ""
-        },
-        {
-            "inputID": "293",
-            "keyAction": ""
-        },
-        {
-            "inputID": "294",
-            "keyAction": ""
-        },
-        {
-            "inputID": "295",
-            "keyAction": ""
-        },
-        {
-            "inputID": "296",
-            "keyAction": ""
-        },
-        {
-            "inputID": "297",
-            "keyAction": ""
-        },
-        {
-            "inputID": "298",
-            "keyAction": ""
-        },
-        {
-            "inputID": "299",
-            "keyAction": ""
-        },
-        {
-            "inputID": "300",
-            "keyAction": ""
-        },
-        {
-            "inputID": "301",
-            "keyAction": ""
-        },
-        {
-            "inputID": "302",
-            "keyAction": ""
-        },
-        {
-            "inputID": "303",
-            "keyAction": ""
-        },
-        {
-            "inputID": "304",
-            "keyAction": ""
-        },
-        {
-            "inputID": "305",
-            "keyAction": ""
-        },
-        {
-            "inputID": "306",
-            "keyAction": ""
-        },
-        {
-            "inputID": "307",
-            "keyAction": ""
-        },
-        {
-            "inputID": "308",
-            "keyAction": ""
-        },
-        {
-            "inputID": "309",
-            "keyAction": ""
-        },
-        {
-            "inputID": "310",
-            "keyAction": ""
-        },
-        {
-            "inputID": "311",
-            "keyAction": ""
-        },
-        {
-            "inputID": "312",
-            "keyAction": ""
-        },
-        {
-            "inputID": "313",
-            "keyAction": ""
-        },
-        {
-            "inputID": "314",
-            "keyAction": ""
-        },
-        {
-            "inputID": "320",
-            "keyAction": ""
-        },
-        {
-            "inputID": "321",
-            "keyAction": ""
-        },
-        {
-            "inputID": "322",
-            "keyAction": ""
-        },
-        {
-            "inputID": "323",
-            "keyAction": ""
-        },
-        {
-            "inputID": "324",
-            "keyAction": ""
-        },
-        {
-            "inputID": "325",
-            "keyAction": ""
-        },
-        {
-            "inputID": "326",
-            "keyAction": ""
-        },
-        {
-            "inputID": "327",
-            "keyAction": ""
-        },
-        {
-            "inputID": "328",
-            "keyAction": ""
-        },
-        {
-            "inputID": "329",
-            "keyAction": ""
-        },
-        {
-            "inputID": "330",
-            "keyAction": ""
-        },
-        {
-            "inputID": "331",
-            "keyAction": ""
-        },
-        {
-            "inputID": "332",
-            "keyAction": ""
-        },
-        {
-            "inputID": "333",
-            "keyAction": ""
-        },
-        {
-            "inputID": "334",
-            "keyAction": ""
-        },
-        {
-            "inputID": "335",
-            "keyAction": ""
-        },
-        {
-            "inputID": "336",
-            "keyAction": ""
-        },
-        {
-            "inputID": "340",
-            "keyAction": ""
-        },
-        {
-            "inputID": "341",
-            "keyAction": ""
-        },
-        {
-            "inputID": "342",
-            "keyAction": ""
-        },
-        {
-            "inputID": "343",
-            "keyAction": ""
-        },
-        {
-            "inputID": "344",
-            "keyAction": ""
-        },
-        {
-            "inputID": "345",
-            "keyAction": ""
-        },
-        {
-            "inputID": "346",
-            "keyAction": ""
-        },
-        {
-            "inputID": "347",
-            "keyAction": ""
-        },
-        {
-            "inputID": "348",
-            "keyAction": ""
-        },
-        {
-            "inputID": "GLFW_KEY_MENU",
-            "keyAction": ""
-        }
+      {
+         "inputID" : "-1",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "32",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "39",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "44",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "45",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "46",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "47",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "48",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "49",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "50",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "51",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "52",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "53",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "54",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "55",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "56",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "57",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "59",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "61",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "65",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "66",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "67",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "68",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "69",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "70",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "71",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "72",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "73",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "74",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "75",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "76",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "77",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "78",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "79",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "80",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "81",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "82",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "83",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "84",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "85",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "86",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "87",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "88",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "89",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "90",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "91",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "92",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "93",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "96",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "161",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "162",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "256",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "257",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "258",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "259",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "260",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "261",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "262",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "263",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "264",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "265",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "266",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "267",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "268",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "269",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "280",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "281",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "282",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "283",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "284",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "290",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "291",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "292",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "293",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "294",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "295",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "296",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "297",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "298",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "299",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "300",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "301",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "302",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "303",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "304",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "305",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "306",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "307",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "308",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "309",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "310",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "311",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "312",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "313",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "314",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "320",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "321",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "322",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "323",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "324",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "325",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "326",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "327",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "328",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "329",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "330",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "331",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "332",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "333",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "334",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "335",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "336",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "340",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "341",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "342",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "343",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "344",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "345",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "346",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "347",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "348",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "GLFW_KEY_MENU",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "0",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "1",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "2",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "3",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "4",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "5",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "6",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "7",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "GLFW_MOUSE_BUTTON_8",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "GLFW_MOUSE_BUTTON_1",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "GLFW_MOUSE_BUTTON_2",
+         "keyAction" : ""
+      },
+      {
+         "inputID" : "GLFW_MOUSE_BUTTON_3",
+         "keyAction" : ""
+      }         
     ]
 }

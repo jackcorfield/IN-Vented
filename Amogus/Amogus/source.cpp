@@ -76,6 +76,7 @@ bool Application::InitGL()
 	// Set input callback(s)
 	glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
 	glfwSetCursorPosCallback(m_window, InputHandler::MouseCallback);
+	glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
 
 	// Prevents window from closing instantly
 	glfwSetWindowShouldClose(m_window, GL_FALSE);
