@@ -17,18 +17,10 @@ void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 
 Application::Application() :
 	m_entityManager(nullptr),
+	m_sceneManager(nullptr),
 	m_renderer(nullptr)
 {	
 }
-
-struct NameComponent
-{
-	NameComponent(const std::string& _name)
-		: Name(_name)
-	{}
-
-	std::string Name;
-};
 
 void Application::Init()
 {
@@ -44,6 +36,9 @@ void Application::Init()
 	InitImGui();
 
 	m_entityManager = new EntityManager();
+	m_sceneManager = new SceneManager();
+	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
+
 	m_renderer = new Renderer();
 
 	Run();
