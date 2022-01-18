@@ -50,6 +50,8 @@ void InputHandler::MouseButtonCallback(GLFWwindow* window, int button, int actio
 	CallAction(tempButton);
 }
 
+// Add in callbacks for joy etc
+
 void InputHandler::CallAction(std::string input) 
 {
 	std::string mapping = (loadedMap->keyMap.find(input) != loadedMap->keyMap.end() ? loadedMap->keyMap.find(input)->second : input);
