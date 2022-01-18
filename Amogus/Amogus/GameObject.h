@@ -16,14 +16,14 @@ struct Vector2 {
 class GameObject
 {
 public:
-	GameObject(const char* spriteSheet, int* inputRenderer, int x, int y); // change int inputRenderer to the renderer once that is merged
+	GameObject(const char* spriteSheet, int* inputRenderer, Vector2 pos); // change int inputRenderer to the renderer once that is merged
 	~GameObject();
 	
 	void Update();
 	void Render();
 
 private:
-	int posX, posY;
+	Vector2 pos;
 
 	// Add following once available in engine / swap for our versions
 	PNG_Data spriteTexture;
