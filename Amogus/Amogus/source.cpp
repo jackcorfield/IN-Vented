@@ -121,6 +121,14 @@ void Application::InitImGui()
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
+
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.WindowRounding = 15.0f;
+	style.Colors[ImGuiCol_WindowBg].x = 1.0f;
+	style.Colors[ImGuiCol_WindowBg].y = 0.0f;
+	style.Colors[ImGuiCol_WindowBg].z = 0.0f;
+	style.Colors[ImGuiCol_WindowBg].w = 0.5f;
+	style.ChildRounding = 1.0f;
 }
 
 void Application::TerminateOpenGL()

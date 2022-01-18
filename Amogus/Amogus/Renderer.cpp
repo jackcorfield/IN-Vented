@@ -50,11 +50,33 @@ void Renderer::DrawImGui()
 	// AP - ImGui rendering
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
+    ImGui::NewFrame();
 
-	ImGui::Begin("Hello world!");
-	ImGui::Text("Hi hi hi hi hi hi");
-	ImGui::End();
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("New"))
+            {
+                //Do something
+            }
+            else if(ImGui::MenuItem("Save"))
+            {
+
+            }
+            else if(ImGui::MenuItem("Save As"))
+            {
+
+            }
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMainMenuBar();
+    }
+
+    ImGui::Begin("Test");
+    ImGui::LabelText("Helloo", "UNICODE");
+    ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -92,6 +114,7 @@ void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
 void Renderer::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 
     Transform* cameraTransform = g_app->m_entityManager->GetComponent<Transform>(m_currentCamera);
 
