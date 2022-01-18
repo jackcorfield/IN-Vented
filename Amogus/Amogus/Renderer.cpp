@@ -24,19 +24,25 @@ void CheckGLErrors();
 
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
-    m_currentCamera(g_app->m_entityManager->CreateEntity())
+    m_currentCamera(g_app->m_sceneManager->GetActiveScene()->m_entityManager->CreateEntity())
 {
-    // Temporary until we're loading entities from file; need a camera for now
-    Camera* cameraC = g_app->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
-    Transform* cameraTransform = g_app->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
-
-    m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, cameraC->m_near, cameraC->m_far);
-
+    m_projection = glm::mat4(1.0f);
     InitQuad();
 
-    Entity e = g_app->m_entityManager->CreateEntity();
-    g_app->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-    g_app->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+
+    if (activeScene)
+    {
+        // Temporary until we're loading entities from file; need a camera for now
+        Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
+        Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
+
+        m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, cameraC->m_near, cameraC->m_far);
+
+        Entity e = activeScene->m_entityManager->CreateEntity();
+        activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+    }
 }
 
 Renderer::~Renderer()
@@ -92,27 +98,33 @@ void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
 void Renderer::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    Transform* cameraTransform = g_app->m_entityManager->GetComponent<Transform>(m_currentCamera);
-
-    glm::mat4 view = glm::mat4(1.0f);
-    if (cameraTransform)
+    
+    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+    
+    if (activeScene)
     {
-        view = glm::translate(view, glm::vec3(cameraTransform->m_position, 0.0f));
-        view = glm::rotate(view, cameraTransform->m_rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-    }
-    m_defaultShader->SetUniform("view", view);
+        glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
+        Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_currentCamera);
 
-    m_defaultShader->SetUniform("projection", m_projection);
-
-    std::vector<Sprite*> sprites = g_app->m_entityManager->GetAllComponentsOfType<Sprite>();
-    for (Sprite* sprite : sprites)
-    {
-        Entity entity = g_app->m_entityManager->GetEntityFromComponent<Sprite>(sprite);
-        Transform* transform = g_app->m_entityManager->GetComponent<Transform>(entity);
-        if (transform)
+        glm::mat4 view = glm::mat4(1.0f);
+        if (cameraTransform)
         {
-            DrawSprite(sprite, transform);
+            view = glm::translate(view, glm::vec3(cameraTransform->m_position, 0.0f));
+            view = glm::rotate(view, cameraTransform->m_rotate, glm::vec3(0.0f, 0.0f, 1.0f));
+        }
+        m_defaultShader->SetUniform("view", view);
+
+        m_defaultShader->SetUniform("projection", m_projection);
+
+        std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
+        for (Sprite* sprite : sprites)
+        {
+            Entity entity = activeScene->m_entityManager->GetEntityFromComponent<Sprite>(sprite);
+            Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(entity);
+            if (transform)
+            {
+                DrawSprite(sprite, transform);
+            }
         }
     }
 
