@@ -16,6 +16,8 @@ public:
 	bool DestroyScene(const std::string& name);
 	bool SceneExists(const std::string& name);
 
+	bool LoadScene(const std::string& filePath);
+
 	void SetActiveScene(const std::string& name);
 	Scene* GetActiveScene();
 
