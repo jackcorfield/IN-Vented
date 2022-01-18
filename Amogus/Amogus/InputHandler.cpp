@@ -60,6 +60,9 @@ void InputHandler::CallAction(std::string input)
 
 	//std::cout << mapping << std::endl;
 
+	// Implement eventBus system here
+
+	// Temp test quit function to ensure mappings are being read in correctly and callbacks are functioning
 	if (mapping == "quit") {
 		exit(0);
 
