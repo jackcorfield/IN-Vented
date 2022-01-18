@@ -8,11 +8,12 @@ out VOutput
     vec2 texCoords;
 } vOutput;
 
+uniform mat4 view;
 uniform mat4 model;
 uniform mat4 projection;
 
 void main()
 {
     vOutput.texCoords = texCoords;
-    gl_Position = projection * model * vec4(pos, 0.0, 1.0);
+    gl_Position = projection * view * model * vec4(pos, 0.0, 1.0);
 }
