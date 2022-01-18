@@ -4,6 +4,8 @@
 
 InputMap* loadedMap;
 
+// Refactor fo style standards
+
 enum Actions {
 	quit
 };

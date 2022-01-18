@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 
+// Refactor fo style standards
+
 struct InputMap
 {
 	InputMap(std::map<std::string, std::string> keyMap) : keyMap(keyMap) {}
@@ -20,14 +22,10 @@ class InputMapping
 {
 public:
 
-
 	static InputMap InputMapRead(std::string filename);
 	void InputMapWrite();
 
-
 private:
-
-
 
 };
 

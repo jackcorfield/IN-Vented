@@ -5,6 +5,7 @@
 
 #include <string>
 
+// Refactor fo style standards
 
 struct GLFWindow;
 
