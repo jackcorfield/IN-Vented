@@ -4,6 +4,10 @@
 
 InputMap* loadedMap;
 
+enum Actions {
+	quit
+};
+
 InputHandler::InputHandler()
 {
 	// Map file to read located at Data/Config/KEYMAP.json
@@ -12,7 +16,6 @@ InputHandler::InputHandler()
 
 InputHandler::~InputHandler() 
 {
-
 }
 
 void InputHandler::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) 
@@ -51,7 +54,12 @@ void InputHandler::CallAction(std::string input)
 {
 	std::string mapping = (loadedMap->keyMap.find(input) != loadedMap->keyMap.end() ? loadedMap->keyMap.find(input)->second : input);
 
-	std::cout << mapping << std::endl;
+	//std::cout << mapping << std::endl;
+
+	if (mapping == "quit") {
+		exit(0);
+
+	}
 
 }
 
