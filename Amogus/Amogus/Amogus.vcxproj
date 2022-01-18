@@ -160,6 +160,7 @@
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -184,6 +185,7 @@
     <ClInclude Include="source.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>

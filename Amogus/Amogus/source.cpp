@@ -10,6 +10,7 @@
 #include "ImGui/imgui_impl_opengl3.h"
 
 #include "EntityManager.h"
+#include "Timer.h"
 
 void error_callback(int error, const char* description);
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
@@ -50,10 +51,29 @@ void Application::Init()
 
 void Application::Run()
 {
+	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
+
+	bool isRunning = true;
+	// Locked to 60fps for now, will change at later date
+	float frameRate = 60.0f;
+
 	while (!glfwWindowShouldClose(m_window))
 	{
-		glfwPollEvents();
-		m_renderer->Render();
+
+		while (isRunning) {
+			Timer->Tick();
+			if (Timer->DeltaTime() >= 1 / frameRate) {
+
+				Timer->Reset();
+				//std::cout << Timer->DeltaTime() << std::endl;
+
+				glfwPollEvents();
+				m_renderer->Render();
+
+			}
+		}
+
+
 	}
 }
 
