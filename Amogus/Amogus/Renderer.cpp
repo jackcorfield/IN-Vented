@@ -28,9 +28,9 @@ Renderer::Renderer() :
 {
     // Temporary until we're loading entities from file; need a camera for now
     Camera* cameraC = g_app->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
-    Transform* cameraTransform = g_app->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(100.0f, 100.0f), glm::vec2(0.0f));
+    Transform* cameraTransform = g_app->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
 
-    m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, -1.0f, 1.0f);
+    m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, cameraC->m_near, cameraC->m_far);
 
     InitQuad();
 
