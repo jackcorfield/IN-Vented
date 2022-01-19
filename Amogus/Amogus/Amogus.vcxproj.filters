@@ -93,6 +93,9 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Framebuffer.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source.h">
@@ -173,12 +176,21 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framebuffer.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultSpriteF.glsl">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="DefaultSpriteV.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="PostProcessingV.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="PostProcessingF.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

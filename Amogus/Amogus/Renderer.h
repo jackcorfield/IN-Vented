@@ -31,6 +31,7 @@ private:
 	void InitQuad();
 
 	Shader* m_defaultShader;
+	Shader* m_postProcessingShader;
 	unsigned int m_quadVAO;
 
 	Entity m_currentCamera;
