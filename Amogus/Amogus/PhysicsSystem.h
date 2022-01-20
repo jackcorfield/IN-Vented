@@ -5,7 +5,7 @@ class PhysicsSystem
 {
 public:
 	PhysicsSystem();
-	void DoPhysics(float deltaTime);
+	void PhysicsUpdate(float deltaTime);
 	void MovementPhysics(Physics* p, Transform* t, float deltaTime);
 };
 

@@ -9,7 +9,7 @@ PhysicsSystem::PhysicsSystem()
 
 }
 
-void PhysicsSystem::DoPhysics(float deltaTime)
+void PhysicsSystem::PhysicsUpdate(float deltaTime)
 {
 	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
     std::vector<Physics*> physicsComponents = activeScene->m_entityManager->GetAllComponentsOfType<Physics>();

@@ -65,7 +65,7 @@ void Application::Run()
 				//std::cout << Timer->DeltaTime() << std::endl;
 
 				glfwPollEvents();
-				m_physicsSystem->DoPhysics(0.66);
+				m_physicsSystem->PhysicsUpdate(0.66);
 				m_renderer->Render();
 
 			}
