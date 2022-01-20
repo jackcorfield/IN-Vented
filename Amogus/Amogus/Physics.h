@@ -1,7 +1,6 @@
 #pragma once
 #include <glm.hpp>
 #include <vector>
-#include "Transform.h"
 
 class Physics
 {
@@ -16,11 +15,11 @@ public:
 	glm::vec2		GetPosition() { return m_position; }
 
 	void		SetVelocity(glm::vec2 velocity) { m_velocity = velocity; }
-	void		SetVelocity(float x, float y, float z) { m_velocity.x = x, m_velocity.y = y; }
+	void		SetVelocity(float x, float y) { m_velocity.x = x, m_velocity.y = y; }
 	glm::vec2	GetVelocity() { return m_velocity; }
 
 	void		SetAcceleration(glm::vec2 acceleration) { m_acceleration = acceleration; }
-	void		SetAcceleration(float x, float y, float z) { m_acceleration.x = x, m_acceleration.y = y; }
+	void		SetAcceleration(float x, float y) { m_acceleration.x = x, m_acceleration.y = y; }
 
 	void		SetGravity(float newGrav) { m_gravity = newGrav; }
 	void		SetMass(float newMass) { m_mass = newMass; }
@@ -54,6 +53,5 @@ private:
 	glm::vec2		m_velocity;
 	glm::vec2		m_acceleration;
 
-	Transform* m_transform;
 };
 

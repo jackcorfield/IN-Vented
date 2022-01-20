@@ -22,12 +22,12 @@ void PhysicsSystem::PhysicsUpdate(float deltaTime)
     }	
 }
 
-void PhysicsSystem::MovementPhysics(Physics* physics, Transform* t, float deltaTime)
+void PhysicsSystem::MovementPhysics(Physics* physics, Transform* transform, float deltaTime)
 {
     physics->UpdateAcceleration();
     physics->UpdateVelocity();
     //REPLACE WITH DELTA TIME PLS
-    CalculateMovement(p, t, deltaTime);
+    CalculateMovement(physics, transform, deltaTime);
 }
 
 void PhysicsSystem::CalculateMovement(Physics* physics, Transform* transform, const float deltaTime)
