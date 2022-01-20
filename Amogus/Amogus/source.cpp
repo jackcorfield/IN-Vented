@@ -18,7 +18,8 @@ void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 Application::Application() :
 	m_entityManager(nullptr),
 	m_sceneManager(nullptr),
-	m_renderer(nullptr)
+	m_renderer(nullptr),
+	m_physicsSystem(nullptr)
 {	
 }
 
@@ -40,6 +41,7 @@ void Application::Init()
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
+	m_physicsSystem = new PhysicsSystem();
 
 	Run();
 }
@@ -63,6 +65,7 @@ void Application::Run()
 				//std::cout << Timer->DeltaTime() << std::endl;
 
 				glfwPollEvents();
+				m_physicsSystem->PhysicsUpdate(0.66);
 				m_renderer->Render();
 
 			}
@@ -76,6 +79,9 @@ Application::~Application()
 {
 	delete m_renderer;
 	m_renderer = nullptr;
+
+	delete m_physicsSystem;
+	m_physicsSystem = nullptr;
 }
 
 bool Application::InitGL()
