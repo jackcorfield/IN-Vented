@@ -8,6 +8,8 @@ in VOutput
 out vec4 color;
 
 uniform sampler2D image;
+uniform vec3 effects; // r = shake, g = , b = 
+uniform float time;
 
 void main()
 {    
