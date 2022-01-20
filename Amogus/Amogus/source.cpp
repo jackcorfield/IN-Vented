@@ -8,6 +8,7 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include "Fonts/IconHeader.h"
 
 #include "EntityManager.h"
 
@@ -33,7 +34,7 @@ void Application::Init()
 {
 	m_windowParams =
 	{
-		1280, 720,
+		1920, 1080,
 		false,
 		0,
 		"Engine"
@@ -50,12 +51,16 @@ void Application::Init()
 
 void Application::Run()
 {
+	
 	while (!glfwWindowShouldClose(m_window))
 	{
 		glfwPollEvents();
 		m_renderer->Render();
+		
 	}
-}
+	}
+
+	
 
 Application::~Application() 
 {
@@ -114,6 +119,9 @@ void Application::InitImGui()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
 
 	// Setup Platform/Renderer bindings
 	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
@@ -123,12 +131,27 @@ void Application::InitImGui()
 	ImGui::StyleColorsDark();
 
 	ImGuiStyle& style = ImGui::GetStyle();
-	style.WindowRounding = 15.0f;
-	style.Colors[ImGuiCol_WindowBg].x = 1.0f;
-	style.Colors[ImGuiCol_WindowBg].y = 0.0f;
-	style.Colors[ImGuiCol_WindowBg].z = 0.0f;
-	style.Colors[ImGuiCol_WindowBg].w = 0.5f;
-	style.ChildRounding = 1.0f;
+	
+	style.ChildRounding = 12;
+	style.FrameRounding = 12;
+	style.GrabRounding = 12;
+	style.PopupRounding = 12;
+	style.ScrollbarRounding = 12;
+	style.TabRounding = 12;
+	style.WindowRounding = 12;
+	style.ChildBorderSize = 0;
+	style.FrameBorderSize = 0;
+	style.PopupBorderSize = 0;
+	style.TabBorderSize = 0;
+	style.WindowBorderSize = 0;
+	
+	io.Fonts->AddFontFromFileTTF("Fonts/ComicNeueAngular-Regular.ttf", 16);
+
+	ImFontConfig config;
+	config.MergeMode = true;
+	config.GlyphMinAdvanceX = 13.0f; // Use if you want to make the icon monospaced
+	static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+	io.Fonts->AddFontFromFileTTF("Fonts/FontIcons.ttf", 16.0f, &config, icon_ranges);
 }
 
 void Application::TerminateOpenGL()

@@ -158,6 +158,9 @@
     <ClInclude Include="dependencies\ImGui\imgui_impl_opengl3_loader.h">
       <Filter>Header Files\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="IconHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultSpriteF.glsl">
