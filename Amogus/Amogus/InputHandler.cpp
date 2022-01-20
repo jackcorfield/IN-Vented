@@ -1,14 +1,11 @@
+// Refactor fo style standards
+
 #include "InputHandler.h"
 #include "InputMapping.h"
 #include "source.h"
+#include "EventHandler.h"
 
 InputMap* loadedMap;
-
-// Refactor fo style standards
-
-enum Actions {
-	quit
-};
 
 InputHandler::InputHandler()
 {
@@ -25,31 +22,25 @@ void InputHandler::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 	
 	// This function will require a helper bool function to set iskeydown
 
-	std::cout << "PRESSING: " << key << std::endl;
-
-	// Convert to string to find in stored keymap
-	std::string tempKey = std::to_string(key);
+	std::string tempKey = std::to_string(key);	// Convert to string to find in stored keymap
 
 	CallAction(tempKey);
 
-	// to test against the KEYMAP.json the "F" key should output PayRespects to console
 }
 
 void InputHandler::MouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	//std::cout << "MOUSE POS: " << xpos << "," << ypos << std::endl;
+	// Do something
 }
 
 void InputHandler::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	// This function will require a helper bool function to set iskeydown
 
-	std::cout << "PRESSING: " << button << std::endl;
-
-	// Convert to string to find in stored keymap
-	std::string tempButton = std::to_string(button);
+	std::string tempButton = std::to_string(button);	// Convert to string to find in stored keymap
 
 	CallAction(tempButton);
+
 }
 
 // Add in callbacks for joy etc
@@ -58,15 +49,7 @@ void InputHandler::CallAction(std::string input)
 {
 	std::string mapping = (loadedMap->keyMap.find(input) != loadedMap->keyMap.end() ? loadedMap->keyMap.find(input)->second : input);
 
-	//std::cout << mapping << std::endl;
-
 	// Implement eventBus system here
-
-	// Temp test quit function to ensure mappings are being read in correctly and callbacks are functioning
-	if (mapping == "quit") {
-		exit(0);
-
-	}
 
 }
 
