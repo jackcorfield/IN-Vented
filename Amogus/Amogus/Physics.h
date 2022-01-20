@@ -1,14 +1,15 @@
 #pragma once
 #include <glm.hpp>
 #include <vector>
+#include "Transform.h"
 
 class Physics
 {
 public:
-	Physics(std::vector<glm::vec2>* transform); //position, rotation, scale
+	Physics(Transform* transform); //position, scale, rotation
 	~Physics();
 
-	bool m_gravity = true;
+	void		CalculateMovement(const float deltaTime);
 
 	void		UpdateVelocity() { m_velocity = m_velocity + m_acceleration; }
 	void		UpdateAcceleration() { m_acceleration = m_netForce / m_mass; }
@@ -37,13 +38,13 @@ private:
 
 	void		ConstantVelocity(float deltaTime);
 	void		ConstantAcceleration(float deltaTime);
-	void		CalculateMovement(const float deltaTime);
 
 	float		m_gravity;
 	float		m_mass;
 	float		m_damping;
 
-	glm::vec2		m_netForce;
+	//MUST REMOVE PRESET FORCE BEFORE REAL USE
+	glm::vec2		m_netForce = glm::vec2(1.0, 1.0);
 	glm::vec2		m_gravityForce;
 	glm::vec2		m_thrustForce;
 	glm::vec2		m_frictionForce;
@@ -53,6 +54,6 @@ private:
 	glm::vec2		m_velocity;
 	glm::vec2		m_acceleration;
 
-	std::vector <glm::vec2>* m_transform;
+	Transform* m_transform;
 };
 

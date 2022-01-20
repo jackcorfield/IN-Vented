@@ -1,9 +1,9 @@
 #include "Physics.h"
 
-Physics::Physics(std::vector<glm::vec2>* transform)
+Physics::Physics(Transform* transform)
 	: m_transform(transform)
 {
-	SetPosition(m_transform->at(0));
+	SetPosition(m_transform->m_position);
 	SetGravity(10.0f);
 	SetMass(0.7f);
 
@@ -20,8 +20,7 @@ Physics::~Physics()
 
 void Physics::ConstantVelocity(float deltaTime)
 {
-	glm::vec2 position = m_transform->at(0) + (m_velocity * deltaTime);
-	m_transform->at(0) = glm::vec2(position + (m_velocity * deltaTime));
+	m_position = m_position + (m_velocity * deltaTime);
 }
 
 void Physics::ConstantAcceleration(float deltaTime)
@@ -33,9 +32,11 @@ void Physics::CalculateMovement(const float deltaTime)
 {
 	// update world position of object by adding displacement to previously calculated position
 	m_position = addScaledVector(m_position, m_velocity, deltaTime);
-	m_position = addScaledVector(m_position, m_acceleration, 0.5 * deltaTime * deltaTime);
+
 	//ConstantAcceleration(deltaTime);
-	// update velocity of object by adding change relative to previously calculated velocity
+	//m_position = addScaledVector(m_position, m_acceleration, 0.5 * deltaTime * deltaTime);
 
 	SetPosition(m_position);
+
+	m_transform->m_position = m_position;
 }
