@@ -13,17 +13,3 @@ Physics::~Physics()
 {
 
 }
-
-void Physics::CalculateMovement(Transform* transform, const float deltaTime)
-{
-	// update world position of object by adding displacement to previously calculated position
-	m_position = transform->m_position;
-	m_position = addScaledVector(m_position, m_velocity, deltaTime);
-
-	//ConstantAcceleration(deltaTime);
-	//m_position = addScaledVector(m_position, m_acceleration, 0.5 * deltaTime * deltaTime);
-
-	SetPosition(m_position);
-
-	transform->m_position = m_position;
-}

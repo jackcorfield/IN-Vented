@@ -9,15 +9,15 @@ public:
 	Physics();
 	~Physics();
 
-	void		CalculateMovement(Transform* transform, const float deltaTime);
-
 	void		UpdateVelocity() { m_velocity = m_velocity + m_acceleration; }
 	void		UpdateAcceleration() { m_acceleration = m_netForce / m_mass; }
 
 	void		SetPosition(glm::vec2 position) { m_position = position; }
+	glm::vec2		GetPosition() { return m_position; }
 
 	void		SetVelocity(glm::vec2 velocity) { m_velocity = velocity; }
 	void		SetVelocity(float x, float y, float z) { m_velocity.x = x, m_velocity.y = y; }
+	glm::vec2	GetVelocity() { return m_velocity; }
 
 	void		SetAcceleration(glm::vec2 acceleration) { m_acceleration = acceleration; }
 	void		SetAcceleration(float x, float y, float z) { m_acceleration.x = x, m_acceleration.y = y; }
