@@ -6,10 +6,10 @@
 class Physics
 {
 public:
-	Physics(Transform* transform); //position, scale, rotation
+	Physics();
 	~Physics();
 
-	void		CalculateMovement(const float deltaTime);
+	void		CalculateMovement(Transform* transform, const float deltaTime);
 
 	void		UpdateVelocity() { m_velocity = m_velocity + m_acceleration; }
 	void		UpdateAcceleration() { m_acceleration = m_netForce / m_mass; }

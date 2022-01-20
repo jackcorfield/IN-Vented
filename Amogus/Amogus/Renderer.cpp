@@ -10,7 +10,7 @@
 #include "EntityManager.h"
 #include "ShaderFactory.h"
 #include "Sprite.h"
-#include "Physics.h"
+#include "PhysicsSystem.h"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_glfw.h"
@@ -47,7 +47,7 @@ Renderer::Renderer() :
         Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
         activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-        activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter, activeScene->m_entityManager->GetComponent<Transform>(e_testCharacter));
+        activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
     }
 }
 
@@ -126,16 +126,6 @@ void Renderer::Render()
         for (Sprite* sprite : sprites)
         {
             Entity entity = activeScene->m_entityManager->GetEntityFromComponent<Sprite>(sprite);
-
-            if (activeScene->m_entityManager->HasComponent<Physics>(entity))
-            {
-                activeScene->m_entityManager->GetComponent<Physics>(entity)->UpdateAcceleration();
-                activeScene->m_entityManager->GetComponent<Physics>(entity)->UpdateVelocity();
-
-                //REPLACE WITH DELTA TIME PLS
-                activeScene->m_entityManager->GetComponent<Physics>(entity)->CalculateMovement(0.6);
-            }
-
             Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(entity);
 
             if (transform)

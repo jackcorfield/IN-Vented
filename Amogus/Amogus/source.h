@@ -4,6 +4,7 @@
 
 #include "EntityManager.h"
 #include "Renderer.h"
+#include "PhysicsSystem.h"
 #include "SceneManager.h"
 
 struct GLFWwindow;
@@ -41,4 +42,5 @@ private:
 	void TerminateOpenGL();
 
 	Renderer* m_renderer;
+	PhysicsSystem* m_physicsSystem;
 };

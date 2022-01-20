@@ -1,9 +1,7 @@
 #include "Physics.h"
 
-Physics::Physics(Transform* transform)
-	: m_transform(transform)
+Physics::Physics()
 {
-	SetPosition(m_transform->m_position);
 	SetGravity(10.0f);
 	SetMass(0.7f);
 
@@ -16,21 +14,10 @@ Physics::~Physics()
 
 }
 
-
-
-void Physics::ConstantVelocity(float deltaTime)
-{
-	m_position = m_position + (m_velocity * deltaTime);
-}
-
-void Physics::ConstantAcceleration(float deltaTime)
-{
-	m_velocity = m_velocity + m_acceleration * deltaTime;
-}
-
-void Physics::CalculateMovement(const float deltaTime)
+void Physics::CalculateMovement(Transform* transform, const float deltaTime)
 {
 	// update world position of object by adding displacement to previously calculated position
+	m_position = transform->m_position;
 	m_position = addScaledVector(m_position, m_velocity, deltaTime);
 
 	//ConstantAcceleration(deltaTime);
@@ -38,5 +25,5 @@ void Physics::CalculateMovement(const float deltaTime)
 
 	SetPosition(m_position);
 
-	m_transform->m_position = m_position;
+	transform->m_position = m_position;
 }
