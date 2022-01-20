@@ -22,20 +22,20 @@ void PhysicsSystem::PhysicsUpdate(float deltaTime)
     }	
 }
 
-void PhysicsSystem::MovementPhysics(Physics* p, Transform* t, float deltaTime)
+void PhysicsSystem::MovementPhysics(Physics* physics, Transform* t, float deltaTime)
 {
-    p->UpdateAcceleration();
-    p->UpdateVelocity();
+    physics->UpdateAcceleration();
+    physics->UpdateVelocity();
     //REPLACE WITH DELTA TIME PLS
     CalculateMovement(p, t, deltaTime);
 }
 
-void PhysicsSystem::CalculateMovement(Physics* p, Transform* transform, const float deltaTime)
+void PhysicsSystem::CalculateMovement(Physics* physics, Transform* transform, const float deltaTime)
 {
     // update world position of object by adding displacement to previously calculated position
-    p->SetPosition(transform->m_position);
-    p->SetPosition(p->addScaledVector(p->GetPosition(), p->GetVelocity(), deltaTime));
+    physics->SetPosition(transform->m_position);
+    physics->SetPosition(physics->addScaledVector(physics->GetPosition(), physics->GetVelocity(), deltaTime));
 
 
-    transform->m_position = p->GetPosition();
+    transform->m_position = physics->GetPosition();
 }
