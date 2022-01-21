@@ -21,6 +21,7 @@ Application::Application() :
 	m_renderer(nullptr),
 	m_physicsSystem(nullptr)
 {	
+	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::TerminateOpenGL);
 }
 
 void Application::Init()
@@ -41,6 +42,8 @@ void Application::Init()
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
+
+	InputHandler();
 	m_physicsSystem = new PhysicsSystem();
 
 	Run();
@@ -112,6 +115,11 @@ bool Application::InitGL()
 	// Set glfw callback(s)
 	glfwSetFramebufferSizeCallback(m_window, frame_buffer_size_callback);
 
+	// Set input callback(s)
+	glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
+	glfwSetCursorPosCallback(m_window, InputHandler::MouseCallback);
+	glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
+
 	// Prevents window from closing instantly
 	glfwSetWindowShouldClose(m_window, GL_FALSE);
 
@@ -144,10 +152,11 @@ void Application::InitImGui()
 	ImGui::StyleColorsDark();
 }
 
-void Application::TerminateOpenGL()
+void Application::TerminateOpenGL(KeyInputEvent* e)
 {
 	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 	glfwTerminate();
+	InputHandler::Cleanup();
 }
 
 void error_callback(int error, const char* description)

@@ -4,6 +4,7 @@
 
 #include "EntityManager.h"
 #include "Renderer.h"
+#include "InputHandler.h"
 #include "PhysicsSystem.h"
 #include "SceneManager.h"
 
@@ -38,6 +39,8 @@ protected:
 
 private:
 	bool InitGL();
+
+	void TerminateOpenGL(KeyInputEvent* e);
 	void InitImGui();
 	void TerminateOpenGL();
 

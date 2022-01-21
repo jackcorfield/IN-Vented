@@ -1,0 +1,8 @@
+{
+    "Mappings": [
+      {
+        "name": "Input_Exit",
+        "enums": [ 256 ]
+      }
+    ]
+}

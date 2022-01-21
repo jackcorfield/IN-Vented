@@ -152,7 +152,6 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="InputMapping.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
@@ -183,7 +182,6 @@
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="InputMapping.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
