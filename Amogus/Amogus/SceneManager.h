@@ -16,10 +16,13 @@ public:
 	bool DestroyScene(const std::string& name);
 	bool SceneExists(const std::string& name);
 
-	bool LoadScene(const std::string& filePath);
+	bool ReadSceneFromFile(const std::string& filePath);
+	bool WriteActiveSceneToFile(const std::string& filePath);
 
 	void SetActiveScene(const std::string& name);
 	Scene* GetActiveScene();
+
+	Scene* GetScene(const std::string& name) { return m_sceneMap[name]; }
 
 private:
 	std::map<std::string, Scene*> m_sceneMap;

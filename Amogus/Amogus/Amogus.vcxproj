@@ -156,6 +156,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneExporter.cpp" />
+    <ClCompile Include="SceneImporter.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
@@ -180,9 +182,12 @@
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="InputMapping.h" />
+    <ClInclude Include="JSONHelpers.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneExporter.h" />
+    <ClInclude Include="SceneImporter.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderFactory.h" />

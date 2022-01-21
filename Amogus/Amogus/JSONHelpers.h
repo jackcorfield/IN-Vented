@@ -6,7 +6,7 @@
 namespace JSON
 {
 	template <typename T>
-	static bool Read(T& readTo, const nlohmann::json& j)
+	inline bool Read(T& readTo, const nlohmann::json& j)
 	{
 		if (j.is_null())
 			return false;
@@ -16,12 +16,44 @@ namespace JSON
 		return true;
 	}
 
-	bool ReadVec2(glm::vec2& readTo, const nlohmann::json& j);
-	bool ReadVec3(glm::vec3& readTo, const nlohmann::json& j);
-	bool ReadVec4(glm::vec4& readTo, const nlohmann::json& j);
+	inline bool ReadVec2(glm::vec2& readTo, const nlohmann::json& j)
+	{
+		if (!j.contains("x") || !j.contains("y"))
+			return false;
+
+		readTo.x = j["x"];
+		readTo.y = j["y"];
+
+		return true;
+	}
+
+	inline bool ReadVec3(glm::vec3& readTo, const nlohmann::json& j)
+	{
+		if (!j.contains("x") || !j.contains("y") || !j.contains("z"))
+			return false;
+
+		readTo.x = j["x"];
+		readTo.y = j["y"];
+		readTo.z = j["z"];
+
+		return true;
+	}
+
+	inline bool ReadVec4(glm::vec4& readTo, const nlohmann::json& j)
+	{
+		if (!j.contains("x") || !j.contains("y") || !j.contains("z") || !j.contains("w"))
+			return false;
+
+		readTo.x = j["x"];
+		readTo.y = j["y"];
+		readTo.z = j["z"];
+		readTo.w = j["w"];
+
+		return true;
+	}
 
 	template <typename T>
-	static bool Write(const T& readFrom, nlohmann::json& j)
+	inline bool Write(const T& readFrom, nlohmann::json& j)
 	{
 		if (j.is_null())
 			return false;
@@ -31,7 +63,39 @@ namespace JSON
 		return true;
 	}
 
-	bool WriteVec2(const glm::vec2& readFrom, nlohmann::json& j);
-	bool WriteVec3(const glm::vec3& readFrom, nlohmann::json& j);
-	bool WriteVec4(const glm::vec4& readFrom, nlohmann::json& j);
+	inline bool WriteVec2(const glm::vec2& readFrom, nlohmann::json& j)
+	{
+		if (j.is_null())
+			return false;
+
+		j["x"] = readFrom.x;
+		j["y"] = readFrom.y;
+
+		return true;
+	}
+
+	inline bool WriteVec3(const glm::vec3& readFrom, nlohmann::json& j)
+	{
+		if (j.is_null())
+			return false;
+
+		j["x"] = readFrom.x;
+		j["y"] = readFrom.y;
+		j["z"] = readFrom.z;
+
+		return true;
+	}
+
+	inline bool WriteVec4(const glm::vec4& readFrom, nlohmann::json& j)
+	{
+		if (j.is_null())
+			return false;
+
+		j["x"] = readFrom.x;
+		j["y"] = readFrom.y;
+		j["z"] = readFrom.z;
+		j["w"] = readFrom.w;
+
+		return true;
+	}
 }
