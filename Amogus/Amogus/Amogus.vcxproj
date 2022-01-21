@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioHandler.cpp" />
     <ClCompile Include="dependencies\glad\src\glad.c" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -167,7 +168,9 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioHandler.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="dependencies\soloud\include\soloud.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />

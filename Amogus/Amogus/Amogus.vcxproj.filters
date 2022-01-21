@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{71fcf998-22b4-4d69-898f-592541c4f508}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SoLoud">
+      <UniqueIdentifier>{64920ebd-9451-4071-b7c8-9305f3d5108b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source.cpp">
@@ -97,6 +100,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -183,6 +189,12 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\soloud\include\soloud.h">
+      <Filter>SoLoud</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
