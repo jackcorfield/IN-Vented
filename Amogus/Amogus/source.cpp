@@ -17,12 +17,8 @@ void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 
 Application::Application() :
 	m_entityManager(nullptr),
-	m_sceneManager(nullptr),
-	m_renderer(nullptr),
-	m_physicsSystem(nullptr),
-	m_quit(false)
+	m_renderer(nullptr)
 {	
-	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
 }
 
 struct NameComponent
@@ -54,30 +50,16 @@ void Application::Init()
 
 void Application::Run()
 {
-
-	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
-
-	// Locked to 60fps for now, will change at later date
-	float frameRate = 60.0f;
-
-	while (!m_quit)
+	
+	while (!glfwWindowShouldClose(m_window))
 	{
-		Timer->Tick();
-		if (Timer->DeltaTime() >= 1 / frameRate) {
-
-			Timer->Reset();
-			//std::cout << Timer->DeltaTime() << std::endl;
-
-			glfwPollEvents();
-			m_physicsSystem->PhysicsUpdate(0.66);
-			m_renderer->Render();
-
-		}
+		glfwPollEvents();
+		m_renderer->Render();
+		
+	}
 	}
 
-	TerminateOpenGL();
-}
-
+	
 
 Application::~Application() 
 {
@@ -131,30 +113,10 @@ bool Application::InitGL()
 		glEnable(GL_MULTISAMPLE);
 }
 
-
-void Application::InitImGui()
-{
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-
-	// Setup Platform/Renderer bindings
-	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-	ImGui_ImplOpenGL3_Init("#version 130");
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-}
-
 void Application::TerminateOpenGL()
 {
 	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 	glfwTerminate();
-}
-
-void Application::Quit(KeyInputEvent* e)
-{
-	m_quit = true;
 }
 
 void error_callback(int error, const char* description)

@@ -33,12 +33,8 @@ public:
 protected:
 
 private:
-	void Quit(KeyInputEvent* e);
 	bool InitGL();
-  
 	void TerminateOpenGL();
-
-	bool m_quit;
 
 	Renderer* m_renderer;
 };
