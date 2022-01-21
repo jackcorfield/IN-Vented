@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{71fcf998-22b4-4d69-898f-592541c4f508}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Wwise">
+      <UniqueIdentifier>{310b9862-f4ec-4e88-b131-d01faff961be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source.cpp">
@@ -101,6 +104,399 @@
     </ClCompile>
     <ClCompile Include="AudioHandler.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\DSP\AkSineOsc.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\DynamicLibraries\AkSoundEngineDLL\AkSoundEngineDLL.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\DynamicLibraries\AkSoundEngineDLL\Win32\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\Drawing.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\Helpers.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\IntegrationDemo.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\SoundInputBase.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\SoundInputMgrBase.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\UniversalInput.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\DemoPages\BaseMenuPage.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\FreetypeRenderer\FreetypeGraphicRenderer.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\ButtonControl.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\Control.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\Menu.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\MessagePage.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\MovableChip.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\MultiplayerPage.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\NumericControl.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\Page.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\ToggleControl.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\CommandQueue.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\DynamicTexture2D.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\LineGraphicsPipeline.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\RenderDevice.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\TextureGraphicsPipeline.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\InputMgr.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\Main.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\Platform.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\Render_D3D11.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\Render_D3D12.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\SoundInput.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\SoundInputMgr.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\AudioEngineFX\AkFXSrcAudioInput.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\AudioEngineFX\AkFXSrcAudioInputParams.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\AudioInputPlugin.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\Win32\AudioInputPluginGUI.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\AudioEngineFX\AkDelayFX.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\AudioEngineFX\AkDelayFXDSP.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\AudioEngineFX\AkDelayFXParams.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\DelayPlugin.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\Win32\DelayPluginGUI.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\AudioEngineFX\AkFXSrcSine.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\AudioEngineFX\AkFXSrcSineParams.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\SinePlugin.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\Win32\SinePluginGUI.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\AudioEngineFX\Win32\AkSinkXAudio.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\AudioEngineFX\Win32\SinkPluginParams.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\WwisePlugin\SinkPlugin.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\WwisePlugin\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\WwisePlugin\Win32\SinkPluginGUI.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\AudioEngineFX\AkLpFilter.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\AudioEngineFX\AkToneGen.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\AudioEngineFX\AkToneGenDSP.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\AudioEngineFX\AkToneGenParams.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\ToneGenPlugin.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\Win32\ToneGenPluginGUI.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkDefaultLowLevelIODispatcher.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFileLocationBase.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFilePackage.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFilePackageLUT.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkMultipleFileLocation.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\AkDefaultIOHookBlocking.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\AkDefaultIOHookDeferred.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookDeferred.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFAddGameObjectDialog.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFGameObjectListCtrl.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTest.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestDlg.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestDropTarget.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestEditControl.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestEnvironmentDlg.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestHelpers.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestPositioningDlg.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Common\OperationResults.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Common\SourceControlHelpers.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DlgPerforceConfig.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DlgPerforceDescription.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DlgPerforceOnNewFiles.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DlgRename.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DllInterface.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\PerforceClientUser.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\PerforcePlugin.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\PerforceSourceControl.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\PerforceUtility.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\DlgConfiguration.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\DllInterface.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\SamplePlugin.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\SourceControlSample.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgCommitMessage.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgConfiguration.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgLockMessage.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgOnCreateModify.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgRename.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DllInterface.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\stdafx.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\Subversion.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\SubversionPool.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\SubversionSourceControl.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\autobahn.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\civetweb.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\Client.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\FutureUtils.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\JsonProvider.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\Logger.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\WebSocketClient.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\SampleClient.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\StressTest.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\TestClient.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\TestErrors.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\TestMonitoring.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkDeviceBase.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkDeviceBlocking.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkDeviceDeferredLinedUp.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkIOMemMgr.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkStreamMgr.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkTransferDeferred.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\POSIX\AkIOThread.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\Win32\AkIOThread.cpp">
+      <Filter>Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="dependencies\Wwise\SDK\source\StreamManager\Win32\stdafx.cpp">
+      <Filter>Wwise</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +587,1101 @@
     <ClInclude Include="AudioHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\AkPlatforms.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\AkWwiseSDKVersion.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Comm\AkCommunication.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\DSP\AkApplyGain.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\DSP\AkDelayLineMemory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\DSP\AkDelayLineMemoryStream.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\DSP\AkModulatorProcess.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\DSP\AkVolAutomation.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\DSP\Generic\AkDelayLineMemory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\DSP\Generic\AkDelayLineMemoryStream.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\IBytes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\MusicEngine\Common\AkMusicEngine.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkAudioInputPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkAudioInputSourceFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkCompressorFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkDelayFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkExpanderFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkFlangerFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkGainFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkGuitarDistortionFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkHarmonizerFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkMatrixReverbFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkMeterFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkOpusDecoderFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkParametricEQFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkPeakLimiterFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkPitchShifterFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkRecorderFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkReflectGameData.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkRoomVerbFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkSilenceSourceFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkSineSourceFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkSinkFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkStereoDelayFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkSynthOneSourceFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkTimeStretchFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkToneSourceFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkTremoloFXFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AkVorbisDecoderFactory.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AllPluginsFactories.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\AllPluginsRegistrationHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\PluginServices\AkFXDurationHandler.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\PluginServices\AkFXParameterChangeHandler.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\PluginServices\AkFXTailHandler.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\PluginServices\AkMixerInputMap.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\PluginServices\AkValueRamp.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Plugin\PluginServices\AkVectorValueRamp.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkAtomic.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkBytesCount.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkBytesMem.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkCallback.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkCommonDefs.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkDynamicDialogue.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkDynamicSequence.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkFPUtilities.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkMemoryMgr.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkMidiTypes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkMidiWwiseCmds.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkModule.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkQueryParameters.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkSimd.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkSimdMath.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkSoundEngine.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkSoundEngineExport.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkSpeakerConfig.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkSpeakerVolumes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkStreamMgrModule.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkTypes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\AkVirtualAcoustics.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\IAkMixerPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\IAkPlatformContext.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\IAkPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\IAkPluginMemAlloc.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\IAkProcessorFeatures.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\IAkRTPCSubscriber.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Common\IAkStreamMgr.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\arm_neon\AkSimd.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\arm_neon\AkSimdShuffle.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\Generic\AkSimd.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\Generic\AkSpeakerVolumes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\Linux\AkAtomic.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\POSIX\AkTypes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\SSE\AkSimd.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\SSE\AkSimdAvx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\SSE\AkSimdAvx2.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\Windows\AkAtomic.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\Windows\AkPlatformContext.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\Windows\AkSimd.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\Windows\AkTypes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundEngine\Platforms\Windows\AkWinSoundEngine.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundFrame\SF.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SoundFrame\SFObjects.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SpatialAudio\Common\AkReverbEstimation.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SpatialAudio\Common\AkSpatialAudio.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\SpatialAudio\Common\AkSpatialAudioTypes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkAllocator.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkArray.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkAssert.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkAutoLock.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkBankReadHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkDynaBlkPool.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkFNVHash.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkHashList.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkHeap.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkKeyArray.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkKeyDef.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkListBare.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkListBareLight.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkLock.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkMonitorError.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkMurMurHash.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkObject.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkPlatformFuncs.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkRingBuffer.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkSet.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkSmartPtr.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkString.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkSyncCaller.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkTls.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Common\AkVectors.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\POSIX\AkLock.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\POSIX\AkPlatformFuncs.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\POSIX\AkTls.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Win32\AkCOMScope.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Win32\AkLock.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Win32\AkMMDevice.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Win32\AkPlatformFuncs.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Tools\Win32\AkTls.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\AudioPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\IXmlTextReader.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\IXmlTextWriter.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\PlatformID.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\AudioPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\CustomData.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\FirstTimeCreationMessage.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\GUIWindows.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\Host.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\HostDataWriter.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\HostObjectMedia.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\HostObjectStore.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\HostPropertySet.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\HostUndoManager.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\HostXml.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\License.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\MediaConverter.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\Notifications.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginBaseInterface.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginContainer.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginDef.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginInfo.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginInfoGenerator.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginInterfaceArrayItem.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginLinks.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PluginMFCWindows.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\PropertyDisplayName.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\SinkDevices.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin\Source.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Plugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\SourceControl\ISourceControl.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\SourceControl\ISourceControlDialogBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\SourceControl\ISourceControlOperationProgress.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\SourceControl\ISourceControlUtilities.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\SourceControl\SourceControlContainers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\TargetVer.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Undo.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\Wwise\Utilities.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\AkJson.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\AkVariant.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\autobahn.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\civetweb.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\Client.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\FutureUtils.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\IWebSocketClientHandler.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\JsonProvider.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\Logger.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkAutobahn\WebSocketClient.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkGuid.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkJsonBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\AkVariantBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\include\AK\WwiseAuthoringAPI\waapi.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\DSP\AkSineOsc.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\DynamicLibraries\AkSoundEngineDLL\AkSoundEngineDLL.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\DynamicLibraries\AkSoundEngineDLL\AkSoundEngineExports.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\DynamicLibraries\AkSoundEngineDLL\Win32\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\Drawing.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\Helpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\IntegrationDemo.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\Render.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\SoundInputBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\SoundInputMgrBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Common\UniversalInput.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\DemoPages\BaseMenuPage.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\DemoPages\MenuPages.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\FreetypeRenderer\Assets\GentiumPlusAm-R_ttf.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\FreetypeRenderer\FreetypeGraphicRenderer.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\FreetypeRenderer\stb_truetype.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\ButtonControl.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\Control.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\Menu.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\MenuControls.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\MessagePage.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\MovableChip.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\MultiplayerPage.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\NumericControl.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\Page.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\MenuSystem\ToggleControl.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\CommandQueue.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\d3dx12.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\DynamicTexture2D.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\LineGraphicsPipeline.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\RenderDevice.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\TextureGraphicsPipeline.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\D3D12\Utilities.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\InputMgr.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\InputMgrScePadHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\Platform.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\SoundInput.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\SoundInputMgr.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\Windows\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\IntegrationDemo\WwiseProject\GeneratedSoundBanks\Wwise_IDs.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\AudioEngineFX\AkFXSrcAudioInput.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\AudioEngineFX\AkFXSrcAudioInputParams.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\AudioInputPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\Help\TopicAlias.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\resource.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\Win32\AudioInputPluginGUI.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\AudioEngineFX\AkDelayFX.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\AudioEngineFX\AkDelayFXDSP.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\AudioEngineFX\AkDelayFXParams.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\DelayPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\Help\TopicAlias.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\resource.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\Win32\DelayPluginGUI.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\AudioEngineFX\AkFXSrcSine.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\AudioEngineFX\AkFXSrcSineParams.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\Help\TopicAlias.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\resource.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\SinePlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\Win32\SinePluginGUI.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\AudioEngineFX\Win32\AkSinkXAudio.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\AudioEngineFX\Win32\SinkPluginParams.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\WwisePlugin\Help\TopicAlias.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\WwisePlugin\SinkPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\WwisePlugin\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\WwisePlugin\Win32\SinkPluginGUI.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\AudioEngineFX\AkLpFilter.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\AudioEngineFX\AkToneGen.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\AudioEngineFX\AkToneGenParams.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\AudioEngineFX\AkWaveTables.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\Help\TopicAlias.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\resource.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\ToneGenPlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\Win32\ToneGenPluginGUI.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkDefaultLowLevelIODispatcher.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFileHelpersBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFileLocationBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFilePackage.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFilePackageLowLevelIO.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFilePackageLUT.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkMultipleFileLocation.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\AkDefaultIOHookBlocking.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\AkDefaultIOHookDeferred.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\AkFileHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\AkFilePackageLowLevelIOBlocking.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\AkFilePackageLowLevelIODeferred.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\POSIX\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookDeferred.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\AkFileHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\AkFilePackageLowLevelIOBlocking.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\AkFilePackageLowLevelIODeferred.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundEngine\Win32\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\resource.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFAddGameObjectDialog.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFGameObjectListCtrl.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTest.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestComboBox.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestDlg.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestDropTarget.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestEditControl.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestEnvironmentDlg.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestListBox.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTestPositioningDlg.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Common\OperationResults.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Common\SourceControlHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DlgPerforceConfig.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DlgPerforceDescription.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DlgPerforceOnNewFiles.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\DlgRename.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\Perforce.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\PerforcePlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\resource.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\DlgConfiguration.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\resource.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\SamplePlugin.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\SourceControlSample.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgCommitMessage.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgConfiguration.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgLockMessage.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgOnCreateModify.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\DlgRename.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\resource.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\Subversion.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\SubversionPool.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\SubversionSourceControl.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\TaskScheduler\AkTaskScheduler_dummy.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\TaskScheduler\AkTaskScheduler_ppl.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\JSONHelpers.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\allocators.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\document.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\encodedstream.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\encodings.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\error\en.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\error\error.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\filereadstream.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\filewritestream.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\biginteger.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\diyfp.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\dtoa.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\ieee754.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\itoa.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\meta.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\pow10.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\stack.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\strfunc.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\internal\strtod.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\memorybuffer.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\memorystream.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\msinttypes\inttypes.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\msinttypes\stdint.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\pointer.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\prettywriter.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\rapidjson.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\reader.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\stringbuffer.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\external\rapidjson\rapidjson\writer.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\RapidJsonUtils.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\StressTest.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\TestClient.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\TestErrors.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\SampleClient\TestMonitoring.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkBuddyBlockPool.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkDeviceBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkDeviceBlocking.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkDeviceDeferredLinedUp.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkIOMemMgr.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkStmDeferredLinedUpBase.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkStmMemView.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkStreamingDefaults.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkStreamMgr.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkTransferDeferred.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\POSIX\AkIOThread.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Win32\AkIOThread.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Win32\AkPlatformStreamingDefaults.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\Wwise\SDK\source\StreamManager\Win32\stdafx.h">
+      <Filter>Wwise</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultSpriteF.glsl">
@@ -199,5 +1690,119 @@
     <None Include="DefaultSpriteV.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\AudioInput.def">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\AkDelay.def">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\Sine.def">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\Plugins\AkSink\Sources\WwisePlugin\Sink.def">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\ToneGen.def">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\SoundEngine\Common\AkFilePackageLowLevelIO.inl">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\res\SFTest.rc2">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\Perforce.def">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\res\Perforce.rc2">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\res\SourceControlSample.rc2">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\SourceControlSample.def">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\res\Subversion.rc2">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\Subversion.def">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\file_ops.inl">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\handle_form.inl">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\md5.inl">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\cpp\SampleClient\AkAutobahn\sha1.inl">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\js\hello-wwise-web-http\index.html">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\js\hello-wwise-web-wamp\index.html">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\js\selection\index.html">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\js\web-transport\index.html">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\samples\WwiseAuthoringAPI\js\xy-pad\index.html">
+      <Filter>Wwise</Filter>
+    </None>
+    <None Include="dependencies\Wwise\SDK\source\StreamManager\Common\AkStmDeferredLinedUpBase.inl">
+      <Filter>Wwise</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\Common\AkWwiseSDKVersion.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkAudioInput\Sources\WwisePlugin\AudioInput.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkDelay\Sources\WwisePlugin\AkDelay.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkSineTone\Sources\WwisePlugin\Sine.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\Plugins\AkToneGenerator\Sources\WwisePlugin\ToneGenPlugin.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\SFTest.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Perforce\Perforce.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\SourceControl\SourceControlSample\SourceControlSample.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dependencies\Wwise\SDK\samples\SourceControl\Subversion\Subversion.rc">
+      <Filter>Wwise</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="dependencies\Wwise\SDK\samples\SoundFrame\SFTest\res\SFTest.manifest">
+      <Filter>Wwise</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dependencies\Wwise\SDK\samples\Tools\FilePackager\FilePackager\Properties\Resources.resx">
+      <Filter>Wwise</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dependencies\Wwise\SDK\samples\Tools\FilePackager\FilePackager.App\Properties\Resources.resx">
+      <Filter>Wwise</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dependencies\Wwise\SDK\samples\Tools\FilePackager\FilePackager.Console\Properties\Resources.resx">
+      <Filter>Wwise</Filter>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
