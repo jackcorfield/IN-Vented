@@ -150,18 +150,23 @@
     <ClCompile Include="dependencies\ImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="dependencies\ImGui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="ImGuiLayer.cpp" />
     <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="InputMapping.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -175,24 +180,31 @@
     <ClInclude Include="dependencies\ImGui\imstb_textedit.h" />
     <ClInclude Include="dependencies\ImGui\imstb_truetype.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="IconHeader.h" />
     <ClInclude Include="ImGuiLayer.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="InputMapping.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
+    <ClInclude Include="Physics.h" />
+    <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderFactory.h" />
     <ClInclude Include="source.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultSpriteF.glsl" />
     <None Include="DefaultSpriteV.glsl" />
+    <None Include="PostProcessingF.glsl" />
+    <None Include="PostProcessingV.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
