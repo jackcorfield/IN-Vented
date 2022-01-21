@@ -40,9 +40,11 @@ protected:
 private:
 	bool InitGL();
 
-	void TerminateOpenGL(KeyInputEvent* e);
-	void InitImGui();
+	void Quit(KeyInputEvent* e);
 	void TerminateOpenGL();
+	void InitImGui();
+
+	bool m_quit;
 
 	Renderer* m_renderer;
 	PhysicsSystem* m_physicsSystem;
