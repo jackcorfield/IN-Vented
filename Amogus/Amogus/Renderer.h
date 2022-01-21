@@ -31,7 +31,10 @@ private:
 	void InitQuad();
 
 	Shader* m_defaultShader;
+	Shader* m_postProcessingShader;
 	unsigned int m_quadVAO;
+
+	float m_time;
 
 	Entity m_currentCamera;
 	glm::mat4 m_projection;

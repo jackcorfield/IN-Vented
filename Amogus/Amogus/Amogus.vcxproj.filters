@@ -93,6 +93,9 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Framebuffer.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -179,6 +182,9 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framebuffer.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="Physics.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -191,6 +197,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="DefaultSpriteV.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="PostProcessingV.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="PostProcessingF.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
