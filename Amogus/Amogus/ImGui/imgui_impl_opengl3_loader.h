@@ -249,13 +249,11 @@ typedef void (APIENTRYP PFNGLBINDBUFFERPROC) (GLenum target, GLuint buffer);
 typedef void (APIENTRYP PFNGLDELETEBUFFERSPROC) (GLsizei n, const GLuint *buffers);
 typedef void (APIENTRYP PFNGLGENBUFFERSPROC) (GLsizei n, GLuint *buffers);
 typedef void (APIENTRYP PFNGLBUFFERDATAPROC) (GLenum target, GLsizeiptr size, const void *data, GLenum usage);
-typedef void (APIENTRYP PFNGLBUFFERSUBDATAPROC) (GLenum target, GLintptr offset, GLsizeiptr size, const void *data);
 #ifdef GL_GLEXT_PROTOTYPES
 GLAPI void APIENTRY glBindBuffer (GLenum target, GLuint buffer);
 GLAPI void APIENTRY glDeleteBuffers (GLsizei n, const GLuint *buffers);
 GLAPI void APIENTRY glGenBuffers (GLsizei n, GLuint *buffers);
 GLAPI void APIENTRY glBufferData (GLenum target, GLsizeiptr size, const void *data, GLenum usage);
-GLAPI void APIENTRY glBufferSubData (GLenum target, GLintptr offset, GLsizeiptr size, const void *data);
 #endif
 #endif /* GL_VERSION_1_5 */
 #ifndef GL_VERSION_2_0
@@ -437,7 +435,7 @@ GL3W_API GL3WglProc imgl3wGetProcAddress(const char *proc);
 
 /* gl3w internal state */
 union GL3WProcs {
-    GL3WglProc ptr[54];
+    GL3WglProc ptr[53];
     struct {
         PFNGLACTIVETEXTUREPROC           ActiveTexture;
         PFNGLATTACHSHADERPROC            AttachShader;
@@ -449,7 +447,6 @@ union GL3WProcs {
         PFNGLBLENDEQUATIONSEPARATEPROC   BlendEquationSeparate;
         PFNGLBLENDFUNCSEPARATEPROC       BlendFuncSeparate;
         PFNGLBUFFERDATAPROC              BufferData;
-        PFNGLBUFFERSUBDATAPROC           BufferSubData;
         PFNGLCLEARPROC                   Clear;
         PFNGLCLEARCOLORPROC              ClearColor;
         PFNGLCOMPILESHADERPROC           CompileShader;
@@ -509,7 +506,6 @@ GL3W_API extern union GL3WProcs imgl3wProcs;
 #define glBlendEquationSeparate          imgl3wProcs.gl.BlendEquationSeparate
 #define glBlendFuncSeparate              imgl3wProcs.gl.BlendFuncSeparate
 #define glBufferData                     imgl3wProcs.gl.BufferData
-#define glBufferSubData                  imgl3wProcs.gl.BufferSubData
 #define glClear                          imgl3wProcs.gl.Clear
 #define glClearColor                     imgl3wProcs.gl.ClearColor
 #define glCompileShader                  imgl3wProcs.gl.CompileShader
@@ -696,7 +692,6 @@ static const char *proc_names[] = {
     "glBlendEquationSeparate",
     "glBlendFuncSeparate",
     "glBufferData",
-    "glBufferSubData",
     "glClear",
     "glClearColor",
     "glCompileShader",
