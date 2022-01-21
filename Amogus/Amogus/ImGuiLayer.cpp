@@ -8,7 +8,7 @@ ImGuiLayer::ImGuiLayer()
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	io = ImGui::GetIO();
+	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
@@ -42,8 +42,6 @@ ImGuiLayer::ImGuiLayer()
 	config.GlyphMinAdvanceX = 13.0f; // Use if you want to make the icon monospaced
 	static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 	io.Fonts->AddFontFromFileTTF("Fonts/FontIcons.ttf", 16.0f, &config, icon_ranges);
-
-	p_open = true;
 }
 
 ImGuiLayer::~ImGuiLayer()
@@ -53,13 +51,16 @@ ImGuiLayer::~ImGuiLayer()
 
 void ImGuiLayer::BeginGui()
 {
+	static bool p_open = true;
+
+	// AP - ImGui rendering
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-	m_dockspaceFlags = ImGuiDockNodeFlags_None;
-	m_windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -67,17 +68,17 @@ void ImGuiLayer::BeginGui()
 	ImGui::SetNextWindowViewport(viewport->ID);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-	ImGui::Begin("MainDockSpace", &p_open, m_windowFlags);
+	ImGui::Begin("MainDockSpace", &p_open, window_flags);
 
 	ImGui::PopStyleVar(2);
 
-	io = ImGui::GetIO();
-	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-	{
-		ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
-		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), m_dockspaceFlags);
-	}
+	ImGuiIO& io = ImGui::GetIO();
+	
+	ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
+	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 }
 
 void ImGuiLayer::EndGui()
@@ -87,13 +88,10 @@ void ImGuiLayer::EndGui()
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		GLFWwindow* backup_current_context = glfwGetCurrentContext();
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
-		glfwMakeContextCurrent(backup_current_context);
-	}
+	GLFWwindow* backup_current_context = glfwGetCurrentContext();
+	ImGui::UpdatePlatformWindows();
+	ImGui::RenderPlatformWindowsDefault();
+	glfwMakeContextCurrent(backup_current_context);
 }
 
 void ImGuiLayer::DrawMenuBar()

@@ -25,12 +25,8 @@ private:
 	ImGuiLayer(const ImGuiLayer&) = delete;
 	ImGuiLayer& operator=(ImGuiLayer&) = delete;
 
-	bool p_open;
-
 	ImGuiDockNodeFlags m_dockspaceFlags;
 	ImGuiWindowFlags m_windowFlags;
-
-	ImGuiIO io;
 
 	bool m_guiEnabled = true;
 
