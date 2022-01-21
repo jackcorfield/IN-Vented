@@ -34,6 +34,8 @@ public:
 	EntityManager* m_entityManager;
 	SceneManager* m_sceneManager;
 
+
+
 protected:
 
 private:

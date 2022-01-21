@@ -43,11 +43,15 @@ void Application::Init()
 	m_renderer = new Renderer();
 	m_physicsSystem = new PhysicsSystem();
 
+
 	Run();
 }
 
 void Application::Run()
 {
+
+
+
 	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
 
 	bool isRunning = true;
@@ -56,7 +60,6 @@ void Application::Run()
 
 	while (!glfwWindowShouldClose(m_window))
 	{
-
 		while (isRunning) {
 			Timer->Tick();
 			if (Timer->DeltaTime() >= 1 / frameRate) {
@@ -70,8 +73,6 @@ void Application::Run()
 
 			}
 		}
-
-
 	}
 }
 
