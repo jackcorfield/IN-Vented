@@ -9,6 +9,7 @@ void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 Application::Application() :
 	m_renderer(nullptr)
 {	
+	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::TerminateOpenGL);
 }
 
 void Application::Init()
@@ -96,10 +97,11 @@ bool Application::InitGL()
 		glEnable(GL_MULTISAMPLE);
 }
 
-void Application::TerminateOpenGL()
+void Application::TerminateOpenGL(KeyInputEvent* e)
 {
 	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 	glfwTerminate();
+	InputHandler::Cleanup();
 }
 
 void error_callback(int error, const char* description)

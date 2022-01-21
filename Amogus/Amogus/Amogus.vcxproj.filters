@@ -39,9 +39,6 @@
     <ClCompile Include="LodePNG\lodepng.cpp">
       <Filter>LodePNG</Filter>
     </ClCompile>
-    <ClCompile Include="InputMapping.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source.h">
@@ -60,9 +57,6 @@
       <Filter>LodePNG</Filter>
     </ClInclude>
     <ClInclude Include="EventHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputMapping.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

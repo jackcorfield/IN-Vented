@@ -33,7 +33,7 @@ protected:
 
 private:
 	bool InitGL();
-	void TerminateOpenGL();
+	void TerminateOpenGL(KeyInputEvent* e);
 
 	Renderer* m_renderer;
 };
