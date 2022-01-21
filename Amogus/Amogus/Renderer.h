@@ -5,6 +5,8 @@
 #include "EntityManager.h"
 #include "Shader.h"
 
+#include "ImGuiLayer.h"
+
 struct GLFWwindow;
 
 class Sprite;
@@ -25,6 +27,9 @@ public:
 	void Render();
 
 private:
+
+	ImGuiLayer* m_gui;
+
 	void DrawImGui();
 	void DrawSprite(Sprite* sprite, Transform* transform);
 
@@ -35,8 +40,4 @@ private:
 
 	Entity m_currentCamera;
 	glm::mat4 m_projection;
-
-	bool m_guiEnabled = true;
-	char inputString[32];
-	float dragFloat[3];
 };
