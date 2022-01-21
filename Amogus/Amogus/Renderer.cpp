@@ -24,7 +24,7 @@ void CheckGLErrors();
 
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
-    m_currentCamera(g_app->m_sceneManager->GetActiveScene()->m_entityManager->CreateEntity())
+    m_currentCamera()
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
@@ -34,14 +34,14 @@ Renderer::Renderer() :
     if (activeScene)
     {
         // Temporary until we're loading entities from file; need a camera for now
-        Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
-        Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
+        //Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
+        //Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
 
-        m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, cameraC->m_near, cameraC->m_far);
+        //
 
-        Entity e = activeScene->m_entityManager->CreateEntity();
-        activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        //Entity e = activeScene->m_entityManager->CreateEntity();
+        //activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        //activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
     }
 }
 
@@ -103,6 +103,12 @@ void Renderer::Render()
     
     if (activeScene)
     {
+        if (m_projection == glm::mat4(1.0f))
+        {
+            Camera* camera = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+            m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, camera->m_near, camera->m_far);
+        }
+
         glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
         Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_currentCamera);
 

@@ -15,8 +15,6 @@ extern Application* g_app;
 
 namespace SceneImporter
 {
-	bool ReadAllComponents(const nlohmann::json& jComponents, Scene* scene);
-
 	bool ReadAllEntities(const nlohmann::json& jEntityArray, EntityManager* entityManager);
 	bool ReadComponentsOfEntity(const nlohmann::json& jComponentArray, Entity entity, EntityManager* entityManager);
 
@@ -39,7 +37,8 @@ namespace SceneImporter
 			return false;
 		}
 
-		std::string name = jFile["name"];
+		std::string name;
+		if (!JSON::Read(name, jFile["name"])) {}
 
 		glm::vec3 clearColour;
 		if (!JSON::ReadVec3(clearColour, jFile["clearColour"])) {}
@@ -55,21 +54,6 @@ namespace SceneImporter
 		}
 
 		return true;
-	}
-
-	bool ReadAllComponents(const nlohmann::json& jComponents, Scene* scene)
-	{
-		EntityManager* entityManager = scene->m_entityManager;
-
-		bool success = true;
-
-		//if(!ReadComponentsOfType<Camera>(jComponents))
-
-		//if (!ReadAllCameras(jComponents["cameras"], entityManager)) { success = false; }
-		//if (!ReadAllSprites(jComponents["sprites"], entityManager)) { success = false; }
-		//if (!ReadAllTransforms(jComponents["transforms"], entityManager)) { success = false; }
-
-		return success;
 	}
 
 	bool ReadAllEntities(const nlohmann::json& jEntityArray, EntityManager* entityManager)
@@ -161,16 +145,19 @@ namespace SceneImporter
 
 		Shader* shader;
 		{
+			std::string name;
+			if (!JSON::Read(name, j["shader"]["name"])) {}
+
 			std::string vertexPath, fragmentPath;
-			if (!JSON::Read(vertexPath, j["vertexFilePath"]) || !JSON::Read(fragmentPath, j["fragmentFilePath"]))
+			if (!JSON::Read(vertexPath, j["shader"]["vertexFilePath"]) || !JSON::Read(fragmentPath, j["shader"]["fragmentFilePath"]))
 			{
 				success = false; // Cannot render a sprite without vertex & fragment shader
 			}
 
 			std::string geometryPath;
-			if (!JSON::Read(geometryPath, j["geometryFilePath"])) {}
+			if (!JSON::Read(geometryPath, j["shader"]["geometryFilePath"])) {}
 
-			shader = ShaderFactory::CreatePipelineShader(vertexPath, fragmentPath, geometryPath);
+			shader = ShaderFactory::CreatePipelineShader(name, vertexPath, fragmentPath, geometryPath);
 		}
 
 		std::string textureName;

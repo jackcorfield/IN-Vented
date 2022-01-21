@@ -23,7 +23,7 @@ namespace SceneExporter
 	bool WriteSprite(nlohmann::json& jComponentArray, Sprite* camera);
 	bool WriteTransform(nlohmann::json& jComponentArray, Transform* camera);
 
-	bool ExportSceneToFile(const std::string& filePath)
+	bool ExportActiveSceneToFile(const std::string& filePath)
 	{
 		Scene* scene = g_app->m_sceneManager->GetActiveScene();
 
@@ -34,6 +34,14 @@ namespace SceneExporter
 		}
 
 		nlohmann::json jFile;
+
+		//jFile["name"] = scene.m_name; how can i get this?
+		//if (!JSON::Write(scene.m_name, jFile["name"]))
+		//{
+		//	return false; // Need a name for scene map key
+		//}
+
+		if (!JSON::WriteVec3(scene->m_sceneColour, jFile["clearColour"])) {}
 
 		if (!WriteAllComponents(jFile["entities"], scene))
 		{
@@ -67,10 +75,8 @@ namespace SceneExporter
 		for (int i = 0; i < allComponents.size(); i++)
 		{
 			Entity entity = entityManager->GetEntityFromComponent<T>(allComponents[i]);
-
-			nlohmann::json jEntity = jEntityArray[int(entity)];
-
-			nlohmann::json jComponent;
+			
+			nlohmann::json jComponent = nlohmann::json::object();
 			jComponent["type"] = componentJSONName;
 
 			if (!function(jComponent, allComponents[i]))
@@ -78,7 +84,11 @@ namespace SceneExporter
 				success = false;
 			}
 
-			jEntity.push_back(jComponent);
+			if (jEntityArray[entity - 1].is_null())
+			{
+				jEntityArray[entity - 1] = nlohmann::json::array();
+			}
+			jEntityArray[entity - 1].push_back(jComponent);
 		}
 
 		return success;

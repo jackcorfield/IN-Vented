@@ -24,6 +24,8 @@ public:
 
 	void Render();
 
+	void SetActiveCamera(Entity cameraEntity) { m_currentCamera = cameraEntity; }
+
 private:
 	void DrawImGui();
 	void DrawSprite(Sprite* sprite, Transform* transform);

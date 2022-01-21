@@ -4,5 +4,5 @@
 
 namespace SceneExporter
 {
-	bool ExportSceneToFile(const std::string& filePath);
+	bool ExportActiveSceneToFile(const std::string& filePath);
 };

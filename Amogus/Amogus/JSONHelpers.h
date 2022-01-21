@@ -55,8 +55,8 @@ namespace JSON
 	template <typename T>
 	inline bool Write(const T& readFrom, nlohmann::json& j)
 	{
-		if (j.is_null())
-			return false;
+		//if (j.is_null())
+		//	return false;
 
 		j = readFrom;
 
@@ -65,8 +65,8 @@ namespace JSON
 
 	inline bool WriteVec2(const glm::vec2& readFrom, nlohmann::json& j)
 	{
-		if (j.is_null())
-			return false;
+		//if (j.is_null())
+		//	return false;
 
 		j["x"] = readFrom.x;
 		j["y"] = readFrom.y;
@@ -76,8 +76,8 @@ namespace JSON
 
 	inline bool WriteVec3(const glm::vec3& readFrom, nlohmann::json& j)
 	{
-		if (j.is_null())
-			return false;
+		//if (j.is_null())
+		//	return false;
 
 		j["x"] = readFrom.x;
 		j["y"] = readFrom.y;
@@ -88,8 +88,8 @@ namespace JSON
 
 	inline bool WriteVec4(const glm::vec4& readFrom, nlohmann::json& j)
 	{
-		if (j.is_null())
-			return false;
+		//if (j.is_null())
+		//	return false;
 
 		j["x"] = readFrom.x;
 		j["y"] = readFrom.y;

@@ -12,13 +12,17 @@
 #include "EntityManager.h"
 #include "Timer.h"
 
+#include "SceneImporter.h"
+#include "SceneExporter.h"
+
 void error_callback(int error, const char* description);
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 
 Application::Application() :
 	m_entityManager(nullptr),
 	m_sceneManager(nullptr),
-	m_renderer(nullptr)
+	m_renderer(nullptr),
+	m_window(nullptr)
 {	
 }
 
@@ -40,6 +44,12 @@ void Application::Init()
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
+
+	SceneImporter::ImportSceneFromFile("testimport.json");
+	m_sceneManager->SetActiveScene("test scene");
+	m_renderer->SetActiveCamera(2); // Temp until we discuss a solution for setting the active camera from elsewhere in the codebase
+
+	SceneExporter::ExportActiveSceneToFile("testexport.json");
 
 	Run();
 }
