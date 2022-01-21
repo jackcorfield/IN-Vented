@@ -1,24 +1,20 @@
 #pragma once
 
-#include "Framebuffer.h"
-
 class Camera
 {
 public:
 	Camera() :
-		Camera(0.0f, 0.0f, -1.0f, 1.0f, nullptr)
+		Camera(0.0f, 0.0f, -1.0f, 1.0f)
 	{}
-	Camera(const float viewportWidth, const float viewportHeight, const float near = -1.0f, const float far = 1.0f, Framebuffer* renderTarget = nullptr) :
+	Camera(const float viewportWidth, const float viewportHeight, const float near = -1.0f, const float far = 1.0f) :
 		m_viewportWidth(viewportWidth),
 		m_viewportHeight(viewportHeight),
 		m_near(near),
-		m_far(far),
-		m_framebuffer(renderTarget)
+		m_far(far)
 	{}
 
 	float m_viewportWidth, m_viewportHeight;
 	float m_near, m_far;
-	Framebuffer* m_framebuffer;
 
 	//glm::mat4 view;
 };

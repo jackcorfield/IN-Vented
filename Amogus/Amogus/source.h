@@ -4,9 +4,6 @@
 
 #include "EntityManager.h"
 #include "Renderer.h"
-#include "InputHandler.h"
-#include "PhysicsSystem.h"
-#include "SceneManager.h"
 
 struct GLFWwindow;
 
@@ -33,19 +30,15 @@ public:
 	WindowParams m_windowParams;
 
 	EntityManager* m_entityManager;
-	SceneManager* m_sceneManager;
-
 protected:
 
 private:
 	void Quit(KeyInputEvent* e);
 	bool InitGL();
-
-	void InitImGui();
+  
 	void TerminateOpenGL();
 
 	bool m_quit;
 
 	Renderer* m_renderer;
-	PhysicsSystem* m_physicsSystem;
 };
