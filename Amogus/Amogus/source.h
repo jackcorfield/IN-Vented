@@ -2,8 +2,11 @@
 
 #include <iostream>
 
+#include "EntityManager.h"
 #include "Renderer.h"
 #include "InputHandler.h"
+#include "PhysicsSystem.h"
+#include "SceneManager.h"
 
 struct GLFWwindow;
 
@@ -29,11 +32,18 @@ public:
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
 
+	EntityManager* m_entityManager;
+	SceneManager* m_sceneManager;
+
 protected:
 
 private:
 	bool InitGL();
+
 	void TerminateOpenGL(KeyInputEvent* e);
+	void InitImGui();
+	void TerminateOpenGL();
 
 	Renderer* m_renderer;
+	PhysicsSystem* m_physicsSystem;
 };
