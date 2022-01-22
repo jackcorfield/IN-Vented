@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\glad\include;$(ProjectDir)dependencies\glm;$(ProjectDir)dependencies\glfw-3.3.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\ImGui;$(ProjectDir)dependencies\glad\include;$(ProjectDir)dependencies\glm;$(ProjectDir)dependencies\glfw-3.3.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,13 +143,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dependencies\glad\src\glad.c" />
+    <ClCompile Include="dependencies\ImGui\imgui.cpp" />
+    <ClCompile Include="dependencies\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="dependencies\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="dependencies\ImGui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="dependencies\ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="dependencies\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="dependencies\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
-    <ClCompile Include="ImGui\imgui.cpp" />
-    <ClCompile Include="ImGui\imgui_draw.cpp" />
-    <ClCompile Include="ImGui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="ImGui\imgui_tables.cpp" />
-    <ClCompile Include="ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="ImGuiLayer.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp" />
@@ -168,17 +170,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="dependencies\ImGui\imconfig.h" />
+    <ClInclude Include="dependencies\ImGui\imgui.h" />
+    <ClInclude Include="dependencies\ImGui\imgui_impl_glfw.h" />
+    <ClInclude Include="dependencies\ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="dependencies\ImGui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="dependencies\ImGui\imgui_internal.h" />
+    <ClInclude Include="dependencies\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="dependencies\ImGui\imstb_textedit.h" />
+    <ClInclude Include="dependencies\ImGui\imstb_truetype.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Framebuffer.h" />
-    <ClInclude Include="ImGui\imconfig.h" />
-    <ClInclude Include="ImGui\imgui.h" />
-    <ClInclude Include="ImGui\imgui_impl_glfw.h" />
-    <ClInclude Include="ImGui\imgui_impl_opengl3.h" />
-    <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="ImGui\imgui_internal.h" />
-    <ClInclude Include="ImGui\imstb_rectpack.h" />
-    <ClInclude Include="ImGui\imstb_textedit.h" />
-    <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="ImGuiLayer.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />

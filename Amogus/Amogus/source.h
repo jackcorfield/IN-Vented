@@ -42,7 +42,6 @@ private:
 
 	void Quit(KeyInputEvent* e);
 	void TerminateOpenGL();
-	void InitImGui();
 
 	bool m_quit;
 
