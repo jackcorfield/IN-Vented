@@ -185,6 +185,12 @@
     <ClInclude Include="PhysicsSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultSpriteF.glsl">

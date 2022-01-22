@@ -193,6 +193,8 @@
     <ClInclude Include="source.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
