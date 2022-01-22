@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dependencies\glad\src\glad.c" />
+    <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
     <ClCompile Include="ImGui\imgui_impl_glfw.cpp" />
@@ -151,7 +152,6 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="InputMapping.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_glfw.h" />
@@ -181,7 +182,6 @@
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="InputMapping.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
@@ -201,6 +201,8 @@
   <ItemGroup>
     <None Include="DefaultSpriteF.glsl" />
     <None Include="DefaultSpriteV.glsl" />
+    <None Include="PostProcessingF.glsl" />
+    <None Include="PostProcessingV.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

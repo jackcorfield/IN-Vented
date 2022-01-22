@@ -11,6 +11,7 @@
 #include "ShaderFactory.h"
 
 #include "Sprite.h"
+#include "Timer.h"
 #include "Transform.h"
 
 #include "ImGui/imgui.h"
@@ -25,17 +26,20 @@ void CheckGLErrors();
 
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
+    m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl")),
     m_currentCamera(g_app->m_sceneManager->GetActiveScene()->m_entityManager->CreateEntity())
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
+
+    m_time = 0;
 
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
     if (activeScene)
     {
         // Temporary until we're loading entities from file; need a camera for now
-        Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
+        Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer);
         Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
 
         m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, cameraC->m_near, cameraC->m_far);
@@ -60,6 +64,9 @@ Renderer::~Renderer()
 
 void Renderer::DrawImGui()
 {
+    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+    Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+
 	// AP - ImGui rendering
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -67,6 +74,7 @@ void Renderer::DrawImGui()
 
 	ImGui::Begin("Hello world!");
 	ImGui::Text("Hi hi hi hi hi hi");
+    //ImGui::Image((void*)cameraComponent->m_framebuffer->GetRenderTextureID(), ImVec2(200, 200));
 	ImGui::End();
 
 	ImGui::Render();
@@ -104,23 +112,32 @@ void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
 
 void Renderer::Render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
-    
+
+    glViewport(0, 0, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
+
     if (activeScene)
     {
-        glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
         Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_currentCamera);
-
+        Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
         glm::mat4 view = glm::mat4(1.0f);
         if (cameraTransform)
         {
             view = glm::translate(view, glm::vec3(cameraTransform->m_position, 0.0f));
             view = glm::rotate(view, cameraTransform->m_rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-        }
-        m_defaultShader->SetUniform("view", view);
 
+            if (cameraComponent->m_framebuffer != nullptr)
+            {
+                cameraComponent->m_framebuffer->Bind();
+                glEnable(GL_DEPTH_TEST);
+            }
+        }
+
+        glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
+	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        m_defaultShader->Use();
+        m_defaultShader->SetUniform("view", view);
         m_defaultShader->SetUniform("projection", m_projection);
 
         std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
@@ -134,11 +151,30 @@ void Renderer::Render()
                 DrawSprite(sprite, transform);
             }
         }
+
+        if (cameraComponent->m_framebuffer != nullptr)
+        {
+            cameraComponent->m_framebuffer->Unbind();
+            glDisable(GL_DEPTH_TEST);
+
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            m_postProcessingShader->Use();
+            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f));
+            m_postProcessingShader->SetUniform("time", m_time);
+
+            glBindTexture(GL_TEXTURE_2D, 1);
+            glBindVertexArray(m_quadVAO);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+        }
     }
 
 	DrawImGui();
 
 	glfwSwapBuffers(g_app->m_window);
+
+    m_time += EngineUtils::Timer::Instance()->DeltaTime();
 }
 
 void Renderer::InitQuad()

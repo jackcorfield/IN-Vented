@@ -19,8 +19,10 @@ Application::Application() :
 	m_entityManager(nullptr),
 	m_sceneManager(nullptr),
 	m_renderer(nullptr),
-	m_physicsSystem(nullptr)
+	m_physicsSystem(nullptr),
+	m_quit(false)
 {	
+	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
 }
 
 void Application::Init()
@@ -41,6 +43,8 @@ void Application::Init()
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
+
+	InputHandler();
 	m_physicsSystem = new PhysicsSystem();
 
 	Run();
@@ -54,25 +58,22 @@ void Application::Run()
 	// Locked to 60fps for now, will change at later date
 	float frameRate = 60.0f;
 
-	while (!glfwWindowShouldClose(m_window))
+	while (!m_quit)
 	{
+		Timer->Tick();
+		if (Timer->DeltaTime() >= 1 / frameRate) {
 
-		while (isRunning) {
-			Timer->Tick();
-			if (Timer->DeltaTime() >= 1 / frameRate) {
+			Timer->Reset();
+			//std::cout << Timer->DeltaTime() << std::endl;
 
-				Timer->Reset();
-				//std::cout << Timer->DeltaTime() << std::endl;
+			glfwPollEvents();
+			m_physicsSystem->PhysicsUpdate(0.66);
+			m_renderer->Render();
 
-				glfwPollEvents();
-				m_physicsSystem->PhysicsUpdate(0.66);
-				m_renderer->Render();
-
-			}
 		}
-
-
 	}
+
+	TerminateOpenGL();
 }
 
 Application::~Application() 
@@ -112,6 +113,11 @@ bool Application::InitGL()
 	// Set glfw callback(s)
 	glfwSetFramebufferSizeCallback(m_window, frame_buffer_size_callback);
 
+	// Set input callback(s)
+	glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
+	glfwSetCursorPosCallback(m_window, InputHandler::MouseCallback);
+	glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
+
 	// Prevents window from closing instantly
 	glfwSetWindowShouldClose(m_window, GL_FALSE);
 
@@ -144,10 +150,16 @@ void Application::InitImGui()
 	ImGui::StyleColorsDark();
 }
 
+void Application::Quit(KeyInputEvent* e)
+{
+	m_quit = true;
+}
+
 void Application::TerminateOpenGL()
 {
 	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 	glfwTerminate();
+	InputHandler::Cleanup();
 }
 
 void error_callback(int error, const char* description)
