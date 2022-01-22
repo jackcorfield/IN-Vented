@@ -11,6 +11,9 @@ public:
 	TileMap(const glm::vec2& tileSize, const glm::vec2& mapSize, const std::vector<Entity>& tiles)
 		: m_tileSize(tileSize), m_mapSize(mapSize)
 	{
+
+		// This assumes that the tiles vector is laid out from left to right, top to bottom, and that all tiles are adjacent to each other
+
 		int it = 0;
 		for (int i = 0; i < mapSize.y; i++)
 		{
@@ -67,5 +70,6 @@ public:
 	glm::vec2 m_mapSize;
 
 private:
+	// std::map doesn't like glm::vec2 being used as a key :(
 	std::map<std::pair<float, float>, Entity> m_tileMap;
 };

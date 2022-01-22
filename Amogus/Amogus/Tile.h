@@ -23,6 +23,11 @@ public:
 
 	}
 
+	bool IsPassable()
+	{
+		return (m_object == TileObject::NONE);
+	}
+
 	TileObject m_object;
 private:
 };
