@@ -28,7 +28,7 @@ Renderer::Renderer() :
     m_projection = glm::mat4(1.0f);
     InitQuad();
 
-    m_time = 0;
+    //m_time = 0;
 
     m_gui = new ImGuiLayer();
 
@@ -106,7 +106,7 @@ void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
     glBindVertexArray(0);
 }
 
-void Renderer::Render()
+void Renderer::Render(float deltaTime)
 {
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
@@ -158,7 +158,7 @@ void Renderer::Render()
 
             m_postProcessingShader->Use();
             m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f));
-            m_postProcessingShader->SetUniform("time", m_time);
+            m_postProcessingShader->SetUniform("time", deltaTime);
 
             glBindTexture(GL_TEXTURE_2D, 1);
             glBindVertexArray(m_quadVAO);
@@ -170,7 +170,6 @@ void Renderer::Render()
 
 	glfwSwapBuffers(g_app->m_window);
 
-    m_time += EngineUtils::Timer::Instance()->DeltaTime();
 }
 
 void Renderer::InitQuad()

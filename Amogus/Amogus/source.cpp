@@ -49,9 +49,8 @@ void Application::Run()
 {
 	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
 
-	bool isRunning = true;
-	// Locked to 60fps for now, will change at later date
-	float frameRate = 60.0f;
+	// Locked to infinity for now, will change at later date
+	constexpr float frameRate = std::numeric_limits<float>::infinity();
 
 	while (!m_quit)
 	{
@@ -59,11 +58,11 @@ void Application::Run()
 		if (Timer->DeltaTime() >= 1 / frameRate) {
 
 			Timer->Reset();
-			//std::cout << Timer->DeltaTime() << std::endl;
+			std::cout << Timer->DeltaTime() << std::endl;
 
 			glfwPollEvents();
-			m_physicsSystem->PhysicsUpdate(0.66);
-			m_renderer->Render();
+			m_physicsSystem->PhysicsUpdate(Timer->DeltaTime());
+			m_renderer->Render(Timer->DeltaTime());
 
 		}
 	}
@@ -114,7 +113,8 @@ bool Application::InitGL()
 	glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
 
 	// Prevents window from closing instantly
-	glfwSetWindowShouldClose(m_window, GL_FALSE);
+	glfwSetWindowShouldClose(m_window, GL_FALSE); // Shoud replace with window close callback below?
+	//glfwSetWindowCloseCallback(m_window, window_close_callback);
 
 		// Initialise glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
