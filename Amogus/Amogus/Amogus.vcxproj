@@ -116,12 +116,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\Wwise\SDK\include;$(ProjectDir)dependencies\glad\include;$(ProjectDir)dependencies\glm;$(ProjectDir)dependencies\glfw-3.3.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\fmod\inc;$(ProjectDir)dependencies\glad\include;$(ProjectDir)dependencies\glm;$(ProjectDir)dependencies\glfw-3.3.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\Wwise;$(ProjectDir)dependencies\glad;$(ProjectDir)dependencies\glfw-3.3.6\lib-vc2019;$(ProjectDir)dependencies\glfw-3.3.6\deps\glad;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\fmod\lib\x64;$(ProjectDir)dependencies\glad;$(ProjectDir)dependencies\glfw-3.3.6\lib-vc2019;$(ProjectDir)dependencies\glfw-3.3.6\deps\glad;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AudioHandler.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="dependencies\glad\src\glad.c" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -168,8 +168,16 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioHandler.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod.hpp" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_codec.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_common.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_errors.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_output.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
@@ -201,6 +209,13 @@
   <ItemGroup>
     <None Include="DefaultSpriteF.glsl" />
     <None Include="DefaultSpriteV.glsl" />
+    <None Include="dependencies\fmod\inc\fmod.cs" />
+    <None Include="dependencies\fmod\inc\fmod_dsp.cs" />
+    <None Include="dependencies\fmod\inc\fmod_errors.cs" />
+    <None Include="dependencies\fmod\lib\x64\fmod.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

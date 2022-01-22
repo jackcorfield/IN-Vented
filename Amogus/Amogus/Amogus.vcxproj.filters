@@ -28,8 +28,8 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{71fcf998-22b4-4d69-898f-592541c4f508}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Wwise">
-      <UniqueIdentifier>{310b9862-f4ec-4e88-b131-d01faff961be}</UniqueIdentifier>
+    <Filter Include="FMOD">
+      <UniqueIdentifier>{1bab865e-5e7e-4b78-9049-5c70c8a3fcfd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +102,7 @@
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AudioHandler.cpp">
+    <ClCompile Include="AudioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,7 +191,31 @@
     <ClInclude Include="PhysicsSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AudioHandler.h">
+    <ClInclude Include="dependencies\fmod\inc\fmod.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod.hpp">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_codec.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_common.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp_effects.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_errors.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_output.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -202,5 +226,22 @@
     <None Include="DefaultSpriteV.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="dependencies\fmod\inc\fmod_dsp.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\inc\fmod_errors.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\inc\fmod.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\lib\x64\fmod.dll">
+      <Filter>FMOD</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib">
+      <Filter>FMOD</Filter>
+    </Library>
   </ItemGroup>
 </Project>

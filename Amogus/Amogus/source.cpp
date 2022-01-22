@@ -9,7 +9,6 @@
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
 
-#include "EntityManager.h"
 #include "Timer.h"
 
 void error_callback(int error, const char* description);
@@ -40,8 +39,12 @@ void Application::Init()
 	m_sceneManager = new SceneManager();
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
+	m_audioManager = new AudioManager();
+	m_audioManager->AudioInit();
+
 	m_renderer = new Renderer();
 	m_physicsSystem = new PhysicsSystem();
+
 
 
 	Run();
