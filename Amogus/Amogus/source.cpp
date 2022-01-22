@@ -5,10 +5,6 @@
 
 #include <sstream>
 
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_glfw.h"
-#include "ImGui/imgui_impl_opengl3.h"
-
 #include "EntityManager.h"
 #include "Timer.h"
 
@@ -36,7 +32,6 @@ void Application::Init()
 	};
 
 	InitGL();
-	InitImGui();
 
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
@@ -134,20 +129,6 @@ bool Application::InitGL()
 	glEnable(GL_DEPTH_TEST);
 	if (m_windowParams.MSAASamples > 0)
 		glEnable(GL_MULTISAMPLE);
-}
-
-void Application::InitImGui()
-{
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-
-	// Setup Platform/Renderer bindings
-	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-	ImGui_ImplOpenGL3_Init("#version 130");
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
 }
 
 void Application::Quit(KeyInputEvent* e)

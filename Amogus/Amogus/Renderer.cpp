@@ -14,10 +14,6 @@
 #include "Timer.h"
 #include "Transform.h"
 
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_glfw.h"
-#include "ImGui/imgui_impl_opengl3.h"
-
 #include "Camera.h"
 
 extern Application* g_app;
@@ -33,6 +29,8 @@ Renderer::Renderer() :
     InitQuad();
 
     m_time = 0;
+
+    m_gui = new ImGuiLayer();
 
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
@@ -67,18 +65,16 @@ void Renderer::DrawImGui()
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
     Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
 
-	// AP - ImGui rendering
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
+    m_gui->BeginGui();
 
-	ImGui::Begin("Hello world!");
-	ImGui::Text("Hi hi hi hi hi hi");
-    //ImGui::Image((void*)cameraComponent->m_framebuffer->GetRenderTextureID(), ImVec2(200, 200));
-	ImGui::End();
+    m_gui->DrawMenuBar();
+    m_gui->DrawHierachy();
+    m_gui->DrawConsole();
+    m_gui->DrawInspector();
+    m_gui->DrawProfiler();
+    m_gui->DrawSceneView();
 
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    m_gui->EndGui();
 }
 
 void Renderer::DrawSprite(Sprite* sprite, Transform* transform)

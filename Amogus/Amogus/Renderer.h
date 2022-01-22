@@ -5,6 +5,8 @@
 #include "EntityManager.h"
 #include "Shader.h"
 
+#include "ImGuiLayer.h"
+
 struct GLFWwindow;
 
 class Sprite;
@@ -38,4 +40,6 @@ private:
 
 	Entity m_currentCamera;
 	glm::mat4 m_projection;
+
+	ImGuiLayer* m_gui;
 };
