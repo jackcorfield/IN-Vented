@@ -38,8 +38,6 @@ public:
 	SceneManager* m_sceneManager;
 	AudioManager* m_audioManager;
 
-
-
 protected:
 
 private:

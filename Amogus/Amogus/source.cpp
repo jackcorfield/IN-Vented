@@ -35,12 +35,11 @@ void Application::Init()
 	InitGL();
 	InitImGui();
 
+
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
-	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
-	m_audioManager = new AudioManager();
-	m_audioManager->AudioInit();
+	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
 	m_physicsSystem = new PhysicsSystem();
@@ -52,8 +51,6 @@ void Application::Init()
 
 void Application::Run()
 {
-
-
 
 	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
 

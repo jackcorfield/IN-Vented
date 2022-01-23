@@ -10,13 +10,14 @@
 #include "EntityManager.h"
 #include "ShaderFactory.h"
 
-#include "Sprite.h"
-#include "Transform.h"
-
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
 
+
+#include "Sprite.h"
+#include "Transform.h"
+#include "Audio.h"
 #include "Camera.h"
 
 extern Application* g_app;
@@ -43,12 +44,24 @@ Renderer::Renderer() :
         Entity e = activeScene->m_entityManager->CreateEntity();
         //activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         //activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-    
-
+  
         Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
         activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
+
+        //this is for memes pls delete
+        Entity e_420truck = activeScene->m_entityManager->CreateEntity();
+        activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_420truck, "Assets/Audio/Diesel.wav");
+
+        //this is for memes pls delete
+        Entity e_69truck = activeScene->m_entityManager->CreateEntity();
+        activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(750.0f, 250.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav");
+
     }
 }
 
@@ -132,6 +145,14 @@ void Renderer::Render()
             if (transform)
             {
                 DrawSprite(sprite, transform);
+            }
+
+            //this is for testing pls dont get angry at me : (
+            Audio*  audio = activeScene->m_entityManager->GetComponent<Audio>(entity);
+
+            if (audio && !audio->IsPlaying)
+            {
+                audio->PlayAudio();
             }
         }
     }
