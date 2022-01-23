@@ -241,9 +241,6 @@
     <None Include="dependencies\fmod\inc\fmod.cs">
       <Filter>FMOD</Filter>
     </None>
-    <None Include="dependencies\fmod\lib\x64\fmod.dll">
-      <Filter>FMOD</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib">

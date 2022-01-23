@@ -214,7 +214,6 @@
     <None Include="dependencies\fmod\inc\fmod.cs" />
     <None Include="dependencies\fmod\inc\fmod_dsp.cs" />
     <None Include="dependencies\fmod\inc\fmod_errors.cs" />
-    <None Include="dependencies\fmod\lib\x64\fmod.dll" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />
