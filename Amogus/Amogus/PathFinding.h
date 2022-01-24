@@ -28,12 +28,7 @@ public:
 	bool m_explored = false;
 	bool m_isValidPath = true;
 
-	virtual ~pathNode()
-	{
-	}
-
 private:
-	void Awake();
 
 	void OnEnable();
 
@@ -50,13 +45,11 @@ public:
 
 };
 
-class pathFinding final
+class pathFinding
 {
-
 
 public:
 	static Path* GetPath(pathNode* start, pathNode* end);
 	static void onResetGrid();
-
 
 };
