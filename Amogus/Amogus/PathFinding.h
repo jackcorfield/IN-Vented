@@ -5,22 +5,7 @@
 #include <vector>
 #include <algorithm>
 
-
-class Path
-{
-public:
-	std::vector<pathNode*> pathNodes;
-
-	Path();
-
-	bool AddNode(pathNode* node);
-
-	pathNode* GetLast();
-
-	std::string* GetNextPoint(int myNode); //replace with correct data type
-};
-
-class pathNode 
+class pathNode
 {
 public:
 	std::vector<pathNode*> m_Neighbours;
@@ -43,6 +28,20 @@ public:
 
 	pathNode* GetNextInPath();
 
+};
+
+class Path
+{
+public:
+	std::vector<pathNode*> pathNodes;
+
+	Path();
+
+	bool AddNode(pathNode* node);
+
+	pathNode* GetLast();
+
+	std::string* GetNextPoint(int myNode); //replace with correct data type
 };
 
 class pathFinding

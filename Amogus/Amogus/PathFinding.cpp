@@ -1,8 +1,10 @@
 #include "PathFinding.h"
+#include <iostream>
 
 Path::Path()
 {
 	pathNodes = std::vector<pathNode*>();
+
 }
 
 bool Path::AddNode(pathNode* node)
@@ -28,7 +30,7 @@ std::string* Path::GetNextPoint(int myNode) // This function could be used for g
 {
 	if (pathNodes.size() > 1)
 	{
-		// return pathNodes[myNode]->nodeData; // needs to return node location data
+		//return pathNodes[myNode]->nodeData; // needs to return node location data
 	}
 	return nullptr;
 }
@@ -98,11 +100,11 @@ pathNode* pathNode::GetNextInPath()
 }
 Path* pathFinding::GetPath(pathNode* start, pathNode* end)
 {
-	if (onResetGrid != nullptr)
+	/*if (pathFinding::onResetGrid != nullptr)
 	{
-		onResetGrid;
+		pathFinding::onResetGrid();
 
-	}
+	}*/
 
 	//loop through all nodes and set distance from end to start
 	end->UpdateNode(0);
