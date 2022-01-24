@@ -7,7 +7,6 @@ Path::Path()
 
 bool Path::AddNode(pathNode* node)
 {
-
 	if (std::find(pathNodes.begin(), pathNodes.end(), node) != pathNodes.end())
 	{
 		pathNodes.push_back(node);
@@ -25,11 +24,11 @@ pathNode* Path::GetLast()
 	return nullptr;
 }
 
-std::string* Path::GetNextPoint(int myNode)
+std::string* Path::GetNextPoint(int myNode) // This function could be used for getting location data of each node during pathing via for loop?
 {
 	if (pathNodes.size() > 1)
 	{
-		// return pathNodes[myNode]->nodeData;
+		// return pathNodes[myNode]->nodeData; // needs to return node location data
 	}
 	return nullptr;
 }
@@ -37,12 +36,12 @@ std::string* Path::GetNextPoint(int myNode)
 
 void pathNode::OnEnable()
 {
-	pathFinding::onResetGrid += ResetNode;
+	//pathFinding::onResetGrid() += ResetNode; // Fix this invoke
 }
 
 void pathNode::OnDisable()
 {
-	pathFinding::onResetGrid -= ResetNode;
+	//pathFinding::onResetGrid() -= ResetNode; // Fix this invoke
 }
 
 void pathNode::ResetNode()
@@ -54,6 +53,7 @@ void pathNode::ResetNode()
 std::vector<pathNode*> pathNode::UpdateNeighbours()
 {
 	std::vector<pathNode*> updatedNeighbours;
+
 	for (auto n : m_Neighbours)
 	{
 		if (!n->m_explored && n->m_isValidPath)
@@ -100,7 +100,7 @@ Path* pathFinding::GetPath(pathNode* start, pathNode* end)
 {
 	if (onResetGrid != nullptr)
 	{
-		//std::invoke(onResetGrid());
+		onResetGrid;
 
 	}
 
@@ -109,7 +109,8 @@ Path* pathFinding::GetPath(pathNode* start, pathNode* end)
 	end->m_explored = true;
 	bool isFinished = false, isPossible = true;
 	std::vector<pathNode*> _Front;
-	_Front.AddRange(end->UpdateNeighbours());
+	end->UpdateNeighbours(); // This and the following push back are defo wrong
+	_Front.push_back(end); 
 
 	while (!isFinished)
 	{
@@ -122,7 +123,8 @@ Path* pathFinding::GetPath(pathNode* start, pathNode* end)
 				break;
 			}
 			n->m_explored = true;
-			_NextFront.AddRange(n->UpdateNeighbours());
+			n->UpdateNeighbours(); // This and the following push back are defo wrong
+			_NextFront.push_back(n);
 		}
 		if (_NextFront.empty() && !isFinished) // if we haven't finished and there is nothing left to check then its an infinite loop
 		{
@@ -143,7 +145,7 @@ Path* pathFinding::GetPath(pathNode* start, pathNode* end)
 		p->AddNode(start);
 		while (!isFinished)
 		{
-			pathNode* temp = p->GetLast().GetNextInPath();
+			pathNode* temp = p->GetLast()->GetNextInPath();
 			p->AddNode(temp);
 			if (temp == end)
 			{
