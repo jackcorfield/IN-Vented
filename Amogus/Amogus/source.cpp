@@ -38,6 +38,8 @@ void Application::Init()
 
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
+	m_audioManager = new AudioManager();
+
 
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 

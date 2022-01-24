@@ -7,14 +7,15 @@ void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line);
 class Audio
 {
 public:
-	Audio();
-	Audio(const char* path);
+	Audio(const char* path, FMOD::System* system, FMOD::ChannelGroup* group);
 	~Audio();
 
 	bool AudioInit();
 
 	void AddAudio(const char* path);
 	void RemoveAudio();
+
+	void AddToGroup(FMOD::ChannelGroup* group);
 
 	void PauseAudio();
 	void UnpauseAudio();
@@ -24,14 +25,13 @@ public:
 
 	bool IsPlaying = false;
 
-	
-
+	FMOD::Channel* m_channel;
 private:
 
 	FMOD::System*		m_system;
+	FMOD::ChannelGroup* m_group;
 	FMOD::Sound*			m_sound;
-	FMOD::Channel*		m_channel = 0;
-	FMOD_RESULT			m_result;
-	void*							m_extradriverdata = 0;
+	FMOD_RESULT		m_result;
+	void*						m_extradriverdata = 0;
 };
 

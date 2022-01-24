@@ -3,37 +3,24 @@
 #include <iostream>
 #include "fmod_common.h"
 
-Audio::Audio()
+Audio::Audio(const char* path, FMOD::System* system ,FMOD::ChannelGroup* group)
 {
-    AudioInit();
+    m_system = system;
+    m_group = group;
+    m_channel = 0;
+    AddAudio(path);
+    AddToGroup(group);
 }
 
-Audio::Audio(const char* path)
-{
-    AudioInit();
-    m_system->createSound(path, FMOD_DEFAULT, 0, &m_sound);
-}
-
-bool Audio::AudioInit()
-{
-    FMOD_RESULT result;
-    result = FMOD::System_Create(&m_system);
-    if (result != FMOD_OK)
-    {
-        return false;
-    }
-    result = m_system->init(50, FMOD_INIT_NORMAL, NULL);
-    if (result != FMOD_OK)
-    {
-        return false;
-    }
-    
-    return true;
-}
 
 void Audio::AddAudio(const char* path)
 {
     m_system->createSound(path, FMOD_DEFAULT, 0, &m_sound);
+}
+
+void Audio::AddToGroup(FMOD::ChannelGroup* group)
+{
+    m_channel->setChannelGroup(m_group);
 }
 
 void Audio::RemoveAudio()
@@ -54,6 +41,6 @@ void Audio::UnpauseAudio()
 
 void Audio::PlayAudio()
 {
-    m_system->playSound(m_sound, NULL, false, &m_channel);
+    m_system->playSound(m_sound, m_group, false, &m_channel);
     IsPlaying = true;
 }

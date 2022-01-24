@@ -8,7 +8,14 @@ public:
 	~AudioManager();
 
 	void AddAudio();
-	void ReleaseAudio(FMOD::Sound &sound);
+	bool AudioManagerInit();
 
+	void SetVolume(FMOD::ChannelGroup* group, float volume);
+
+	FMOD::ChannelGroup*	sfx;
+	FMOD::ChannelGroup*	bgm;
+	FMOD::ChannelControl*	master;
+
+	FMOD::System* m_system;
 };
 
