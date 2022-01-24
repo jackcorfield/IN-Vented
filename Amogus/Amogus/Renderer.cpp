@@ -65,16 +65,12 @@ void Renderer::DrawImGui()
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
     Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
 
-    m_gui->BeginGui();
-
     m_gui->DrawMenuBar();
     m_gui->DrawHierachy();
     m_gui->DrawConsole();
     m_gui->DrawInspector();
     m_gui->DrawProfiler();
     m_gui->DrawSceneView();
-
-    m_gui->EndGui();
 }
 
 void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
@@ -108,9 +104,11 @@ void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
 
 void Renderer::Render(float deltaTime)
 {
+    m_gui->BeginGui();
+
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
-    glViewport(0, 0, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
+    glViewport(0, 0, m_gui->GetFrameSize().x, m_gui->GetFrameSize().x);
 
     if (activeScene)
     {
@@ -161,13 +159,12 @@ void Renderer::Render(float deltaTime)
             m_postProcessingShader->SetUniform("time", deltaTime);
 
             glBindTexture(GL_TEXTURE_2D, 1);
-            glBindVertexArray(m_quadVAO);
-            glDrawArrays(GL_TRIANGLES, 0, 6);
+            DrawImGui();
         }
     }
 
-	DrawImGui();
-
+	
+    m_gui->EndGui();
 	glfwSwapBuffers(g_app->m_window);
 
 }
