@@ -1,6 +1,7 @@
 #include "Audio.h"
 #include <stdio.h>
 #include <iostream>
+#include "fmod_common.h"
 
 Audio::Audio()
 {
@@ -43,7 +44,12 @@ void Audio::RemoveAudio()
 
 void Audio::PauseAudio()
 {
-    //something to do with event instances??
+    m_channel->setPaused(true);
+}
+
+void Audio::UnpauseAudio()
+{
+    m_channel->setPaused(false);
 }
 
 void Audio::PlayAudio()

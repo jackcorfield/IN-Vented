@@ -1,6 +1,9 @@
 #pragma once
 #include "fmod.hpp"
 
+void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line);
+#define ERRCHECK(_result) ERRCHECK_fn(_result, __FILE__, __LINE__)
+
 class Audio
 {
 public:
@@ -14,19 +17,21 @@ public:
 	void RemoveAudio();
 
 	void PauseAudio();
+	void UnpauseAudio();
+
 	void PlayAudio();
+	void Loop();
 
 	bool IsPlaying = false;
 
-	void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line);
-	#define ERRCHECK(_result) ERRCHECK_fn(_result, __FILE__, __LINE__)
+	
 
 private:
 
-	FMOD::System* m_system;
-	FMOD::Sound* m_sound;
-	FMOD::Channel* m_channel = 0;
-	FMOD_RESULT       m_result;
-	void* m_extradriverdata = 0;
+	FMOD::System*		m_system;
+	FMOD::Sound*			m_sound;
+	FMOD::Channel*		m_channel = 0;
+	FMOD_RESULT			m_result;
+	void*							m_extradriverdata = 0;
 };
 

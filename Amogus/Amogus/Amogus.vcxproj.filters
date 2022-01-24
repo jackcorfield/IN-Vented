@@ -222,7 +222,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +244,9 @@
     <None Include="dependencies\fmod\lib\x64\fmodL.dll">
       <Filter>FMOD</Filter>
     </None>
-    <None Include="dependencies\fmod\lib\x64\fmod.dll" />
+    <None Include="dependencies\fmod\lib\x64\fmod.dll">
+      <Filter>FMOD</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib">
