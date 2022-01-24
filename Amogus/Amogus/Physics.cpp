@@ -1,18 +1,26 @@
 #include "Physics.h"
 
-Physics::Physics()
+void Physics::AddForce(glm::vec2 force)
 {
-	SetGravity(10.0f);
-	SetMass(0.7f);
-
-	SetVelocity(0.0f, 0.0f);
-	SetAcceleration(0.0f, 0.0f);
-
-	m_gravityForce = glm::vec2(0.0f, -m_gravity) * m_mass;
-	m_netForce, m_thrustForce, m_frictionForce, m_dragForce = glm::vec2(0.0f, 0.0f);
+	m_forces.push_back(force);
 }
 
-Physics::~Physics()
+void Physics::Update(float dt)
 {
+	// Drag (laminar), 1.05f is our coefficient
+	m_netForce += m_velocity * -1.99f;
 
+	// Get net force
+	for (glm::vec2 v : m_forces)
+		m_netForce += v;
+	m_forces.clear();
+
+	// Derive acceleration with F = MA
+	m_acceleration = m_netForce / m_mass;
+
+	// Derive velocity by integrating acceleration
+	m_velocity += m_acceleration * dt;
+
+	// Zero out our force as we've cashed it in to make acceleration and velocity now
+	m_netForce = glm::vec2(0, 0);
 }

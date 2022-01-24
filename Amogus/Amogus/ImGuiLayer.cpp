@@ -268,6 +268,6 @@ void ImGuiLayer::DrawSceneView()
 	
 	m_renderSize = ImGui::GetContentRegionAvail();
 
-	ImGui::Image(ImTextureID(1), m_renderSize);
+	ImGui::Image(ImTextureID(1), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 }

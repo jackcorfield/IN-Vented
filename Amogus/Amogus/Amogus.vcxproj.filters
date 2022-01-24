@@ -105,6 +105,9 @@
     <ClCompile Include="dependencies\ImGui\imgui.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerMovement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="dependencies\ImGui\imconfig.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMovement.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

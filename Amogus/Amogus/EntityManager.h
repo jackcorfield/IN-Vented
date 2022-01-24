@@ -5,6 +5,7 @@
 #include <typeindex>
 #include <utility>
 #include <vector>
+#include <algorithm>
 
 using Entity = uint32_t;
 const Entity MAX_ENTITIES = 65536;
