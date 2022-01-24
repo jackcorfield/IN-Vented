@@ -15,7 +15,6 @@ Application::Application() :
 	m_entityManager(nullptr),
 	m_sceneManager(nullptr),
 	m_renderer(nullptr),
-	m_physicsSystem(nullptr),
 	m_quit(false)
 {	
 	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
@@ -40,7 +39,6 @@ void Application::Init()
 	m_renderer = new Renderer();
 
 	InputHandler();
-	m_physicsSystem = new PhysicsSystem();
 
 	Run();
 }
@@ -61,7 +59,7 @@ void Application::Run()
 			//std::cout << Timer->DeltaTime() << std::endl;
 
 			glfwPollEvents();
-			m_physicsSystem->PhysicsUpdate(Timer->DeltaTime());
+			PhysicsSystem::Update(Timer->DeltaTime());
 			m_renderer->Render(Timer->DeltaTime());
 
 		}
@@ -74,9 +72,6 @@ Application::~Application()
 {
 	delete m_renderer;
 	m_renderer = nullptr;
-
-	delete m_physicsSystem;
-	m_physicsSystem = nullptr;
 }
 
 bool Application::InitGL()

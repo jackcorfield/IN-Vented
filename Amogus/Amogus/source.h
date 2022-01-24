@@ -46,5 +46,4 @@ private:
 	bool m_quit;
 
 	Renderer* m_renderer;
-	PhysicsSystem* m_physicsSystem;
 };

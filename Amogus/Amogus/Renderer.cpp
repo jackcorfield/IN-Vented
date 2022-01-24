@@ -13,6 +13,7 @@
 #include "Sprite.h"
 #include "Timer.h"
 #include "Transform.h"
+#include "PlayerMovement.h"
 
 #include "Camera.h"
 
@@ -51,6 +52,7 @@ Renderer::Renderer() :
         activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
+		activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
     }
 }
 
