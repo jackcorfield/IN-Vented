@@ -5,10 +5,6 @@
 
 #include <sstream>
 
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_glfw.h"
-#include "ImGui/imgui_impl_opengl3.h"
-
 #include "EntityManager.h"
 #include "Timer.h"
 
@@ -23,7 +19,9 @@ Application::Application() :
 	m_sceneManager(nullptr),
 	m_renderer(nullptr),
 	m_window(nullptr)
+	m_quit(false)
 {	
+	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
 }
 
 void Application::Init()
@@ -37,7 +35,6 @@ void Application::Init()
 	};
 
 	InitGL();
-	InitImGui();
 
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
@@ -51,6 +48,7 @@ void Application::Init()
 	}
 
 	//SceneExporter::ExportActiveSceneToFile("testexport.json");
+	InputHandler();
 
 	Run();
 }
@@ -59,28 +57,25 @@ void Application::Run()
 {
 	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
 
-	bool isRunning = true;
-	// Locked to 60fps for now, will change at later date
-	float frameRate = 60.0f;
+	// Locked to infinity for now, will change at later date
+	constexpr float frameRate = std::numeric_limits<float>::infinity();
 
-	while (!glfwWindowShouldClose(m_window))
+	while (!m_quit)
 	{
+		Timer->Tick();
+		if (Timer->DeltaTime() >= 1 / frameRate) {
 
-		while (isRunning) {
-			Timer->Tick();
-			if (Timer->DeltaTime() >= 1 / frameRate) {
+			Timer->Reset();
+			//std::cout << Timer->DeltaTime() << std::endl;
 
-				Timer->Reset();
-				//std::cout << Timer->DeltaTime() << std::endl;
+			glfwPollEvents();
+			PhysicsSystem::Update(Timer->DeltaTime());
+			m_renderer->Render(Timer->DeltaTime());
 
-				glfwPollEvents();
-				m_renderer->Render();
-
-			}
 		}
-
-
 	}
+
+	TerminateOpenGL();
 }
 
 Application::~Application() 
@@ -117,8 +112,14 @@ bool Application::InitGL()
 	// Set glfw callback(s)
 	glfwSetFramebufferSizeCallback(m_window, frame_buffer_size_callback);
 
+	// Set input callback(s)
+	glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
+	glfwSetCursorPosCallback(m_window, InputHandler::MouseCallback);
+	glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
+
 	// Prevents window from closing instantly
-	glfwSetWindowShouldClose(m_window, GL_FALSE);
+	glfwSetWindowShouldClose(m_window, GL_FALSE); // Shoud replace with window close callback below?
+	//glfwSetWindowCloseCallback(m_window, window_close_callback);
 
 		// Initialise glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -135,24 +136,16 @@ bool Application::InitGL()
 		glEnable(GL_MULTISAMPLE);
 }
 
-void Application::InitImGui()
+void Application::Quit(KeyInputEvent* e)
 {
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-
-	// Setup Platform/Renderer bindings
-	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-	ImGui_ImplOpenGL3_Init("#version 130");
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
+	m_quit = true;
 }
 
 void Application::TerminateOpenGL()
 {
 	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 	glfwTerminate();
+	InputHandler::Cleanup();
 }
 
 void error_callback(int error, const char* description)

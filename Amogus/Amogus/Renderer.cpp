@@ -9,12 +9,11 @@
 
 #include "EntityManager.h"
 #include "ShaderFactory.h"
-#include "Sprite.h"
-#include "Transform.h"
 
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_glfw.h"
-#include "ImGui/imgui_impl_opengl3.h"
+#include "Sprite.h"
+#include "Timer.h"
+#include "Transform.h"
+#include "PlayerMovement.h"
 
 #include "Camera.h"
 
@@ -24,10 +23,15 @@ void CheckGLErrors();
 
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
+    m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl")),
     m_currentCamera()
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
+
+    //m_time = 0;
+
+    m_gui = new ImGuiLayer();
 
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
@@ -39,9 +43,16 @@ Renderer::Renderer() :
 
         //
 
-        //Entity e = activeScene->m_entityManager->CreateEntity();
+        Entity e = activeScene->m_entityManager->CreateEntity();
         //activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         //activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+    
+
+        Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
+        activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
+		activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
     }
 }
 
@@ -53,17 +64,15 @@ Renderer::~Renderer()
 
 void Renderer::DrawImGui()
 {
-	// AP - ImGui rendering
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
+    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+    Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
 
-	ImGui::Begin("Hello world!");
-	ImGui::Text("Hi hi hi hi hi hi");
-	ImGui::End();
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    m_gui->DrawMenuBar();
+    m_gui->DrawHierachy();
+    m_gui->DrawConsole();
+    m_gui->DrawInspector();
+    m_gui->DrawProfiler();
+    m_gui->DrawSceneView();
 }
 
 void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
@@ -95,12 +104,14 @@ void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
     glBindVertexArray(0);
 }
 
-void Renderer::Render()
+void Renderer::Render(float deltaTime)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+    m_gui->BeginGui();
+
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
-    
+
+    glViewport(0, 0, m_gui->GetFrameSize().x, m_gui->GetFrameSize().x);
+
     if (activeScene)
     {
         if (m_projection == glm::mat4(1.0f))
@@ -111,15 +122,25 @@ void Renderer::Render()
 
         glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
         Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_currentCamera);
-
+        Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
         glm::mat4 view = glm::mat4(1.0f);
         if (cameraTransform)
         {
             view = glm::translate(view, glm::vec3(cameraTransform->m_position, 0.0f));
             view = glm::rotate(view, cameraTransform->m_rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-        }
-        m_defaultShader->SetUniform("view", view);
 
+            if (cameraComponent->m_framebuffer != nullptr)
+            {
+                cameraComponent->m_framebuffer->Bind();
+                glEnable(GL_DEPTH_TEST);
+            }
+        }
+
+        glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
+	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        m_defaultShader->Use();
+        m_defaultShader->SetUniform("view", view);
         m_defaultShader->SetUniform("projection", m_projection);
 
         std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
@@ -127,16 +148,34 @@ void Renderer::Render()
         {
             Entity entity = activeScene->m_entityManager->GetEntityFromComponent<Sprite>(sprite);
             Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(entity);
+
             if (transform)
             {
                 DrawSprite(sprite, transform);
             }
         }
+
+        if (cameraComponent->m_framebuffer != nullptr)
+        {
+            cameraComponent->m_framebuffer->Unbind();
+            glDisable(GL_DEPTH_TEST);
+
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            m_postProcessingShader->Use();
+            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f));
+            m_postProcessingShader->SetUniform("time", deltaTime);
+
+            glBindTexture(GL_TEXTURE_2D, 1);
+            DrawImGui();
+        }
     }
 
-	DrawImGui();
-
+	
+    m_gui->EndGui();
 	glfwSwapBuffers(g_app->m_window);
+
 }
 
 void Renderer::SetActiveCamera(Entity cameraEntity)
