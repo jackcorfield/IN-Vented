@@ -58,14 +58,19 @@ Renderer::Renderer() :
       
         //this is for memes pls delete
         Entity e_420truck = activeScene->m_entityManager->CreateEntity();
-        Transform* truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        Sprite* truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        Transform* e_420truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* e_420truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Audio>(e_420truck, "Assets/Audio/Diesel.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->bgm);
-		activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, truckTransform->m_position, glm::vec2(truckTransform->m_size.x * 100.0f, truckTransform->m_size.y * 100.0f));
+		activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, e_420truckTransform->m_position, glm::vec2(e_420truckTransform->m_size.x * 100.0f, e_420truckTransform->m_size.y * 100.0f));
+
+        Entity e_69truck = activeScene->m_entityManager->CreateEntity();
+        Transform* e_69truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(500.0f, 400.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* e_69truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
        
         //audio manager testing
         g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.1f);
-        g_app->m_audioManager->SetVolume(g_app->m_audioManager->sfx, 0.05f);
+        g_app->m_audioManager->SetVolume(g_app->m_audioManager->sfx, 0.02f);
 
     }
 }
