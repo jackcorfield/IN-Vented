@@ -28,7 +28,7 @@ Renderer::Renderer() :
     m_projection = glm::mat4(1.0f);
     InitQuad();
 
-    //m_time = 0;
+    m_time = 0;
 
     m_gui = new ImGuiLayer();
 
@@ -157,8 +157,8 @@ void Renderer::Render(float deltaTime)
             glClear(GL_COLOR_BUFFER_BIT);
 
             m_postProcessingShader->Use();
-            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f));
-            m_postProcessingShader->SetUniform("time", deltaTime);
+            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f, 0.0f, 0.0f)); // r = screen shake, g = hdr, b = 
+            m_postProcessingShader->SetUniform("time", m_time);
 
             glBindTexture(GL_TEXTURE_2D, 1);
             glBindVertexArray(m_quadVAO);
@@ -170,6 +170,8 @@ void Renderer::Render(float deltaTime)
 
 	glfwSwapBuffers(g_app->m_window);
 
+    m_time += deltaTime;
+    // screen shake relies on an incrementing time rather than deltatime
 }
 
 void Renderer::InitQuad()
