@@ -1,0 +1,12 @@
+{
+    "Mappings": [
+      {
+        "name": "Input_Exit",
+        "enums": [ 256 ]
+      },
+      {
+        "name": "Input_Movement",
+        "enums": [ 87, 65, 83, 68 ]
+      }
+    ]
+}

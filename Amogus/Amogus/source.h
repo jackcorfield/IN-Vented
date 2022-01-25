@@ -7,6 +7,7 @@
 #include "AudioManager.h"
 
 #include "Renderer.h"
+#include "InputHandler.h"
 #include "PhysicsSystem.h"
 
 
@@ -42,9 +43,11 @@ protected:
 
 private:
 	bool InitGL();
-	void InitImGui();
+
+	void Quit(KeyInputEvent* e);
 	void TerminateOpenGL();
 
+	bool m_quit;
+
 	Renderer* m_renderer;
-	PhysicsSystem* m_physicsSystem;
 };

@@ -5,6 +5,8 @@
 #include "EntityManager.h"
 #include "Shader.h"
 
+#include "ImGuiLayer.h"
+
 struct GLFWwindow;
 
 class Sprite;
@@ -22,7 +24,7 @@ public:
 	Renderer();
 	~Renderer();
 
-	void Render();
+	void Render(float deltaTime);
 
 private:
 	void DrawImGui();
@@ -31,8 +33,11 @@ private:
 	void InitQuad();
 
 	Shader* m_defaultShader;
+	Shader* m_postProcessingShader;
 	unsigned int m_quadVAO;
 
 	Entity m_currentCamera;
 	glm::mat4 m_projection;
+
+	ImGuiLayer* m_gui;
 };
