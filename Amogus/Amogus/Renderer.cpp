@@ -65,10 +65,10 @@ Renderer::Renderer() :
         activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("69truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
        
+       
         //audio manager testing
-        g_app->m_audioManager->SetVolume(g_app->m_audioManager->sfx, 0.2f);
-        //audio manager testing
-        g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.4f);
+        g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.1f);
+        g_app->m_audioManager->SetVolume(g_app->m_audioManager->sfx, 0.05f);
 
     }
 }

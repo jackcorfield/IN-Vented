@@ -53,22 +53,25 @@ void Application::Run()
 {
 
 	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
-
+	bool isRunning = true;
 	// Locked to infinity for now, will change at later date
 	constexpr float frameRate = std::numeric_limits<float>::infinity();
 
 	while (!m_quit)
 	{
-		while (isRunning) {
-		Timer->Tick();
-		if (Timer->DeltaTime() >= 1 / frameRate) {
+		while (isRunning)
+		{
+			Timer->Tick();
+			if (Timer->DeltaTime() >= 1 / frameRate)
+			{
 
-			Timer->Reset();
-			//std::cout << Timer->DeltaTime() << std::endl;
+				Timer->Reset();
+				//std::cout << Timer->DeltaTime() << std::endl;
 
-			glfwPollEvents();
-			PhysicsSystem::Update(Timer->DeltaTime());
-			m_renderer->Render(Timer->DeltaTime());
+				glfwPollEvents();
+				PhysicsSystem::Update(Timer->DeltaTime());
+				m_renderer->Render(Timer->DeltaTime());
+			}
 		}
 	}
 
