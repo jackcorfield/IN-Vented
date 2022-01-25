@@ -193,6 +193,42 @@
     <ClInclude Include="dependencies\fmod\inc\fmod.h">
       <Filter>FMOD</Filter>
     </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiLayer.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imgui_impl_opengl3_loader.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imgui_impl_opengl3.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imgui_impl_glfw.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="dependencies\fmod\inc\fmod.hpp">
       <Filter>FMOD</Filter>
     </ClInclude>
@@ -217,6 +253,7 @@
     <ClInclude Include="AudioManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerMovement.h">
     <ClInclude Include="Audio.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
