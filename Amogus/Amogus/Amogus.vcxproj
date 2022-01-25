@@ -144,6 +144,9 @@
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="dependencies\glad\src\glad.c" />
     <ClCompile Include="dependencies\ImGui\imgui.cpp" />
     <ClCompile Include="dependencies\ImGui\imgui_demo.cpp" />
@@ -174,7 +177,10 @@
   <ItemGroup>
     <ClInclude Include="Audio.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CircleCollider.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="dependencies\fmod\inc\fmod.h" />
     <ClInclude Include="dependencies\fmod\inc\fmod.hpp" />
     <ClInclude Include="dependencies\fmod\inc\fmod_codec.h" />

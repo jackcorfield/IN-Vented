@@ -17,6 +17,8 @@
 #include "Audio.h"
 #include "Camera.h"
 
+#include "BoxCollider.h"
+
 extern Application* g_app;
 
 void CheckGLErrors();
@@ -52,19 +54,22 @@ Renderer::Renderer() :
         activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
       	activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
+        activeScene->m_entityManager->AddComponent<BoxCollider>(e_testCharacter, activeScene->m_entityManager->GetComponent<Transform>(e_testCharacter)->m_position, activeScene->m_entityManager->GetComponent<Transform>(e_testCharacter)->m_size);
       
         //this is for memes pls delete
         Entity e_420truck = activeScene->m_entityManager->CreateEntity();
         activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Audio>(e_420truck, "Assets/Audio/Diesel.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->bgm);
+        activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, activeScene->m_entityManager->GetComponent<Transform>(e_420truck)->m_position, 
+            glm::vec2(activeScene->m_entityManager->GetComponent<Sprite>(e_420truck)->GetTexture().m_width* activeScene->m_entityManager->GetComponent<Transform>(e_420truck)->m_size.x,
+                            activeScene->m_entityManager->GetComponent<Sprite>(e_420truck)->GetTexture().m_height* activeScene->m_entityManager->GetComponent<Transform>(e_420truck)->m_size.y));
       
         //this is for memes pls delete
         Entity e_69truck = activeScene->m_entityManager->CreateEntity();
         activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(750.0f, 250.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("69truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
-       
        
         //audio manager testing
         g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.1f);
