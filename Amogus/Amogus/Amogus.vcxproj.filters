@@ -25,6 +25,9 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{71fcf998-22b4-4d69-898f-592541c4f508}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FMOD">
+      <UniqueIdentifier>{1bab865e-5e7e-4b78-9049-5c70c8a3fcfd}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{0a7daac2-6afc-42da-9ec8-b4b7efb75ff5}</UniqueIdentifier>
     </Filter>
@@ -81,6 +84,26 @@
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
     <ClCompile Include="ImGuiLayer.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
@@ -167,6 +190,9 @@
     <ClInclude Include="PhysicsSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -203,7 +229,32 @@
     <ClInclude Include="dependencies\ImGui\imconfig.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod.hpp">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_codec.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_common.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp_effects.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_errors.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_output.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerMovement.h">
+    <ClInclude Include="Audio.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -221,4 +272,26 @@
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+      <None Include="dependencies\fmod\inc\fmod_dsp.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\inc\fmod_errors.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\inc\fmod.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\lib\x64\fmodL.dll">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\lib\x64\fmod.dll">
+      <Filter>FMOD</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib">
+      <Filter>FMOD</Filter>
+    </Library>
+   </ItemGroup>
 </Project>

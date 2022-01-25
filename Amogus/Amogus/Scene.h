@@ -15,4 +15,5 @@ public:
 
 	glm::vec3 m_sceneColour;
 	EntityManager* m_entityManager;
+
 };

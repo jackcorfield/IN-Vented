@@ -32,19 +32,26 @@ void Application::Init()
 
 	InitGL();
 
+
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
+	m_audioManager = new AudioManager();
+
+
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
 
 	InputHandler();
 
+
+
 	Run();
 }
 
 void Application::Run()
 {
+
 	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
 
 	// Locked to infinity for now, will change at later date
@@ -52,6 +59,7 @@ void Application::Run()
 
 	while (!m_quit)
 	{
+		while (isRunning) {
 		Timer->Tick();
 		if (Timer->DeltaTime() >= 1 / frameRate) {
 
@@ -61,7 +69,6 @@ void Application::Run()
 			glfwPollEvents();
 			PhysicsSystem::Update(Timer->DeltaTime());
 			m_renderer->Render(Timer->DeltaTime());
-
 		}
 	}
 

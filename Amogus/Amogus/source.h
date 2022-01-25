@@ -3,10 +3,13 @@
 #include <iostream>
 
 #include "EntityManager.h"
+#include "SceneManager.h"
+#include "AudioManager.h"
+
 #include "Renderer.h"
 #include "InputHandler.h"
 #include "PhysicsSystem.h"
-#include "SceneManager.h"
+
 
 struct GLFWwindow;
 
@@ -34,6 +37,7 @@ public:
 
 	EntityManager* m_entityManager;
 	SceneManager* m_sceneManager;
+	AudioManager* m_audioManager;
 
 protected:
 
