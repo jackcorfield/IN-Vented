@@ -64,10 +64,7 @@ void Application::Run()
 			Timer->Tick();
 			if (Timer->DeltaTime() >= 1 / frameRate)
 			{
-
 				Timer->Reset();
-				//std::cout << Timer->DeltaTime() << std::endl;
-
 				glfwPollEvents();
 				PhysicsSystem::Update(Timer->DeltaTime());
 				m_renderer->Render(Timer->DeltaTime());
