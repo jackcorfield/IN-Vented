@@ -8,6 +8,7 @@ public:
 
 	void Bind();
 	void Unbind();
+	void Resize(const int width, const int height);
 
 	unsigned int GetRenderTextureID();
 

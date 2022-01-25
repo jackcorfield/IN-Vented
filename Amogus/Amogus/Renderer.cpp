@@ -110,12 +110,23 @@ void Renderer::Render(float deltaTime)
 
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
-    glViewport(0, 0, m_gui->GetFrameSize().x, m_gui->GetFrameSize().x);
+    glViewport(0, 0, m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
 
     if (activeScene)
     {
         Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_currentCamera);
         Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+
+        if (m_gui->m_sceneFrameResized)
+        {
+            cameraComponent->m_viewportWidth = m_gui->GetFrameSize().x;
+            cameraComponent->m_viewportHeight = m_gui->GetFrameSize().y;
+            cameraComponent->m_framebuffer->Resize(m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
+            m_projection = glm::orthoLH(0.0f, m_gui->GetFrameSize().x, m_gui->GetFrameSize().y, 0.0f, cameraComponent->m_near, cameraComponent->m_far);
+
+            m_gui->m_sceneFrameResized = false;
+        }
+        
         glm::mat4 view = glm::mat4(1.0f);
         if (cameraTransform)
         {
