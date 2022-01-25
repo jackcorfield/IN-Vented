@@ -32,6 +32,8 @@ public:
 	void Init();
 	void Run();
 
+	void CanQuit();
+
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
 
