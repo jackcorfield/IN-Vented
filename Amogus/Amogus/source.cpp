@@ -136,6 +136,11 @@ void Application::Quit(KeyInputEvent* e)
 	m_quit = true;
 }
 
+void Application::Quit()
+{
+	m_quit = true;
+}
+
 void Application::TerminateOpenGL()
 {
 	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
@@ -155,10 +160,6 @@ void frame_buffer_size_callback(GLFWwindow* window, int width, int height)
 
 void window_close_callback(GLFWwindow* window)
 {
-	g_app->CanQuit();
+	g_app->Quit();
 }
 
-void Application::CanQuit() 
-{
-	m_quit = true;
-}

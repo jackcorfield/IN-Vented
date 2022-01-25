@@ -32,7 +32,7 @@ public:
 	void Init();
 	void Run();
 
-	void CanQuit();
+	void Quit();
 
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
@@ -47,6 +47,7 @@ private:
 	bool InitGL();
 
 	void Quit(KeyInputEvent* e);
+
 	void TerminateOpenGL();
 
 	bool m_quit;
