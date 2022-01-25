@@ -4,14 +4,17 @@
 #include <limits>
 #include <vector>
 #include <algorithm>
+#include "Transform.h"
 
 class pathNode
 {
 public:
+
 	std::vector<pathNode*> m_Neighbours;
 	int m_costToStart = std::numeric_limits<int>::max();
 	bool m_explored = false;
 	bool m_isValidPath = true;
+	Transform* nodeTransform;
 
 private:
 
@@ -20,6 +23,7 @@ private:
 	void OnDisable();
 
 public:
+
 	void ResetNode();
 
 	std::vector<pathNode*> UpdateNeighbours();
@@ -33,6 +37,7 @@ public:
 class Path
 {
 public:
+
 	std::vector<pathNode*> pathNodes;
 
 	Path();
@@ -41,13 +46,15 @@ public:
 
 	pathNode* GetLast();
 
-	std::string* GetNextPoint(int myNode); //replace with correct data type
+	Transform* GetNextPoint(int myNode); //replace with correct data type
+
 };
 
 class pathFinding
 {
 
 public:
+
 	static Path* GetPath(pathNode* start, pathNode* end);
 	static void onResetGrid();
 

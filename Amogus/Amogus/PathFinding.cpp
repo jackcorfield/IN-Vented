@@ -1,5 +1,7 @@
 #include "PathFinding.h"
 #include <iostream>
+#include "TileMap.h"
+#include "Tile.h"
 
 Path::Path()
 {
@@ -26,24 +28,13 @@ pathNode* Path::GetLast()
 	return nullptr;
 }
 
-std::string* Path::GetNextPoint(int myNode) // This function could be used for getting location data of each node during pathing via for loop?
+Transform* Path::GetNextPoint(int myNode) // This function could be used for getting location data of each node during pathing via for loop?
 {
 	if (pathNodes.size() > 1)
 	{
-		//return pathNodes[myNode]->nodeData; // needs to return node location data
+		return pathNodes[myNode]->nodeTransform;
 	}
 	return nullptr;
-}
-
-
-void pathNode::OnEnable()
-{
-	//pathFinding::onResetGrid() += ResetNode; // Fix this invoke
-}
-
-void pathNode::OnDisable()
-{
-	//pathFinding::onResetGrid() -= ResetNode; // Fix this invoke
 }
 
 void pathNode::ResetNode()
@@ -100,18 +91,15 @@ pathNode* pathNode::GetNextInPath()
 }
 Path* pathFinding::GetPath(pathNode* start, pathNode* end)
 {
-	/*if (pathFinding::onResetGrid != nullptr)
-	{
-		pathFinding::onResetGrid();
 
-	}*/
+	pathFinding::onResetGrid();
 
 	//loop through all nodes and set distance from end to start
 	end->UpdateNode(0);
 	end->m_explored = true;
 	bool isFinished = false, isPossible = true;
 	std::vector<pathNode*> _Front;
-	end->UpdateNeighbours(); // This and the following push back are defo wrong
+	end->UpdateNeighbours();
 	_Front.push_back(end); 
 
 	while (!isFinished)
@@ -125,7 +113,7 @@ Path* pathFinding::GetPath(pathNode* start, pathNode* end)
 				break;
 			}
 			n->m_explored = true;
-			n->UpdateNeighbours(); // This and the following push back are defo wrong
+			n->UpdateNeighbours();
 			_NextFront.push_back(n);
 		}
 		if (_NextFront.empty() && !isFinished) // if we haven't finished and there is nothing left to check then its an infinite loop
