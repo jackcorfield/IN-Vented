@@ -106,31 +106,34 @@ namespace SceneImporter
 		{
 			nlohmann::json jComponent = jComponentArray[i];
 
-			if (jComponent["type"] == "camera")
+			std::string componentType;
+			if (!JSON::Read(componentType, jComponent, "type")) { success = false; continue; }
+
+			if (componentType == "camera")
 			{
 				if (!CreateCamera(jComponent, entity, entityManager)) { success = false; }
 			}
-			else if (jComponent["type"] == "physics")
+			else if (componentType == "physics")
 			{
 				if (!CreatePhysics(jComponent, entity, entityManager)) { success = false; }
 			}
-			else if (jComponent["type"] == "playerMovement")
+			else if (componentType == "playerMovement")
 			{
 				if (!CreatePlayerMovement(jComponent, entity, entityManager)) { success = false; }
 			}
-			else if (jComponent["type"] == "sprite")
+			else if (componentType == "sprite")
 			{
 				if (!CreateSprite(jComponent, entity, entityManager)) { success = false; }
 			}
-			else if (jComponent["type"] == "tile")
+			else if (componentType == "tile")
 			{
 				if (!CreateTile(jComponent, entity, entityManager)) { success = false; }
 			}
-			else if (jComponent["type"] == "tileMap")
+			else if (componentType == "tileMap")
 			{
 				if (!CreateTileMap(jComponent, entity, entityManager)) { success = false; }
 			}
-			else if (jComponent["type"] == "transform")
+			else if (componentType == "transform")
 			{
 				if (!CreateTransform(jComponent, entity, entityManager)) { success = false; }
 			}

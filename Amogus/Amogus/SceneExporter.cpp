@@ -8,7 +8,11 @@
 #include "source.h"
 
 #include "Camera.h"
+#include "Physics.h"
+#include "PlayerMovement.h"
 #include "Sprite.h"
+#include "Tile.h"
+#include "TileMap.h"
 #include "Transform.h"
 
 extern Application* g_app;
@@ -20,9 +24,13 @@ namespace SceneExporter
 	template <typename T>
 	bool WriteComponentsOfType(nlohmann::json& jEntityArray, EntityManager* entityManager, const std::string& componentJSONName, std::function<bool(nlohmann::json&, T*)> function);
 
-	bool WriteCamera(nlohmann::json& jComponentArray, Camera* camera);
-	bool WriteSprite(nlohmann::json& jComponentArray, Sprite* camera);
-	bool WriteTransform(nlohmann::json& jComponentArray, Transform* camera);
+	bool WriteCamera(nlohmann::json& jCamera, Camera* camera);
+	bool WritePhysics(nlohmann::json& jPhysics, Physics* physics);
+	bool WritePlayerMovement(nlohmann::json& jPlayerMovement, PlayerMovement* playerMovement);
+	bool WriteSprite(nlohmann::json& jSprite, Sprite* sprite);
+	bool WriteTile(nlohmann::json& jTile, Tile* tile);
+	bool WriteTileMap(nlohmann::json& jTileMap, TileMap* tileMap);
+	bool WriteTransform(nlohmann::json& jTransform, Transform* transform);
 
 	bool ExportActiveSceneToFile(const std::string& filePath)
 	{
@@ -60,7 +68,11 @@ namespace SceneExporter
 		bool success = true;
 
 		if (!WriteComponentsOfType<Camera>(jEntityArray, entityManager, "camera", WriteCamera)) { success = false; }
+		if (!WriteComponentsOfType<Physics>(jEntityArray, entityManager, "physics", WritePhysics)) { success = false; }
+		if (!WriteComponentsOfType<PlayerMovement>(jEntityArray, entityManager, "playerMovement", WritePlayerMovement)) { success = false; }
 		if (!WriteComponentsOfType<Sprite>(jEntityArray, entityManager, "sprite", WriteSprite)) { success = false; }
+		if (!WriteComponentsOfType<Tile>(jEntityArray, entityManager, "tile", WriteTile)) { success = false; }
+		if (!WriteComponentsOfType<TileMap>(jEntityArray, entityManager, "tileMap", WriteTileMap)) { success = false; }
 		if (!WriteComponentsOfType<Transform>(jEntityArray, entityManager, "transform", WriteTransform)) { success = false; }
 
 		return success;
@@ -100,31 +112,39 @@ namespace SceneExporter
 		bool success = true;
 
 		const float viewportWidth = camera->m_viewportWidth;
-		if (!JSON::Write(viewportWidth, jCamera["viewport"]["width"]))
-		{
-			success = false;
-		}
+		if (!JSON::Write(viewportWidth, jCamera["viewport"]["width"])) { success = false; }
 
 		const float viewportHeight = camera->m_viewportHeight;
-		if (!JSON::Write(viewportHeight, jCamera["viewport"]["height"]))
-		{
-			success = false;
-		}
+		if (!JSON::Write(viewportHeight, jCamera["viewport"]["height"])) { success = false; }
 
 		const float near = camera->m_near;
-		if (!JSON::Write(near, jCamera["near"]))
-		{
-			success = false;
-		}
+		if (!JSON::Write(near, jCamera["near"])) { success = false; }
 
 		const float far = camera->m_far;
-		if (!JSON::Write(far, jCamera["far"]))
-		{
-			success = false;
-		}
+		if (!JSON::Write(far, jCamera["far"])) { success = false; }
 
 		const bool isActive = camera->m_isActive;
-		if (!JSON::Write(isActive, jCamera["isActive"])) {}
+		if (!JSON::Write(isActive, jCamera["isActive"])) { success = false; }
+
+		return success;
+	}
+
+	bool WritePhysics(nlohmann::json& jPhysics, Physics* physics)
+	{
+		bool success = true;
+
+		const float mass = physics->m_mass;
+		if (!JSON::Write(mass, jPhysics["mass"])) { success = false; }
+
+		return success;
+	}
+
+	bool WritePlayerMovement(nlohmann::json& jPlayerMovement, PlayerMovement* playerMovement)
+	{
+		bool success = true;
+
+		const float speed = playerMovement->m_speed;
+		if (!JSON::Write(speed, jPlayerMovement["speed"])) { success = false; }
 
 		return success;
 	}
@@ -172,13 +192,27 @@ namespace SceneExporter
 			if (!JSON::Write(textureName, jTexture["name"])) {}
 
 			const std::string texturePath = sprite->GetTexture().m_filePath;
-			if (!JSON::Write(texturePath, jTexture["filePath"]))
-			{
-				return false; // Cannot render a sprite without a texture
-			}
+			if (!JSON::Write(texturePath, jTexture["filePath"])) { return false; }// Cannot render a sprite without a texture
 
 			jSprite["texture"] = jTexture;
 		}
+
+		return success;
+	}
+
+	bool WriteTile(nlohmann::json& jTile, Tile* tile)
+	{
+		bool success = true;
+
+		const TileObject tileType = tile->m_object;
+		if (!JSON::Write((int)tileType, jTile["tileType"])) { success = false; }
+
+		return success;
+	}
+
+	bool WriteTileMap(nlohmann::json& jTileMap, TileMap* tileMap)
+	{
+		bool success = true;
 
 		return success;
 	}
@@ -188,22 +222,13 @@ namespace SceneExporter
 		bool success = true;
 
 		const glm::vec2 pos = transform->m_position;
-		if (!JSON::WriteVec2(pos, jTransform["pos"]))
-		{
-			success = false;
-		}
+		if (!JSON::WriteVec2(pos, jTransform["pos"])) { success = false; }
 
 		const glm::vec2 size = transform->m_size;
-		if (!JSON::WriteVec2(size, jTransform["size"]))
-		{
-			success = false;
-		}
+		if (!JSON::WriteVec2(size, jTransform["size"])) { success = false; }
 
 		const float rotate = transform->m_rotate;
-		if (!JSON::Write(rotate, jTransform["rotate"]))
-		{
-			success = false;
-		}
+		if (!JSON::Write(rotate, jTransform["rotate"])) { success = false; }
 
 		return success;
 	}
