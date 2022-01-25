@@ -25,7 +25,7 @@ namespace SceneImporter
 	bool ImportSceneFromFile(const std::string& filePath, bool setToActive)
 	{
 		std::ifstream inFile(filePath);
-		if (inFile.bad())
+		if (!inFile.is_open() || inFile.bad())
 		{
 			return false;
 		}

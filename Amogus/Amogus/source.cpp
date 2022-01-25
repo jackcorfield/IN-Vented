@@ -18,7 +18,7 @@ Application::Application() :
 	m_entityManager(nullptr),
 	m_sceneManager(nullptr),
 	m_renderer(nullptr),
-	m_window(nullptr)
+	m_window(nullptr),
 	m_quit(false)
 {	
 	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
@@ -38,7 +38,6 @@ void Application::Init()
 
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
-	//m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
 
@@ -47,7 +46,6 @@ void Application::Init()
 		return; // No initial scene
 	}
 
-	//SceneExporter::ExportActiveSceneToFile("testexport.json");
 	InputHandler();
 
 	Run();

@@ -28,7 +28,7 @@ namespace SceneExporter
 		Scene* scene = g_app->m_sceneManager->GetActiveScene();
 
 		std::ofstream outFile(filePath);
-		if (outFile.bad())
+		if (!outFile.is_open() || outFile.bad())
 		{
 			return false;
 		}
