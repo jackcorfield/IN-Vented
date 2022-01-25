@@ -1,6 +1,10 @@
 #include "ImGuiLayer.h"
+
 #include "source.h"
 #include <GLFW/glfw3.h>
+
+#include "SceneExporter.h"
+#include "SceneImporter.h"
 
 extern Application* g_app;
 
@@ -105,21 +109,13 @@ void ImGuiLayer::DrawMenuBar()
 				{
 					//Do something
 				}
-				else if (ImGui::MenuItem(ICON_FA_FOLDER_OPEN"	Open"))
+				else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
 				{
-
-				}
-				else if (ImGui::MenuItem(ICON_FA_SD_CARD"	Save"))
-				{
-
-				}
-				else if (ImGui::MenuItem(ICON_FA_SAVE"	Save As"))
-				{
-
+					SceneImporter::ImportSceneFromFile("testimport.json");
 				}
 				else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
 				{
-
+					SceneExporter::ExportActiveSceneToFile(g_app->m_sceneManager->GetActiveSceneName() + ".json");
 				}
 				ImGui::EndMenu();
 
@@ -261,13 +257,13 @@ void ImGuiLayer::DrawInspector()
 	ImGui::End();
 }
 
-void ImGuiLayer::DrawSceneView()
+void ImGuiLayer::DrawSceneView(int textureID)
 {
 	ImGui::Begin("Scene View");
 	//Render the scene here.
 	
 	m_renderSize = ImGui::GetContentRegionAvail();
 
-	ImGui::Image(ImTextureID(1), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image(ImTextureID(textureID), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 }

@@ -1,6 +1,7 @@
 #include "SceneImporter.h"
 
 #include <fstream>
+#include <sstream>
 #include <nlohmann/json.hpp>
 
 #include "JSONHelpers.h"
@@ -8,8 +9,14 @@
 #include "source.h"
 
 #include "Camera.h"
+#include "Physics.h"
+#include "PlayerMovement.h"
 #include "Sprite.h"
+#include "Tile.h"
+#include "TileMap.h"
 #include "Transform.h"
+
+#include "Framebuffer.h"
 
 extern Application* g_app;
 
@@ -19,18 +26,34 @@ namespace SceneImporter
 	bool ReadComponentsOfEntity(const nlohmann::json& jComponentArray, Entity entity, EntityManager* entityManager);
 
 	bool CreateCamera(const nlohmann::json& j, Entity entity, EntityManager* entityManager);
+	bool CreatePhysics(const nlohmann::json& j, Entity entity, EntityManager* entityManager);
+	bool CreatePlayerMovement(const nlohmann::json& j, Entity entity, EntityManager* entityManager);
 	bool CreateSprite(const nlohmann::json& j, Entity entity, EntityManager* entityManager);
+	bool CreateTile(const nlohmann::json& j, Entity entity, EntityManager* entityManager);
+	bool CreateTileMap(const nlohmann::json& j, Entity entity, EntityManager* entityManager);
 	bool CreateTransform(const nlohmann::json& j, Entity entity, EntityManager* entityManager);
 
 	bool ImportSceneFromFile(const std::string& filePath, bool setToActive)
 	{
 		std::ifstream inFile(filePath);
-		if (!inFile.is_open() || inFile.bad())
+		if (!inFile.is_open() || !inFile.good())
 		{
 			return false;
 		}
 
-		nlohmann::json jFile = nlohmann::json::parse(inFile);
+		std::stringstream data;
+		data << inFile.rdbuf();
+
+		nlohmann::json jFile;
+		try
+		{
+			jFile = nlohmann::json::parse(data);
+		}
+		catch (nlohmann::json::parse_error& e)
+		{
+			std::cout << e.what() << std::endl;
+			return false;
+		}
 
 		std::string name;
 		if (!JSON::Read(name, jFile, "name")) {}
@@ -85,28 +108,35 @@ namespace SceneImporter
 
 			if (jComponent["type"] == "camera")
 			{
-				if (!CreateCamera(jComponent, entity, entityManager))
-				{
-					success = false;
-				}
+				if (!CreateCamera(jComponent, entity, entityManager)) { success = false; }
+			}
+			else if (jComponent["type"] == "physics")
+			{
+				if (!CreatePhysics(jComponent, entity, entityManager)) { success = false; }
+			}
+			else if (jComponent["type"] == "playerMovement")
+			{
+				if (!CreatePlayerMovement(jComponent, entity, entityManager)) { success = false; }
 			}
 			else if (jComponent["type"] == "sprite")
 			{
-				if (!CreateSprite(jComponent, entity, entityManager))
-				{
-					success = false;
-				}
+				if (!CreateSprite(jComponent, entity, entityManager)) { success = false; }
+			}
+			else if (jComponent["type"] == "tile")
+			{
+				if (!CreateTile(jComponent, entity, entityManager)) { success = false; }
+			}
+			else if (jComponent["type"] == "tileMap")
+			{
+				if (!CreateTileMap(jComponent, entity, entityManager)) { success = false; }
 			}
 			else if (jComponent["type"] == "transform")
 			{
-				if (!CreateTransform(jComponent, entity, entityManager))
-				{
-					success = false;
-				}
+				if (!CreateTransform(jComponent, entity, entityManager)) { success = false; }
 			}
 		}
 
-		return true;
+		return success;
 	}
 
 	bool CreateCamera(const nlohmann::json& j, Entity entity, EntityManager* entityManager)
@@ -133,11 +163,11 @@ namespace SceneImporter
 		float near, far;
 		if (!JSON::Read(near, j, "near") || !JSON::Read(far, j, "far")) // If near and far are not specified, use defaults
 		{
-			Camera* camera = entityManager->AddComponent<Camera>(entity, viewportWidth, viewportHeight);
+			Camera* camera = entityManager->AddComponent<Camera>(entity, viewportWidth, viewportHeight, -1.0f, 1.0f, new Framebuffer());
 		}
 		else
 		{
-			Camera* camera = entityManager->AddComponent<Camera>(entity, viewportWidth, viewportHeight, near, far);
+			Camera* camera = entityManager->AddComponent<Camera>(entity, viewportWidth, viewportHeight, near, far, new Framebuffer());
 		}
 
 		bool isActive = false;
@@ -147,6 +177,30 @@ namespace SceneImporter
 		{
 			g_app->SetActiveCamera(entity);
 		}
+
+		return success;
+	}
+
+	bool CreatePhysics(const nlohmann::json& j, Entity entity, EntityManager* entityManager)
+	{
+		bool success = true;
+
+		float mass = 0.0f;
+		if (!JSON::Read(mass, j, "mass")) { success = false; }
+
+		Physics* component = entityManager->AddComponent<Physics>(entity, mass);
+
+		return success;
+	}
+
+	bool CreatePlayerMovement(const nlohmann::json& j, Entity entity, EntityManager* entityManager)
+	{
+		bool success = true;
+
+		float speed = 0.0f;
+		if (!JSON::Read(speed, j, "speed")) { success = false; }
+
+		PlayerMovement* component = entityManager->AddComponent<PlayerMovement>(entity, speed);
 
 		return success;
 	}
@@ -201,6 +255,27 @@ namespace SceneImporter
 		Texture2D texture = TextureLoader::CreateTexture2DFromFile(textureName, texturePath);
 
 		Sprite* component = entityManager->AddComponent<Sprite>(entity, texture, colour, shader);
+
+		return success;
+	}
+
+	bool CreateTile(const nlohmann::json& j, Entity entity, EntityManager* entityManager)
+	{
+		bool success = true;
+
+		int tileType = (int)TileObject::NONE;
+		if (!JSON::Read(tileType, j, "tileType")) { success = false; }
+
+		Tile* component = entityManager->AddComponent<Tile>(entity, (TileObject)tileType);
+
+		return success;
+	}
+
+	bool CreateTileMap(const nlohmann::json& j, Entity entity, EntityManager* entityManager)
+	{
+		bool success = true;
+
+		// How to link this to tiles?
 
 		return success;
 	}

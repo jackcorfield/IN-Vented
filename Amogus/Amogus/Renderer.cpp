@@ -33,27 +33,27 @@ Renderer::Renderer() :
 
     m_gui = new ImGuiLayer();
 
-    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+    //Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
-    if (activeScene)
-    {
+    //if (activeScene)
+    //{
         // Temporary until we're loading entities from file; need a camera for now
         //Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight);
         //Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
 
         //
 
-        Entity e = activeScene->m_entityManager->CreateEntity();
+        //Entity e = activeScene->m_entityManager->CreateEntity();
         //activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         //activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
     
 
-        Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
-        activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-        activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
-		activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
-    }
+        //Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
+        //activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        //activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        //activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
+		//activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
+   // }
 }
 
 Renderer::~Renderer()
@@ -72,7 +72,7 @@ void Renderer::DrawImGui()
     m_gui->DrawConsole();
     m_gui->DrawInspector();
     m_gui->DrawProfiler();
-    m_gui->DrawSceneView();
+    m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
 }
 
 void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
@@ -167,15 +167,13 @@ void Renderer::Render(float deltaTime)
             m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f));
             m_postProcessingShader->SetUniform("time", deltaTime);
 
-            glBindTexture(GL_TEXTURE_2D, 1);
+            //glBindTexture(GL_TEXTURE_2D, 1);
             DrawImGui();
         }
     }
 
-	
     m_gui->EndGui();
 	glfwSwapBuffers(g_app->m_window);
-
 }
 
 void Renderer::SetActiveCamera(Entity cameraEntity)

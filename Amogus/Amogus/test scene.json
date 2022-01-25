@@ -39,7 +39,7 @@
         [
             {
                 "far": 1.0,
-                "isActive": true,
+                "isActive": false,
                 "near": -1.0,
                 "type": "camera",
                 "viewport": {

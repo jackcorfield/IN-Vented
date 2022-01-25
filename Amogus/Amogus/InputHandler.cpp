@@ -2,7 +2,7 @@
 
 #include "InputHandler.h"
 #include "source.h"
-#include "JSON.hpp"
+#include "nlohmann/json.hpp"
 #include <fstream>
 
 double InputHandler::m_mouseX = 0.0f;

@@ -1,6 +1,7 @@
 #include "SceneExporter.h"
 
 #include <fstream>
+#include <iomanip>
 #include <nlohmann/json.hpp>
 
 #include "JSONHelpers.h"
