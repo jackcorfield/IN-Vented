@@ -6,48 +6,57 @@
 namespace JSON
 {
 	template <typename T>
-	inline bool Read(T& readTo, const nlohmann::json& j)
+	inline bool Read(T& readTo, const nlohmann::json& j, const std::string& field)
 	{
-		if (j.is_null())
+		if (j.is_null() || !j.contains(field))
 			return false;
 
-		readTo = j;
+		readTo = j[field];
 
 		return true;
 	}
 
-	inline bool ReadVec2(glm::vec2& readTo, const nlohmann::json& j)
+	inline bool ReadVec2(glm::vec2& readTo, const nlohmann::json& j, const std::string& field)
 	{
-		if (!j.contains("x") || !j.contains("y"))
+		if (!j.contains(field))
 			return false;
 
-		readTo.x = j["x"];
-		readTo.y = j["y"];
+		if (!j[field].contains("x") || !j[field].contains("y"))
+			return false;
+
+		readTo.x = j[field]["x"];
+		readTo.y = j[field]["y"];
 
 		return true;
 	}
 
-	inline bool ReadVec3(glm::vec3& readTo, const nlohmann::json& j)
+	inline bool ReadVec3(glm::vec3& readTo, const nlohmann::json& j, const std::string& field)
 	{
-		if (!j.contains("x") || !j.contains("y") || !j.contains("z"))
+		if (!j.contains(field))
 			return false;
 
-		readTo.x = j["x"];
-		readTo.y = j["y"];
-		readTo.z = j["z"];
+		if (!j[field].contains("x") || !j[field].contains("y") || !j[field].contains("z"))
+			return false;
+
+		readTo.x = j[field]["x"];
+		readTo.y = j[field]["y"];
+		readTo.z = j[field]["z"];
 
 		return true;
 	}
 
-	inline bool ReadVec4(glm::vec4& readTo, const nlohmann::json& j)
+	inline bool ReadVec4(glm::vec4& readTo, const nlohmann::json& j, const std::string& field)
 	{
-		if (!j.contains("x") || !j.contains("y") || !j.contains("z") || !j.contains("w"))
+		if (!j.contains(field))
 			return false;
 
-		readTo.x = j["x"];
-		readTo.y = j["y"];
-		readTo.z = j["z"];
-		readTo.w = j["w"];
+		if (!j[field].contains("x") || !j[field].contains("y") || !j[field].contains("z") || !j[field].contains("w"))
+			return false;
+
+		readTo.x = j[field]["x"];
+		readTo.y = j[field]["y"];
+		readTo.z = j[field]["z"];
+		readTo.w = j[field]["w"];
 
 		return true;
 	}

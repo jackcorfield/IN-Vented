@@ -24,7 +24,7 @@ public:
 
 	void Render();
 
-	void SetActiveCamera(Entity cameraEntity) { m_currentCamera = cameraEntity; }
+	void SetActiveCamera(Entity cameraEntity);
 
 private:
 	void DrawImGui();

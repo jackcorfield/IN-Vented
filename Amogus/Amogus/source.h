@@ -27,6 +27,8 @@ public:
 	void Init();
 	void Run();
 
+	void SetActiveCamera(Entity cameraEntity) { m_renderer->SetActiveCamera(cameraEntity); }
+
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
 

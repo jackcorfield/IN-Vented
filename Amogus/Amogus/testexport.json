@@ -8,9 +8,18 @@
         [
             {
                 "colour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default shader",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "hi.png",
+                    "name": "test texture"
                 },
                 "type": "sprite"
             },
@@ -30,6 +39,7 @@
         [
             {
                 "far": 1.0,
+                "isActive": true,
                 "near": -1.0,
                 "type": "camera",
                 "viewport": {
@@ -50,5 +60,6 @@
                 "type": "transform"
             }
         ]
-    ]
+    ],
+    "name": "test scene"
 }

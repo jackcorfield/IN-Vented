@@ -41,15 +41,16 @@ void Application::Init()
 
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
-	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
+	//m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
 
-	SceneImporter::ImportSceneFromFile("testimport.json");
-	m_sceneManager->SetActiveScene("test scene");
-	m_renderer->SetActiveCamera(2); // Temp until we discuss a solution for setting the active camera from elsewhere in the codebase
+	if (!SceneImporter::ImportSceneFromFile("testexport.json", true))
+	{
+		return; // No initial scene
+	}
 
-	SceneExporter::ExportActiveSceneToFile("testexport.json");
+	//SceneExporter::ExportActiveSceneToFile("testexport.json");
 
 	Run();
 }

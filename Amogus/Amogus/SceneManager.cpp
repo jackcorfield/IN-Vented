@@ -71,7 +71,7 @@ void SceneManager::SetActiveScene(const std::string& name)
 	m_activeScene = m_sceneMap[name];
 }
 
-Scene* SceneManager::GetActiveScene()
+Scene* SceneManager::GetActiveScene() const
 {
 	return m_activeScene;
 }

@@ -4,5 +4,5 @@
 
 namespace SceneImporter
 {
-	bool ImportSceneFromFile(const std::string& filePath);
+	bool ImportSceneFromFile(const std::string& filePath, bool setToActive = false);
 };

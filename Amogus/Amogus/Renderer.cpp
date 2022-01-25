@@ -139,6 +139,28 @@ void Renderer::Render()
 	glfwSwapBuffers(g_app->m_window);
 }
 
+void Renderer::SetActiveCamera(Entity cameraEntity)
+{
+    if (m_currentCamera)
+    {
+        Camera* oldCamera = g_app->m_entityManager->GetComponent<Camera>(m_currentCamera);
+        if (oldCamera)
+        {
+            oldCamera->m_isActive = false;
+        }
+    }
+
+    m_currentCamera = cameraEntity;
+    if (m_currentCamera)
+    {
+        Camera* newCamera = g_app->m_entityManager->GetComponent<Camera>(m_currentCamera);
+        if (newCamera)
+        {
+            newCamera->m_isActive = true;
+        }
+    }
+}
+
 void Renderer::InitQuad()
 {
     unsigned int VBO;

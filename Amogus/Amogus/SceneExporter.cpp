@@ -35,11 +35,11 @@ namespace SceneExporter
 
 		nlohmann::json jFile;
 
-		//jFile["name"] = scene.m_name; how can i get this?
-		//if (!JSON::Write(scene.m_name, jFile["name"]))
-		//{
-		//	return false; // Need a name for scene map key
-		//}
+		std::string name = g_app->m_sceneManager->GetActiveSceneName();
+		if (!JSON::Write(name, jFile["name"]))
+		{
+			return false; // Need a name for scene map key
+		}
 
 		if (!JSON::WriteVec3(scene->m_sceneColour, jFile["clearColour"])) {}
 
@@ -122,6 +122,9 @@ namespace SceneExporter
 			success = false;
 		}
 
+		const bool isActive = camera->m_isActive;
+		if (!JSON::Write(isActive, jCamera["isActive"])) {}
+
 		return success;
 	}
 
@@ -129,35 +132,52 @@ namespace SceneExporter
 	{
 		bool success = true;
 
-		const glm::vec3 colour = glm::vec3(0.0f);
+		const glm::vec3 colour = sprite->GetColour();
 		if (!JSON::WriteVec3(colour, jSprite["colour"]))
 		{
 			success = false;
 		}
 
-		//const std::string vertexPath = component->GetShader()->GetVertexPath();
-		//const std::string fragmentPath = component->GetShader()->GetFragmentPath();
-		//if (!JSON::Write(vertexPath, jSprite["vertexFilePath"]) || !JSON::Write(fragmentPath, jSprite["fragmentFilePath"]))
-		//{
-			//return false; // Cannot render a sprite without vertex & fragment shader
-		//}
+		// Write Shader data
+		{
+			nlohmann::json jShader;
+			const Shader* shader = sprite->GetShader();
 
-		//const std::string geometryPath = component->GetShader()->GetGeometryPath();
-		//if (!geometryPath.empty())
-		//{
-		//	if (!JSON::Write(geometryPath, jSprite["geometryFilePath"])) {}
-		//}
+			const std::string shaderName = shader->m_name;
+			if (!JSON::Write(shaderName, jShader["name"])) {}
 
-		// const std::string textureName = component->GetTexture().m_name;
-		//if (!JSON::Write(textureName, jSprite["texture"]["name"])) {}
+			const std::string vertexPath = shader->m_vertexPath;
+			const std::string fragmentPath = shader->m_fragmentPath;
+			if (!JSON::Write(vertexPath, jShader["vertexFilePath"]) || !JSON::Write(fragmentPath, jShader["fragmentFilePath"]))
+			{
+				return false; // Cannot render a sprite without vertex & fragment shader
+			}
 
-		// const std::string texturePath = component->GetTexture().m_filePath;
-		//if (!JSON::Write(texturePath, jSprite["texture"]["filePath"]))
-		//{
-		//	return false; // Cannot render a sprite without a texture
-		//}
+			const std::string geometryPath = shader->m_geometryPath;
+			if (!geometryPath.empty())
+			{
+				if (!JSON::Write(geometryPath, jShader["geometryFilePath"])) {}
+			}
 
-		return true;
+			jSprite["shader"] = jShader;
+		}
+		
+		// Write Texture2D data
+		{
+			nlohmann::json jTexture;
+			const Texture2D texture = sprite->GetTexture();
+
+			const std::string textureName = sprite->GetTexture().m_name;
+			if (!JSON::Write(textureName, jTexture["name"])) {}
+
+			const std::string texturePath = sprite->GetTexture().m_filePath;
+			if (!JSON::Write(texturePath, jTexture["filePath"]))
+			{
+				return false; // Cannot render a sprite without a texture
+			}
+
+			jSprite["texture"] = jTexture;
+		}
 
 		return success;
 	}
