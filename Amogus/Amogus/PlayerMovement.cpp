@@ -28,7 +28,6 @@ void PlayerMovement::AddMovement(KeyInputEvent* e)
 	{
 	case (GLFW_KEY_W):
 		physics->AddForce(glm::vec2(0, -1 * m_speed));
-		std::cout << "MOVING UP PLEASE" << std::endl;
 		break;
 	case (GLFW_KEY_A):
 		physics->AddForce(glm::vec2(-1 * m_speed, 0));
