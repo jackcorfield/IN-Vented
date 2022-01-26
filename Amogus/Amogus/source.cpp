@@ -62,14 +62,14 @@ void Application::Run()
 
 	while (!m_quit)
 	{
-    Timer->Tick();
+		Timer->Tick();
 		if (Timer->DeltaTime() >= 1 / frameRate)
 		{
 			Timer->Reset();
 			glfwPollEvents();
 			PhysicsSystem::Update(Timer->DeltaTime());
-      InputHandler::PollGameControllers();
-      m_collisionManager->CheckCollision()
+			InputHandler::PollGameControllers();
+			m_collisionManager->CheckCollision();
 			m_renderer->Render(Timer->DeltaTime());
 		}
 		
