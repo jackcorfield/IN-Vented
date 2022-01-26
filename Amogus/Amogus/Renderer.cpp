@@ -59,6 +59,9 @@ Renderer::Renderer() :
 			glm::vec3(1.0f, 1.0f, 1.0f), 
 			m_defaultShader);
 
+        Transform* testTransform = new Transform;
+        testTransform->m_position = glm::vec2(0.0f, 0.0f);
+
         activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
       	activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
         activeScene->m_entityManager->AddComponent<BoxCollider>(e_testCharacter, testTransform->m_position, glm::vec2(testTransform->m_size.x * 100.0f, testTransform->m_size.y * 100.0f));
