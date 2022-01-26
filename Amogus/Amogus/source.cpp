@@ -68,7 +68,8 @@ void Application::Run()
 			Timer->Reset();
 			glfwPollEvents();
 			PhysicsSystem::Update(Timer->DeltaTime());
-			m_collisionManager->CheckCollision();
+      InputHandler::PollGameControllers();
+      m_collisionManager->CheckCollision()
 			m_renderer->Render(Timer->DeltaTime());
 		}
 		
@@ -133,7 +134,7 @@ bool Application::InitGL()
 		glEnable(GL_MULTISAMPLE);
 }
 
-void Application::Quit(KeyInputEvent* e)
+void Application::Quit(InputEvent* e)
 {
 	m_quit = true;
 }

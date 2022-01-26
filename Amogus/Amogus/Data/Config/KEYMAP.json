@@ -2,11 +2,13 @@
     "Mappings": [
       {
         "name": "Input_Exit",
-        "enums": [ 256 ]
+        "keys": [ 256 ],
+        "buttons": [ 1 ]
       },
       {
         "name": "Input_Movement",
-        "enums": [ 87, 65, 83, 68 ]
+        "keys": [ 87, 65, 83, 68 ],
+        "buttons": [ 10, 11, 12, 13]
       }
     ]
 }
