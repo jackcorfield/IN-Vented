@@ -6,10 +6,10 @@
 #include <map>
 #include <algorithm>
 #include "Transform.h"
+#include "EntityManager.h"
 
 class Tile;
 class TileMap;
-class Entity;
 
 struct PathfindingNode
 {
