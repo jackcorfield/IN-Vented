@@ -142,8 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="dependencies\glad\src\glad.c" />
     <ClCompile Include="dependencies\ImGui\imgui.cpp" />
     <ClCompile Include="dependencies\ImGui\imgui_demo.cpp" />
@@ -158,6 +162,7 @@
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
@@ -172,9 +177,13 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CircleCollider.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="dependencies\fmod\inc\fmod.h" />
     <ClInclude Include="dependencies\fmod\inc\fmod.hpp" />
     <ClInclude Include="dependencies\fmod\inc\fmod_codec.h" />
@@ -199,6 +208,7 @@
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
+    <ClInclude Include="PathFinding.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PlayerMovement.h" />

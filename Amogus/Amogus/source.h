@@ -5,6 +5,7 @@
 #include "EntityManager.h"
 #include "SceneManager.h"
 #include "AudioManager.h"
+#include "CollisionManager.h"
 
 #include "Renderer.h"
 #include "InputHandler.h"
@@ -37,9 +38,10 @@ public:
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
 
-	EntityManager* m_entityManager;
-	SceneManager* m_sceneManager;
-	AudioManager* m_audioManager;
+	EntityManager*		m_entityManager;
+	SceneManager*	 m_sceneManager;
+	AudioManager*		m_audioManager;
+	CollisionManager* m_collisionManager;
 
 protected:
 
