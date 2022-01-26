@@ -67,7 +67,7 @@ void Application::Run()
 			glfwPollEvents();
 			PhysicsSystem::Update(Timer->DeltaTime());
 			InputHandler::PollGameControllers();
-			m_collisionManager->CheckCollision();
+			CollisionManager::CheckCollision();
 			m_renderer->Render(Timer->DeltaTime());
 		}
 		
