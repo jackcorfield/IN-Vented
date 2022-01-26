@@ -33,8 +33,10 @@ public:
 	void Init();
 	void Run();
 
-	GLFWwindow*		m_window;
-	WindowParams		m_windowParams;
+	void Quit();
+
+	GLFWwindow* m_window;
+	WindowParams m_windowParams;
 
 	EntityManager*		m_entityManager;
 	SceneManager*	 m_sceneManager;
@@ -47,6 +49,7 @@ private:
 	bool InitGL();
 
 	void Quit(KeyInputEvent* e);
+
 	void TerminateOpenGL();
 
 	bool m_quit;

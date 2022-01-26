@@ -10,6 +10,9 @@
 
 void error_callback(int error, const char* description);
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
+void window_close_callback(GLFWwindow* window);
+
+extern Application* g_app;
 
 Application::Application() :
 	m_entityManager(nullptr),
@@ -46,8 +49,6 @@ void Application::Init()
 
 	InputHandler();
 
-
-
 	Run();
 }
 
@@ -61,8 +62,11 @@ void Application::Run()
 
 	while (!m_quit)
 	{
-		while (isRunning)
+
+		Timer->Tick();
+		if (Timer->DeltaTime() >= 1 / frameRate)
 		{
+
 			Timer->Tick();
 			if (Timer->DeltaTime() >= 1 / frameRate)
 			{
@@ -72,7 +76,9 @@ void Application::Run()
 				m_collisionManager->CheckCollision();
 				m_renderer->Render(Timer->DeltaTime());
 			}
+
 		}
+		
 	}
 
 	TerminateOpenGL();
@@ -117,9 +123,7 @@ bool Application::InitGL()
 	glfwSetCursorPosCallback(m_window, InputHandler::MouseCallback);
 	glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
 
-	// Prevents window from closing instantly
-	glfwSetWindowShouldClose(m_window, GL_FALSE); // Shoud replace with window close callback below?
-	//glfwSetWindowCloseCallback(m_window, window_close_callback);
+	glfwSetWindowCloseCallback(m_window, window_close_callback);
 
 		// Initialise glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -141,6 +145,11 @@ void Application::Quit(KeyInputEvent* e)
 	m_quit = true;
 }
 
+void Application::Quit()
+{
+	m_quit = true;
+}
+
 void Application::TerminateOpenGL()
 {
 	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
@@ -157,3 +166,9 @@ void frame_buffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
+
+void window_close_callback(GLFWwindow* window)
+{
+	g_app->Quit();
+}
+
