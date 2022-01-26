@@ -11,6 +11,7 @@
 #include "ShaderFactory.h"
 
 #include "Sprite.h"
+#include "AnimatedSprite.h"
 #include "Timer.h"
 #include "Transform.h"
 #include "PlayerMovement.h"
@@ -52,6 +53,13 @@ Renderer::Renderer() :
         Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
         Transform* testTransform = activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         Sprite* testSprite = activeScene->m_entityManager->AddComponent<Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+
+        activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+		activeScene->m_entityManager->AddComponent<AnimatedSprite>(e_testCharacter,
+			std::vector<Texture2D>{TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), TextureLoader::CreateTexture2DFromFile("TestCharacter", "test2.png")},
+			0.5f,
+			glm::vec3(1.0f, 1.0f, 1.0f), 
+			m_defaultShader);
         activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
       	activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
         activeScene->m_entityManager->AddComponent<BoxCollider>(e_testCharacter, testTransform->m_position, glm::vec2(testTransform->m_size.x * 100.0f, testTransform->m_size.y * 100.0f));
@@ -166,7 +174,21 @@ void Renderer::Render(float deltaTime)
         m_defaultShader->SetUniform("view", view);
         m_defaultShader->SetUniform("projection", m_projection);
 
-        std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
+		std::vector<AnimatedSprite*> animatedSprites = activeScene->m_entityManager->GetAllComponentsOfType<AnimatedSprite>();
+		for (AnimatedSprite* aSprite : animatedSprites)
+		{
+			aSprite->Update(deltaTime);
+
+			Entity entity = activeScene->m_entityManager->GetEntityFromComponent<AnimatedSprite>(aSprite);
+			Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(entity);
+
+			if (transform)
+			{
+				DrawSprite(aSprite, transform);
+			}
+		}
+
+		std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
         for (Sprite* sprite : sprites)
         {
             Entity entity = activeScene->m_entityManager->GetEntityFromComponent<Sprite>(sprite);

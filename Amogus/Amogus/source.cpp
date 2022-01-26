@@ -60,24 +60,18 @@ void Application::Run()
 
 	while (!m_quit)
 	{
-
 		Timer->Tick();
 		if (Timer->DeltaTime() >= 1 / frameRate)
 		{
-
-			Timer->Tick();
-			if (Timer->DeltaTime() >= 1 / frameRate)
-			{
-				Timer->Reset();
-				glfwPollEvents();
-				PhysicsSystem::Update(Timer->DeltaTime());
-				CollisionManager::CheckCollision();
-				m_renderer->Render(Timer->DeltaTime());
-			}
-
+			Timer->Reset();
+			glfwPollEvents();
+			PhysicsSystem::Update(Timer->DeltaTime());
+			InputHandler::PollGameControllers();
+			m_collisionManager->CheckCollision();
+			m_renderer->Render(Timer->DeltaTime());
 		}
 		
-	}
+  }
 
 	TerminateOpenGL();
 }
@@ -138,7 +132,7 @@ bool Application::InitGL()
 		glEnable(GL_MULTISAMPLE);
 }
 
-void Application::Quit(KeyInputEvent* e)
+void Application::Quit(InputEvent* e)
 {
 	m_quit = true;
 }
