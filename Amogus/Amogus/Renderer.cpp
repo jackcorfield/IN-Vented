@@ -11,6 +11,7 @@
 #include "ShaderFactory.h"
 
 #include "Sprite.h"
+#include "AnimatedSprite.h"
 #include "Timer.h"
 #include "Transform.h"
 #include "PlayerMovement.h"
@@ -49,7 +50,12 @@ Renderer::Renderer() :
   
         Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
         activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+		activeScene->m_entityManager->AddComponent<AnimatedSprite>(e_testCharacter,
+			std::vector<Texture2D>{TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), TextureLoader::CreateTexture2DFromFile("TestCharacter", "test2.png")},
+			0.5f,
+			glm::vec3(1.0f, 1.0f, 1.0f), 
+			m_defaultShader);
+
         activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
       	activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
       
@@ -64,7 +70,6 @@ Renderer::Renderer() :
         activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(750.0f, 250.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("69truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
-       
        
         //audio manager testing
         g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.1f);
@@ -164,7 +169,21 @@ void Renderer::Render(float deltaTime)
         m_defaultShader->SetUniform("view", view);
         m_defaultShader->SetUniform("projection", m_projection);
 
-        std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
+		std::vector<AnimatedSprite*> animatedSprites = activeScene->m_entityManager->GetAllComponentsOfType<AnimatedSprite>();
+		for (AnimatedSprite* aSprite : animatedSprites)
+		{
+			aSprite->Update(deltaTime);
+
+			Entity entity = activeScene->m_entityManager->GetEntityFromComponent<AnimatedSprite>(aSprite);
+			Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(entity);
+
+			if (transform)
+			{
+				DrawSprite(aSprite, transform);
+			}
+		}
+
+		std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
         for (Sprite* sprite : sprites)
         {
             Entity entity = activeScene->m_entityManager->GetEntityFromComponent<Sprite>(sprite);
