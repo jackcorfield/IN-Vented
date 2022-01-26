@@ -4,6 +4,9 @@
 #include <map>
 
 #include "EntityManager.h"
+#include "source.h"
+
+extern Application* g_app;
 
 class TileMap
 {
@@ -36,14 +39,23 @@ public:
 		return 0;
 	}
 
-	Entity GetTileAtPosition(const glm::vec2& position)
+	glm::vec2 ConvertPositionToTileIndex(const glm::vec2& position)
 	{
+		Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+		Entity tilemapEntity = activeScene->m_entityManager->GetEntityFromComponent<TileMap>(this);
+		Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(tilemapEntity);
+
 		glm::vec2 tilePos;
 		tilePos.y = position.y - position.x / 2.0f - m_tileSize.y;
 		tilePos.x = position.x + tilePos.y;
+		tilePos -= transform->m_position;
 
-		glm::vec2 tileIndex(ceilf(tilePos.x / m_tileSize.x) + 1, ceilf(-tilePos.y / m_tileSize.x));
-		return GetTile(tileIndex);
+		return glm::vec2(ceilf(tilePos.x / m_tileSize.x) + 1, ceilf(-tilePos.y / m_tileSize.x));
+	}
+
+	Entity GetTileAtPosition(const glm::vec2& position)
+	{
+		return GetTile(ConvertPositionToTileIndex(position));
 	}
 
 	std::vector<Entity> GetAllAdjacentTiles(const glm::vec2& tileIndex, bool diagonal = false)

@@ -21,7 +21,7 @@ void PathfindingNode::DeriveHeuristics(PathfindingNode* start, PathfindingNode* 
 	m_fCost = hCost + gCost;
 }
 
-std::vector<glm::vec2> PathfindingHandler::CalculatePath(TileMap* tilemap, const glm::vec2 start, const glm::vec2 end)
+std::vector<Entity> PathfindingHandler::CalculatePath(TileMap* tilemap, const glm::vec2 start, const glm::vec2 end)
 {
 	// Our cache for the path we're making
 	std::map<std::pair<float, float>, PathfindingNode*> cache = std::map<std::pair<float, float>, PathfindingNode*>();
@@ -34,8 +34,8 @@ std::vector<glm::vec2> PathfindingHandler::CalculatePath(TileMap* tilemap, const
 	};
 
 	// Start and end point
-	PathfindingNode* startNode = GetNode(start);
-	PathfindingNode* endNode = GetNode(end);
+	PathfindingNode* startNode = GetNode(tilemap->ConvertPositionToTileIndex(start));
+	PathfindingNode* endNode = GetNode(tilemap->ConvertPositionToTileIndex(end));
 
 	// Priority queue so we always get the one with the lowest fCost when we pop
 	auto cmp = [](PathfindingNode* left, PathfindingNode* right) { return left->m_fCost > right->m_fCost; };
@@ -72,10 +72,11 @@ std::vector<glm::vec2> PathfindingHandler::CalculatePath(TileMap* tilemap, const
 		}
 	}
 
-	std::vector<glm::vec2> path;
+	std::vector<Entity> path;
+
 	while (cursor != nullptr)
 	{
-		path.insert(path.begin(), cursor->m_point);
+		path.insert(path.begin(), tilemap->GetTile(cursor->m_point));
 		cursor = cursor->m_parent;
 	}
 

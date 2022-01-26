@@ -9,6 +9,7 @@
 
 class Tile;
 class TileMap;
+class Entity;
 
 struct PathfindingNode
 {
@@ -35,5 +36,5 @@ public:
 class PathfindingHandler
 {
 public:
-	static std::vector<glm::vec2> CalculatePath(TileMap* tilemap, const glm::vec2 start, const glm::vec2 end);
+	static std::vector<Entity> CalculatePath(TileMap* tilemap, const glm::vec2 start, const glm::vec2 end);
 };
