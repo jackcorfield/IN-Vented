@@ -41,7 +41,6 @@ public:
 	EntityManager*		m_entityManager;
 	SceneManager*	 m_sceneManager;
 	AudioManager*		m_audioManager;
-	CollisionManager* m_collisionManager;
 
 protected:
 

@@ -61,7 +61,7 @@ Renderer::Renderer() :
         Transform* e_420truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         Sprite* e_420truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
         activeScene->m_entityManager->AddComponent<Audio>(e_420truck, "Assets/Audio/Diesel.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->bgm);
-		activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, e_420truckTransform->m_position, glm::vec2(e_420truckTransform->m_size.x * 100.0f, e_420truckTransform->m_size.y * 100.0f));
+		activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, e_420truckTransform->m_position, glm::vec2(e_420truckTransform->m_size.x * 350.0f, e_420truckTransform->m_size.y * 350.0f));
 
         Entity e_69truck = activeScene->m_entityManager->CreateEntity();
         Transform* e_69truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(500.0f, 400.0f), glm::vec2(1.0f, 1.0f), 0.0f);
