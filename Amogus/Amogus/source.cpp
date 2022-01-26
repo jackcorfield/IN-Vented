@@ -62,24 +62,17 @@ void Application::Run()
 
 	while (!m_quit)
 	{
-
-		Timer->Tick();
+    Timer->Tick();
 		if (Timer->DeltaTime() >= 1 / frameRate)
 		{
-
-			Timer->Tick();
-			if (Timer->DeltaTime() >= 1 / frameRate)
-			{
-				Timer->Reset();
-				glfwPollEvents();
-				PhysicsSystem::Update(Timer->DeltaTime());
-				m_collisionManager->CheckCollision();
-				m_renderer->Render(Timer->DeltaTime());
-			}
-
+			Timer->Reset();
+			glfwPollEvents();
+			PhysicsSystem::Update(Timer->DeltaTime());
+			m_collisionManager->CheckCollision();
+			m_renderer->Render(Timer->DeltaTime());
 		}
 		
-	}
+  }
 
 	TerminateOpenGL();
 }
