@@ -4,6 +4,11 @@
 #include "TileMap.h"
 #include "Tile.h"
 
+#include "EntityManager.h"
+#include "source.h"
+
+extern Application* g_app;
+
 void PathfindingNode::DeriveHeuristics(PathfindingNode* start, PathfindingNode* end)
 {
 	double gCost = 0;
@@ -18,11 +23,14 @@ void PathfindingNode::DeriveHeuristics(PathfindingNode* start, PathfindingNode* 
 
 	// H Cost: euclidean distance from the end
 	double hCost = sqrt(pow((end->m_point.x, m_point.x), 2.0f) + pow((end->m_point.y, m_point.y), 2.0f));
+
 	m_fCost = hCost + gCost;
 }
 
 std::vector<Entity> PathfindingHandler::CalculatePath(TileMap* tilemap, const glm::vec2 start, const glm::vec2 end)
 {
+	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+
 	// Our cache for the path we're making
 	std::map<std::pair<float, float>, PathfindingNode*> cache = std::map<std::pair<float, float>, PathfindingNode*>();
 	auto GetNode = [&](const glm::vec2 pos)
@@ -53,6 +61,13 @@ std::vector<Entity> PathfindingHandler::CalculatePath(TileMap* tilemap, const gl
 		std::vector<glm::vec2> adjacentPositions = tilemap->GetAdjacentTilePositions(cursor->m_point);
 		for (glm::vec2 pos : adjacentPositions)
 		{
+			Entity tileEntity = tilemap->GetTile(pos);
+			Tile* tile = activeScene->m_entityManager->GetComponent<Tile>(tileEntity);
+
+			// We can't move through non-object tiles so skip em
+			if (tile->m_object != TileObject::NONE)
+				continue;
+
 			PathfindingNode* node = GetNode(pos);
 			if (!node->m_open && !node->m_closed)
 			{
