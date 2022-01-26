@@ -20,6 +20,9 @@ void PhysicsSystem::Update(float deltaTime)
 		if (physicsEntity == NULL || transform == nullptr)
 			continue;
 
+		if (p == nullptr)
+			continue;
+
 		// Update to get our velocity
 		p->Update(deltaTime);
 
