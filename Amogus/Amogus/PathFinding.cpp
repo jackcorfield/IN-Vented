@@ -92,7 +92,7 @@ pathNode* pathNode::GetNextInPath()
 Path* pathFinding::GetPath(pathNode* start, pathNode* end)
 {
 
-	pathFinding::onResetGrid();
+	//pathFinding::onResetGrid();
 
 	//loop through all nodes and set distance from end to start
 	end->UpdateNode(0);
