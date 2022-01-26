@@ -116,13 +116,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\ImGui;$(ProjectDir)dependencies\glad\include;$(ProjectDir)dependencies\glm;$(ProjectDir)dependencies\glfw-3.3.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\fmod\inc;$(ProjectDir)dependencies\ImGui;$(ProjectDir)dependencies\glad\include;$(ProjectDir)dependencies\glm;$(ProjectDir)dependencies\glfw-3.3.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\glad;$(ProjectDir)dependencies\glfw-3.3.6\lib-vc2019;$(ProjectDir)dependencies\glfw-3.3.6\deps\glad;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\fmod\lib\x64;$(ProjectDir)dependencies\glad;$(ProjectDir)dependencies\glfw-3.3.6\lib-vc2019;$(ProjectDir)dependencies\glfw-3.3.6\deps\glad;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;opengl32.lib;glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,6 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="dependencies\glad\src\glad.c" />
     <ClCompile Include="dependencies\ImGui\imgui.cpp" />
     <ClCompile Include="dependencies\ImGui\imgui_demo.cpp" />
@@ -159,6 +165,7 @@
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -170,7 +177,21 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Audio.h" />
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CircleCollider.h" />
+    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod.hpp" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_codec.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_common.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_errors.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_output.h" />
     <ClInclude Include="dependencies\ImGui\imconfig.h" />
     <ClInclude Include="dependencies\ImGui\imgui.h" />
     <ClInclude Include="dependencies\ImGui\imgui_impl_glfw.h" />
@@ -190,6 +211,7 @@
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
@@ -208,6 +230,16 @@
     <None Include="DefaultSpriteV.glsl" />
     <None Include="PostProcessingF.glsl" />
     <None Include="PostProcessingV.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dependencies\fmod\inc\fmod.cs" />
+    <None Include="dependencies\fmod\inc\fmod_dsp.cs" />
+    <None Include="dependencies\fmod\inc\fmod_errors.cs" />
+    <None Include="dependencies\fmod\lib\x64\fmod.dll" />
+    <None Include="dependencies\fmod\lib\x64\fmodL.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -265,6 +265,15 @@ void ImGuiLayer::DrawSceneView()
 {
 	ImGui::Begin("Scene View");
 	//Render the scene here.
-	//ImGui::Image();
+	
+	m_tempSize = ImGui::GetContentRegionAvail();
+	if (m_tempSize.x != m_renderSize.x || m_renderSize.y != m_tempSize.y)
+	{
+		m_sceneFrameResized = true;
+		m_renderSize.x = m_tempSize.x;
+		m_renderSize.y = m_tempSize.y;
+	}
+		
+	ImGui::Image(ImTextureID(1), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 }

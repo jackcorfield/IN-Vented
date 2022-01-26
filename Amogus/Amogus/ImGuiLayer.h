@@ -20,6 +20,10 @@ public:
 	void DrawInspector();
 	void DrawSceneView();
 
+	inline ImVec2 GetFrameSize() { return m_renderSize; };
+
+	bool m_sceneFrameResized = false;
+
 private:
 
 	ImGuiLayer(const ImGuiLayer&) = delete;
@@ -32,5 +36,8 @@ private:
 
 	float dragFloat[3] = {};
 	char inputString[32] = {};
+
+	ImVec2 m_renderSize;
+	ImVec2 m_tempSize;
 };
 

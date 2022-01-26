@@ -10,8 +10,8 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
-	const unsigned int m_id;
-	const unsigned int m_width, m_height;
+	unsigned int m_id;
+	unsigned int m_width, m_height;
 };
 
 namespace TextureLoader
