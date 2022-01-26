@@ -67,6 +67,7 @@ void Application::Run()
 			Timer->Reset();
 			glfwPollEvents();
 			PhysicsSystem::Update(Timer->DeltaTime());
+			InputHandler::PollGameControllers();
 			m_renderer->Render(Timer->DeltaTime());
 		}
 		
@@ -131,7 +132,7 @@ bool Application::InitGL()
 		glEnable(GL_MULTISAMPLE);
 }
 
-void Application::Quit(KeyInputEvent* e)
+void Application::Quit(InputEvent* e)
 {
 	m_quit = true;
 }

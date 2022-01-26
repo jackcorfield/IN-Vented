@@ -46,7 +46,7 @@ protected:
 private:
 	bool InitGL();
 
-	void Quit(KeyInputEvent* e);
+	void Quit(InputEvent* e);
 
 	void TerminateOpenGL();
 
