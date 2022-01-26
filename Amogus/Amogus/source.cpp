@@ -18,6 +18,8 @@ Application::Application() :
 	m_entityManager(nullptr),
 	m_sceneManager(nullptr),
 	m_renderer(nullptr),
+	m_audioManager(nullptr),
+	m_collisionManager(nullptr),
 	m_quit(false)
 {	
 	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
@@ -39,7 +41,7 @@ void Application::Init()
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
 	m_audioManager = new AudioManager();
-
+	m_collisionManager = new CollisionManager();
 
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
@@ -64,10 +66,17 @@ void Application::Run()
 		Timer->Tick();
 		if (Timer->DeltaTime() >= 1 / frameRate)
 		{
-			Timer->Reset();
-			glfwPollEvents();
-			PhysicsSystem::Update(Timer->DeltaTime());
-			m_renderer->Render(Timer->DeltaTime());
+
+			Timer->Tick();
+			if (Timer->DeltaTime() >= 1 / frameRate)
+			{
+				Timer->Reset();
+				glfwPollEvents();
+				PhysicsSystem::Update(Timer->DeltaTime());
+				m_collisionManager->CheckCollision();
+				m_renderer->Render(Timer->DeltaTime());
+			}
+
 		}
 		
 	}
