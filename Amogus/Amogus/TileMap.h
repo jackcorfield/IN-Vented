@@ -66,6 +66,43 @@ public:
 		return tiles;
 	}
 
+	std::vector<glm::vec2> GetAdjacentTilePositions(const glm::vec2& centre, bool diagonal = false)
+	{
+		std::vector<glm::vec2> positions;
+
+		/*
+		[-1,1] [0,1] [1,1]
+		[-1,0] [0,0] [1,0]
+		[-1,-1][0,-1][1,-1] 
+		*/
+		for (int x = -1; x < 1; x++)
+		{
+			for (int y = -1; y < 1; y++)
+			{
+				// Ignore self
+				if (x == 0 && y == 0)
+					continue;
+
+				// Ignore diagonal tiles if we don't want them
+				if (x != 0 && y != 0 && !diagonal)
+					continue;
+
+				// Ignore invalid tiles
+				glm::vec2 position = glm::vec2(centre.x + x, centre.y + y);
+
+				if (position.x < 0 || position.x > m_tileSize.x)
+					continue;
+
+				if (position.y < 0 || position.y > m_tileSize.y)
+					continue;
+
+				positions.push_back(position);
+			}
+		}
+
+		return positions;
+	}
+
 	glm::vec2 m_tileSize;
 	glm::vec2 m_mapSize;
 

@@ -3,59 +3,37 @@
 #include <string>
 #include <limits>
 #include <vector>
+#include <map>
 #include <algorithm>
 #include "Transform.h"
 
-class pathNode
+class Tile;
+class TileMap;
+
+struct PathfindingNode
 {
 public:
+	PathfindingNode* m_parent;
+	glm::vec2 m_point;
+	double m_fCost;
+	bool m_closed;
+	bool m_open;
 
-	std::vector<pathNode*> m_Neighbours;
-	int m_costToStart = std::numeric_limits<int>::max();
-	bool m_explored = false;
-	bool m_isValidPath = true;
-	Transform* nodeTransform;
+	PathfindingNode(glm::vec2 point)
+		: m_point(point),
+		m_fCost(0.0f),
+		m_closed(false),
+		m_open(false),
+		m_parent(nullptr)
+	{
 
-private:
+	}
 
-	void OnEnable();
-
-	void OnDisable();
-
-public:
-
-	void ResetNode();
-
-	std::vector<pathNode*> UpdateNeighbours();
-
-	bool UpdateNode(int cost);
-
-	pathNode* GetNextInPath();
-
+	void DeriveHeuristics(PathfindingNode* start, PathfindingNode* end);
 };
 
-class Path
+class PathfindingHandler
 {
 public:
-
-	std::vector<pathNode*> pathNodes;
-
-	Path();
-
-	bool AddNode(pathNode* node);
-
-	pathNode* GetLast();
-
-	Transform* GetNextPoint(int myNode); //replace with correct data type
-
-};
-
-class pathFinding
-{
-
-public:
-
-	static Path* GetPath(pathNode* start, pathNode* end);
-	static void onResetGrid();
-
+	static std::vector<glm::vec2> CalculatePath(TileMap* tilemap, const glm::vec2 start, const glm::vec2 end);
 };

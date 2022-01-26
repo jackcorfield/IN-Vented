@@ -1,148 +1,88 @@
 #include "PathFinding.h"
 #include <iostream>
+#include <queue>
 #include "TileMap.h"
 #include "Tile.h"
 
-Path::Path()
+void PathfindingNode::DeriveHeuristics(PathfindingNode* start, PathfindingNode* end)
 {
-	pathNodes = std::vector<pathNode*>();
+	double gCost = 0;
+	PathfindingNode* cursor = this;
 
-}
-
-bool Path::AddNode(pathNode* node)
-{
-	if (std::find(pathNodes.begin(), pathNodes.end(), node) != pathNodes.end())
+	// G Cost: exact vertices from the start
+	while (cursor->m_parent != nullptr)
 	{
-		pathNodes.push_back(node);
-		return true;
+		cursor = cursor->m_parent;
+		gCost++;
 	}
-	return false;
+
+	// H Cost: euclidean distance from the end
+	double hCost = sqrt(pow((end->m_point.x, m_point.x), 2.0f) + pow((end->m_point.y, m_point.y), 2.0f));
+	m_fCost = hCost + gCost;
 }
 
-pathNode* Path::GetLast()
+std::vector<glm::vec2> PathfindingHandler::CalculatePath(TileMap* tilemap, const glm::vec2 start, const glm::vec2 end)
 {
-	if (pathNodes.size() > 0)
+	// Our cache for the path we're making
+	std::map<std::pair<float, float>, PathfindingNode*> cache = std::map<std::pair<float, float>, PathfindingNode*>();
+	auto GetNode = [&](const glm::vec2 pos)
 	{
-		return pathNodes[pathNodes.size() - 1];
-	}
-	return nullptr;
-}
+		if (cache.count(std::pair<float, float>(pos.x, pos.y)) == 0)
+			cache[std::pair<float, float>(pos.x, pos.y)] = new PathfindingNode(pos);
 
-Transform* Path::GetNextPoint(int myNode) // This function could be used for getting location data of each node during pathing via for loop?
-{
-	if (pathNodes.size() > 1)
+		return cache[std::pair<float, float>(pos.x, pos.y)];
+	};
+
+	// Start and end point
+	PathfindingNode* startNode = GetNode(start);
+	PathfindingNode* endNode = GetNode(end);
+
+	// Priority queue so we always get the one with the lowest fCost when we pop
+	auto cmp = [](PathfindingNode* left, PathfindingNode* right) { return left->m_fCost > right->m_fCost; };
+	std::priority_queue<PathfindingNode*, std::vector<PathfindingNode*>, decltype(cmp)> openList(cmp);
+
+	startNode->m_parent = nullptr;
+	startNode->DeriveHeuristics(startNode, endNode);
+	startNode->m_open = true;
+	openList.push(startNode);
+
+	PathfindingNode* cursor = startNode;
+
+	while (endNode->m_parent == nullptr)
 	{
-		return pathNodes[myNode]->nodeTransform;
-	}
-	return nullptr;
-}
-
-void pathNode::ResetNode()
-{
-	m_costToStart = std::numeric_limits<int>::max();
-	m_explored = false;
-}
-
-std::vector<pathNode*> pathNode::UpdateNeighbours()
-{
-	std::vector<pathNode*> updatedNeighbours;
-
-	for (auto n : m_Neighbours)
-	{
-		if (!n->m_explored && n->m_isValidPath)
+		std::vector<glm::vec2> adjacentPositions = tilemap->GetAdjacentTilePositions(cursor->m_point);
+		for (glm::vec2 pos : adjacentPositions)
 		{
-			if (n->UpdateNode(m_costToStart + 1))
+			PathfindingNode* node = GetNode(pos);
+			if (!node->m_open && !node->m_closed)
 			{
-				updatedNeighbours.push_back(n);
-			}
-
-		}
-
-	}
-	return updatedNeighbours;
-}
-
-bool pathNode::UpdateNode(int cost)
-{
-	if (m_costToStart > cost)
-	{
-		m_costToStart = cost;
-		return true;
-	}
-	return false;
-}
-
-pathNode* pathNode::GetNextInPath()
-{
-	if (m_Neighbours.size() > 0)
-	{
-		pathNode* currentNext = m_Neighbours[0];
-
-		for (int i = 1; i < m_Neighbours.size(); ++i)
-		{
-			if (m_Neighbours[i]->m_costToStart < currentNext->m_costToStart)
-			{
-				currentNext = m_Neighbours[i];
+				node->m_open = true;
+				node->m_parent = cursor;
+				node->DeriveHeuristics(startNode, endNode);
+				openList.push(node);
 			}
 		}
-		return currentNext;
+
+		cursor->m_closed = true;
+
+		if (cursor->m_point != end)
+		{
+			cursor = openList.top();
+			openList.pop();
+		}
 	}
-	return nullptr;
-}
-Path* pathFinding::GetPath(pathNode* start, pathNode* end)
-{
 
-	//pathFinding::onResetGrid();
-
-	//loop through all nodes and set distance from end to start
-	end->UpdateNode(0);
-	end->m_explored = true;
-	bool isFinished = false, isPossible = true;
-	std::vector<pathNode*> _Front;
-	end->UpdateNeighbours();
-	_Front.push_back(end); 
-
-	while (!isFinished)
+	std::vector<glm::vec2> path;
+	while (cursor != nullptr)
 	{
-		std::vector<pathNode*> _NextFront;
-		for (auto n : _Front)
-		{
-			if (n == start)
-			{
-				isFinished = true;
-				break;
-			}
-			n->m_explored = true;
-			n->UpdateNeighbours();
-			_NextFront.push_back(n);
-		}
-		if (_NextFront.empty() && !isFinished) // if we haven't finished and there is nothing left to check then its an infinite loop
-		{
-			isFinished = true;
-			isPossible = false;
-		}
-		else
-		{
-			_Front = _NextFront;
-		}
+		path.insert(path.begin(), cursor->m_point);
+		cursor = cursor->m_parent;
 	}
 
-	Path* p = new Path();
-	if (isPossible)
-	{
-		isFinished = false;
-		//trace path from start to end
-		p->AddNode(start);
-		while (!isFinished)
-		{
-			pathNode* temp = p->GetLast()->GetNextInPath();
-			p->AddNode(temp);
-			if (temp == end)
-			{
-				isFinished = true;
-			}
-		}
-	}
+	std::map<std::pair<float, float>, PathfindingNode*>::iterator iterator;
+	for (iterator = cache.begin(); iterator != cache.end(); iterator++)
+		delete iterator->second;
+	cache.clear();
 
-	return p;
+	return path;
 }
