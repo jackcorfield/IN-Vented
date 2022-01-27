@@ -19,11 +19,14 @@ extern Application* g_app;
 
 namespace SceneExporter
 {
+	EntityManager* g_entityManager; // Store once to avoid retrieving it over and over
+
 	bool WriteAllComponents(nlohmann::json& jEntityArray, Scene* scene);
 
 	template <typename T>
-	bool WriteComponentsOfType(nlohmann::json& jEntityArray, EntityManager* entityManager, const std::string& componentJSONName, std::function<bool(nlohmann::json&, T*)> function);
+	bool WriteComponentsOfType(nlohmann::json& jEntityArray, const std::string& componentJSONName, std::function<bool(nlohmann::json&, T*)> function);
 
+	/// Add a prototype here for new components (and define it below with the others) ///
 	bool WriteCamera(nlohmann::json& jCamera, Camera* camera);
 	bool WritePhysics(nlohmann::json& jPhysics, Physics* physics);
 	bool WritePlayerMovement(nlohmann::json& jPlayerMovement, PlayerMovement* playerMovement);
@@ -36,7 +39,7 @@ namespace SceneExporter
 	{
 		Scene* scene = g_app->m_sceneManager->GetActiveScene();
 
-		std::ofstream outFile(filePath);
+		std::ofstream outFile(filePath );
 		if (!outFile.is_open() || outFile.bad())
 		{
 			return false;
@@ -52,6 +55,7 @@ namespace SceneExporter
 
 		if (!JSON::WriteVec3(scene->m_sceneColour, jFile["clearColour"])) {}
 
+		g_entityManager = scene->m_entityManager;
 		if (!WriteAllComponents(jFile["entities"], scene))
 		{
 			return false;
@@ -59,35 +63,36 @@ namespace SceneExporter
 
 		outFile << std::setw(4) << jFile << std::endl; // Write the exported data to file. std::setw(4) modifies the width of the stream to make the resulting file readable
 		outFile.close();
+
+		return true;
 	}
 
 	bool WriteAllComponents(nlohmann::json& jEntityArray, Scene* scene)
 	{
-		EntityManager* entityManager = scene->m_entityManager;
-
 		bool success = true;
 
-		if (!WriteComponentsOfType<Camera>(jEntityArray, entityManager, "camera", WriteCamera)) { success = false; }
-		if (!WriteComponentsOfType<Physics>(jEntityArray, entityManager, "physics", WritePhysics)) { success = false; }
-		if (!WriteComponentsOfType<PlayerMovement>(jEntityArray, entityManager, "playerMovement", WritePlayerMovement)) { success = false; }
-		if (!WriteComponentsOfType<Sprite>(jEntityArray, entityManager, "sprite", WriteSprite)) { success = false; }
-		if (!WriteComponentsOfType<Tile>(jEntityArray, entityManager, "tile", WriteTile)) { success = false; }
-		if (!WriteComponentsOfType<TileMap>(jEntityArray, entityManager, "tileMap", WriteTileMap)) { success = false; }
-		if (!WriteComponentsOfType<Transform>(jEntityArray, entityManager, "transform", WriteTransform)) { success = false; }
+		/// Add a new if statement here for new components ///
+		if (!WriteComponentsOfType<Camera>(jEntityArray, "camera", WriteCamera)) { success = false; }
+		if (!WriteComponentsOfType<Physics>(jEntityArray, "physics", WritePhysics)) { success = false; }
+		if (!WriteComponentsOfType<PlayerMovement>(jEntityArray, "playerMovement", WritePlayerMovement)) { success = false; }
+		if (!WriteComponentsOfType<Sprite>(jEntityArray, "sprite", WriteSprite)) { success = false; }
+		if (!WriteComponentsOfType<Tile>(jEntityArray, "tile", WriteTile)) { success = false; }
+		if (!WriteComponentsOfType<TileMap>(jEntityArray, "tileMap", WriteTileMap)) { success = false; }
+		if (!WriteComponentsOfType<Transform>(jEntityArray, "transform", WriteTransform)) { success = false; }
 
 		return success;
 	}
 
 	template <typename T>
-	bool WriteComponentsOfType(nlohmann::json& jEntityArray, EntityManager* entityManager, const std::string& componentJSONName, std::function<bool(nlohmann::json&, T*)> function)
+	bool WriteComponentsOfType(nlohmann::json& jEntityArray, const std::string& componentJSONName, std::function<bool(nlohmann::json&, T*)> function)
 	{
-		std::vector<T*> allComponents = entityManager->GetAllComponentsOfType<T>();
+		std::vector<T*> allComponents = g_entityManager->GetAllComponentsOfType<T>();
 
 		bool success = true;
 
 		for (int i = 0; i < allComponents.size(); i++)
 		{
-			Entity entity = entityManager->GetEntityFromComponent<T>(allComponents[i]);
+			Entity entity = g_entityManager->GetEntityFromComponent<T>(allComponents[i]);
 			
 			nlohmann::json jComponent = nlohmann::json::object();
 			jComponent["type"] = componentJSONName;
@@ -213,6 +218,14 @@ namespace SceneExporter
 	bool WriteTileMap(nlohmann::json& jTileMap, TileMap* tileMap)
 	{
 		bool success = true;
+
+		const glm::vec2 tileSize = tileMap->m_tileSize;
+		if (!JSON::WriteVec2(tileSize, jTileMap["tileSize"])) { success = false; }
+
+		const glm::vec2 mapSize = tileMap->m_mapSize;
+		if (!JSON::WriteVec2(mapSize, jTileMap["mapSize"])) { success = false; }
+
+		
 
 		return success;
 	}

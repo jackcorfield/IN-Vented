@@ -41,9 +41,15 @@ void Application::Init()
 
 	m_renderer = new Renderer();
 
-	if (!SceneImporter::ImportSceneFromFile("testexport.json", true))
+	if (!SceneImporter::ImportSceneFromFile("test exported.json", true))
 	{
+		std::cerr << "Failed to import initial scene!" << std::endl;
 		return; // No initial scene
+	}
+
+	if (!SceneExporter::ExportActiveSceneToFile("test exported.json"))
+	{
+		std::cerr << "Failed to export scene!" << std::endl;
 	}
 
 	InputHandler();

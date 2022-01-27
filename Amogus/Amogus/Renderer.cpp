@@ -178,9 +178,12 @@ void Renderer::Render(float deltaTime)
 
 void Renderer::SetActiveCamera(Entity cameraEntity)
 {
+    Scene* scene = g_app->m_sceneManager->GetActiveScene();
+    EntityManager* entityManager = scene->m_entityManager;
+
     if (m_currentCamera)
     {
-        Camera* oldCamera = g_app->m_entityManager->GetComponent<Camera>(m_currentCamera);
+        Camera* oldCamera = entityManager->GetComponent<Camera>(m_currentCamera);
         if (oldCamera)
         {
             oldCamera->m_isActive = false;
@@ -190,7 +193,7 @@ void Renderer::SetActiveCamera(Entity cameraEntity)
     m_currentCamera = cameraEntity;
     if (m_currentCamera)
     {
-        Camera* newCamera = g_app->m_entityManager->GetComponent<Camera>(m_currentCamera);
+        Camera* newCamera = entityManager->GetComponent<Camera>(m_currentCamera);
         if (newCamera)
         {
             newCamera->m_isActive = true;

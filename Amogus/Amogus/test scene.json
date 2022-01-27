@@ -7,6 +7,14 @@
     "entities": [
         [
             {
+                "mass": 1.0,
+                "type": "physics"
+            },
+            {
+                "speed": 1.0,
+                "type": "playerMovement"
+            },
+            {
                 "colour": {
                     "x": 1.0,
                     "y": 1.0,
@@ -38,8 +46,39 @@
         ],
         [
             {
+                "mapSize": {
+                    "x": 3.0,
+                    "y": 1.0
+                },
+                "tileSize": {
+                    "x": 32.0,
+                    "y": 32.0
+                },
+                "type": "tileMap"
+            }
+        ],
+        [
+            {
+                "tileType": 0,
+                "type": "tile"
+            }
+        ],
+        [
+            {
+                "tileType": 0,
+                "type": "tile"
+            }
+        ],
+        [
+            {
+                "tileType": 0,
+                "type": "tile"
+            }
+        ],
+        [
+            {
                 "far": 1.0,
-                "isActive": false,
+                "isActive": true,
                 "near": -1.0,
                 "type": "camera",
                 "viewport": {
