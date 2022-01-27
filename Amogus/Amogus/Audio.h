@@ -10,28 +10,17 @@ public:
 	Audio(const char* path, FMOD::System* system, FMOD::ChannelGroup* group);
 	~Audio();
 
-	bool AudioInit();
+	bool m_isPlaying = false;
 
-	void AddAudio(const char* path);
-	void RemoveAudio();
+	FMOD::Channel* m_channel =0;
+	FMOD::Sound* m_sound;
+	FMOD::System* m_system;
+	FMOD::ChannelGroup* m_group;
+	FMOD_RESULT		m_result;
 
-	void AddToGroup(FMOD::ChannelGroup* group);
-
-	void PauseAudio();
-	void UnpauseAudio();
-
-	void PlayAudio();
-	void Loop();
-
-	bool IsPlaying = false;
-
-	FMOD::Channel* m_channel;
+	void* m_extradriverdata = 0;
 private:
 
-	FMOD::System*		m_system;
-	FMOD::ChannelGroup* m_group;
-	FMOD::Sound*			m_sound;
-	FMOD_RESULT		m_result;
-	void*						m_extradriverdata = 0;
+	
 };
 
