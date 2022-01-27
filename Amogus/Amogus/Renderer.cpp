@@ -65,20 +65,24 @@ Renderer::Renderer() :
         activeScene->m_entityManager->AddComponent<BoxCollider>(e_testCharacter, testTransform->m_position, glm::vec2(testTransform->m_size.x * 100.0f, testTransform->m_size.y * 100.0f));
       
         //this is for memes pls delete
-        Entity e_420truck = activeScene->m_entityManager->CreateEntity();
-        Transform* e_420truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        Sprite* e_420truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-        activeScene->m_entityManager->AddComponent<Audio>(e_420truck, "Assets/Audio/Diesel.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->bgm);
-		activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, e_420truckTransform->m_position, glm::vec2(e_420truckTransform->m_size.x * 350.0f, e_420truckTransform->m_size.y * 350.0f));
+        Entity e_truck1 = activeScene->m_entityManager->CreateEntity();
+        Transform* e_truck1Transform = activeScene->m_entityManager->AddComponent<Transform>(e_truck1, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* e_truck1Sprite = activeScene->m_entityManager->AddComponent <Sprite>(e_truck1, TextureLoader::CreateTexture2DFromFile("truck1", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_truck1, "Assets/Audio/Diesel.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->bgm);
+		activeScene->m_entityManager->AddComponent<BoxCollider>(e_truck1, e_truck1Transform->m_position, glm::vec2(e_truck1Transform->m_size.x * 350.0f, e_truck1Transform->m_size.y * 350.0f));
 
-        Entity e_69truck = activeScene->m_entityManager->CreateEntity();
-        Transform* e_69truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(500.0f, 400.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        Sprite* e_69truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-        activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
+        Entity e_truck2 = activeScene->m_entityManager->CreateEntity();
+        Transform* e_truck2Transform = activeScene->m_entityManager->AddComponent<Transform>(e_truck2, glm::vec2(500.0f, 400.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* e_truck2Sprite = activeScene->m_entityManager->AddComponent <Sprite>(e_truck2, TextureLoader::CreateTexture2DFromFile("e_truck2", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_truck2, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
        
         //audio manager testing
         g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.1f);
         g_app->m_audioManager->SetVolume(g_app->m_audioManager->sfx, 0.02f);
+
+        Entity e_ParticleTest = activeScene->m_entityManager->CreateEntity();
+        Transform* e_ParticleTransform = activeScene->m_entityManager->AddComponent<Transform>(e_ParticleTest, glm::vec2(200.f, 400.0f), glm::vec2(0.1f, 0.1f), 0.0f);
+        Sprite* e_ParticleSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_ParticleTest, TextureLoader::CreateTexture2DFromFile("particleTest", "Assets/Sprites/hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
 
     }
 }

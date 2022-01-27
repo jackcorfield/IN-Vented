@@ -162,6 +162,7 @@
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
