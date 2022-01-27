@@ -11,11 +11,14 @@
 #include "ShaderFactory.h"
 
 #include "Sprite.h"
+#include "AnimatedSprite.h"
 #include "Timer.h"
 #include "Transform.h"
 #include "PlayerMovement.h"
-
+#include "Audio.h"
 #include "Camera.h"
+
+#include "BoxCollider.h"
 
 extern Application* g_app;
 
@@ -29,7 +32,7 @@ Renderer::Renderer() :
     m_projection = glm::mat4(1.0f);
     InitQuad();
 
-    //m_time = 0;
+    m_time = 0;
 
     m_gui = new ImGuiLayer();
 
@@ -46,14 +49,38 @@ Renderer::Renderer() :
         //Entity e = activeScene->m_entityManager->CreateEntity();
         //activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
         //activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-    
+  
+        Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
+        Transform* testTransform = activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* testSprite = activeScene->m_entityManager->AddComponent<Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
 
-        //Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
-        //activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        //activeScene->m_entityManager->AddComponent <Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-        //activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
-		//activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
-   // }
+        activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+		activeScene->m_entityManager->AddComponent<AnimatedSprite>(e_testCharacter,
+			std::vector<Texture2D>{TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), TextureLoader::CreateTexture2DFromFile("TestCharacter", "test2.png")},
+			0.5f,
+			glm::vec3(1.0f, 1.0f, 1.0f), 
+			m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
+      	activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
+        activeScene->m_entityManager->AddComponent<BoxCollider>(e_testCharacter, testTransform->m_position, glm::vec2(testTransform->m_size.x * 100.0f, testTransform->m_size.y * 100.0f));
+      
+        //this is for memes pls delete
+        Entity e_420truck = activeScene->m_entityManager->CreateEntity();
+        Transform* e_420truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* e_420truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_420truck, "Assets/Audio/Diesel.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->bgm);
+		activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, e_420truckTransform->m_position, glm::vec2(e_420truckTransform->m_size.x * 350.0f, e_420truckTransform->m_size.y * 350.0f));
+
+        Entity e_69truck = activeScene->m_entityManager->CreateEntity();
+        Transform* e_69truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(500.0f, 400.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* e_69truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
+       
+        //audio manager testing
+        g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.1f);
+        g_app->m_audioManager->SetVolume(g_app->m_audioManager->sfx, 0.02f);
+
+    }
 }
 
 Renderer::~Renderer()
@@ -110,7 +137,7 @@ void Renderer::Render(float deltaTime)
 
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
-    glViewport(0, 0, m_gui->GetFrameSize().x, m_gui->GetFrameSize().x);
+    glViewport(0, 0, m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
 
     if (activeScene)
     {
@@ -123,6 +150,17 @@ void Renderer::Render(float deltaTime)
         glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
         Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_currentCamera);
         Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+
+        if (m_gui->m_sceneFrameResized)
+        {
+            cameraComponent->m_viewportWidth = m_gui->GetFrameSize().x;
+            cameraComponent->m_viewportHeight = m_gui->GetFrameSize().y;
+            cameraComponent->m_framebuffer->Resize(m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
+            m_projection = glm::orthoLH(0.0f, m_gui->GetFrameSize().x, m_gui->GetFrameSize().y, 0.0f, cameraComponent->m_near, cameraComponent->m_far);
+
+            m_gui->m_sceneFrameResized = false;
+        }
+        
         glm::mat4 view = glm::mat4(1.0f);
         if (cameraTransform)
         {
@@ -143,7 +181,21 @@ void Renderer::Render(float deltaTime)
         m_defaultShader->SetUniform("view", view);
         m_defaultShader->SetUniform("projection", m_projection);
 
-        std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
+		std::vector<AnimatedSprite*> animatedSprites = activeScene->m_entityManager->GetAllComponentsOfType<AnimatedSprite>();
+		for (AnimatedSprite* aSprite : animatedSprites)
+		{
+			aSprite->Update(deltaTime);
+
+			Entity entity = activeScene->m_entityManager->GetEntityFromComponent<AnimatedSprite>(aSprite);
+			Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(entity);
+
+			if (transform)
+			{
+				DrawSprite(aSprite, transform);
+			}
+		}
+
+		std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
         for (Sprite* sprite : sprites)
         {
             Entity entity = activeScene->m_entityManager->GetEntityFromComponent<Sprite>(sprite);
@@ -152,6 +204,14 @@ void Renderer::Render(float deltaTime)
             if (transform)
             {
                 DrawSprite(sprite, transform);
+            }
+
+            //this is for testing pls dont get angry at me : (
+            Audio*  audio = activeScene->m_entityManager->GetComponent<Audio>(entity);
+
+            if (audio && !audio->IsPlaying)
+            {
+                audio->PlayAudio();
             }
         }
 
@@ -164,8 +224,8 @@ void Renderer::Render(float deltaTime)
             glClear(GL_COLOR_BUFFER_BIT);
 
             m_postProcessingShader->Use();
-            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f));
-            m_postProcessingShader->SetUniform("time", deltaTime);
+            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f, 0.0f, 0.0f)); // r = screen shake, g = hdr, b = 
+            m_postProcessingShader->SetUniform("time", m_time);
 
             //glBindTexture(GL_TEXTURE_2D, 1);
             DrawImGui();
@@ -174,6 +234,9 @@ void Renderer::Render(float deltaTime)
 
     m_gui->EndGui();
 	glfwSwapBuffers(g_app->m_window);
+
+    m_time += deltaTime;
+    // screen shake relies on an incrementing time rather than deltatime
 }
 
 void Renderer::SetActiveCamera(Entity cameraEntity)

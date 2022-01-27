@@ -12,7 +12,7 @@ public:
 	inline Shader* GetShader() const { return m_shader; }
 	inline Texture2D GetTexture() const { return m_texture; }
 
-private:
+protected:
 	glm::vec3 m_colour;
 	Shader* m_shader;
 	Texture2D m_texture;

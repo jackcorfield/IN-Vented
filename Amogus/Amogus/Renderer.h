@@ -42,4 +42,6 @@ private:
 	glm::mat4 m_projection;
 
 	ImGuiLayer* m_gui;
+
+	float m_time;
 };
