@@ -2,6 +2,9 @@
 #include <glm.hpp>
 #include <vector>
 
+#include "Shader.h"
+#include "Texture2D.h"
+
 struct ParticleInfo
 {
 	glm::vec2 m_pos;
@@ -13,7 +16,8 @@ struct ParticleInfo
 class Particle
 {
 public:
-	Particle();
+	Particle(const Texture2D& texture, const glm::vec3& colour = glm::vec3(1.0f), Shader* shader = nullptr); // texture
+	Particle(const glm::vec3& colour = glm::vec3(1.0f), Shader* shader = nullptr); // colour 
 
 	void Update(float dt);
 	void Render();

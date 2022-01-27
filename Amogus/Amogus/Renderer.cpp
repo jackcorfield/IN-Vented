@@ -17,7 +17,7 @@
 #include "PlayerMovement.h"
 #include "Audio.h"
 #include "Camera.h"
-
+#include "Particle.h"
 #include "BoxCollider.h"
 
 extern Application* g_app;
@@ -83,6 +83,7 @@ Renderer::Renderer() :
         Entity e_ParticleTest = activeScene->m_entityManager->CreateEntity();
         Transform* e_ParticleTransform = activeScene->m_entityManager->AddComponent<Transform>(e_ParticleTest, glm::vec2(200.f, 400.0f), glm::vec2(0.1f, 0.1f), 0.0f);
         Sprite* e_ParticleSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_ParticleTest, TextureLoader::CreateTexture2DFromFile("particleTest", "Assets/Sprites/hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        Particle* eParticleparticle = activeScene->m_entityManager->AddComponent <Particle>();
 
     }
 }
