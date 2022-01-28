@@ -56,7 +56,10 @@ ImGuiLayer::ImGuiLayer()
 	static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 	io.Fonts->AddFontFromFileTTF("Fonts/FontIcons.ttf", 16.0f, &config, icon_ranges);
 
+
 	m_selectedBool = false;
+	m_gameView = new Framebuffer;
+
 }
 
 ImGuiLayer::~ImGuiLayer()
@@ -334,7 +337,12 @@ void ImGuiLayer::DrawSceneView()
 		m_renderSize.x = m_tempSize.x;
 		m_renderSize.y = m_tempSize.y;
 	}
-		
-	ImGui::Image(ImTextureID(1), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+	
+	ImGui::Image(ImTextureID(2), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::End();
+	
+	ImGui::Begin("Game View");
+	ImGui::Image(ImTextureID(m_gameView->GetRenderTextureID()), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+
 	ImGui::End();
 }

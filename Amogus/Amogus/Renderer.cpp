@@ -27,7 +27,7 @@ void CheckGLErrors();
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
     m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl")),
-    m_currentCamera(g_app->m_sceneManager->GetActiveScene()->m_entityManager->CreateEntity())
+    m_sceneCamera(g_app->m_sceneManager->GetActiveScene()->m_entityManager->CreateEntity())
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
@@ -41,8 +41,8 @@ Renderer::Renderer() :
     if (activeScene)
     {
         // Temporary until we're loading entities from file; need a camera for now
-        Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_currentCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer);
-        Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_currentCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
+        Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_sceneCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer);
+        Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_sceneCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
 
         m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, cameraC->m_near, cameraC->m_far);
 
@@ -92,7 +92,7 @@ Renderer::~Renderer()
 void Renderer::DrawImGui()
 {
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
-    Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+    Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_sceneCamera);
 
     m_gui->DrawMenuBar(m_defaultShader);
     m_gui->DrawHierachy();
@@ -141,19 +141,20 @@ void Renderer::Render(float deltaTime)
 
     if (activeScene)
     {
-        Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_currentCamera);
-        Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+        Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_sceneCamera);
+        Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_sceneCamera);
 
         if (m_gui->m_sceneFrameResized)
         {
             cameraComponent->m_viewportWidth = m_gui->GetFrameSize().x;
             cameraComponent->m_viewportHeight = m_gui->GetFrameSize().y;
             cameraComponent->m_framebuffer->Resize(m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
+            m_gui->m_gameView->Resize(m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
             m_projection = glm::orthoLH(0.0f, m_gui->GetFrameSize().x, m_gui->GetFrameSize().y, 0.0f, cameraComponent->m_near, cameraComponent->m_far);
 
             m_gui->m_sceneFrameResized = false;
         }
-        
+		
         glm::mat4 view = glm::mat4(1.0f);
         if (cameraTransform)
         {
@@ -210,17 +211,22 @@ void Renderer::Render(float deltaTime)
 
         if (cameraComponent->m_framebuffer != nullptr)
         {
-            cameraComponent->m_framebuffer->Unbind();
+            m_gui->m_gameView->Bind();
             glDisable(GL_DEPTH_TEST);
 
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             m_postProcessingShader->Use();
-            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f, 0.0f, 0.0f)); // r = screen shake, g = hdr, b = 
+            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f, 0.0f, 0.0f));
             m_postProcessingShader->SetUniform("time", m_time);
 
-            glBindTexture(GL_TEXTURE_2D, 1);
+            glBindTexture(GL_TEXTURE_2D, cameraComponent->m_framebuffer->GetRenderTextureID());
+            glBindVertexArray(m_quadVAO);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+
+            cameraComponent->m_framebuffer->Unbind();
+
             DrawImGui();
         }
     }
@@ -230,7 +236,6 @@ void Renderer::Render(float deltaTime)
 	glfwSwapBuffers(g_app->m_window);
 
     m_time += deltaTime;
-    // screen shake relies on an incrementing time rather than deltatime
 }
 
 void Renderer::InitQuad()
