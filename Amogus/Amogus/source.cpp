@@ -10,11 +10,15 @@
 
 void error_callback(int error, const char* description);
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
+void window_close_callback(GLFWwindow* window);
+
+extern Application* g_app;
 
 Application::Application() :
 	m_entityManager(nullptr),
 	m_sceneManager(nullptr),
 	m_renderer(nullptr),
+	m_audioManager(nullptr),
 	m_quit(false)
 {	
 	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
@@ -32,8 +36,11 @@ void Application::Init()
 
 	InitGL();
 
+
 	m_entityManager = new EntityManager();
 	m_sceneManager = new SceneManager();
+	m_audioManager = new AudioManager();
+
 	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
 
 	m_renderer = new Renderer();
@@ -45,25 +52,26 @@ void Application::Init()
 
 void Application::Run()
 {
-	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
 
+	EngineUtils::Timer* Timer = EngineUtils::Timer::Instance();
+	bool isRunning = true;
 	// Locked to infinity for now, will change at later date
 	constexpr float frameRate = std::numeric_limits<float>::infinity();
 
 	while (!m_quit)
 	{
 		Timer->Tick();
-		if (Timer->DeltaTime() >= 1 / frameRate) {
-
+		if (Timer->DeltaTime() >= 1 / frameRate)
+		{
 			Timer->Reset();
-			//std::cout << Timer->DeltaTime() << std::endl;
-
 			glfwPollEvents();
 			PhysicsSystem::Update(Timer->DeltaTime());
+			InputHandler::PollGameControllers();
+			CollisionManager::CheckCollision();
 			m_renderer->Render(Timer->DeltaTime());
-
 		}
-	}
+		
+  }
 
 	TerminateOpenGL();
 }
@@ -88,7 +96,7 @@ bool Application::InitGL()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
 	GLFWmonitor* monitor = m_windowParams.isFullscreen ? glfwGetPrimaryMonitor() : NULL; // If fullscreen enabled, get monitor
 	m_window = glfwCreateWindow(m_windowParams.windowWidth, m_windowParams.windowHeight, m_windowParams.windowTitle, monitor, NULL);
@@ -107,9 +115,7 @@ bool Application::InitGL()
 	glfwSetCursorPosCallback(m_window, InputHandler::MouseCallback);
 	glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
 
-	// Prevents window from closing instantly
-	glfwSetWindowShouldClose(m_window, GL_FALSE); // Shoud replace with window close callback below?
-	//glfwSetWindowCloseCallback(m_window, window_close_callback);
+	glfwSetWindowCloseCallback(m_window, window_close_callback);
 
 		// Initialise glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -126,7 +132,12 @@ bool Application::InitGL()
 		glEnable(GL_MULTISAMPLE);
 }
 
-void Application::Quit(KeyInputEvent* e)
+void Application::Quit(InputEvent* e)
+{
+	m_quit = true;
+}
+
+void Application::Quit()
 {
 	m_quit = true;
 }
@@ -147,3 +158,9 @@ void frame_buffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
+
+void window_close_callback(GLFWwindow* window)
+{
+	g_app->Quit();
+}
+

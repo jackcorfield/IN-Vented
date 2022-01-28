@@ -25,8 +25,17 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{71fcf998-22b4-4d69-898f-592541c4f508}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FMOD">
+      <UniqueIdentifier>{1bab865e-5e7e-4b78-9049-5c70c8a3fcfd}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{0a7daac2-6afc-42da-9ec8-b4b7efb75ff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collision">
+      <UniqueIdentifier>{11867969-c3bb-41e7-ab96-110267c4c420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Collision">
+      <UniqueIdentifier>{3751b065-9859-4be8-8663-6fc905d59737}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +90,32 @@
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSprite.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClCompile Include="ImGuiLayer.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
@@ -105,9 +140,21 @@
     <ClCompile Include="dependencies\ImGui\imgui.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="PathFinding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PlayerMovement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source.h">
@@ -167,6 +214,9 @@
     <ClInclude Include="PhysicsSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -203,8 +253,41 @@
     <ClInclude Include="dependencies\ImGui\imconfig.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod.hpp">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_codec.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_common.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp_effects.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_errors.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\fmod\inc\fmod_output.h">
+      <Filter>FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedSprite.h">
+      <Filter>Header Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,5 +303,27 @@
     <None Include="PostProcessingF.glsl">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dependencies\fmod\inc\fmod_dsp.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\inc\fmod_errors.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\inc\fmod.cs">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\lib\x64\fmodL.dll">
+      <Filter>FMOD</Filter>
+    </None>
+    <None Include="dependencies\fmod\lib\x64\fmod.dll">
+      <Filter>FMOD</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib">
+      <Filter>FMOD</Filter>
+    </Library>
   </ItemGroup>
 </Project>

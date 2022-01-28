@@ -9,5 +9,5 @@ public:
 
 	float m_speed;
 
-	void AddMovement(KeyInputEvent* e);
+	void AddMovement(InputEvent* e);
 };

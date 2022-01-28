@@ -5,7 +5,7 @@
 class Physics
 {
 public:
-	Physics() : m_mass(10.0f) {}
+	Physics() : m_mass(10.0f), m_netForce(0, 0), m_acceleration(0, 0), m_velocity(0, 0) {}
 
 	void Update(float dt);
 	void AddForce(glm::vec2 force);

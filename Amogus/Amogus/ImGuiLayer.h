@@ -24,6 +24,7 @@ public:
 	inline ImVec2 GetFrameSize() { return m_renderSize; };
 
 	Framebuffer* m_gameView;
+	bool m_sceneFrameResized = false;
 private:
 
 	ImGuiLayer(const ImGuiLayer&) = delete;
@@ -38,5 +39,6 @@ private:
 	char inputString[32] = {};
 
 	ImVec2 m_renderSize;
+	ImVec2 m_tempSize;
 };
 

@@ -268,13 +268,19 @@ void ImGuiLayer::DrawSceneView()
 	ImGui::Begin("Scene View");
 	//Render the scene here.
 	
-	m_renderSize = ImGui::GetContentRegionAvail();
-
+	m_tempSize = ImGui::GetContentRegionAvail();
+	if (m_tempSize.x != m_renderSize.x || m_renderSize.y != m_tempSize.y)
+	{
+		m_sceneFrameResized = true;
+		m_renderSize.x = m_tempSize.x;
+		m_renderSize.y = m_tempSize.y;
+	}
+	
 	ImGui::Image(ImTextureID(2), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
-
+	
 	ImGui::Begin("Game View");
-	ImVec2 gameViewRenderSize = ImGui::GetContentRegionAvail();
-	ImGui::Image(ImTextureID(m_gameView->GetRenderTextureID()), gameViewRenderSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image(ImTextureID(m_gameView->GetRenderTextureID()), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+
 	ImGui::End();
 }

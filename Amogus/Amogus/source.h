@@ -3,10 +3,14 @@
 #include <iostream>
 
 #include "EntityManager.h"
+#include "SceneManager.h"
+#include "AudioManager.h"
+#include "CollisionManager.h"
+
 #include "Renderer.h"
 #include "InputHandler.h"
 #include "PhysicsSystem.h"
-#include "SceneManager.h"
+
 
 struct GLFWwindow;
 
@@ -29,18 +33,22 @@ public:
 	void Init();
 	void Run();
 
+	void Quit();
+
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
 
-	EntityManager* m_entityManager;
-	SceneManager* m_sceneManager;
+	EntityManager*		m_entityManager;
+	SceneManager*	 m_sceneManager;
+	AudioManager*		m_audioManager;
 
 protected:
 
 private:
 	bool InitGL();
 
-	void Quit(KeyInputEvent* e);
+	void Quit(InputEvent* e);
+
 	void TerminateOpenGL();
 
 	bool m_quit;
