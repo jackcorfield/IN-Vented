@@ -149,6 +149,7 @@ void Renderer::Render(float deltaTime)
             cameraComponent->m_viewportWidth = m_gui->GetFrameSize().x;
             cameraComponent->m_viewportHeight = m_gui->GetFrameSize().y;
             cameraComponent->m_framebuffer->Resize(m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
+            m_gui->m_gameView->Resize(m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
             m_projection = glm::orthoLH(0.0f, m_gui->GetFrameSize().x, m_gui->GetFrameSize().y, 0.0f, cameraComponent->m_near, cameraComponent->m_far);
 
             m_gui->m_sceneFrameResized = false;
@@ -217,7 +218,7 @@ void Renderer::Render(float deltaTime)
             glClear(GL_COLOR_BUFFER_BIT);
 
             m_postProcessingShader->Use();
-            m_postProcessingShader->SetUniform("effects", glm::vec3(1.0f));
+            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f, 0.0f, 0.0f));
             m_postProcessingShader->SetUniform("time", m_time);
 
             glBindTexture(GL_TEXTURE_2D, cameraComponent->m_framebuffer->GetRenderTextureID());
