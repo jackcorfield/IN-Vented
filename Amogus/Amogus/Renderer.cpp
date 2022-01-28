@@ -26,9 +26,7 @@ void CheckGLErrors();
 
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
-    m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl")),
-    m_currentCamera(),
-    m_sceneCamera(g_app->m_sceneManager->GetActiveScene()->m_entityManager->CreateEntity())
+    m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl"))
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
@@ -140,11 +138,11 @@ void Renderer::Render(float deltaTime)
 
     glViewport(0, 0, m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
 
-    if (activeScene)
+    if (activeScene && m_sceneCamera != 0)
     {
         if (m_projection == glm::mat4(1.0f))
         {
-            Camera* camera = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+            Camera* camera = activeScene->m_entityManager->GetComponent<Camera>(m_sceneCamera);
             m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, camera->m_near, camera->m_far);
         }
 
@@ -251,19 +249,19 @@ void Renderer::SetActiveCamera(Entity cameraEntity)
     Scene* scene = g_app->m_sceneManager->GetActiveScene();
     EntityManager* entityManager = scene->m_entityManager;
 
-    if (m_currentCamera)
+    if (m_sceneCamera)
     {
-        Camera* oldCamera = entityManager->GetComponent<Camera>(m_currentCamera);
+        Camera* oldCamera = entityManager->GetComponent<Camera>(m_sceneCamera);
         if (oldCamera)
         {
             oldCamera->m_isActive = false;
         }
     }
 
-    m_currentCamera = cameraEntity;
-    if (m_currentCamera)
+    m_sceneCamera = cameraEntity;
+    if (m_sceneCamera)
     {
-        Camera* newCamera = entityManager->GetComponent<Camera>(m_currentCamera);
+        Camera* newCamera = entityManager->GetComponent<Camera>(m_sceneCamera);
         if (newCamera)
         {
             newCamera->m_isActive = true;
