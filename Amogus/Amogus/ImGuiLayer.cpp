@@ -1,6 +1,19 @@
 #include "ImGuiLayer.h"
 #include "source.h"
 #include <GLFW/glfw3.h>
+#include <string.h>
+
+#include "Shader.h"
+#include "Sprite.h"
+#include "AnimatedSprite.h"
+#include "Texture2D.h"
+#include "Camera.h"
+#include "Audio.h"
+#include "PlayerMovement.h"
+#include "Physics.h"
+#include "BoxCollider.h"
+
+#include <iostream>
 
 extern Application* g_app;
 
@@ -43,7 +56,10 @@ ImGuiLayer::ImGuiLayer()
 	static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 	io.Fonts->AddFontFromFileTTF("Fonts/FontIcons.ttf", 16.0f, &config, icon_ranges);
 
+
+	m_selectedBool = false;
 	m_gameView = new Framebuffer;
+
 }
 
 ImGuiLayer::~ImGuiLayer()
@@ -53,6 +69,8 @@ ImGuiLayer::~ImGuiLayer()
 
 void ImGuiLayer::BeginGui()
 {
+	m_entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+
 	static bool p_open = true;
 
 	// AP - ImGui rendering
@@ -96,7 +114,7 @@ void ImGuiLayer::EndGui()
 	glfwMakeContextCurrent(backup_current_context);
 }
 
-void ImGuiLayer::DrawMenuBar()
+void ImGuiLayer::DrawMenuBar(Shader* shader)
 {
 	{
 		if (ImGui::BeginMainMenuBar())
@@ -133,15 +151,15 @@ void ImGuiLayer::DrawMenuBar()
 				{
 					if (ImGui::MenuItem("Sprite"))
 					{
-
+						Entity entity = m_entityManager->CreateEntity();
+						Sprite* sprite = m_entityManager->AddComponent<Sprite>(entity, TextureLoader::CreateTexture2DFromFile("defaultEntity", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), shader);
+						Transform* testTransform = m_entityManager->AddComponent<Transform>(entity, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), 0.0f);
 					}
 					else if (ImGui::MenuItem("Camera"))
 					{
-
-					}
-					else if (ImGui::MenuItem("Tile Map"))
-					{
-
+						Entity entity = m_entityManager->CreateEntity();
+						Camera* camera = m_entityManager->AddComponent<Camera>(entity, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer);
+						Transform* cameraTransform = m_entityManager->AddComponent<Transform>(entity, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
 					}
 					ImGui::EndMenu();
 				}
@@ -166,66 +184,104 @@ void ImGuiLayer::DrawHierachy()
 	ImGui::Begin("Hierachy");
 
 	ImGui::InputText("Search", inputString, sizeof(inputString));
-	if (ImGui::TreeNode("Scene1"))
+
+	std::vector<Entity> allEntities = m_entityManager->GetAllActiveEntities();
+
+	static uint32_t item_current_idx = 0;
+
+	for (uint32_t i = 0; i < allEntities.size(); i++)
 	{
-		if (ImGui::TreeNode("Sprite1"))
+
+		
+		const bool is_selected = (item_current_idx == i);
+		std::string selectLabel = "Entity " + std::to_string(i);
+
+		if (ImGui::TreeNode(selectLabel.c_str()))
 		{
+			std::map<std::type_index, void*> entityComponents = m_entityManager->GetAllComponents(allEntities[i]);
+
+			for (const auto& component : entityComponents)
+			{
+				//std::cout << typeid(component.first).name() << std::endl;
+				if (component.first == std::type_index(typeid(Sprite)))
+				{
+					selectLabel = "Sprite##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(AnimatedSprite)))
+				{
+					selectLabel = "Animated Sprite##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(Camera)))
+				{
+					selectLabel = "Camera##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(Audio)))
+				{
+					selectLabel = "Audio##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(Transform)))
+				{
+					selectLabel = "Transform##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(Physics)))
+				{
+					selectLabel = "Physics##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(PlayerMovement)))
+				{
+					selectLabel = "Player Movement##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(BoxCollider)))
+				{
+					selectLabel = "Box Coliider##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else
+				{
+					selectLabel = "Default##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("Sprite2"))
-		{
-			ImGui::TreePop();
-		}
-		if (ImGui::TreeNode("Camera1"))
-		{
-			ImGui::TreePop();
-		}
-		if (ImGui::TreeNode("TileMap"))
-		{
-			if (ImGui::TreeNode("Tile1"))
-			{
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Tile2"))
-			{
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Tile3"))
-			{
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Tile4"))
-			{
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Tile5"))
-			{
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Tile6"))
-			{
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Tile7"))
-			{
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Tile8"))
-			{
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Tile9"))
-			{
-				ImGui::TreePop();
-			}
-			ImGui::TreePop();
-		}
-		ImGui::TreePop();
+	
 	}
 
 	ImGui::End();
-	
-
 }
 
 void ImGuiLayer::DrawProfiler()
@@ -245,19 +301,25 @@ void ImGuiLayer::DrawConsole()
 void ImGuiLayer::DrawInspector()
 {
 
+
+
 	ImGui::Begin("Inspector");
 	ImGui::InputText("Component Name", inputString, 32);
 
-	if (ImGui::CollapsingHeader("Transform"))
+	if (m_selectedItem != 0)
 	{
-		ImGui::DragFloat3("Position", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
-		ImGui::DragFloat3("Rotation", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
-		ImGui::DragFloat3("Scale", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
+		if (ImGui::CollapsingHeader("Transform"))
+		{
+			ImGui::DragFloat3("Position", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
+			ImGui::DragFloat3("Rotation", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
+			ImGui::DragFloat3("Scale", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
+		}
+		if (ImGui::CollapsingHeader("Sprite Renderer"))
+		{
+			ImGui::Text("Add some fun sprite stuff here idk");
+		}
 	}
-	if (ImGui::CollapsingHeader("Sprite Renderer"))
-	{
-		ImGui::Text("Add some fun sprite stuff here idk");
-	}
+	
 
 
 	ImGui::End();
