@@ -1,62 +1,89 @@
 {
     "clearColour": {
-        "x": 0.30000001192092896,
+        "x": 0.20000000298023224,
         "y": 0.30000001192092896,
-        "z": 0.4000000059604645
+        "z": 0.800000011920929
     },
     "entities": [
+		[
+			{
+				"colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+				"shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default shader",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+				"texture": {
+					"filePath": "test.png",
+					"name": "TestCharacter"
+				},
+				"type": "sprite"
+			},
+            {
+                "pos": {
+                    "x": 200.0,
+                    "y": 100.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
+            }
+		],
         [
+            {
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "interval": 0.5,
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default shader",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "textures": [
+                    {
+                        "filePath": "test.png",
+                        "name": "TestCharacter"
+                    },
+                    {
+                        "filePath": "test2.png",
+                        "name": "TestCharacter"
+                    }
+                ],
+                "type": "animatedSprite"
+            },
             {
                 "channelGroup": "bgm",
                 "filePath": "Assets/Audio/Diesel.wav",
                 "type": "audio"
             },
             {
-                "mass": 1.0,
+                "pos": {
+                    "x": -107374176.0,
+                    "y": -107374176.0
+                },
+                "size": {
+                    "x": 100.0,
+                    "y": 100.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "mass": 10.0,
                 "type": "physics"
             },
             {
-                "speed": 1.0,
+                "speed": 10000.0,
                 "type": "playerMovement"
-            },
-			{
-				"type": "boxCollider",
-				"pos": {
-                    "x": 500.0,
-                    "y": 100.0
-                },
-				"size": {
-                    "x": 50.0,
-                    "y": 10.0
-                }
-			},
-            {
-				"interval": 0.1,
-                "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default shader",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
-                },
-				"textures": [
-					{
-						"filePath": "test.png",
-						"name": "TestCharacter"
-					},
-					{
-						"filePath": "test2.png",
-						"name": "TestCharacter2"
-					}
-				],
-                "texture": {
-                    "filePath": "test.png",
-                    "name": "TestCharacter"
-                },
-                "type": "animatedSprite"
             },
             {
                 "pos": {
@@ -110,7 +137,7 @@
                 "type": "camera",
                 "viewport": {
                     "height": 512.0,
-                    "width": 805.0
+                    "width": 791.0
                 }
             },
             {

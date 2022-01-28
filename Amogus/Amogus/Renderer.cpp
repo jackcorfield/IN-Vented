@@ -23,6 +23,7 @@
 extern Application* g_app;
 
 void CheckGLErrors();
+void UpdateShaderCameraData(Shader* shader, const glm::mat4& view, const glm::mat4& projection);
 
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
@@ -34,52 +35,6 @@ Renderer::Renderer() :
     m_time = 0;
 
     m_gui = new ImGuiLayer();
-
-    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
-
-    if (activeScene)
-    {
-        // Temporary until we're loading entities from file; need a camera for now
-        Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_sceneCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer);
-        Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_sceneCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
-
-        m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, cameraC->m_near, cameraC->m_far);
-
-        Entity e = activeScene->m_entityManager->CreateEntity();
-        //activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        //activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-  
-        Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
-        Transform* testTransform = activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        Sprite* testSprite = activeScene->m_entityManager->AddComponent<Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-
-        activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-		activeScene->m_entityManager->AddComponent<AnimatedSprite>(e_testCharacter,
-			std::vector<Texture2D>{TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), TextureLoader::CreateTexture2DFromFile("TestCharacter", "test2.png")},
-			0.5f,
-			glm::vec3(1.0f, 1.0f, 1.0f), 
-			m_defaultShader);
-        activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
-      	activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
-        activeScene->m_entityManager->AddComponent<BoxCollider>(e_testCharacter, testTransform->m_position, glm::vec2(testTransform->m_size.x * 100.0f, testTransform->m_size.y * 100.0f));
-      
-        //this is for memes pls delete
-        Entity e_420truck = activeScene->m_entityManager->CreateEntity();
-        Transform* e_420truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        Sprite* e_420truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-        activeScene->m_entityManager->AddComponent<Audio>(e_420truck, "Assets/Audio/Diesel.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->bgm);
-		activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, e_420truckTransform->m_position, glm::vec2(e_420truckTransform->m_size.x * 350.0f, e_420truckTransform->m_size.y * 350.0f));
-
-        Entity e_69truck = activeScene->m_entityManager->CreateEntity();
-        Transform* e_69truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(500.0f, 400.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-        Sprite* e_69truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
-        activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
-       
-        //audio manager testing
-        g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.1f);
-        g_app->m_audioManager->SetVolume(g_app->m_audioManager->sfx, 0.02f);
-
-    }
 }
 
 Renderer::~Renderer()
@@ -187,6 +142,9 @@ void Renderer::Render(float deltaTime)
 		{
 			aSprite->Update(deltaTime);
 
+            Shader* shader = aSprite->GetShader();
+            UpdateShaderCameraData(shader, view, m_projection);
+
 			Entity entity = activeScene->m_entityManager->GetEntityFromComponent<AnimatedSprite>(aSprite);
 			Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(entity);
 
@@ -202,17 +160,12 @@ void Renderer::Render(float deltaTime)
             Entity entity = activeScene->m_entityManager->GetEntityFromComponent<Sprite>(sprite);
             Transform* transform = activeScene->m_entityManager->GetComponent<Transform>(entity);
 
+            Shader* shader = sprite->GetShader();
+            UpdateShaderCameraData(shader, view, m_projection);
+
             if (transform)
             {
                 DrawSprite(sprite, transform);
-            }
-
-            //this is for testing pls dont get angry at me : (
-            Audio*  audio = activeScene->m_entityManager->GetComponent<Audio>(entity);
-
-            if (audio && !audio->IsPlaying)
-            {
-                audio->PlayAudio();
             }
         }
 
@@ -308,4 +261,12 @@ void CheckGLErrors()
     {
         std::cerr << "GL error! Code: " << error << std::endl;
     }
+}
+
+void UpdateShaderCameraData(Shader* shader, const glm::mat4& view, const glm::mat4& projection)
+{
+    shader->Use();
+    shader->SetUniform("view", view);
+    shader->SetUniform("projection", projection);
+    shader->Unuse();
 }

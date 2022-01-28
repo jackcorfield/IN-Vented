@@ -272,7 +272,7 @@ void ImGuiLayer::DrawSceneView(int textureID)
 		m_renderSize.y = m_tempSize.y;
 	}
 	
-	ImGui::Image(ImTextureID(2), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image(ImTextureID(textureID), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 	
 	ImGui::Begin("Game View");
