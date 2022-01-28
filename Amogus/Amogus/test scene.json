@@ -7,6 +7,11 @@
     "entities": [
         [
             {
+                "channelGroup": "bgm",
+                "filePath": "Assets/Audio/Diesel.wav",
+                "type": "audio"
+            },
+            {
                 "mass": 1.0,
                 "type": "physics"
             },
@@ -82,8 +87,8 @@
                 "near": -1.0,
                 "type": "camera",
                 "viewport": {
-                    "height": 720.0,
-                    "width": 1280.0
+                    "height": 512.0,
+                    "width": 805.0
                 }
             },
             {

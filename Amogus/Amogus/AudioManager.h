@@ -10,6 +10,7 @@ public:
 	void AddAudio();
 	bool AudioManagerInit();
 
+	float GetVolume(FMOD::ChannelGroup* group);
 	void SetVolume(FMOD::ChannelGroup* group, float volume);
 
 	FMOD::ChannelGroup*	sfx;

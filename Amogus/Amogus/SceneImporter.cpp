@@ -8,7 +8,12 @@
 #include "ShaderFactory.h"
 #include "source.h"
 
+// Component includes
+#include "AnimatedSprite.h"
+#include "Audio.h"
+#include "BoxCollider.h"
 #include "Camera.h"
+#include "CircleCollider.h"
 #include "Physics.h"
 #include "PlayerMovement.h"
 #include "Sprite.h"
@@ -28,6 +33,8 @@ namespace SceneImporter
 	bool ReadComponentsOfEntity(const nlohmann::json& jComponentArray, Entity entity, std::vector<Entity>& allTiles, Entity& tileMapEntity);
 
 	/// Add a prototype here for new components (and define it below with the others) ///
+	bool CreateAnimatedSprite(const nlohmann::json& j, Entity entity);
+	bool CreateAudio(const nlohmann::json& j, Entity entity);
 	bool CreateCamera(const nlohmann::json& j, Entity entity);
 	bool CreatePhysics(const nlohmann::json& j, Entity entity);
 	bool CreatePlayerMovement(const nlohmann::json& j, Entity entity);
@@ -35,6 +42,10 @@ namespace SceneImporter
 	bool CreateTile(const nlohmann::json& j, Entity entity, std::vector<Entity>& allTiles);
 	bool CreateTileMap(const nlohmann::json& j, Entity entity, const std::vector<Entity>& tiles);
 	bool CreateTransform(const nlohmann::json& j, Entity entity);
+
+	// Helpers
+	bool ReadShader(const nlohmann::json& jShader, Shader** readTo);
+	bool ReadTexture(const nlohmann::json& jTexture, Texture2D& readTo);
 
 	bool ImportSceneFromFile(const std::string& filePath, bool setToActive)
 	{
@@ -140,6 +151,14 @@ namespace SceneImporter
 			if (!JSON::Read(componentType, jComponent, "type")) { success = false; continue; } // Cannot read component if type cannot be determined
 
 			/// Add a new else if block here for new components ///
+			if (componentType == "animatedSprite")
+			{
+				if (!CreateAnimatedSprite(jComponent, entity)) { success = false; }
+			}
+			if (componentType == "audio")
+			{
+				if (!CreateAudio(jComponent, entity)) { success = false; }
+			}
 			if (componentType == "camera")
 			{
 				if (!CreateCamera(jComponent, entity)) { success = false; }
@@ -172,6 +191,79 @@ namespace SceneImporter
 				if (!CreateTransform(jComponent, entity)) { success = false; }
 			}
 		}
+
+		return success;
+	}
+
+	bool CreateAudio(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
+		std::string filePath;
+		if (!JSON::Read(filePath, j, "filePath")) { success = false; }
+
+		std::string channelGroupString;
+		if (!JSON::Read(channelGroupString, j, "channelGroup")) { success = false; }
+
+		FMOD::ChannelGroup* channelGroup = nullptr;
+		if (channelGroupString == "bgm")
+		{
+			channelGroup = g_app->m_audioManager->bgm;
+		}
+		else if (channelGroupString == "sfx")
+		{
+			channelGroup = g_app->m_audioManager->sfx;
+		}
+		else
+		{
+			std::cerr << "Audio object has no defined channel group! Defaulting to sfx" << std::endl;
+			channelGroup = g_app->m_audioManager->sfx;
+		}
+
+		FMOD::System* system = g_app->m_audioManager->m_system;
+
+		Audio* component = g_entityManager->AddComponent<Audio>(entity, filePath.c_str(), system, channelGroup);
+
+		return success;
+	}
+	
+	bool CreateAnimatedSprite(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
+		float interval;
+		if (!JSON::Read(interval, j, "interval")) { success = false; }
+
+		glm::vec3 colour = glm::vec3(1.0f);
+		if (!JSON::ReadVec3(colour, j, "colour")) { success = false; }
+
+		Shader* shader = nullptr;
+		if (!j.contains("shader") || !ReadShader(j["shader"], &shader))
+		{
+			return false;
+		}
+
+		if (!j.contains("textures"))
+		{
+			return false;
+		}
+		std::vector<Texture2D> textures;
+		for (int i = 0; i < j["textures"].size(); i++)
+		{
+			nlohmann::json jTexture = j["textures"][i];
+			Texture2D newTexture;
+
+			if (ReadTexture(jTexture, newTexture))
+			{
+				textures.emplace_back(newTexture);
+			}
+			else
+			{
+				success = false;
+			}
+		}
+
+		AnimatedSprite* component = g_entityManager->AddComponent<AnimatedSprite>(entity, textures, interval, colour, shader);
 
 		return success;
 	}
@@ -249,47 +341,17 @@ namespace SceneImporter
 		glm::vec3 colour;
 		if (!JSON::ReadVec3(colour, j, "colour")) {}
 
-		Shader* shader;
-		if (j.contains("shader"))
-		{
-			nlohmann::json jShader = j["shader"];
-
-			std::string name;
-			if (!JSON::Read(name, jShader, "name")) {}
-
-			std::string vertexPath, fragmentPath;
-			if (!JSON::Read(vertexPath, jShader, "vertexFilePath") || !JSON::Read(fragmentPath, jShader, "fragmentFilePath"))
-			{
-				success = false; // Cannot render a sprite without vertex & fragment shader
-			}
-
-			std::string geometryPath;
-			if (!JSON::Read(geometryPath, jShader, "geometryFilePath")) {}
-
-			shader = ShaderFactory::CreatePipelineShader(name, vertexPath, fragmentPath, geometryPath);
-		}
-		else
+		Shader* shader = nullptr;
+		if (!j.contains("shader") || !ReadShader(j["shader"], &shader))
 		{
 			return false;
 		}
 
-		if (!j.contains("texture"))
+		Texture2D texture;
+		if (!j.contains("texture") || !ReadTexture(j["texture"], texture))
 		{
 			return false;
 		}
-
-		nlohmann::json jTexture = j["texture"];
-
-		std::string textureName;
-		if (!JSON::Read(textureName, jTexture, "name")) {}
-
-		std::string texturePath;
-		if (!JSON::Read(texturePath, jTexture, "filePath"))
-		{
-			success = false; // Cannot render a sprite without a texture
-		}
-
-		Texture2D texture = TextureLoader::CreateTexture2DFromFile(textureName, texturePath);
 
 		Sprite* component = g_entityManager->AddComponent<Sprite>(entity, texture, colour, shader);
 
@@ -341,6 +403,45 @@ namespace SceneImporter
 		if (!JSON::Read(rotate, j, "rotate")) {}
 
 		Transform* component = g_entityManager->AddComponent<Transform>(entity, pos, size, rotate);
+
+		return success;
+	}
+
+	bool ReadShader(const nlohmann::json& jShader, Shader** readTo)
+	{
+		bool success = true;
+
+		std::string name;
+		if (!JSON::Read(name, jShader, "name")) {}
+
+		std::string vertexPath, fragmentPath;
+		if (!JSON::Read(vertexPath, jShader, "vertexFilePath") || !JSON::Read(fragmentPath, jShader, "fragmentFilePath"))
+		{
+			success = false; // Cannot render a sprite without vertex & fragment shader
+		}
+
+		std::string geometryPath;
+		if (!JSON::Read(geometryPath, jShader, "geometryFilePath")) {}
+
+		*readTo = ShaderFactory::CreatePipelineShader(name, vertexPath, fragmentPath, geometryPath);
+
+		return success;
+	}
+
+	bool ReadTexture(const nlohmann::json& jTexture, Texture2D& readTo)
+	{
+		bool success = true;
+
+		std::string textureName;
+		if (!JSON::Read(textureName, jTexture, "name")) {}
+
+		std::string texturePath;
+		if (!JSON::Read(texturePath, jTexture, "filePath"))
+		{
+			success = false; // Cannot render a sprite without a texture
+		}
+
+		readTo = TextureLoader::CreateTexture2DFromFile(textureName, texturePath);
 
 		return success;
 	}

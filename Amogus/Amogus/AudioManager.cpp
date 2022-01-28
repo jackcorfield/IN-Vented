@@ -29,6 +29,14 @@ bool AudioManager::AudioManagerInit()
     return true;
 }
 
+float AudioManager::GetVolume(FMOD::ChannelGroup* group)
+{
+    float volume;
+    group->getVolume(&volume);
+
+    return volume;
+}
+
 //1 full volume, 0 silent
 void AudioManager::SetVolume(FMOD::ChannelGroup* group, float volume)
 {

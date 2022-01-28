@@ -7,7 +7,12 @@
 #include "JSONHelpers.h"
 #include "source.h"
 
+// Component includes
+#include "AnimatedSprite.h"
+#include "Audio.h"
+#include "BoxCollider.h"
 #include "Camera.h"
+#include "CircleCollider.h"
 #include "Physics.h"
 #include "PlayerMovement.h"
 #include "Sprite.h"
@@ -27,6 +32,8 @@ namespace SceneExporter
 	bool WriteComponentsOfType(nlohmann::json& jEntityArray, const std::string& componentJSONName, std::function<bool(nlohmann::json&, T*)> function);
 
 	/// Add a prototype here for new components (and define it below with the others) ///
+	bool WriteAnimatedSprite(nlohmann::json& jAnimatedSprite, AnimatedSprite* animatedSprite);
+	bool WriteAudio(nlohmann::json& jAudio, Audio* audio);
 	bool WriteCamera(nlohmann::json& jCamera, Camera* camera);
 	bool WritePhysics(nlohmann::json& jPhysics, Physics* physics);
 	bool WritePlayerMovement(nlohmann::json& jPlayerMovement, PlayerMovement* playerMovement);
@@ -72,6 +79,7 @@ namespace SceneExporter
 		bool success = true;
 
 		/// Add a new if statement here for new components ///
+		if (!WriteComponentsOfType<Audio>(jEntityArray, "audio", WriteAudio)) { success = false; }
 		if (!WriteComponentsOfType<Camera>(jEntityArray, "camera", WriteCamera)) { success = false; }
 		if (!WriteComponentsOfType<Physics>(jEntityArray, "physics", WritePhysics)) { success = false; }
 		if (!WriteComponentsOfType<PlayerMovement>(jEntityArray, "playerMovement", WritePlayerMovement)) { success = false; }
@@ -108,6 +116,49 @@ namespace SceneExporter
 			}
 			jEntityArray[entity - 1].push_back(jComponent);
 		}
+
+		return success;
+	}
+
+	bool WriteAnimatedSprite(nlohmann::json& jAnimatedSprite, AnimatedSprite* animatedSprite)
+	{
+		bool success = true;
+
+		const float interval = animatedSprite->GetFrameInterval();
+		if (!JSON::Write(interval, jAnimatedSprite["interval"])) { success = false; }
+
+		const glm::vec3 colour = animatedSprite->GetColour();
+		if (!JSON::WriteVec3(colour, jAnimatedSprite["colour"])) { success = false; }
+
+		// Need a way to get the frame textures! Left an error here for you to find your way back x
+		.
+
+		return success;
+	}
+
+	bool WriteAudio(nlohmann::json& jAudio, Audio* audio)
+	{
+		bool success = true;
+
+		const std::string filePath = audio->m_filePath;
+		if (!JSON::Write(filePath, jAudio["filePath"])) { success = false; }
+
+		const FMOD::ChannelGroup* channelGroup = audio->GetChannelGroup();
+		std::string channelGroupString;
+		if (channelGroup == g_app->m_audioManager->bgm) // Gross but the simplest solution without adding some kind of identifier in Audio
+		{
+			channelGroupString = "bgm";
+		}
+		else if (channelGroup == g_app->m_audioManager->sfx)
+		{
+			channelGroupString = "sfx";
+		}
+		else
+		{
+			channelGroupString = "sfx";
+		}
+
+		if (!JSON::Write(channelGroupString, jAudio["channelGroup"])) { success = false; }
 
 		return success;
 	}

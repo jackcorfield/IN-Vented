@@ -3,15 +3,20 @@
 #include <iostream>
 #include "fmod_common.h"
 
-Audio::Audio(const char* path, FMOD::System* system ,FMOD::ChannelGroup* group)
+Audio::Audio(const char* path, FMOD::System* system ,FMOD::ChannelGroup* group) :
+    m_filePath(path),
+    m_system(system),
+    m_group(group),
+    m_channel(0)
 {
-    m_system = system;
-    m_group = group;
-    m_channel = 0;
     AddAudio(path);
     AddToGroup(group);
 }
 
+Audio::~Audio()
+{
+    RemoveAudio();
+}
 
 void Audio::AddAudio(const char* path)
 {
