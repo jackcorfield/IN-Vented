@@ -206,6 +206,7 @@
     <ClInclude Include="ImGuiLayer.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="EventHandler.h" />
+    <ClInclude Include="ImGuiLayerHelper.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
     <ClInclude Include="PathFinding.h" />

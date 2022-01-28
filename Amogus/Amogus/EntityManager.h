@@ -126,6 +126,41 @@ public:
 		return 0;
 	}
 
+	std::vector<Entity> GetAllActiveEntities()
+	{
+		std::vector<Entity> ids;
+
+		for (int i = 1; i < m_nextEntityID; i++)
+		{
+			if (std::find(m_freeIDs.begin(), m_freeIDs.end(), i) == m_freeIDs.end())
+			{
+				ids.push_back(i);
+			}
+		}
+
+		return ids;
+	}
+
+	std::map<std::type_index, void*> GetAllComponents(Entity id)
+	{
+		std::map<std::type_index, void*> componentMap;
+
+		for (std::pair<std::type_index, std::map<Entity, void*>> i : m_componentMap)
+		{
+			auto res = std::find_if(i.second.begin(), i.second.end(), [&](const std::pair<Entity, void*>& param)
+				{
+					return param.first == id;
+				});
+
+			if (res != i.second.end())
+			{
+				componentMap[i.first] = res->second;
+			}
+		}
+
+		return componentMap;
+	}
+
 private:
 	unsigned int m_nextEntityID;
 	std::vector<Entity> m_freeIDs;

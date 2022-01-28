@@ -4,6 +4,9 @@
 #include <imgui_impl_opengl3.h>
 #include "Fonts/IconHeader.h"
 
+#include "EntityManager.h"
+class Shader;
+
 class ImGuiLayer
 {
 public:
@@ -13,7 +16,7 @@ public:
 	void BeginGui();
 	void EndGui();
 
-	void DrawMenuBar();
+	void DrawMenuBar(Shader* shader);
 	void DrawHierachy();
 	void DrawProfiler();
 	void DrawConsole();
@@ -36,8 +39,13 @@ private:
 
 	float dragFloat[3] = {};
 	char inputString[32] = {};
+	bool m_selectedBool;
 
 	ImVec2 m_renderSize;
 	ImVec2 m_tempSize;
+
+	EntityManager* m_entityManager;
+
+	Entity m_selectedItem = 0;
 };
 
