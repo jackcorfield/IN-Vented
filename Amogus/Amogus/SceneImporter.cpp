@@ -35,7 +35,9 @@ namespace SceneImporter
 	/// Add a prototype here for new components (and define it below with the others) ///
 	bool CreateAnimatedSprite(const nlohmann::json& j, Entity entity);
 	bool CreateAudio(const nlohmann::json& j, Entity entity);
+	bool CreateBoxCollider(const nlohmann::json& j, Entity entity);
 	bool CreateCamera(const nlohmann::json& j, Entity entity);
+	bool CreateCircleCollider(const nlohmann::json& j, Entity entity);
 	bool CreatePhysics(const nlohmann::json& j, Entity entity);
 	bool CreatePlayerMovement(const nlohmann::json& j, Entity entity);
 	bool CreateSprite(const nlohmann::json& j, Entity entity);
@@ -159,9 +161,17 @@ namespace SceneImporter
 			{
 				if (!CreateAudio(jComponent, entity)) { success = false; }
 			}
+			if (componentType == "boxCollider")
+			{
+				if (!CreateBoxCollider(jComponent, entity)) { success = false; }
+			}
 			if (componentType == "camera")
 			{
 				if (!CreateCamera(jComponent, entity)) { success = false; }
+			}
+			if (componentType == "circleCollider")
+			{
+				if (!CreateCircleCollider(jComponent, entity)) { success = false; }
 			}
 			else if (componentType == "physics")
 			{
@@ -195,38 +205,6 @@ namespace SceneImporter
 		return success;
 	}
 
-	bool CreateAudio(const nlohmann::json& j, Entity entity)
-	{
-		bool success = true;
-
-		std::string filePath;
-		if (!JSON::Read(filePath, j, "filePath")) { success = false; }
-
-		std::string channelGroupString;
-		if (!JSON::Read(channelGroupString, j, "channelGroup")) { success = false; }
-
-		FMOD::ChannelGroup* channelGroup = nullptr;
-		if (channelGroupString == "bgm")
-		{
-			channelGroup = g_app->m_audioManager->bgm;
-		}
-		else if (channelGroupString == "sfx")
-		{
-			channelGroup = g_app->m_audioManager->sfx;
-		}
-		else
-		{
-			std::cerr << "Audio object has no defined channel group! Defaulting to sfx" << std::endl;
-			channelGroup = g_app->m_audioManager->sfx;
-		}
-
-		FMOD::System* system = g_app->m_audioManager->m_system;
-
-		Audio* component = g_entityManager->AddComponent<Audio>(entity, filePath.c_str(), system, channelGroup);
-
-		return success;
-	}
-	
 	bool CreateAnimatedSprite(const nlohmann::json& j, Entity entity)
 	{
 		bool success = true;
@@ -264,6 +242,53 @@ namespace SceneImporter
 		}
 
 		AnimatedSprite* component = g_entityManager->AddComponent<AnimatedSprite>(entity, textures, interval, colour, shader);
+
+		return success;
+	}
+
+	bool CreateAudio(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
+		std::string filePath;
+		if (!JSON::Read(filePath, j, "filePath")) { success = false; }
+
+		std::string channelGroupString;
+		if (!JSON::Read(channelGroupString, j, "channelGroup")) { success = false; }
+
+		FMOD::ChannelGroup* channelGroup = nullptr;
+		if (channelGroupString == "bgm")
+		{
+			channelGroup = g_app->m_audioManager->bgm;
+		}
+		else if (channelGroupString == "sfx")
+		{
+			channelGroup = g_app->m_audioManager->sfx;
+		}
+		else
+		{
+			std::cerr << "Audio object has no defined channel group! Defaulting to sfx" << std::endl;
+			channelGroup = g_app->m_audioManager->sfx;
+		}
+
+		FMOD::System* system = g_app->m_audioManager->m_system;
+
+		Audio* component = g_entityManager->AddComponent<Audio>(entity, filePath.c_str(), system, channelGroup);
+
+		return success;
+	}
+
+	bool CreateBoxCollider(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
+		glm::vec2 pos;
+		if (!JSON::ReadVec2(pos, j, "pos")) { success = false; }
+
+		glm::vec2 size;
+		if (!JSON::ReadVec2(size, j, "size")) { success = false; }
+
+		BoxCollider* component = g_entityManager->AddComponent<BoxCollider>(entity, pos, size);
 
 		return success;
 	}
@@ -306,6 +331,21 @@ namespace SceneImporter
 		{
 			g_app->SetActiveCamera(entity);
 		}
+
+		return success;
+	}
+
+	bool CreateCircleCollider(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
+		glm::vec2 centre;
+		if (!JSON::ReadVec2(centre, j, "centre")) { success = true; }
+
+		float radius;
+		if (!JSON::Read(radius, j, "radius")) { success = true; }
+
+		CircleCollider* component = g_entityManager->AddComponent<CircleCollider>(entity, radius, centre);
 
 		return success;
 	}

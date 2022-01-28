@@ -3,6 +3,7 @@
 
 class CircleCollider
 {
+public:
 	CircleCollider(float radius, glm::vec2 centre);
 	void SetSize(float radius) { m_radius = radius; };//Function will just update width and height variable of collider
 	void CheckCollision();

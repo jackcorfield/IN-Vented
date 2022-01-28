@@ -34,7 +34,9 @@ namespace SceneExporter
 	/// Add a prototype here for new components (and define it below with the others) ///
 	bool WriteAnimatedSprite(nlohmann::json& jAnimatedSprite, AnimatedSprite* animatedSprite);
 	bool WriteAudio(nlohmann::json& jAudio, Audio* audio);
+	bool WriteBoxCollider(nlohmann::json& jBoxCollider, BoxCollider* boxCollider);
 	bool WriteCamera(nlohmann::json& jCamera, Camera* camera);
+	bool WriteCircleCollider(nlohmann::json& jCircleCollider, CircleCollider* circleCollider);
 	bool WritePhysics(nlohmann::json& jPhysics, Physics* physics);
 	bool WritePlayerMovement(nlohmann::json& jPlayerMovement, PlayerMovement* playerMovement);
 	bool WriteSprite(nlohmann::json& jSprite, Sprite* sprite);
@@ -79,8 +81,11 @@ namespace SceneExporter
 		bool success = true;
 
 		/// Add a new if statement here for new components ///
+		if (!WriteComponentsOfType<AnimatedSprite>(jEntityArray, "animatedSprite", WriteAnimatedSprite)) { success = false; }
 		if (!WriteComponentsOfType<Audio>(jEntityArray, "audio", WriteAudio)) { success = false; }
+		if (!WriteComponentsOfType<BoxCollider>(jEntityArray, "boxCollider", WriteBoxCollider)) { success = false; }
 		if (!WriteComponentsOfType<Camera>(jEntityArray, "camera", WriteCamera)) { success = false; }
+		if (!WriteComponentsOfType<CircleCollider>(jEntityArray, "circleCollider", WriteCircleCollider)) { success = false; }
 		if (!WriteComponentsOfType<Physics>(jEntityArray, "physics", WritePhysics)) { success = false; }
 		if (!WriteComponentsOfType<PlayerMovement>(jEntityArray, "playerMovement", WritePlayerMovement)) { success = false; }
 		if (!WriteComponentsOfType<Sprite>(jEntityArray, "sprite", WriteSprite)) { success = false; }
@@ -130,8 +135,45 @@ namespace SceneExporter
 		const glm::vec3 colour = animatedSprite->GetColour();
 		if (!JSON::WriteVec3(colour, jAnimatedSprite["colour"])) { success = false; }
 
-		// Need a way to get the frame textures! Left an error here for you to find your way back x
-		.
+		// Write Shader data
+		{
+			nlohmann::json jShader;
+			const Shader* shader = animatedSprite->GetShader();
+
+			const std::string shaderName = shader->m_name;
+			if (!JSON::Write(shaderName, jShader["name"])) {}
+
+			const std::string vertexPath = shader->m_vertexPath;
+			const std::string fragmentPath = shader->m_fragmentPath;
+			if (!JSON::Write(vertexPath, jShader["vertexFilePath"]) || !JSON::Write(fragmentPath, jShader["fragmentFilePath"]))
+			{
+				return false; // Cannot render a sprite without vertex & fragment shader
+			}
+
+			const std::string geometryPath = shader->m_geometryPath;
+			if (!geometryPath.empty())
+			{
+				if (!JSON::Write(geometryPath, jShader["geometryFilePath"])) {}
+			}
+
+			jAnimatedSprite["shader"] = jShader;
+		}
+
+		// Write frame Texture2D data
+		const std::vector<Texture2D> frames = animatedSprite->GetFrames();
+		for (int i = 0; i < frames.size(); i++)
+		{
+			nlohmann::json jTexture;
+			const Texture2D texture = frames[i];
+
+			const std::string textureName = texture.m_name;
+			if (!JSON::Write(textureName, jTexture["name"])) {}
+
+			const std::string texturePath = texture.m_filePath;
+			if (!JSON::Write(texturePath, jTexture["filePath"])) { return false; }// Cannot render a sprite without a texture
+
+			jAnimatedSprite["textures"][i] = jTexture;
+		}
 
 		return success;
 	}
@@ -163,6 +205,19 @@ namespace SceneExporter
 		return success;
 	}
 
+	bool WriteBoxCollider(nlohmann::json& jBoxCollider, BoxCollider* boxCollider)
+	{
+		bool success = true;
+
+		const glm::vec2 pos = *boxCollider->m_position;
+		if (!JSON::WriteVec2(pos, jBoxCollider["pos"])) { success = false; }
+
+		const glm::vec2 size = boxCollider->m_size;
+		if (!JSON::WriteVec2(size, jBoxCollider["size"])) { success = false; }
+
+		return success;
+	}
+
 	bool WriteCamera(nlohmann::json& jCamera, Camera* camera)
 	{
 		bool success = true;
@@ -181,6 +236,19 @@ namespace SceneExporter
 
 		const bool isActive = camera->m_isActive;
 		if (!JSON::Write(isActive, jCamera["isActive"])) { success = false; }
+
+		return success;
+	}
+
+	bool WriteCircleCollider(nlohmann::json& jCircleCollider, CircleCollider* circleCollider)
+	{
+		bool success = true;
+
+		const glm::vec2 centre = circleCollider->m_centre;
+		if (!JSON::WriteVec2(centre, jCircleCollider["centre"])) { success = true; }
+
+		const float radius = circleCollider->m_radius;
+		if (!JSON::Write(radius, jCircleCollider["radius"])) { success = true; }
 
 		return success;
 	}

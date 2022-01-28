@@ -10,6 +10,7 @@ public:
 	void Update(float dt);
 
 	float GetFrameInterval() const { return m_frameInterval; }
+	std::vector<Texture2D> GetFrames() const { return m_frames; }
 
 private:
 	std::vector<Texture2D> m_frames;

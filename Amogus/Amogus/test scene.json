@@ -19,7 +19,19 @@
                 "speed": 1.0,
                 "type": "playerMovement"
             },
+			{
+				"type": "boxCollider",
+				"pos": {
+                    "x": 500.0,
+                    "y": 100.0
+                },
+				"size": {
+                    "x": 50.0,
+                    "y": 10.0
+                }
+			},
             {
+				"interval": 0.1,
                 "colour": {
                     "x": 1.0,
                     "y": 1.0,
@@ -30,11 +42,21 @@
                     "name": "default shader",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
+				"textures": [
+					{
+						"filePath": "test.png",
+						"name": "TestCharacter"
+					},
+					{
+						"filePath": "test2.png",
+						"name": "TestCharacter2"
+					}
+				],
                 "texture": {
                     "filePath": "test.png",
                     "name": "TestCharacter"
                 },
-                "type": "sprite"
+                "type": "animatedSprite"
             },
             {
                 "pos": {
