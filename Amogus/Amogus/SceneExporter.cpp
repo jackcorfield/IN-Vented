@@ -185,13 +185,13 @@ namespace SceneExporter
 		const std::string filePath = audio->m_filePath;
 		if (!JSON::Write(filePath, jAudio["filePath"])) { success = false; }
 
-		const FMOD::ChannelGroup* channelGroup = audio->GetChannelGroup();
+		const FMOD::ChannelGroup* channelGroup = g_app->m_audioManager->GetGroup(audio->m_channel);
 		std::string channelGroupString;
-		if (channelGroup == g_app->m_audioManager->bgm) // Gross but the simplest solution without adding some kind of identifier in Audio
+		if (channelGroup == g_app->m_audioManager->m_bgm) // Gross but the simplest solution without adding some kind of identifier in Audio
 		{
 			channelGroupString = "bgm";
 		}
-		else if (channelGroup == g_app->m_audioManager->sfx)
+		else if (channelGroup == g_app->m_audioManager->m_sfx)
 		{
 			channelGroupString = "sfx";
 		}

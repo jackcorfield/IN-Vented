@@ -5,24 +5,24 @@
         "z": 0.800000011920929
     },
     "entities": [
-		[
-			{
-				"colour": {
+        [
+            {
+                "colour": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0
                 },
-				"shader": {
+                "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
                     "name": "default shader",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
-				"texture": {
-					"filePath": "test.png",
-					"name": "TestCharacter"
-				},
-				"type": "sprite"
-			},
+                "texture": {
+                    "filePath": "test.png",
+                    "name": "TestCharacter"
+                },
+                "type": "sprite"
+            },
             {
                 "pos": {
                     "x": 200.0,
@@ -35,7 +35,7 @@
                 },
                 "type": "transform"
             }
-		],
+        ],
         [
             {
                 "colour": {
@@ -62,7 +62,7 @@
                 "type": "animatedSprite"
             },
             {
-                "channelGroup": "bgm",
+                "channelGroup": "sfx",
                 "filePath": "Assets/Audio/Diesel.wav",
                 "type": "audio"
             },
@@ -87,8 +87,8 @@
             },
             {
                 "pos": {
-                    "x": 500.0,
-                    "y": 100.0
+                    "x": 83.15432739257813,
+                    "y": 206.65423583984375
                 },
                 "rotate": 0.0,
                 "size": {
@@ -137,7 +137,7 @@
                 "type": "camera",
                 "viewport": {
                     "height": 512.0,
-                    "width": 791.0
+                    "width": 805.0
                 }
             },
             {

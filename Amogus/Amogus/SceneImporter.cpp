@@ -259,16 +259,16 @@ namespace SceneImporter
 		FMOD::ChannelGroup* channelGroup = nullptr;
 		if (channelGroupString == "bgm")
 		{
-			channelGroup = g_app->m_audioManager->bgm;
+			channelGroup = g_app->m_audioManager->m_bgm;
 		}
 		else if (channelGroupString == "sfx")
 		{
-			channelGroup = g_app->m_audioManager->sfx;
+			channelGroup = g_app->m_audioManager->m_sfx;
 		}
 		else
 		{
 			std::cerr << "Audio object has no defined channel group! Defaulting to sfx" << std::endl;
-			channelGroup = g_app->m_audioManager->sfx;
+			channelGroup = g_app->m_audioManager->m_sfx;
 		}
 
 		FMOD::System* system = g_app->m_audioManager->m_system;
