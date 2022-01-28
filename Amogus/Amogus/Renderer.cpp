@@ -110,7 +110,6 @@ void Renderer::Render(float deltaTime)
 
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 
-    //glViewport(0, 0, m_gui->GetFrameSize().x, m_gui->GetFrameSize().x);
     glViewport(0, 0, 1280, 720);
 
     if (activeScene)

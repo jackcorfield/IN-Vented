@@ -274,9 +274,7 @@ void ImGuiLayer::DrawSceneView()
 	ImGui::End();
 
 	ImGui::Begin("Game View");
-
-	m_renderSize = ImGui::GetContentRegionAvail();
-
-	ImGui::Image(ImTextureID(m_gameView->GetRenderTextureID()), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImVec2 gameViewRenderSize = ImGui::GetContentRegionAvail();
+	ImGui::Image(ImTextureID(m_gameView->GetRenderTextureID()), gameViewRenderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 }
