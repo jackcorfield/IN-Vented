@@ -38,10 +38,9 @@ private:
 	Shader* m_postProcessingShader;
 	unsigned int m_quadVAO;
 
-	Entity m_currentCamera;
+	Entity m_sceneCamera;
 	glm::mat4 m_projection;
 
 	ImGuiLayer* m_gui;
-
 	float m_time;
 };

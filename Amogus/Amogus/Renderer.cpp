@@ -27,7 +27,8 @@ void CheckGLErrors();
 Renderer::Renderer() :
 	m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
     m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl")),
-    m_currentCamera()
+    m_currentCamera(),
+    m_sceneCamera(g_app->m_sceneManager->GetActiveScene()->m_entityManager->CreateEntity())
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
@@ -35,6 +36,52 @@ Renderer::Renderer() :
     m_time = 0;
 
     m_gui = new ImGuiLayer();
+
+    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+
+    if (activeScene)
+    {
+        // Temporary until we're loading entities from file; need a camera for now
+        Camera* cameraC = activeScene->m_entityManager->AddComponent<Camera>(m_sceneCamera, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer);
+        Transform* cameraTransform = activeScene->m_entityManager->AddComponent<Transform>(m_sceneCamera, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
+
+        m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, cameraC->m_near, cameraC->m_far);
+
+        Entity e = activeScene->m_entityManager->CreateEntity();
+        //activeScene->m_entityManager->AddComponent<Transform>(e, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        //activeScene->m_entityManager->AddComponent<Sprite>(e, TextureLoader::CreateTexture2DFromFile("testSpriteTexture", "hi.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+  
+        Entity e_testCharacter = activeScene->m_entityManager->CreateEntity();
+        Transform* testTransform = activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* testSprite = activeScene->m_entityManager->AddComponent<Sprite>(e_testCharacter, TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+
+        activeScene->m_entityManager->AddComponent<Transform>(e_testCharacter, glm::vec2(500.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+		activeScene->m_entityManager->AddComponent<AnimatedSprite>(e_testCharacter,
+			std::vector<Texture2D>{TextureLoader::CreateTexture2DFromFile("TestCharacter", "test.png"), TextureLoader::CreateTexture2DFromFile("TestCharacter", "test2.png")},
+			0.5f,
+			glm::vec3(1.0f, 1.0f, 1.0f), 
+			m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Physics>(e_testCharacter);
+      	activeScene->m_entityManager->AddComponent<PlayerMovement>(e_testCharacter);
+        activeScene->m_entityManager->AddComponent<BoxCollider>(e_testCharacter, testTransform->m_position, glm::vec2(testTransform->m_size.x * 100.0f, testTransform->m_size.y * 100.0f));
+      
+        //this is for memes pls delete
+        Entity e_420truck = activeScene->m_entityManager->CreateEntity();
+        Transform* e_420truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_420truck, glm::vec2(100.0f, 100.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* e_420truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_420truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/420truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_420truck, "Assets/Audio/Diesel.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->bgm);
+		activeScene->m_entityManager->AddComponent<BoxCollider>(e_420truck, e_420truckTransform->m_position, glm::vec2(e_420truckTransform->m_size.x * 350.0f, e_420truckTransform->m_size.y * 350.0f));
+
+        Entity e_69truck = activeScene->m_entityManager->CreateEntity();
+        Transform* e_69truckTransform = activeScene->m_entityManager->AddComponent<Transform>(e_69truck, glm::vec2(500.0f, 400.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+        Sprite* e_69truckSprite = activeScene->m_entityManager->AddComponent <Sprite>(e_69truck, TextureLoader::CreateTexture2DFromFile("420truck", "Assets/Sprites/69truck.png"), glm::vec3(1.0f, 1.0f, 1.0f), m_defaultShader);
+        activeScene->m_entityManager->AddComponent<Audio>(e_69truck, "Assets/Audio/grenade.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->sfx);
+       
+        //audio manager testing
+        g_app->m_audioManager->SetVolume(g_app->m_audioManager->bgm, 0.1f);
+        g_app->m_audioManager->SetVolume(g_app->m_audioManager->sfx, 0.02f);
+
+    }
 }
 
 Renderer::~Renderer()
@@ -46,7 +93,7 @@ Renderer::~Renderer()
 void Renderer::DrawImGui()
 {
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
-    Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+    Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_sceneCamera);
 
     m_gui->DrawMenuBar();
     m_gui->DrawHierachy();
@@ -102,19 +149,21 @@ void Renderer::Render(float deltaTime)
         }
 
         glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
-        Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_currentCamera);
-        Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_currentCamera);
+    
+        Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_sceneCamera);
+        Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_sceneCamera);
 
         if (m_gui->m_sceneFrameResized)
         {
             cameraComponent->m_viewportWidth = m_gui->GetFrameSize().x;
             cameraComponent->m_viewportHeight = m_gui->GetFrameSize().y;
             cameraComponent->m_framebuffer->Resize(m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
+            m_gui->m_gameView->Resize(m_gui->GetFrameSize().x, m_gui->GetFrameSize().y);
             m_projection = glm::orthoLH(0.0f, m_gui->GetFrameSize().x, m_gui->GetFrameSize().y, 0.0f, cameraComponent->m_near, cameraComponent->m_far);
 
             m_gui->m_sceneFrameResized = false;
         }
-        
+		
         glm::mat4 view = glm::mat4(1.0f);
         if (cameraTransform)
         {
@@ -171,17 +220,22 @@ void Renderer::Render(float deltaTime)
 
         if (cameraComponent->m_framebuffer != nullptr)
         {
-            cameraComponent->m_framebuffer->Unbind();
+            m_gui->m_gameView->Bind();
             glDisable(GL_DEPTH_TEST);
 
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             m_postProcessingShader->Use();
-            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f, 0.0f, 0.0f)); // r = screen shake, g = hdr, b = 
+            m_postProcessingShader->SetUniform("effects", glm::vec3(0.0f, 0.0f, 0.0f));
             m_postProcessingShader->SetUniform("time", m_time);
 
-            //glBindTexture(GL_TEXTURE_2D, 1);
+            glBindTexture(GL_TEXTURE_2D, cameraComponent->m_framebuffer->GetRenderTextureID());
+            glBindVertexArray(m_quadVAO);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+
+            cameraComponent->m_framebuffer->Unbind();
+
             DrawImGui();
         }
     }
@@ -190,7 +244,6 @@ void Renderer::Render(float deltaTime)
 	glfwSwapBuffers(g_app->m_window);
 
     m_time += deltaTime;
-    // screen shake relies on an incrementing time rather than deltatime
 }
 
 void Renderer::SetActiveCamera(Entity cameraEntity)
