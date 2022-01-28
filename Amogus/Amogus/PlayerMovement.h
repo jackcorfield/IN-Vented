@@ -6,6 +6,7 @@ class PlayerMovement
 {
 public:
 	PlayerMovement();
+	PlayerMovement(float speed);
 
 	float m_speed;
 

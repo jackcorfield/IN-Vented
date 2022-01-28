@@ -33,6 +33,8 @@ public:
 	void Init();
 	void Run();
 
+	void SetActiveCamera(Entity cameraEntity) { m_renderer->SetActiveCamera(cameraEntity); }
+
 	void Quit();
 
 	GLFWwindow* m_window;

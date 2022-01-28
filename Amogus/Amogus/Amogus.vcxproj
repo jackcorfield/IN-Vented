@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\fmod\inc;$(ProjectDir)dependencies\ImGui;$(ProjectDir)dependencies\glad\include;$(ProjectDir)dependencies\glm;$(ProjectDir)dependencies\glfw-3.3.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\fmod\inc;$(ProjectDir)dependencies\ImGui;$(ProjectDir)dependencies\glad\include;$(ProjectDir)dependencies\glm;$(ProjectDir)dependencies\glfw-3.3.6\include;$(ProjectDir)dependencies\nlohmann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,6 +168,8 @@
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneExporter.cpp" />
+    <ClCompile Include="SceneImporter.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
@@ -208,6 +210,8 @@
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="ImGuiLayerHelper.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="InputMapping.h" />
+    <ClInclude Include="JSONHelpers.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="Physics.h" />
@@ -215,6 +219,8 @@
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneExporter.h" />
+    <ClInclude Include="SceneImporter.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderFactory.h" />

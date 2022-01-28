@@ -26,6 +26,8 @@ public:
 
 	void Render(float deltaTime);
 
+	void SetActiveCamera(Entity cameraEntity);
+
 private:
 	void DrawImGui();
 	void DrawSprite(Sprite* sprite, Transform* transform);

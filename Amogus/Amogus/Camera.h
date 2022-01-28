@@ -18,6 +18,7 @@ public:
 
 	float m_viewportWidth, m_viewportHeight;
 	float m_near, m_far;
+	bool m_isActive; // Used for reading/writing active camera to JSON. If you want to change the active camera, do so through g_app->SetActiveCamera()
 	Framebuffer* m_framebuffer;
 
 	//glm::mat4 view;

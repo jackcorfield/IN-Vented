@@ -4,10 +4,20 @@
 
 #include "FileHandler.h"
 
-Texture2D::Texture2D(const unsigned int id, const unsigned int width, const unsigned int height) :
+Texture2D::Texture2D() :
+	m_id(0),
+	m_width(0),
+	m_height(0),
+	m_name(""),
+	m_filePath("")
+{}
+
+Texture2D::Texture2D(const unsigned int id, const unsigned int width, const unsigned int height, const std::string& name, const std::string& filePath) :
 	m_id(id),
 	m_width(width),
-	m_height(height)
+	m_height(height),
+	m_name(name),
+	m_filePath(filePath)
 {}
 
 void Texture2D::Bind() const
@@ -28,7 +38,7 @@ namespace TextureLoader
 		GLuint id;
 		glGenTextures(1, &id);
 
-		Texture2D texture(id, data.m_width, data.m_height);
+		Texture2D texture(id, data.m_width, data.m_height, name, filePath);
 
 		texture.Bind();
 

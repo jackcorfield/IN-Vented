@@ -8,9 +8,9 @@ class Sprite
 public:
 	Sprite(const Texture2D& texture, const glm::vec3& colour = glm::vec3(1.0f), Shader* shader = nullptr);
 
-	inline glm::vec3 GetColour() { return m_colour; }
-	inline Shader* GetShader() { return m_shader; }
-	inline Texture2D GetTexture() { return m_texture; }
+	inline glm::vec3 GetColour() const { return m_colour; }
+	inline Shader* GetShader() const { return m_shader; }
+	inline Texture2D GetTexture() const { return m_texture; }
 
 protected:
 	glm::vec3 m_colour;

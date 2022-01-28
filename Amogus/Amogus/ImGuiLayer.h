@@ -22,7 +22,7 @@ public:
 	void DrawProfiler();
 	void DrawConsole();
 	void DrawInspector();
-	void DrawSceneView();
+	void DrawSceneView(int textureID);
 
 	inline ImVec2 GetFrameSize() { return m_renderSize; };
 

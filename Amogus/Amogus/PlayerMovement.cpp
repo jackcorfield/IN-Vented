@@ -13,6 +13,12 @@ PlayerMovement::PlayerMovement()
 	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerMovement::AddMovement);
 }
 
+PlayerMovement::PlayerMovement(const float speed) :
+	m_speed(speed)
+{
+	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerMovement::AddMovement);
+}
+
 void PlayerMovement::AddMovement(InputEvent* e)
 {
 	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();

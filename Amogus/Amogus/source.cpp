@@ -8,6 +8,9 @@
 #include "EntityManager.h"
 #include "Timer.h"
 
+#include "SceneImporter.h"
+#include "SceneExporter.h"
+
 void error_callback(int error, const char* description);
 void frame_buffer_size_callback(GLFWwindow* window, int width, int height);
 void window_close_callback(GLFWwindow* window);
@@ -19,6 +22,7 @@ Application::Application() :
 	m_sceneManager(nullptr),
 	m_renderer(nullptr),
 	m_audioManager(nullptr),
+	m_window(nullptr),
 	m_quit(false)
 {	
 	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
@@ -41,13 +45,24 @@ void Application::Init()
 	m_sceneManager = new SceneManager();
 	m_audioManager = new AudioManager();
 
-	m_sceneManager->CreateScene("Main Scene", glm::vec3(0.2f, 0.3f, 0.8f));
-
 	m_renderer = new Renderer();
+
+	if (!SceneImporter::ImportSceneFromFile("test scene.json", true))
+	{
+		std::cerr << "Failed to import initial scene!" << std::endl;
+		return; // No initial scene
+	}
 
 	InputHandler();
 
 	Run();
+
+	if (!SceneExporter::ExportActiveSceneToFile("test scene.json"))
+	{
+		std::cerr << "Failed to export scene!" << std::endl;
+	}
+
+	TerminateOpenGL();
 }
 
 void Application::Run()
@@ -72,8 +87,6 @@ void Application::Run()
 		}
 		
   }
-
-	TerminateOpenGL();
 }
 
 Application::~Application() 

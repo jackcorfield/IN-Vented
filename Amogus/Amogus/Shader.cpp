@@ -6,9 +6,12 @@
 #include <iostream>
 #include <sstream>
 
-Shader::Shader(const std::string& name, const unsigned int programID) :
+Shader::Shader(const std::string& name, const unsigned int programID, const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath) :
 	m_name(name),
-	m_id(programID)
+	m_id(programID),
+	m_vertexPath(vertexPath),
+	m_fragmentPath(fragmentPath),
+	m_geometryPath(geometryPath)
 {}
 
 Shader::~Shader()
@@ -98,11 +101,12 @@ void Shader::SetUniform(const std::string& name, const glm::mat4& value) const
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
 
-ComputeShader::ComputeShader(const std::string& name, const unsigned int programID, const unsigned int numGroupsX, const unsigned int numGroupsY, const unsigned int numGroupsZ) :
-	Shader(name, programID),
+ComputeShader::ComputeShader(const std::string& name, const unsigned int programID, const unsigned int numGroupsX, const unsigned int numGroupsY, const unsigned int numGroupsZ, const std::string& computePath) :
+	Shader(name, programID, "", "", ""),
 	m_numGroupsX(numGroupsX == 0 ? 1 : numGroupsX),
 	m_numGroupsY(numGroupsY == 0 ? 1 : numGroupsY),
-	m_numGroupsZ(numGroupsZ == 0 ? 1 : numGroupsZ)
+	m_numGroupsZ(numGroupsZ == 0 ? 1 : numGroupsZ),
+	m_computePath(computePath)
 {}
 
 void ComputeShader::Dispatch() const
