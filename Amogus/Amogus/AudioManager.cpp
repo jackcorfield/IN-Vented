@@ -6,10 +6,10 @@ AudioManager::AudioManager()
     FMOD_RESULT result;
     AudioManagerInit();
 
-    sfx = nullptr;
-    result = m_system->createChannelGroup("sfx", &sfx);
-    bgm = nullptr;
-    result = m_system->createChannelGroup("bgm", &bgm);
+    m_sfx = nullptr;
+    result = m_system->createChannelGroup("sfx", &m_sfx);
+    m_bgm = nullptr;
+    result = m_system->createChannelGroup("bgm", &m_bgm);
 }
 
 bool AudioManager::AudioManagerInit()
@@ -27,18 +27,4 @@ bool AudioManager::AudioManagerInit()
     }
 
     return true;
-}
-
-float AudioManager::GetVolume(FMOD::ChannelGroup* group)
-{
-    float volume;
-    group->getVolume(&volume);
-
-    return volume;
-}
-
-//1 full volume, 0 silent
-void AudioManager::SetVolume(FMOD::ChannelGroup* group, float volume)
-{
-    group->setVolume(volume);
 }

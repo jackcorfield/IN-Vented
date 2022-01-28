@@ -48,7 +48,7 @@ void Renderer::DrawImGui()
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
     Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_sceneCamera);
 
-    m_gui->DrawMenuBar();
+    m_gui->DrawMenuBar(m_defaultShader);
     m_gui->DrawHierachy();
     m_gui->DrawConsole();
     m_gui->DrawInspector();

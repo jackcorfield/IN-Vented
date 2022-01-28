@@ -11,30 +11,10 @@ class Audio
 public:
 	Audio(const char* path, FMOD::System* system, FMOD::ChannelGroup* group);
 	~Audio();
-
-	void AddAudio(const char* path);
-	void RemoveAudio();
-
-	void AddToGroup(FMOD::ChannelGroup* group);
-
-	void PauseAudio();
-	void UnpauseAudio();
-
-	void PlayAudio();
-	void Loop();
-
-	const FMOD::ChannelGroup* GetChannelGroup() const { return m_group; }
-
-	bool IsPlaying = false;
-
-	FMOD::Channel* m_channel;
-	const std::string m_filePath;
-
-private:
+  
+  const std::string m_filePath;
+	FMOD::Channel* m_channel =0;
+	FMOD::Sound* m_sound;
 	FMOD::System* m_system;
 	FMOD::ChannelGroup* m_group;
-	FMOD::Sound* m_sound;
-	FMOD_RESULT	m_result;
-	void* m_extradriverdata = 0;
 };
-
