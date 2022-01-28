@@ -16,5 +16,4 @@ void main()
     // Insert fancy post-processing effects here
     
     color = texture(image, fInput.texCoords);
-    //color = vec4(0.5, 0.5, 0.5, 1.0);
 }

@@ -3,6 +3,7 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include "Fonts/IconHeader.h"
+#include "Framebuffer.h"
 
 class ImGuiLayer
 {
@@ -22,6 +23,7 @@ public:
 
 	inline ImVec2 GetFrameSize() { return m_renderSize; };
 
+	Framebuffer* m_gameView;
 private:
 
 	ImGuiLayer(const ImGuiLayer&) = delete;

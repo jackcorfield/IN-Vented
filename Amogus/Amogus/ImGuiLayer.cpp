@@ -42,6 +42,8 @@ ImGuiLayer::ImGuiLayer()
 	config.GlyphMinAdvanceX = 13.0f; // Use if you want to make the icon monospaced
 	static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 	io.Fonts->AddFontFromFileTTF("Fonts/FontIcons.ttf", 16.0f, &config, icon_ranges);
+
+	m_gameView = new Framebuffer;
 }
 
 ImGuiLayer::~ImGuiLayer()
@@ -268,6 +270,13 @@ void ImGuiLayer::DrawSceneView()
 	
 	m_renderSize = ImGui::GetContentRegionAvail();
 
-	ImGui::Image(ImTextureID(1), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image(ImTextureID(2), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::End();
+
+	ImGui::Begin("Game View");
+
+	m_renderSize = ImGui::GetContentRegionAvail();
+
+	ImGui::Image(ImTextureID(m_gameView->GetRenderTextureID()), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
 }
