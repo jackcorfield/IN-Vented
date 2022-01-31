@@ -13,6 +13,7 @@
 #include "BoxCollider.h"
 #include "Camera.h"
 #include "CircleCollider.h"
+#include "EntityName.h"
 #include "Physics.h"
 #include "PlayerMovement.h"
 #include "Sprite.h"
@@ -37,6 +38,7 @@ namespace SceneExporter
 	bool WriteBoxCollider(nlohmann::json& jBoxCollider, BoxCollider* boxCollider);
 	bool WriteCamera(nlohmann::json& jCamera, Camera* camera);
 	bool WriteCircleCollider(nlohmann::json& jCircleCollider, CircleCollider* circleCollider);
+	bool WriteEntityName(nlohmann::json& jEntityName, EntityName* entityName);
 	bool WritePhysics(nlohmann::json& jPhysics, Physics* physics);
 	bool WritePlayerMovement(nlohmann::json& jPlayerMovement, PlayerMovement* playerMovement);
 	bool WriteSprite(nlohmann::json& jSprite, Sprite* sprite);
@@ -86,6 +88,7 @@ namespace SceneExporter
 		if (!WriteComponentsOfType<BoxCollider>(jEntityArray, "boxCollider", WriteBoxCollider)) { success = false; }
 		if (!WriteComponentsOfType<Camera>(jEntityArray, "camera", WriteCamera)) { success = false; }
 		if (!WriteComponentsOfType<CircleCollider>(jEntityArray, "circleCollider", WriteCircleCollider)) { success = false; }
+		if (!WriteComponentsOfType<EntityName>(jEntityArray, "entityName", WriteEntityName)) { success = false; }
 		if (!WriteComponentsOfType<Physics>(jEntityArray, "physics", WritePhysics)) { success = false; }
 		if (!WriteComponentsOfType<PlayerMovement>(jEntityArray, "playerMovement", WritePlayerMovement)) { success = false; }
 		if (!WriteComponentsOfType<Sprite>(jEntityArray, "sprite", WriteSprite)) { success = false; }
@@ -245,10 +248,20 @@ namespace SceneExporter
 		bool success = true;
 
 		const glm::vec2 centre = circleCollider->m_centre;
-		if (!JSON::WriteVec2(centre, jCircleCollider["centre"])) { success = true; }
+		if (!JSON::WriteVec2(centre, jCircleCollider["centre"])) { success = false; }
 
 		const float radius = circleCollider->m_radius;
-		if (!JSON::Write(radius, jCircleCollider["radius"])) { success = true; }
+		if (!JSON::Write(radius, jCircleCollider["radius"])) { success = false; }
+
+		return success;
+	}
+
+	bool SceneExporter::WriteEntityName(nlohmann::json& jEntityName, EntityName* entityName)
+	{
+		bool success = true;
+
+		const std::string name = entityName->m_name;
+		if (!JSON::Write(name, jEntityName["name"])) { success = false; }
 
 		return success;
 	}
