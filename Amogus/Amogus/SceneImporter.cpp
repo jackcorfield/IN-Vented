@@ -16,6 +16,7 @@
 #include "CircleCollider.h"
 #include "Physics.h"
 #include "PlayerMovement.h"
+#include "ScriptComponent.h"
 #include "Sprite.h"
 #include "Tile.h"
 #include "TileMap.h"
@@ -40,6 +41,7 @@ namespace SceneImporter
 	bool CreateCircleCollider(const nlohmann::json& j, Entity entity);
 	bool CreatePhysics(const nlohmann::json& j, Entity entity);
 	bool CreatePlayerMovement(const nlohmann::json& j, Entity entity);
+	bool CreateScriptComponent(const nlohmann::json& j, Entity entity);
 	bool CreateSprite(const nlohmann::json& j, Entity entity);
 	bool CreateTile(const nlohmann::json& j, Entity entity, std::vector<Entity>& allTiles);
 	bool CreateTileMap(const nlohmann::json& j, Entity entity, const std::vector<Entity>& tiles);
@@ -370,6 +372,15 @@ namespace SceneImporter
 		if (!JSON::Read(speed, j, "speed")) { success = false; }
 
 		PlayerMovement* component = g_entityManager->AddComponent<PlayerMovement>(entity, speed);
+
+		return success;
+	}
+
+	bool CreateScriptComponent(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
+		ScriptComponent* component = g_entityManager->AddComponent<ScriptComponent>(entity, g_entityManager, entity);
 
 		return success;
 	}
