@@ -1,0 +1,47 @@
+#pragma once
+
+#include "EntityManager.h"
+
+class Script
+{
+public:
+	Script(EntityManager* entityManager, Entity parentEntityID)
+		: m_entityManager(entityManager),
+		m_entityID(parentEntityID) {}
+	virtual ~Script() {}
+
+	virtual void OnInit() {}
+	virtual void OnUpdate(float dt) {}
+	virtual void OnRender(float dt) {}
+	virtual void OnCleanUp() {}
+
+protected:
+
+	template <typename T, class ...ARGS>
+	T* AddComponent(ARGS&&... params)
+	{
+		m_entityManager->AddComponent<T>(m_entityID, std::forward<ARGS>(params));
+	}
+
+	template <typename T>
+	bool HasComponent()
+	{
+		return m_entityManager->HasComponent<T>(m_entityID);
+	}
+
+	template <typename T>
+	T* GetComponent()
+	{
+		return m_entityManager->GetComponent<T>(m_entityID);
+	}
+
+	template <typename T>
+	bool RemoveComponent()
+	{
+		return m_entityManager->RemoveComponent<T>(m_entityID);
+	}
+
+private:
+	Entity m_entityID;
+	EntityManager* m_entityManager;
+};

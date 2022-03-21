@@ -16,6 +16,7 @@
 #include "EntityName.h"
 #include "Physics.h"
 #include "PlayerMovement.h"
+#include "ScriptComponent.h"
 #include "Sprite.h"
 #include "Tile.h"
 #include "TileMap.h"
@@ -41,6 +42,7 @@ namespace SceneExporter
 	bool WriteEntityName(nlohmann::json& jEntityName, EntityName* entityName);
 	bool WritePhysics(nlohmann::json& jPhysics, Physics* physics);
 	bool WritePlayerMovement(nlohmann::json& jPlayerMovement, PlayerMovement* playerMovement);
+	bool WriteScriptComponent(nlohmann::json& jScriptComponent, ScriptComponent* scriptComponent);
 	bool WriteSprite(nlohmann::json& jSprite, Sprite* sprite);
 	bool WriteTile(nlohmann::json& jTile, Tile* tile);
 	bool WriteTileMap(nlohmann::json& jTileMap, TileMap* tileMap);
@@ -91,6 +93,7 @@ namespace SceneExporter
 		if (!WriteComponentsOfType<EntityName>(jEntityArray, "entityName", WriteEntityName)) { success = false; }
 		if (!WriteComponentsOfType<Physics>(jEntityArray, "physics", WritePhysics)) { success = false; }
 		if (!WriteComponentsOfType<PlayerMovement>(jEntityArray, "playerMovement", WritePlayerMovement)) { success = false; }
+		if (!WriteComponentsOfType<ScriptComponent>(jEntityArray, "scriptComponent", WriteScriptComponent)) { success = false; }
 		if (!WriteComponentsOfType<Sprite>(jEntityArray, "sprite", WriteSprite)) { success = false; }
 		if (!WriteComponentsOfType<Tile>(jEntityArray, "tile", WriteTile)) { success = false; }
 		if (!WriteComponentsOfType<TileMap>(jEntityArray, "tileMap", WriteTileMap)) { success = false; }
@@ -282,6 +285,15 @@ namespace SceneExporter
 
 		const float speed = playerMovement->m_speed;
 		if (!JSON::Write(speed, jPlayerMovement["speed"])) { success = false; }
+
+		return success;
+	}
+
+	bool WriteScriptComponent(nlohmann::json& jScriptComponent, ScriptComponent* scriptComponent)
+	{
+		bool success = false;
+
+		if (!JSON::Write("", jScriptComponent[""])) { success = false; }
 
 		return success;
 	}
