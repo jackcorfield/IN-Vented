@@ -131,6 +131,9 @@
     <ClInclude Include="Script.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EntityName.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source.h">
