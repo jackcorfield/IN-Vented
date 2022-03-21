@@ -13,6 +13,9 @@
 #include "PlayerMovement.h"
 #include "Physics.h"
 #include "BoxCollider.h"
+#include "EntityName.h"
+#include "TileMap.h"
+#include "Tile.h"
 
 #include <iostream>
 
@@ -174,10 +177,10 @@ void ImGuiLayer::DrawMenuBar(Shader* shader)
 	}
 }
 
-void ImGuiLayer::DrawHierachy()
+void ImGuiLayer::DrawHierarchy()
 {
 	
-	ImGui::Begin("Hierachy");
+	ImGui::Begin("Hierarchy");
 
 	ImGui::InputText("Search", inputString, sizeof(inputString));
 
@@ -187,10 +190,12 @@ void ImGuiLayer::DrawHierachy()
 
 	for (uint32_t i = 0; i < allEntities.size(); i++)
 	{
-
-		
 		const bool is_selected = (item_current_idx == i);
-		std::string selectLabel = "Entity " + std::to_string(i);
+
+		std::string selectLabel = "Entity " + std::to_string(allEntities[i]);
+		EntityName* name = m_entityManager->GetComponent<EntityName>(allEntities[i]);
+		if (name != nullptr)
+			selectLabel = name->m_name;
 
 		if (ImGui::TreeNode(selectLabel.c_str()))
 		{
@@ -199,17 +204,17 @@ void ImGuiLayer::DrawHierachy()
 			for (const auto& component : entityComponents)
 			{
 				//std::cout << typeid(component.first).name() << std::endl;
-				if (component.first == std::type_index(typeid(Sprite)))
+				if (component.first == std::type_index(typeid(AnimatedSprite)))
 				{
-					selectLabel = "Sprite##" + std::to_string(i);
+					selectLabel = "Animated Sprite##" + std::to_string(i);
 					if (ImGui::TreeNode(selectLabel.c_str()))
 					{
 						ImGui::TreePop();
 					}
 				}
-				else if (component.first == std::type_index(typeid(AnimatedSprite)))
+				else if (component.first == std::type_index(typeid(Sprite)))
 				{
-					selectLabel = "Animated Sprite##" + std::to_string(i);
+					selectLabel = "Sprite##" + std::to_string(i);
 					if (ImGui::TreeNode(selectLabel.c_str()))
 					{
 						ImGui::TreePop();
@@ -257,11 +262,31 @@ void ImGuiLayer::DrawHierachy()
 				}
 				else if (component.first == std::type_index(typeid(BoxCollider)))
 				{
-					selectLabel = "Box Coliider##" + std::to_string(i);
+					selectLabel = "Box Collider##" + std::to_string(i);
 					if (ImGui::TreeNode(selectLabel.c_str()))
 					{
 						ImGui::TreePop();
 					}
+				}
+				else if (component.first == std::type_index(typeid(TileMap)))
+				{
+					selectLabel = "Tile Map##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(Tile)))
+				{
+					selectLabel = "Tile##" + std::to_string(i);
+					if (ImGui::TreeNode(selectLabel.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				else if (component.first == std::type_index(typeid(EntityName)))
+				{
+					// We don't want this component to display in the hierarchy
 				}
 				else
 				{

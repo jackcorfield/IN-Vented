@@ -14,6 +14,7 @@
 #include "BoxCollider.h"
 #include "Camera.h"
 #include "CircleCollider.h"
+#include "EntityName.h"
 #include "Physics.h"
 #include "PlayerMovement.h"
 #include "ScriptComponent.h"
@@ -39,6 +40,7 @@ namespace SceneImporter
 	bool CreateBoxCollider(const nlohmann::json& j, Entity entity);
 	bool CreateCamera(const nlohmann::json& j, Entity entity);
 	bool CreateCircleCollider(const nlohmann::json& j, Entity entity);
+	bool CreateEntityName(const nlohmann::json& j, Entity entity);
 	bool CreatePhysics(const nlohmann::json& j, Entity entity);
 	bool CreatePlayerMovement(const nlohmann::json& j, Entity entity);
 	bool CreateScriptComponent(const nlohmann::json& j, Entity entity);
@@ -159,21 +161,25 @@ namespace SceneImporter
 			{
 				if (!CreateAnimatedSprite(jComponent, entity)) { success = false; }
 			}
-			if (componentType == "audio")
+			else if (componentType == "audio")
 			{
 				if (!CreateAudio(jComponent, entity)) { success = false; }
 			}
-			if (componentType == "boxCollider")
+			else if (componentType == "boxCollider")
 			{
 				if (!CreateBoxCollider(jComponent, entity)) { success = false; }
 			}
-			if (componentType == "camera")
+			else if (componentType == "camera")
 			{
 				if (!CreateCamera(jComponent, entity)) { success = false; }
 			}
-			if (componentType == "circleCollider")
+			else if (componentType == "circleCollider")
 			{
 				if (!CreateCircleCollider(jComponent, entity)) { success = false; }
+			}
+			else if (componentType == "entityName")
+			{
+				if (!CreateEntityName(jComponent, entity)) { success = false; }
 			}
 			else if (componentType == "physics")
 			{
@@ -342,12 +348,24 @@ namespace SceneImporter
 		bool success = true;
 
 		glm::vec2 centre;
-		if (!JSON::ReadVec2(centre, j, "centre")) { success = true; }
+		if (!JSON::ReadVec2(centre, j, "centre")) { success = false; }
 
 		float radius;
-		if (!JSON::Read(radius, j, "radius")) { success = true; }
+		if (!JSON::Read(radius, j, "radius")) { success = false; }
 
 		CircleCollider* component = g_entityManager->AddComponent<CircleCollider>(entity, radius, centre);
+
+		return success;
+	}
+
+	bool CreateEntityName(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
+		std::string name = "";
+		if (!JSON::Read(name, j, "entityName")) { success = false; }
+
+		EntityName* component = g_entityManager->AddComponent<EntityName>(entity, name);
 
 		return success;
 	}

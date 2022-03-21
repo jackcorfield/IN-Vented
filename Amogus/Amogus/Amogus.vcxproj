@@ -214,6 +214,7 @@
     <ClInclude Include="InputMapping.h" />
     <ClInclude Include="JSONHelpers.h" />
     <ClInclude Include="LodePNG\lodepng.h" />
+    <ClInclude Include="EntityName.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
