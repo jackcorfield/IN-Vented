@@ -10,10 +10,10 @@ public:
 		m_entityID(parentEntityID) {}
 	virtual ~Script() {}
 
-	virtual void OnInit() {}
+	virtual void OnAttach() {}
 	virtual void OnUpdate(float dt) {}
 	virtual void OnRender(float dt) {}
-	virtual void OnCleanUp() {}
+	virtual void OnUnattach() {}
 
 protected:
 

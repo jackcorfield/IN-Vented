@@ -10,6 +10,7 @@
 #include "Renderer.h"
 #include "InputHandler.h"
 #include "PhysicsSystem.h"
+#include "ScriptSystem.h"
 
 
 struct GLFWwindow;
@@ -41,8 +42,9 @@ public:
 	WindowParams m_windowParams;
 
 	EntityManager*		m_entityManager;
-	SceneManager*	 m_sceneManager;
+	SceneManager*		m_sceneManager;
 	AudioManager*		m_audioManager;
+	ScriptSystem*		m_scriptSystem;
 
 protected:
 
