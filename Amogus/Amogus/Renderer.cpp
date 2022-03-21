@@ -49,7 +49,7 @@ void Renderer::DrawImGui()
     Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_sceneCamera);
 
     m_gui->DrawMenuBar(m_defaultShader);
-    m_gui->DrawHierachy();
+    m_gui->DrawHierarchy();
     m_gui->DrawConsole();
     m_gui->DrawInspector();
     m_gui->DrawProfiler();

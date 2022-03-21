@@ -18,7 +18,7 @@ public:
 	void EndGui();
 
 	void DrawMenuBar(Shader* shader);
-	void DrawHierachy();
+	void DrawHierarchy();
 	void DrawProfiler();
 	void DrawConsole();
 	void DrawInspector();
