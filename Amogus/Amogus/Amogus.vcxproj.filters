@@ -1,372 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="LodePNG">
-      <UniqueIdentifier>{548519dc-b940-46f0-9ae3-3e2fdff37baa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Rendering">
-      <UniqueIdentifier>{1206060e-02d4-4c24-889b-922e58667d14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Rendering">
-      <UniqueIdentifier>{71b36416-5061-4a8c-bf41-7b09073adbfa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{71fcf998-22b4-4d69-898f-592541c4f508}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FMOD">
-      <UniqueIdentifier>{1bab865e-5e7e-4b78-9049-5c70c8a3fcfd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ImGui">
-      <UniqueIdentifier>{0a7daac2-6afc-42da-9ec8-b4b7efb75ff5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Collision">
-      <UniqueIdentifier>{11867969-c3bb-41e7-ab96-110267c4c420}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Collision">
-      <UniqueIdentifier>{3751b065-9859-4be8-8663-6fc905d59737}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="src\ECS\Components\AnimatedSprite.cpp" />
+    <ClCompile Include="src\ECS\Components\Audio.cpp" />
+    <ClCompile Include="src\ECS\Systems\AudioManager.cpp" />
+    <ClCompile Include="src\ECS\Components\BoxCollider.cpp" />
+    <ClCompile Include="src\ECS\Components\CircleCollider.cpp" />
+    <ClCompile Include="src\ECS\Systems\CollisionManager.cpp" />
+    <ClCompile Include="src\Resources\Framebuffer.cpp" />
+    <ClCompile Include="src\Handlers\FileHandler.cpp" />
+    <ClCompile Include="src\Handlers\InputHandler.cpp" />
+    <ClCompile Include="src\Core\main.cpp" />
+    <ClCompile Include="src\ECS\Systems\PathFinding.cpp" />
+    <ClCompile Include="src\ECS\Components\Physics.cpp" />
+    <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
+    <ClCompile Include="src\ECS\Components\PlayerMovement.cpp" />
+    <ClCompile Include="src\ECS\Systems\Renderer.cpp" />
+    <ClCompile Include="src\Scenes\Scene.cpp" />
+    <ClCompile Include="src\Scenes\SceneExporter.cpp" />
+    <ClCompile Include="src\Scenes\SceneImporter.cpp" />
+    <ClCompile Include="src\Scenes\SceneManager.cpp" />
+    <ClCompile Include="src\ECS\Systems\ScriptSystem.cpp" />
+    <ClCompile Include="src\Resources\Shader.cpp" />
+    <ClCompile Include="src\ResourceFactories\ShaderFactory.cpp" />
+    <ClCompile Include="src\Core\source.cpp" />
+    <ClCompile Include="src\ECS\Components\Sprite.cpp" />
+    <ClCompile Include="src\Resources\Texture2D.cpp" />
+    <ClCompile Include="src\Core\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dependencies\glad\src\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LodePNG\lodepng.cpp">
-      <Filter>LodePNG</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderFactory.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneImporter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneExporter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="src\ECS\Components\AnimatedSprite.h" />
+    <ClInclude Include="src\ECS\Components\Audio.h" />
+    <ClInclude Include="src\ECS\Systems\AudioManager.h" />
+    <ClInclude Include="src\ECS\Components\BoxCollider.h" />
+    <ClInclude Include="src\ECS\Components\Camera.h" />
+    <ClInclude Include="src\ECS\Components\CircleCollider.h" />
+    <ClInclude Include="src\ECS\Systems\CollisionManager.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod.hpp" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_codec.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_common.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_errors.h" />
+    <ClInclude Include="dependencies\fmod\inc\fmod_output.h" />
+    <ClInclude Include="src\ECS\EntityManager.h" />
+    <ClInclude Include="src\Resources\Framebuffer.h" />
+    <ClInclude Include="src\Handlers\FileHandler.h" />
+    <ClInclude Include="src\Handlers\EventHandler.h" />
+    <ClInclude Include="src\Handlers\InputHandler.h" />
+    <ClInclude Include="src\Handlers\JSONHelpers.h" />
+    <ClInclude Include="src\ECS\Components\EntityName.h" />
+    <ClInclude Include="src\ECS\Systems\PathFinding.h" />
+    <ClInclude Include="src\ECS\Components\Physics.h" />
+    <ClInclude Include="src\ECS\Systems\PhysicsSystem.h" />
+    <ClInclude Include="src\ECS\Components\PlayerMovement.h" />
+    <ClInclude Include="src\ECS\Systems\Renderer.h" />
+    <ClInclude Include="src\Scenes\Scene.h" />
+    <ClInclude Include="src\Scenes\SceneExporter.h" />
+    <ClInclude Include="src\Scenes\SceneImporter.h" />
+    <ClInclude Include="src\Scenes\SceneManager.h" />
+    <ClInclude Include="src\Resources\Script.h" />
+    <ClInclude Include="src\ECS\Components\ScriptComponent.h" />
+    <ClInclude Include="src\ECS\Systems\ScriptSystem.h" />
+    <ClInclude Include="src\Resources\Shader.h" />
+    <ClInclude Include="src\ResourceFactories\ShaderFactory.h" />
+    <ClInclude Include="src\Core\source.h" />
+    <ClInclude Include="src\ECS\Components\Sprite.h" />
+    <ClInclude Include="src\Resources\Texture2D.h" />
+    <ClInclude Include="src\ECS\Components\Tile.h" />
+    <ClInclude Include="src\ECS\Components\TileMap.h" />
+    <ClInclude Include="src\Core\Timer.h" />
+    <ClInclude Include="src\ECS\Components\Transform.h" />
+    <ClInclude Include="Amogus.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputMapping.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClCompile Include="Framebuffer.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>Source Files\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleCollider.cpp">
-      <Filter>Source Files\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimatedSprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClInclude Include="ScriptComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptSystem.h">
-      <Filter>Header Files</Filter>
-    <ClInclude Include="EntityName.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
+    <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClCompile Include="ImGuiLayer.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="dependencies\ImGui\imgui_widgets.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="dependencies\ImGui\imgui_tables.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="dependencies\ImGui\imgui_impl_opengl3.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="dependencies\ImGui\imgui_impl_glfw.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="dependencies\ImGui\imgui_draw.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="dependencies\ImGui\imgui_demo.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="dependencies\ImGui\imgui.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="PathFinding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerMovement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>Header Files\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="CircleCollider.h">
-      <Filter>Header Files\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatedSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGuiLayerHelper.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="source.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LodePNG\lodepng.h">
-      <Filter>LodePNG</Filter>
-    </ClInclude>
-    <ClInclude Include="EventHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderFactory.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JSONHelpers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneImporter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneExporter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framebuffer.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\fmod\inc\fmod.h">
-      <Filter>FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGuiLayer.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imstb_truetype.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imstb_textedit.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imstb_rectpack.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imgui_internal.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imgui_impl_opengl3_loader.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imgui_impl_opengl3.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imgui_impl_glfw.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imgui.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\ImGui\imconfig.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="PathFinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\fmod\inc\fmod.hpp">
-      <Filter>FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\fmod\inc\fmod_codec.h">
-      <Filter>FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\fmod\inc\fmod_common.h">
-      <Filter>FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\fmod\inc\fmod_dsp.h">
-      <Filter>FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\fmod\inc\fmod_dsp_effects.h">
-      <Filter>FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\fmod\inc\fmod_errors.h">
-      <Filter>FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="dependencies\fmod\inc\fmod_output.h">
-      <Filter>FMOD</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMovement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DefaultSpriteF.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="DefaultSpriteV.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="PostProcessingV.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="PostProcessingF.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="dependencies\fmod\inc\fmod_dsp.cs">
-      <Filter>FMOD</Filter>
-    </None>
-    <None Include="dependencies\fmod\inc\fmod_errors.cs">
-      <Filter>FMOD</Filter>
-    </None>
-    <None Include="dependencies\fmod\inc\fmod.cs">
-      <Filter>FMOD</Filter>
-    </None>
-    <None Include="dependencies\fmod\lib\x64\fmodL.dll">
-      <Filter>FMOD</Filter>
-    </None>
-    <None Include="dependencies\fmod\lib\x64\fmod.dll">
-      <Filter>FMOD</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib">
-      <Filter>FMOD</Filter>
-    </Library>
+    <None Include="dependencies\fmod\inc\fmod.cs" />
+    <None Include="dependencies\fmod\inc\fmod_dsp.cs" />
+    <None Include="dependencies\fmod\inc\fmod_errors.cs" />
+    <None Include="dependencies\fmod\lib\x64\fmodL.dll" />
   </ItemGroup>
 </Project>
