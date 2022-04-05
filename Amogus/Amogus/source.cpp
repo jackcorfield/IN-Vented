@@ -57,10 +57,10 @@ void Application::Init()
 
 	Run();
 
-	if (!SceneExporter::ExportActiveSceneToFile("test scene.json"))
-	{
-		std::cerr << "Failed to export scene!" << std::endl;
-	}
+	//if (!SceneExporter::ExportActiveSceneToFile("test scene.json"))
+	//{
+	//	std::cerr << "Failed to export scene!" << std::endl;
+	//}
 
 	TerminateOpenGL();
 }
