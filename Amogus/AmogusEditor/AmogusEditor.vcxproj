@@ -148,12 +148,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EntityInspectorGui.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
+    <ClCompile Include="src\SceneHierarchyGui.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fonts\IconHeader.h" />
+    <ClInclude Include="src\EntityInspectorGui.h" />
     <ClInclude Include="src\ImGuiLayer.h" />
+    <ClInclude Include="src\SceneHierarchyGui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

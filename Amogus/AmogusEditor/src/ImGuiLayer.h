@@ -6,6 +6,8 @@
 #include "../Fonts/IconHeader.h"
 
 #include <Amogus.h>
+#include "EntityInspectorGui.h"
+#include "SceneHierarchyGui.h"
 
 class ImGuiLayer
 {
@@ -14,13 +16,9 @@ public:
 	~ImGuiLayer();
 
 	void BeginGui();
+	void Draw();
 	void EndGui();
 
-	void DrawMenuBar();
-	void DrawHierarchy();
-	void DrawProfiler();
-	void DrawConsole();
-	void DrawInspector();
 	void DrawSceneView(int textureID);
 
 	inline ImVec2 GetFrameSize() { return m_renderSize; };
@@ -28,19 +26,30 @@ public:
 	Framebuffer* m_gameView;
 	bool m_sceneFrameResized = false;
 private:
-	Application* m_app;
-
 	ImGuiLayer(const ImGuiLayer&) = delete;
 	ImGuiLayer& operator=(ImGuiLayer&) = delete;
+
+	void DrawMenuBar();
+	void DrawProfiler();
+	void DrawConsole();
+
+	void DrawNewEntityMenu();
+	void SelectObject();
+
+	void OnClick(InputEvent* e);
+
+	Application* m_app;
+
+	EntityInspectorGui m_entityInspector;
+	SceneHierarchyGui m_sceneHierarchy;
 
 	ImGuiDockNodeFlags m_dockspaceFlags;
 	ImGuiWindowFlags m_windowFlags;
 
 	bool m_guiEnabled = true;
+	bool m_selecting; // Set to true by click event so we can do selection later (during ImGui phase)
 
-	float dragFloat[3] = {};
-	char inputString[32] = {};
-	bool m_selectedBool;
+	double m_mouseX, m_mouseY;
 
 	ImVec2 m_renderSize;
 	ImVec2 m_tempSize;

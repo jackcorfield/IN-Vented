@@ -27,11 +27,7 @@ public:
 		Scene* activeScene = m_sceneManager->GetActiveScene();
 		Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_renderer->GetSceneCamera());
 		m_gui->BeginGui();
-		m_gui->DrawMenuBar();
-		m_gui->DrawHierarchy();
-		m_gui->DrawConsole();
-		m_gui->DrawInspector();
-		m_gui->DrawProfiler();
+		m_gui->Draw();
 		m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
 		m_gui->EndGui();
 	}
