@@ -10,7 +10,8 @@
 
 void DrawComponentGui(void* component, std::type_index type, Entity entity);
 
-/// Add a prototype here for new components (and define it below with the others) ///
+/// Add prototypes here for new components (and define below with the others) ///
+// Inspector gui functions
 void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner);
 void CreateAudioGui(Audio* audio, Entity owner);
 void CreateBoxColliderGui(BoxCollider* boxCollider);
@@ -28,6 +29,10 @@ void CreateTransformGui(Transform* transform);
 // Helpers (return true if changed)
 bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::string& fragmentPath, std::string& geometryPath);
 bool CreateTextureGui(std::string& textureName, std::string& filePath);
+
+EntityInspectorGui::EntityInspectorGui() :
+	m_activeEntity(0)
+{}
 
 void EntityInspectorGui::Draw()
 {
@@ -83,6 +88,62 @@ void DrawComponentGui(void* component, std::type_index type, Entity entity)
 	else if (type == typeid(Transform)) { CreateTransformGui(reinterpret_cast<Transform*>(component)); }
 
 	ImGui::Separator();
+}
+
+void EntityInspectorGui::CreateAddComponentGui()
+{
+	ImGui::Text("Add component");
+
+	static std::string selected = "";
+	const static std::string names[12] =
+	{ 
+		"Animated Sprite",
+		"Audio",
+		"Box Collider",
+		"Camera",
+		"Circle Collider",
+		"Name",
+		"Physics",
+		"Player Movement",
+		"Script Component",
+		"Sprite",
+		"Tile Map",
+		"Transform"
+	};
+
+	if (ImGui::BeginCombo("combo##", selected.c_str()))
+	{
+		int noNames = sizeof(names) / sizeof(names[0]);
+		for (int i = 0; i < noNames; i++)
+		{
+			bool isSelected = selected == names[i];
+			if (ImGui::Selectable(names[i].c_str(), isSelected))
+			{
+				selected = names[i];
+			}
+		}
+
+		ImGui::EndCombo();
+	}
+
+	if (ImGui::Button("Add component"))
+	{
+		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+
+		// Need to decide on a way to create the commented out components (as they do not have a default or trivial constructor)
+		if (selected == "Animated Sprite") { /*entityManager->AddComponent<AnimatedSprite>(m_activeEntity);*/ }
+		else if (selected == "Audio") { /*entityManager->AddComponent<Audio>(m_activeEntity);*/ }
+		else if (selected == "Box Collider") { /*entityManager->AddComponent<BoxCollider>(m_activeEntity);*/ }
+		else if (selected == "Camera") { entityManager->AddComponent<Camera>(m_activeEntity); }
+		else if (selected == "Circle Collider") { /*entityManager->AddComponent<CircleCollider>(m_activeEntity);*/ }
+		else if (selected == "Name") { entityManager->AddComponent<EntityName>(m_activeEntity, "Entity"); }
+		else if (selected == "Physics") { entityManager->AddComponent<Physics>(m_activeEntity); }
+		else if (selected == "Player Movement") { entityManager->AddComponent<PlayerMovement>(m_activeEntity); }
+		else if (selected == "Script Component") { entityManager->AddComponent<ScriptComponent>(m_activeEntity, entityManager, m_activeEntity); }
+		else if (selected == "Sprite") { /*entityManager->AddComponent<Sprite>(m_activeEntity);*/ }
+		else if (selected == "Tile Map") { /*entityManager->AddComponent<TileMap>(m_activeEntity);*/ }
+		else if (selected == "Transform") { entityManager->AddComponent<Transform>(m_activeEntity); }
+	}
 }
 
 void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
@@ -375,6 +436,7 @@ void CreateScriptComponentGui(ScriptComponent* scriptComponent)
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::CollapsingHeader("Script", nodeFlags))
 	{
+		ImGui::Text("This entity has a script component. Editor script interaction is not currently a feature.");
 	}
 }
 
@@ -591,4 +653,41 @@ bool CreateTextureGui(std::string& textureName, std::string& filePath)
 	}
 
 	return edited;
+}
+
+void AddAnimatedSprite(Entity entity);
+void AddAudio(Entity entity);
+void AddBoxCollider(Entity entity);
+void AddCamera(Entity entity);
+void AddCircleCollider(Entity entity);
+void AddEntityName(Entity entity);
+void AddPhysics(Entity entity);
+void AddPlayerMovement(Entity entity)
+{
+
+}
+
+void AddScriptComponent(Entity entity)
+{
+
+}
+
+void AddSprite(Entity entity)
+{
+
+}
+
+void AddTile(Entity entity)
+{
+
+}
+
+void AddTileMap(Entity entity)
+{
+
+}
+
+void AddTransform(Entity entity)
+{
+
 }
