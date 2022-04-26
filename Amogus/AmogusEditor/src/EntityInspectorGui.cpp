@@ -6,6 +6,8 @@
 
 #include <Amogus.h>
 
+#include "NewSpriteGui.h"
+
 #define MAX_INPUT_LENGTH 256
 
 void DrawComponentGui(void* component, std::type_index type, Entity entity);
@@ -31,8 +33,14 @@ bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::stri
 bool CreateTextureGui(std::string& textureName, std::string& filePath);
 
 EntityInspectorGui::EntityInspectorGui() :
+	m_guiObjects(),
 	m_activeEntity(0)
 {}
+
+EntityInspectorGui::~EntityInspectorGui()
+{
+	m_guiObjects.clear();
+}
 
 void EntityInspectorGui::Draw()
 {
@@ -61,6 +69,21 @@ void EntityInspectorGui::Draw()
 
 			DrawComponentGui(component, typeIndex, m_activeEntity);
 		}
+
+		CreateAddComponentGui();
+	}
+
+	// Draw each dialog box
+	for (int i = 0; i < m_guiObjects.size(); i++)
+	{
+		IGuiObject* guiObject = m_guiObjects[i].get();
+
+		guiObject->CreateGui();
+
+		if (guiObject->close) // If this window is ready to close, delete object
+		{
+			m_guiObjects.erase(m_guiObjects.begin() + i);
+		}
 	}
 
 	ImGui::End();
@@ -86,6 +109,10 @@ void DrawComponentGui(void* component, std::type_index type, Entity entity)
 	else if (type == typeid(Tile)) { CreateTileGui(reinterpret_cast<Tile*>(component)); }
 	else if (type == typeid(TileMap)) { CreateTileMapGui(reinterpret_cast<TileMap*>(component)); }
 	else if (type == typeid(Transform)) { CreateTransformGui(reinterpret_cast<Transform*>(component)); }
+	else
+	{
+		std::cout << "Error: Invalid component type!" << std::endl;
+	}
 
 	ImGui::Separator();
 }
@@ -111,7 +138,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 		"Transform"
 	};
 
-	if (ImGui::BeginCombo("combo##", selected.c_str()))
+	if (ImGui::BeginCombo("New component type", selected.c_str()))
 	{
 		int noNames = sizeof(names) / sizeof(names[0]);
 		for (int i = 0; i < noNames; i++)
@@ -140,7 +167,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 		else if (selected == "Physics") { entityManager->AddComponent<Physics>(m_activeEntity); }
 		else if (selected == "Player Movement") { entityManager->AddComponent<PlayerMovement>(m_activeEntity); }
 		else if (selected == "Script Component") { entityManager->AddComponent<ScriptComponent>(m_activeEntity, entityManager, m_activeEntity); }
-		else if (selected == "Sprite") { /*entityManager->AddComponent<Sprite>(m_activeEntity);*/ }
+		else if (selected == "Sprite") { m_guiObjects.emplace_back(std::make_unique<NewSpriteGui>(m_activeEntity)); }
 		else if (selected == "Tile Map") { /*entityManager->AddComponent<TileMap>(m_activeEntity);*/ }
 		else if (selected == "Transform") { entityManager->AddComponent<Transform>(m_activeEntity); }
 	}
@@ -457,10 +484,17 @@ void CreateSpriteGui(Sprite* sprite, Entity owner)
 
 		// Shader
 		Shader* shader = sprite->GetShader();
-		std::string shaderName = shader->m_name;
-		std::string vertexPath = shader->m_vertexPath;
-		std::string fragmentPath = shader->m_fragmentPath;
-		std::string geometryPath = shader->m_geometryPath;
+		std::string shaderName = "";
+		std::string vertexPath = "";
+		std::string fragmentPath = "";
+		std::string geometryPath = "";
+		if (shader) // If shader exists, use existing values in input textboxes
+		{
+			shaderName = shader->m_name;
+			vertexPath = shader->m_vertexPath;
+			fragmentPath = shader->m_fragmentPath;
+			geometryPath = shader->m_geometryPath;
+		}
 		if (CreateShaderGui(shaderName, vertexPath, fragmentPath, geometryPath))
 		{
 			edited = true;
@@ -480,7 +514,7 @@ void CreateSpriteGui(Sprite* sprite, Entity owner)
 			// Create new texture and shader first; if these fail, don't replace the Sprite
 			Texture2D newTexture = TextureLoader::CreateTexture2DFromFile(textureName, textureFilePath);
 			Shader* newShader = ShaderFactory::CreatePipelineShader(shaderName, vertexPath, fragmentPath, geometryPath);
-			if (newShader && newTexture.m_id != 0)
+			if (newTexture.m_id != 0)
 			{
 				EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 				entityManager->RemoveComponent<Sprite>(owner); // Remove old Sprite
@@ -653,41 +687,4 @@ bool CreateTextureGui(std::string& textureName, std::string& filePath)
 	}
 
 	return edited;
-}
-
-void AddAnimatedSprite(Entity entity);
-void AddAudio(Entity entity);
-void AddBoxCollider(Entity entity);
-void AddCamera(Entity entity);
-void AddCircleCollider(Entity entity);
-void AddEntityName(Entity entity);
-void AddPhysics(Entity entity);
-void AddPlayerMovement(Entity entity)
-{
-
-}
-
-void AddScriptComponent(Entity entity)
-{
-
-}
-
-void AddSprite(Entity entity)
-{
-
-}
-
-void AddTile(Entity entity)
-{
-
-}
-
-void AddTileMap(Entity entity)
-{
-
-}
-
-void AddTransform(Entity entity)
-{
-
 }

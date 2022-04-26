@@ -148,6 +148,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\NewAnimatedSpriteGui.cpp" />
+    <ClCompile Include="src\NewSpriteGui.cpp" />
     <ClCompile Include="src\EntityInspectorGui.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
     <ClCompile Include="src\SceneHierarchyGui.cpp" />
@@ -155,6 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fonts\IconHeader.h" />
+    <ClInclude Include="src\NewAnimatedSpriteGui.h" />
+    <ClInclude Include="src\IGuiObject.h" />
+    <ClInclude Include="src\NewSpriteGui.h" />
     <ClInclude Include="src\EntityInspectorGui.h" />
     <ClInclude Include="src\ImGuiLayer.h" />
     <ClInclude Include="src\SceneHierarchyGui.h" />
