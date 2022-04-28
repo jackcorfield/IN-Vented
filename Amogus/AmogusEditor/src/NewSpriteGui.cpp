@@ -34,6 +34,7 @@ void NewSpriteGui::CreateGui()
 			AddSprite();
 			close = true;
 		}
+		ImGui::SameLine();
 		if (ImGui::Button("Cancel##"))
 		{
 			close = true;

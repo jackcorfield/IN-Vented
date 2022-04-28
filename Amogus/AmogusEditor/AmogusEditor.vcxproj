@@ -148,6 +148,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\NewTileMapGui.cpp" />
+    <ClCompile Include="src\NewCircleColliderGui.cpp" />
+    <ClCompile Include="src\NewBoxColliderGui.cpp" />
+    <ClCompile Include="src\NewAudioGui.cpp" />
     <ClCompile Include="src\NewAnimatedSpriteGui.cpp" />
     <ClCompile Include="src\NewSpriteGui.cpp" />
     <ClCompile Include="src\EntityInspectorGui.cpp" />
@@ -157,6 +161,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fonts\IconHeader.h" />
+    <ClInclude Include="src\NewTileMapGui.h" />
+    <ClInclude Include="src\NewCircleColliderGui.h" />
+    <ClInclude Include="src\NewBoxColliderGui.h" />
+    <ClInclude Include="src\NewAudioGui.h" />
     <ClInclude Include="src\NewAnimatedSpriteGui.h" />
     <ClInclude Include="src\IGuiObject.h" />
     <ClInclude Include="src\NewSpriteGui.h" />

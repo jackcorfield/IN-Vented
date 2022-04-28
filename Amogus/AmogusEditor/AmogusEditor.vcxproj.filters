@@ -33,6 +33,18 @@
     <ClCompile Include="src\NewAnimatedSpriteGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\NewAudioGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NewBoxColliderGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NewCircleColliderGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NewTileMapGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ImGuiLayer.h">
@@ -54,6 +66,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\NewAnimatedSpriteGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NewAudioGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NewBoxColliderGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NewCircleColliderGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NewTileMapGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

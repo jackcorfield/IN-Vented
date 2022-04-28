@@ -82,15 +82,13 @@ void Renderer::DrawScene()
         Camera* activeCamera = activeScene->m_entityManager->GetComponent<Camera>(m_sceneCamera);
         Transform* cameraTransform = activeScene->m_entityManager->GetComponent<Transform>(m_sceneCamera);
 
-        glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
-
         if (m_projection == glm::mat4(1.0f))
         {
             m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, activeCamera->m_near, activeCamera->m_far);
         }
 
         glm::mat4 view = glm::mat4(1.0f);
-        if (cameraTransform)
+        if (activeCamera && cameraTransform)
         {
             view = glm::translate(view, glm::vec3(cameraTransform->m_position, 0.0f));
             view = glm::rotate(view, cameraTransform->m_rotate, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -104,6 +102,11 @@ void Renderer::DrawScene()
 
         glClearColor(activeScene->m_sceneColour.r, activeScene->m_sceneColour.g, activeScene->m_sceneColour.b, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        if (!activeCamera)
+        {
+            return;
+        }
 
         m_defaultShader->Use();
         m_defaultShader->SetUniform("view", view);
@@ -174,8 +177,6 @@ void Renderer::PostProcessScene()
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
     activeCamera->m_framebuffer->Unbind();
-
-    g_app->onImGui();
 }
 
 void Renderer::Render(float deltaTime)
@@ -184,6 +185,9 @@ void Renderer::Render(float deltaTime)
     m_renderContext.deltaTime = deltaTime;
 
     DrawScene();
+
+    // ImGui call is separate, allowing DrawScene to be terminated early without stopping ImGui from rendering
+    g_app->onImGui();
 
     glfwSwapBuffers(g_app->m_window);
 

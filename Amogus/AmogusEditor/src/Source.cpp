@@ -24,11 +24,18 @@ public:
 
 	void onImGui() override
 	{
+		m_gui->BeginGui();
+		
+		m_gui->Draw();
+
 		Scene* activeScene = m_sceneManager->GetActiveScene();
 		Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_renderer->GetSceneCamera());
-		m_gui->BeginGui();
-		m_gui->Draw();
-		m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
+		if (cameraComponent)
+		{
+
+			m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
+		}
+
 		m_gui->EndGui();
 	}
 

@@ -6,11 +6,22 @@
 
 #include <Amogus.h>
 
+#include "NewAnimatedSpriteGui.h"
+#include "NewAudioGui.h"
+#include "NewBoxColliderGui.h"
+#include "NewCircleColliderGui.h"
 #include "NewSpriteGui.h"
+#include "NewTileMapGui.h"
 
 #define MAX_INPUT_LENGTH 256
 
-void DrawComponentGui(void* component, std::type_index type, Entity entity);
+#define DEFAULT_VIEWPORT_WIDTH 1280
+#define DEFAULT_VIEWPORT_HEIGHT 720
+#define DEFAULT_NEAR 0.1f
+#define DEFAULT_FAR 1.0f
+
+void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i);
+void DeleteComponent(void* component, std::type_index type, Entity entity, EntityManager* entityManager);
 
 /// Add prototypes here for new components (and define below with the others) ///
 // Inspector gui functions
@@ -61,13 +72,18 @@ void EntityInspectorGui::Draw()
 
 		// Iterate through all of the other components and draw gui for each
 		std::map<std::type_index, void*> allComponentsOfEntity = entityManager->GetAllComponents(m_activeEntity);
+		int i = 0;
 		for (auto componentPair : allComponentsOfEntity)
 		{
 			size_t hashCode = componentPair.first.hash_code(); // For comparing types
 			std::type_index typeIndex = componentPair.first;
 			void* component = componentPair.second; // To pass into correct function
 
-			DrawComponentGui(component, typeIndex, m_activeEntity);
+			DrawComponentGui(component, typeIndex, m_activeEntity, entityManager, i);
+
+			ImGui::Separator();
+
+			i++;
 		}
 
 		CreateAddComponentGui();
@@ -94,8 +110,13 @@ void EntityInspectorGui::SetActiveEntity(Entity entity)
 	m_activeEntity = entity;
 }
 
-void DrawComponentGui(void* component, std::type_index type, Entity entity)
+void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i)
 {
+	if (!component)
+	{
+		return;
+	}
+
 	if (type == typeid(AnimatedSprite)) { CreateAnimatedSpriteGui(reinterpret_cast<AnimatedSprite*>(component), entity); }
 	else if (type == typeid(Audio)) { CreateAudioGui(reinterpret_cast<Audio*>(component), entity); }
 	else if (type == typeid(BoxCollider)) { CreateBoxColliderGui(reinterpret_cast<BoxCollider*>(component)); }
@@ -114,7 +135,32 @@ void DrawComponentGui(void* component, std::type_index type, Entity entity)
 		std::cout << "Error: Invalid component type!" << std::endl;
 	}
 
-	ImGui::Separator();
+	std::string buttonName = "Delete##" + std::to_string(i);
+	if (ImGui::Button(buttonName.c_str()))
+	{
+		DeleteComponent(component, type, entity, entityManager);
+	}
+}
+
+void DeleteComponent(void* component, std::type_index type, Entity entity, EntityManager* entityManager)
+{
+	if (type == typeid(AnimatedSprite)) { entityManager->RemoveComponent<AnimatedSprite>(entity); }
+	else if (type == typeid(Audio)) { entityManager->RemoveComponent<Audio>(entity); }
+	else if (type == typeid(BoxCollider)) { entityManager->RemoveComponent<BoxCollider>(entity); }
+	else if (type == typeid(Camera)) { entityManager->RemoveComponent<Camera>(entity); }
+	else if (type == typeid(CircleCollider)) { entityManager->RemoveComponent<CircleCollider>(entity); }
+	else if (type == typeid(EntityName)) { entityManager->RemoveComponent<EntityName>(entity); }
+	else if (type == typeid(Physics)) { entityManager->RemoveComponent<Physics>(entity); }
+	else if (type == typeid(PlayerMovement)) { entityManager->RemoveComponent<PlayerMovement>(entity); }
+	else if (type == typeid(ScriptComponent)) { entityManager->RemoveComponent<ScriptComponent>(entity); }
+	else if (type == typeid(Sprite)) { entityManager->RemoveComponent<Sprite>(entity); }
+	else if (type == typeid(Tile)) { entityManager->RemoveComponent<Tile>(entity); }
+	else if (type == typeid(TileMap)) { entityManager->RemoveComponent<TileMap>(entity); }
+	else if (type == typeid(Transform)) { entityManager->RemoveComponent<Transform>(entity); }
+	else
+	{
+		std::cout << "Error: Invalid component type!" << std::endl;
+	}
 }
 
 void EntityInspectorGui::CreateAddComponentGui()
@@ -157,18 +203,18 @@ void EntityInspectorGui::CreateAddComponentGui()
 	{
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
-		// Need to decide on a way to create the commented out components (as they do not have a default or trivial constructor)
-		if (selected == "Animated Sprite") { /*entityManager->AddComponent<AnimatedSprite>(m_activeEntity);*/ }
-		else if (selected == "Audio") { /*entityManager->AddComponent<Audio>(m_activeEntity);*/ }
-		else if (selected == "Box Collider") { /*entityManager->AddComponent<BoxCollider>(m_activeEntity);*/ }
-		else if (selected == "Camera") { entityManager->AddComponent<Camera>(m_activeEntity); }
-		else if (selected == "Circle Collider") { /*entityManager->AddComponent<CircleCollider>(m_activeEntity);*/ }
+		// Components with default/trivial constructors are created directly. Components with higher complexity are instead created through a dialog box
+		if (selected == "Animated Sprite") { m_guiObjects.emplace_back(std::make_unique<NewAnimatedSpriteGui>(m_activeEntity)); }
+		else if (selected == "Audio") { m_guiObjects.emplace_back(std::make_unique<NewAudioGui>(m_activeEntity)); }
+		else if (selected == "Box Collider") { m_guiObjects.emplace_back(std::make_unique<NewBoxColliderGui>(m_activeEntity)); }
+		else if (selected == "Camera") { entityManager->AddComponent<Camera>(m_activeEntity, DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT, DEFAULT_NEAR, DEFAULT_FAR, new Framebuffer()); }
+		else if (selected == "Circle Collider") { m_guiObjects.emplace_back(std::make_unique<NewCircleColliderGui>(m_activeEntity)); }
 		else if (selected == "Name") { entityManager->AddComponent<EntityName>(m_activeEntity, "Entity"); }
 		else if (selected == "Physics") { entityManager->AddComponent<Physics>(m_activeEntity); }
 		else if (selected == "Player Movement") { entityManager->AddComponent<PlayerMovement>(m_activeEntity); }
 		else if (selected == "Script Component") { entityManager->AddComponent<ScriptComponent>(m_activeEntity, entityManager, m_activeEntity); }
 		else if (selected == "Sprite") { m_guiObjects.emplace_back(std::make_unique<NewSpriteGui>(m_activeEntity)); }
-		else if (selected == "Tile Map") { /*entityManager->AddComponent<TileMap>(m_activeEntity);*/ }
+		else if (selected == "Tile Map") { m_guiObjects.emplace_back(std::make_unique<NewTileMapGui>(m_activeEntity)); }
 		else if (selected == "Transform") { entityManager->AddComponent<Transform>(m_activeEntity); }
 	}
 }
