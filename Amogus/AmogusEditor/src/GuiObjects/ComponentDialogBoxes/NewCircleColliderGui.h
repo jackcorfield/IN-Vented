@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IGuiObject.h"
+#include "../IGuiObject.h"
 
 #include "Amogus.h"
 

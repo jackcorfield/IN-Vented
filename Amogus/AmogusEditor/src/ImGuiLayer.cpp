@@ -126,42 +126,38 @@ void ImGuiLayer::EndGui()
 
 void ImGuiLayer::DrawMenuBar()
 {
+	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::BeginMainMenuBar())
+		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::BeginMenu("File"))
+			if (ImGui::MenuItem(ICON_FA_FILE"  New"))
 			{
-				if (ImGui::MenuItem(ICON_FA_FILE"  New"))
-				{
-					//Do something
-				}
-				else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
-				{
-					SceneImporter::ImportSceneFromFile("testimport.json");
-				}
-				else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
-				{
-					SceneExporter::ExportActiveSceneToFile(g_app->m_sceneManager->GetActiveSceneName() + ".json");
-				}
-				ImGui::EndMenu();
-
+				//Do something
 			}
-
-			if (ImGui::BeginMenu("Assets"))
+			else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
 			{
-				DrawNewEntityMenu();
-
-				ImGui::EndMenu();
+				SceneImporter::ImportSceneFromFile("testimport.json");
 			}
-
-			if (ImGui::MenuItem(ICON_FA_COG" Settings"))
+			else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
 			{
-
-
+				SceneExporter::ExportActiveSceneToFile(g_app->m_sceneManager->GetActiveSceneName() + ".json");
 			}
-
-			ImGui::EndMainMenuBar();
+			ImGui::EndMenu();
 		}
+
+		if (ImGui::BeginMenu("Assets"))
+		{
+			DrawNewEntityMenu();
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::MenuItem(ICON_FA_COG" Settings"))
+		{
+
+		}
+
+		ImGui::EndMainMenuBar();
 	}
 }
 
@@ -184,6 +180,7 @@ void ImGuiLayer::DrawNewEntityMenu()
 
 			Sprite* sprite = entityManager->AddComponent<Sprite>(entity, TextureLoader::CreateTexture2DFromFile("defaultEntity", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 			Transform* transform = entityManager->AddComponent<Transform>(entity, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+			EntityName* name = entityManager->AddComponent<EntityName>(entity, "New GameObject");
 		}
 
 		if (ImGui::MenuItem("Camera"))
@@ -193,20 +190,8 @@ void ImGuiLayer::DrawNewEntityMenu()
 
 			Camera* camera = entityManager->AddComponent<Camera>(entity, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer());
 			Transform* transform = entityManager->AddComponent<Transform>(entity, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
+			EntityName* name = entityManager->AddComponent<EntityName>(entity, "New camera");
 		}
-
-		/*if (ImGui::MenuItem("Sprite"))
-		{
-			Entity entity = entityManager->CreateEntity();
-			Sprite* sprite = entityManager->AddComponent<Sprite>(entity, TextureLoader::CreateTexture2DFromFile("defaultEntity", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), shader);
-			Transform* testTransform = entityManager->AddComponent<Transform>(entity, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-		}
-		else if (ImGui::MenuItem("Camera"))
-		{
-			Entity entity = entityManager->CreateEntity();
-			Camera* camera = entityManager->AddComponent<Camera>(entity, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer);
-			Transform* cameraTransform = entityManager->AddComponent<Transform>(entity, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
-		}*/
 
 		ImGui::EndMenu();
 	}
@@ -233,7 +218,7 @@ void ImGuiLayer::DrawSceneView(int textureID)
 	
 	if (m_selecting)
 	{
-		SelectObject();
+		//SelectObject(); selection by click is currently disabled due to it's unfinished state and time constraints
 		m_selecting = false;
 	}
 

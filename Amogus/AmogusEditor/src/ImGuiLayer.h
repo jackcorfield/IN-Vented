@@ -6,8 +6,8 @@
 #include "../Fonts/IconHeader.h"
 
 #include <Amogus.h>
-#include "EntityInspectorGui.h"
-#include "SceneHierarchyGui.h"
+#include "GuiObjects/EntityInspectorGui.h"
+#include "GuiObjects/SceneHierarchyGui.h"
 
 class ImGuiLayer
 {
@@ -55,6 +55,4 @@ private:
 	ImVec2 m_tempSize;
 
 	EntityManager* m_entityManager;
-
-	Entity m_selectedItem = 0;
 };

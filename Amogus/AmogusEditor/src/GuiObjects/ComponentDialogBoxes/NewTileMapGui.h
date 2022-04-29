@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IGuiObject.h"
+#include "../IGuiObject.h"
 
 #include "Amogus.h"
 
 struct NewTileMapGui :
 	public IGuiObject
 {
-public:
+public: 
 	NewTileMapGui(Entity entityFor);
 
 	virtual void CreateGui() override;
@@ -18,5 +18,5 @@ private:
 	Entity entity;
 
 	glm::vec2 inputTileSize;
-	int inputMapWidth, inputMapHeight;
+	glm::ivec2 inputMapSize;
 };

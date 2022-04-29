@@ -4,7 +4,9 @@
 #include <ImGui/imgui.h>
 
 NewTileMapGui::NewTileMapGui(Entity entityFor) :
-	entity(entityFor)
+	entity(entityFor),
+	inputTileSize(16.0f, 16.0f),
+	inputMapSize(3, 3)
 {}
 
 void NewTileMapGui::CreateGui()
@@ -12,8 +14,8 @@ void NewTileMapGui::CreateGui()
 	if (ImGui::Begin("New tile map"))
 	{
 		if (ImGui::DragFloat2("Tile size", glm::value_ptr(inputTileSize), 0.5f)) {}
-		if (ImGui::InputInt("Map width (in tiles)", &inputMapWidth)) {}
-		if (ImGui::InputInt("Map height (in tiles)", &inputMapHeight)) {}
+		if (ImGui::InputInt("Map width (in tiles)", &inputMapSize.x)) {}
+		if (ImGui::InputInt("Map height (in tiles)", &inputMapSize.y)) {}
 
 		if (ImGui::Button("Add tile map##"))
 		{
@@ -34,15 +36,11 @@ void NewTileMapGui::AddTileMap()
 {
 	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
-	glm::vec2 mapSize;
-	mapSize.x = inputTileSize.x * inputMapWidth;
-	mapSize.y = inputTileSize.y * inputMapHeight;
-
 	std::vector<Entity> tiles;
 
-	for (int y = 0; y < inputMapHeight; y++)
+	for (int y = 0; y < inputMapSize.y; y++)
 	{
-		for (int x = 0; x < inputMapWidth; x++)
+		for (int x = 0; x < inputMapSize.x; x++)
 		{
 			Entity newTile = entityManager->CreateEntity();
 
@@ -52,5 +50,5 @@ void NewTileMapGui::AddTileMap()
 		}
 	}
 
-	entityManager->AddComponent<TileMap>(entity, inputTileSize, mapSize, tiles);
+	entityManager->AddComponent<TileMap>(entity, inputTileSize, inputMapSize, tiles);
 }

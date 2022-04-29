@@ -6,12 +6,12 @@
 
 #include <Amogus.h>
 
-#include "NewAnimatedSpriteGui.h"
-#include "NewAudioGui.h"
-#include "NewBoxColliderGui.h"
-#include "NewCircleColliderGui.h"
-#include "NewSpriteGui.h"
-#include "NewTileMapGui.h"
+#include "ComponentDialogBoxes/NewAnimatedSpriteGui.h"
+#include "ComponentDialogBoxes/NewAudioGui.h"
+#include "ComponentDialogBoxes/NewBoxColliderGui.h"
+#include "ComponentDialogBoxes/NewCircleColliderGui.h"
+#include "ComponentDialogBoxes/NewSpriteGui.h"
+#include "ComponentDialogBoxes/NewTileMapGui.h"
 
 #define MAX_INPUT_LENGTH 256
 
@@ -59,34 +59,7 @@ void EntityInspectorGui::Draw()
 
 	if (m_activeEntity != 0)
 	{
-		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
-
-		// Handle entity name separately from the other components, as it should be at the top
-		if (entityManager->HasComponent<EntityName>(m_activeEntity))
-		{
-			EntityName* name = entityManager->GetComponent<EntityName>(m_activeEntity);
-			CreateEntityNameGui(name);
-
-			ImGui::Separator();
-		}
-
-		// Iterate through all of the other components and draw gui for each
-		std::map<std::type_index, void*> allComponentsOfEntity = entityManager->GetAllComponents(m_activeEntity);
-		int i = 0;
-		for (auto componentPair : allComponentsOfEntity)
-		{
-			size_t hashCode = componentPair.first.hash_code(); // For comparing types
-			std::type_index typeIndex = componentPair.first;
-			void* component = componentPair.second; // To pass into correct function
-
-			DrawComponentGui(component, typeIndex, m_activeEntity, entityManager, i);
-
-			ImGui::Separator();
-
-			i++;
-		}
-
-		CreateAddComponentGui();
+		DrawInspectorInfo();
 	}
 
 	// Draw each dialog box
@@ -103,6 +76,46 @@ void EntityInspectorGui::Draw()
 	}
 
 	ImGui::End();
+}
+
+void EntityInspectorGui::DrawInspectorInfo()
+{
+	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+
+	// Handle entity name separately from the other components, as it should be at the top
+	if (entityManager->HasComponent<EntityName>(m_activeEntity))
+	{
+		EntityName* name = entityManager->GetComponent<EntityName>(m_activeEntity);
+		CreateEntityNameGui(name);
+	}
+
+	// Delete entity button. Could possibly add a confirmation dialog box in future
+	if (ImGui::Button("Delete entity"))
+	{
+		entityManager->DeleteEntity(m_activeEntity);
+		m_activeEntity = 0;
+		return;
+	}
+
+	ImGui::Separator();
+
+	// Iterate through all of the other components and draw gui for each
+	std::map<std::type_index, void*> allComponentsOfEntity = entityManager->GetAllComponents(m_activeEntity);
+	int i = 0;
+	for (auto componentPair : allComponentsOfEntity)
+	{
+		size_t hashCode = componentPair.first.hash_code(); // For comparing types
+		std::type_index typeIndex = componentPair.first;
+		void* component = componentPair.second; // To pass into correct function
+
+		DrawComponentGui(component, typeIndex, m_activeEntity, entityManager, i);
+
+		ImGui::Separator();
+
+		i++;
+	}
+
+	CreateAddComponentGui();
 }
 
 void EntityInspectorGui::SetActiveEntity(Entity entity)
