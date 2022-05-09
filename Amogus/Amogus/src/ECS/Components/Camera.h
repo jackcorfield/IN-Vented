@@ -13,7 +13,8 @@ public:
 		m_viewportHeight(viewportHeight),
 		m_near(near),
 		m_far(far),
-		m_framebuffer(renderTarget)
+		m_framebuffer(renderTarget),
+		m_isActive(false)
 	{}
 
 	float m_viewportWidth, m_viewportHeight;

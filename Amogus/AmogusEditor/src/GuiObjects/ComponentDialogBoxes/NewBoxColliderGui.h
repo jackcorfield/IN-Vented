@@ -17,5 +17,5 @@ private:
 
 	Entity entity;
 
-	glm::vec2 inputPos, inputSize;
+	glm::vec2 inputSize;
 };

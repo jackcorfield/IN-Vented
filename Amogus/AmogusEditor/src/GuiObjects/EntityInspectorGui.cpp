@@ -404,17 +404,6 @@ void CreateBoxColliderGui(BoxCollider* boxCollider)
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::CollapsingHeader("Box Collider", nodeFlags))
 	{
-		// Position
-		{
-			glm::vec2 pos = *boxCollider->m_position;
-			float posArr[2] = { pos.x, pos.y };
-			if (ImGui::DragFloat2("Pos", posArr, 0.5f))
-			{
-				boxCollider->m_position->x = posArr[0];
-				boxCollider->m_position->y = posArr[1];
-			}
-		}
-
 		// Size
 		{
 			glm::vec2 size = boxCollider->m_size;

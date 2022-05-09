@@ -215,9 +215,6 @@ namespace SceneExporter
 	{
 		bool success = true;
 
-		const glm::vec2 pos = *boxCollider->m_position;
-		if (!JSON::WriteVec2(pos, jBoxCollider["pos"])) { success = false; }
-
 		const glm::vec2 size = boxCollider->m_size;
 		if (!JSON::WriteVec2(size, jBoxCollider["size"])) { success = false; }
 

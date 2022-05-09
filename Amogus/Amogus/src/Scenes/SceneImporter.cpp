@@ -291,14 +291,10 @@ namespace SceneImporter
 	{
 		bool success = true;
 
-		glm::vec2 pos;
-		if (!JSON::ReadVec2(pos, j, "pos")) { success = false; }
-
 		glm::vec2 size;
 		if (!JSON::ReadVec2(size, j, "size")) { success = false; }
 
-		BoxCollider* component = g_entityManager->AddComponent<BoxCollider>(entity, pos, size);
-
+		BoxCollider* component = g_entityManager->AddComponent<BoxCollider>(entity, size);
 		return success;
 	}
 
