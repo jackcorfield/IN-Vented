@@ -87,6 +87,10 @@ public:
 	template <typename T>
 	T* GetComponent(Entity entity)
 	{
+		if (!IsEntity(entity))
+			return nullptr;
+		if (!HasComponent<T>(entity))
+			return nullptr;
 		return (T*)(m_componentMap[typeid(T)][entity]);
 	}
 
