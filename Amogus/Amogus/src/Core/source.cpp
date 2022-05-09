@@ -48,7 +48,7 @@ void Application::Init()
 
 	m_renderer = new Renderer();
 
-	ImportScene("test scene.json", true);
+	ImportScene("test scene", true);
 
 	InputHandler();
 

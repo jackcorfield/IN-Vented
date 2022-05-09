@@ -28,11 +28,12 @@ public:
 		
 		m_gui->Draw();
 
-		Scene* activeScene = m_sceneManager->GetActiveScene();
-		Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_renderer->GetSceneCamera());
-		if (cameraComponent)
-		{
+		EntityManager* entityManager = m_sceneManager->GetActiveScene()->m_entityManager;
+		Entity cameraEntity = m_renderer->GetSceneCamera();
 
+		if (entityManager->IsEntity(cameraEntity) && entityManager->HasComponent<Camera>(cameraEntity))
+		{
+			Camera* cameraComponent = entityManager->GetComponent<Camera>(m_renderer->GetSceneCamera());
 			m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
 		}
 

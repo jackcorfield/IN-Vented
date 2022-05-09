@@ -17,13 +17,13 @@
                     "z": 1.0
                 },
                 "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "geometryFilePath": "",
+                    "fragmentFilePath": "Assets/Shaders/DefaultSpriteF.glsl",
+                    "geometryFilePath": "Assets/Shaders/",
                     "name": "default shader",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
+                    "vertexFilePath": "Assets/Shaders/DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "test.png",
+                    "filePath": "Assets/Sprites/Assets/Sprites/test.png",
                     "name": "TestCharacter"
                 },
                 "type": "sprite"
@@ -50,18 +50,18 @@
                 },
                 "interval": 0.5,
                 "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "geometryFilePath": "",
+                    "fragmentFilePath": "Assets/Shaders/DefaultSpriteF.glsl",
+                    "geometryFilePath": "Assets/Shaders/",
                     "name": "default shader",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
+                    "vertexFilePath": "Assets/Shaders/DefaultSpriteV.glsl"
                 },
                 "textures": [
                     {
-                        "filePath": "test.png",
+                        "filePath": "Assets/Sprites/Assets/Sprites/test.png",
                         "name": "TestCharacter"
                     },
                     {
-                        "filePath": "test2.png",
+                        "filePath": "Assets/Sprites/Assets/Sprites/test2.png",
                         "name": "TestCharacter"
                     }
                 ],

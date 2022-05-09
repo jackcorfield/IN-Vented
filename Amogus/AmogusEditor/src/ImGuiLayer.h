@@ -43,6 +43,9 @@ private:
 	EntityInspectorGui m_entityInspector;
 	SceneHierarchyGui m_sceneHierarchy;
 
+	std::vector<std::unique_ptr<IGuiObject>> m_guiObjects; // Stores pointers to dialog boxes
+	std::unique_ptr<IGuiObject> m_popup; // Stores pointer to popup object
+
 	ImGuiDockNodeFlags m_dockspaceFlags;
 	ImGuiWindowFlags m_windowFlags;
 

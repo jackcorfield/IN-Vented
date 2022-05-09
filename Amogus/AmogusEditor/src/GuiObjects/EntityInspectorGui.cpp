@@ -6,12 +6,12 @@
 
 #include <Amogus.h>
 
-#include "ComponentDialogBoxes/NewAnimatedSpriteGui.h"
-#include "ComponentDialogBoxes/NewAudioGui.h"
-#include "ComponentDialogBoxes/NewBoxColliderGui.h"
-#include "ComponentDialogBoxes/NewCircleColliderGui.h"
-#include "ComponentDialogBoxes/NewSpriteGui.h"
-#include "ComponentDialogBoxes/NewTileMapGui.h"
+#include "DialogBoxes/NewAnimatedSpriteGui.h"
+#include "DialogBoxes/NewAudioGui.h"
+#include "DialogBoxes/NewBoxColliderGui.h"
+#include "DialogBoxes/NewCircleColliderGui.h"
+#include "DialogBoxes/NewSpriteGui.h"
+#include "DialogBoxes/NewTileMapGui.h"
 
 #define MAX_INPUT_LENGTH 256
 
@@ -385,6 +385,11 @@ void CreateAudioGui(Audio* audio, Entity owner)
 
 				ImGui::EndCombo();
 			}
+		}
+
+		if (ImGui::Button("Play audio"))
+		{
+			g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
 		}
 
 		if (edited)

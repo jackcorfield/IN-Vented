@@ -6,6 +6,10 @@
 #include <string.h>
 #include <iostream>
 
+#include "GuiObjects/DialogBoxes/CreateSceneGui.h"
+#include "GuiObjects/DialogBoxes/ExportSceneGui.h"
+#include "GuiObjects/DialogBoxes/ImportSceneGui.h"
+
 extern Application* g_app;
 
 ImGuiLayer::ImGuiLayer(Application* app) :
@@ -109,6 +113,30 @@ void ImGuiLayer::Draw()
 	DrawConsole();
 	m_entityInspector.Draw();
 	DrawProfiler();
+
+	//ImGui::ShowDemoWindow();
+
+	if (m_popup)
+	{
+		m_popup.get()->CreateGui();
+		if (m_popup.get()->close)
+		{
+			m_popup.release();
+		}
+	}
+
+	//// Draw each dialog box
+	//for (int i = 0; i < m_guiObjects.size(); i++)
+	//{
+	//	IGuiObject* guiObject = m_guiObjects[i].get();
+
+	//	guiObject->CreateGui();
+
+	//	if (guiObject->close) // If this window is ready to close, delete object
+	//	{
+	//		m_guiObjects.erase(m_guiObjects.begin() + i);
+	//	}
+	//}
 }
 
 void ImGuiLayer::EndGui()
@@ -132,15 +160,15 @@ void ImGuiLayer::DrawMenuBar()
 		{
 			if (ImGui::MenuItem(ICON_FA_FILE"  New"))
 			{
-				//Do something
+				m_popup = std::make_unique<CreateSceneGui>();
 			}
 			else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
 			{
-				SceneImporter::ImportSceneFromFile("testimport.json");
+				m_popup = std::make_unique<ImportSceneGui>();
 			}
 			else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
 			{
-				SceneExporter::ExportActiveSceneToFile(g_app->m_sceneManager->GetActiveSceneName() + ".json");
+				m_popup = std::make_unique<ExportSceneGui>();
 			}
 			ImGui::EndMenu();
 		}

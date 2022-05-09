@@ -148,26 +148,32 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewTileMapGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewCircleColliderGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewBoxColliderGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewAudioGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewAnimatedSpriteGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewSpriteGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\CreateSceneGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\ExportSceneGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\ImportSceneGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewTileMapGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewCircleColliderGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewBoxColliderGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewAudioGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewAnimatedSpriteGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewSpriteGui.cpp" />
     <ClCompile Include="src\GuiObjects\EntityInspectorGui.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
     <ClCompile Include="src\GuiObjects\SceneHierarchyGui.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\CreateSceneGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\ExportSceneGui.h" />
     <ClInclude Include="Fonts\IconHeader.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewTileMapGui.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewCircleColliderGui.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewBoxColliderGui.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewAudioGui.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewAnimatedSpriteGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\ImportSceneGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewTileMapGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewCircleColliderGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewBoxColliderGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewAudioGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewAnimatedSpriteGui.h" />
     <ClInclude Include="src\GuiObjects\IGuiObject.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewSpriteGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewSpriteGui.h" />
     <ClInclude Include="src\GuiObjects\EntityInspectorGui.h" />
     <ClInclude Include="src\ImGuiLayer.h" />
     <ClInclude Include="src\GuiObjects\SceneHierarchyGui.h" />
