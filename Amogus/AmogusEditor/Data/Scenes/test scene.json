@@ -18,6 +18,7 @@
                 },
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "geometryFilePath": "",
                     "name": "default shader",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
@@ -50,6 +51,7 @@
                 "interval": 0.5,
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "geometryFilePath": "",
                     "name": "default shader",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
@@ -95,8 +97,8 @@
             },
             {
                 "pos": {
-                    "x": 83.15432739257813,
-                    "y": 206.65423583984375
+                    "x": 197.16204833984375,
+                    "y": 42.99664306640625
                 },
                 "rotate": 0.0,
                 "size": {
@@ -172,6 +174,24 @@
                 "pos": {
                     "x": 50.0,
                     "y": 100.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "type": "transform"
+            }
+        ],
+        [
+            {
+                "name": "New entity",
+                "type": "entityName"
+            },
+            {
+                "pos": {
+                    "x": 62.5,
+                    "y": 0.0
                 },
                 "rotate": 0.0,
                 "size": {

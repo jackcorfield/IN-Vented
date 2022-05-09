@@ -6,10 +6,18 @@
 #include <string.h>
 #include <iostream>
 
-ImGuiLayer::ImGuiLayer(Application* app)
-{
-	m_app = app;
+extern Application* g_app;
 
+ImGuiLayer::ImGuiLayer(Application* app) :
+	m_app(app),
+	m_selecting(false),
+	m_mouseX(0),
+	m_mouseY(0),
+	m_guiEnabled(true),
+	m_windowFlags(0),
+	m_dockspaceFlags(0),
+	m_entityManager(nullptr)
+{
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -18,7 +26,7 @@ ImGuiLayer::ImGuiLayer(Application* app)
 	io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
 
 	// Setup Platform/Renderer bindings
-	ImGui_ImplGlfw_InitForOpenGL(m_app->m_window, true);
+	ImGui_ImplGlfw_InitForOpenGL(g_app->m_window, true);
 	ImGui_ImplOpenGL3_Init("#version 130");
 
 	// Setup Dear ImGui style
@@ -47,20 +55,21 @@ ImGuiLayer::ImGuiLayer(Application* app)
 	static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 	io.Fonts->AddFontFromFileTTF("Fonts/FontIcons.ttf", 16.0f, &config, icon_ranges);
 
+	InputHandler::m_mouseClickBus->subscribe(this, &ImGuiLayer::OnClick);
 
-	m_selectedBool = false;
 	m_gameView = new Framebuffer;
+
+	m_sceneHierarchy.SetEntityInspector(&m_entityInspector);
 
 }
 
 ImGuiLayer::~ImGuiLayer()
 {
-
 }
 
 void ImGuiLayer::BeginGui()
 {
-	m_entityManager = m_app->m_sceneManager->GetActiveScene()->m_entityManager;
+	m_entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
 	static bool p_open = true;
 
@@ -87,9 +96,19 @@ void ImGuiLayer::BeginGui()
 	ImGui::PopStyleVar(2);
 
 	ImGuiIO& io = ImGui::GetIO();
-
+	
 	ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+}
+
+void ImGuiLayer::Draw()
+{
+	DrawMenuBar();
+	m_sceneHierarchy.SetCurrentScene(g_app->m_sceneManager->GetActiveScene());
+	m_sceneHierarchy.Draw();
+	DrawConsole();
+	m_entityInspector.Draw();
+	DrawProfiler();
 }
 
 void ImGuiLayer::EndGui()
@@ -107,186 +126,75 @@ void ImGuiLayer::EndGui()
 
 void ImGuiLayer::DrawMenuBar()
 {
+	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::BeginMainMenuBar())
+		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::BeginMenu("File"))
+			if (ImGui::MenuItem(ICON_FA_FILE"  New"))
 			{
-				if (ImGui::MenuItem(ICON_FA_FILE"  New"))
-				{
-					//Do something
-				}
-				else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
-				{
-					SceneImporter::ImportSceneFromFile("testimport.json");
-				}
-				else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
-				{
-					SceneExporter::ExportActiveSceneToFile(m_app->m_sceneManager->GetActiveSceneName() + ".json");
-				}
-				ImGui::EndMenu();
-
+				//Do something
 			}
-
-			if (ImGui::BeginMenu("Assets"))
+			else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
 			{
-				if (ImGui::BeginMenu("Add Component"))
-				{
-					if (ImGui::MenuItem("Sprite"))
-					{
-						Entity entity = m_entityManager->CreateEntity();
-						Sprite* sprite = m_entityManager->AddComponent<Sprite>(entity, TextureLoader::CreateTexture2DFromFile("defaultEntity", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f));
-						Transform* testTransform = m_entityManager->AddComponent<Transform>(entity, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), 0.0f);
-					}
-					else if (ImGui::MenuItem("Camera"))
-					{
-						Entity entity = m_entityManager->CreateEntity();
-						Camera* camera = m_entityManager->AddComponent<Camera>(entity, m_app->m_windowParams.windowWidth, m_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer);
-						Transform* cameraTransform = m_entityManager->AddComponent<Transform>(entity, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
-					}
-					ImGui::EndMenu();
-				}
-
-				ImGui::EndMenu();
+				SceneImporter::ImportSceneFromFile("testimport.json");
 			}
-
-			if (ImGui::MenuItem(ICON_FA_COG" Settings"))
+			else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
 			{
-
-
+				SceneExporter::ExportActiveSceneToFile(g_app->m_sceneManager->GetActiveSceneName() + ".json");
 			}
-
-			ImGui::EndMainMenuBar();
+			ImGui::EndMenu();
 		}
+
+		if (ImGui::BeginMenu("Assets"))
+		{
+			DrawNewEntityMenu();
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::MenuItem(ICON_FA_COG" Settings"))
+		{
+
+		}
+
+		ImGui::EndMainMenuBar();
 	}
 }
 
-void ImGuiLayer::DrawHierarchy()
+void ImGuiLayer::DrawNewEntityMenu()
 {
-
-	ImGui::Begin("Hierarchy");
-
-	ImGui::InputText("Search", inputString, sizeof(inputString));
-
-	std::vector<Entity> allEntities = m_entityManager->GetAllActiveEntities();
-
-	static uint32_t item_current_idx = 0;
-
-	for (uint32_t i = 0; i < allEntities.size(); i++)
+	if (ImGui::BeginMenu("New entity"))
 	{
-		const bool is_selected = (item_current_idx == i);
+		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
-		std::string selectLabel = "Entity " + std::to_string(allEntities[i]);
-		EntityName* name = m_entityManager->GetComponent<EntityName>(allEntities[i]);
-		if (name != nullptr)
-			selectLabel = name->m_name;
-
-		if (ImGui::TreeNode(selectLabel.c_str()))
+		if (ImGui::MenuItem("Empty"))
 		{
-			std::map<std::type_index, void*> entityComponents = m_entityManager->GetAllComponents(allEntities[i]);
-
-			for (const auto& component : entityComponents)
-			{
-				//std::cout << typeid(component.first).name() << std::endl;
-				if (component.first == std::type_index(typeid(AnimatedSprite)))
-				{
-					selectLabel = "Animated Sprite##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(Sprite)))
-				{
-					selectLabel = "Sprite##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(Camera)))
-				{
-					selectLabel = "Camera##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(Audio)))
-				{
-					selectLabel = "Audio##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(Transform)))
-				{
-					selectLabel = "Transform##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(Physics)))
-				{
-					selectLabel = "Physics##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(PlayerMovement)))
-				{
-					selectLabel = "Player Movement##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(BoxCollider)))
-				{
-					selectLabel = "Box Collider##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(TileMap)))
-				{
-					selectLabel = "Tile Map##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(Tile)))
-				{
-					selectLabel = "Tile##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				else if (component.first == std::type_index(typeid(EntityName)))
-				{
-					// We don't want this component to display in the hierarchy
-				}
-				else
-				{
-					selectLabel = "Default##" + std::to_string(i);
-					if (ImGui::TreeNode(selectLabel.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-			}
-			ImGui::TreePop();
+			Entity entity = entityManager->CreateEntity();
+			m_entityInspector.SetActiveEntity(entity);
 		}
 
-	}
+		if (ImGui::MenuItem("GameObject"))
+		{
+			Entity entity = entityManager->CreateEntity();
+			m_entityInspector.SetActiveEntity(entity);
 
-	ImGui::End();
+			Sprite* sprite = entityManager->AddComponent<Sprite>(entity, TextureLoader::CreateTexture2DFromFile("defaultEntity", "test.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+			Transform* transform = entityManager->AddComponent<Transform>(entity, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), 0.0f);
+			EntityName* name = entityManager->AddComponent<EntityName>(entity, "New GameObject");
+		}
+
+		if (ImGui::MenuItem("Camera"))
+		{
+			Entity entity = entityManager->CreateEntity();
+			m_entityInspector.SetActiveEntity(entity);
+
+			Camera* camera = entityManager->AddComponent<Camera>(entity, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer());
+			Transform* transform = entityManager->AddComponent<Transform>(entity, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
+			EntityName* name = entityManager->AddComponent<EntityName>(entity, "New camera");
+		}
+
+		ImGui::EndMenu();
+	}
 }
 
 void ImGuiLayer::DrawProfiler()
@@ -303,51 +211,131 @@ void ImGuiLayer::DrawConsole()
 	ImGui::End();
 }
 
-void ImGuiLayer::DrawInspector()
-{
-
-
-
-	ImGui::Begin("Inspector");
-	ImGui::InputText("Component Name", inputString, 32);
-
-	if (m_selectedItem != 0)
-	{
-		if (ImGui::CollapsingHeader("Transform"))
-		{
-			ImGui::DragFloat3("Position", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
-			ImGui::DragFloat3("Rotation", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
-			ImGui::DragFloat3("Scale", dragFloat, 0.1f, 0.1f, 0.1f, "%.3f");
-		}
-		if (ImGui::CollapsingHeader("Sprite Renderer"))
-		{
-			ImGui::Text("Add some fun sprite stuff here idk");
-		}
-	}
-
-
-
-	ImGui::End();
-}
-
 void ImGuiLayer::DrawSceneView(int textureID)
 {
 	ImGui::Begin("Scene View");
 	//Render the scene here.
-
-	m_tempSize = ImGui::GetContentRegionAvail();
-	if (m_tempSize.x != m_renderSize.x || m_renderSize.y != m_tempSize.y)
+	
+	if (m_selecting)
 	{
-		m_sceneFrameResized = true;
-		m_renderSize.x = m_tempSize.x;
-		m_renderSize.y = m_tempSize.y;
+		//SelectObject(); selection by click is currently disabled due to it's unfinished state and time constraints
+		m_selecting = false;
 	}
 
+	ImVec2 tempSize = ImGui::GetContentRegionAvail();
+	if (tempSize.x != m_renderSize.x || m_renderSize.y != tempSize.y)
+	{
+		m_sceneFrameResized = true;
+		m_renderSize.x = tempSize.x;
+		m_renderSize.y = tempSize.y;
+	}
+	
 	ImGui::Image(ImTextureID(textureID), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
-
+	
 	ImGui::Begin("Game View");
 	ImGui::Image(ImTextureID(m_gameView->GetRenderTextureID()), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 
 	ImGui::End();
+}
+
+void ImGuiLayer::SelectObject()
+{
+	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+
+	// Get mouse pos in world space
+	{
+		ImVec2 windowPosIm = ImGui::GetCursorScreenPos();
+		ImVec2 mousePosIm = ImGui::GetMousePos();
+		glm::vec2 windowPos = glm::vec2(windowPosIm.x, windowPosIm.y);
+		glm::vec2 mousePos = glm::vec2(mousePosIm.x, mousePosIm.y);
+
+		// Check that click is in window
+		if (mousePos.x > windowPos.x + g_app->m_windowParams.windowWidth)
+			return;
+		if (mousePos.x < windowPos.x)
+			return;
+		if (mousePos.y > windowPos.y + g_app->m_windowParams.windowHeight)
+			return;
+		if (mousePos.y < windowPos.y)
+			return;
+
+		Camera* activeCamera = nullptr;
+		{
+			std::vector<Camera*> allCameras = entityManager->GetAllComponentsOfType<Camera>();
+			for (Camera* camera : allCameras)
+			{
+				if (camera->m_isActive)
+				{
+					activeCamera = camera;
+					break;
+				}
+			}
+		}
+
+		Entity cameraEntity = entityManager->GetEntityFromComponent<Camera>(activeCamera);
+		Transform* cameraTransform = entityManager->GetComponent<Transform>(cameraEntity);
+
+		glm::vec2 localMousePos = mousePos - windowPos;
+
+		if (localMousePos.x > ImGui::GetWindowSize().x || localMousePos.y > ImGui::GetWindowSize().y) // Outside window bounds
+		{
+			return;
+		}
+
+		glm::vec2 worldMousePos = localMousePos + cameraTransform->m_position;
+
+		m_mouseX = worldMousePos.x;
+		m_mouseY = worldMousePos.y;
+	}
+
+	Entity selectedEntity = 0;
+
+	std::vector<Transform*> allTransforms = entityManager->GetAllComponentsOfType<Transform>();
+	for (Transform* transform : allTransforms)
+	{
+		Entity entity = entityManager->GetEntityFromComponent<Transform>(transform);
+		glm::vec2 pos = transform->m_position;
+		glm::vec2 size = transform->m_size;
+
+		if (entityManager->HasComponent<Sprite>(entity))
+		{
+			Sprite* sprite = entityManager->GetComponent<Sprite>(entity);
+			Texture2D texture = sprite->GetTexture();
+			size.x = texture.m_width;
+			size.y = texture.m_height;
+		}
+		else if (entityManager->HasComponent<AnimatedSprite>(entity))
+		{
+			AnimatedSprite* sprite = entityManager->GetComponent<AnimatedSprite>(entity);
+			Texture2D firstFrame = sprite->GetFrames()[0];
+			size.x = firstFrame.m_width;
+			size.y = firstFrame.m_height;
+		}
+		else
+		{
+			size *= 200.0f;
+		}
+
+		if (m_mouseX > pos.x + size.x)
+			continue;
+		if (m_mouseX < pos.x)
+			continue;
+		if (m_mouseY > pos.y + size.y)
+			continue;
+		if (m_mouseY < pos.y)
+			continue;
+
+		selectedEntity = entity;
+	}
+
+	m_entityInspector.SetActiveEntity(selectedEntity);
+}
+
+void ImGuiLayer::OnClick(InputEvent* e)
+{
+	if (e->m_action == GLFW_PRESS)
+	{
+		m_selecting = true; // We can't do object selection in event because it won't be during ImGui phase
+	}
 }
