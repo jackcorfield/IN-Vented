@@ -8,6 +8,6 @@ Audio::Audio(const char* path, FMOD::System* system, FMOD::ChannelGroup* group) 
 	m_system(system),
 	m_group(group)
 {
-	std::string p = "Assets/Audio" + std::string(path);
+	std::string p = "Assets/Audio/" + std::string(path);
 	m_system->createSound(p.c_str(), FMOD_DEFAULT, 0, &m_sound);
 }
