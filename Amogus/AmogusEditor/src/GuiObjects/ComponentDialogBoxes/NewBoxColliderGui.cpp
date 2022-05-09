@@ -5,7 +5,6 @@
 
 NewBoxColliderGui::NewBoxColliderGui(Entity entityFor) :
 	entity(entityFor),
-	inputPos(),
 	inputSize()
 {}
 
@@ -13,7 +12,6 @@ void NewBoxColliderGui::CreateGui()
 {
 	if (ImGui::Begin("New box collider"))
 	{
-		if (ImGui::DragFloat2("Pos", glm::value_ptr(inputPos), 0.5f)) {}
 		if (ImGui::DragFloat2("Size", glm::value_ptr(inputSize), 0.5f)) {}
 
 		if (ImGui::Button("Add box collider##"))
@@ -33,5 +31,5 @@ void NewBoxColliderGui::CreateGui()
 
 void NewBoxColliderGui::AddBoxCollider()
 {
-	g_app->m_sceneManager->GetActiveScene()->m_entityManager->AddComponent<BoxCollider>(entity, inputPos, inputSize);
+	g_app->m_sceneManager->GetActiveScene()->m_entityManager->AddComponent<BoxCollider>(entity, inputSize);
 }
