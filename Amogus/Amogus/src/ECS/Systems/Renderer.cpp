@@ -184,9 +184,7 @@ void Renderer::PostProcessScene()
     glBindVertexArray(m_quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
-    activeCamera->m_framebuffer->Unbind();
-
-
+    m_renderContext.framebuffer->Unbind();
 }
 
 void Renderer::DrawUI()
@@ -194,6 +192,7 @@ void Renderer::DrawUI()
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
     if (activeScene)
     {
+        m_renderContext.framebuffer->Bind();
         // View matrix is flat default
         // Projection matrix is default left handed ortho
         // Model is just position and size
@@ -204,10 +203,13 @@ void Renderer::DrawUI()
         m_uiShader->SetUniform("projection", m_projection);
 
         std::vector<UI_Image*> ui_images = activeScene->m_entityManager->GetAllComponentsOfType<UI_Image>();
+
         for (UI_Image* img : ui_images)
         {
             DrawUI_Image(img);
         }
+        
+        m_renderContext.framebuffer->Unbind();
     }
 }
 
