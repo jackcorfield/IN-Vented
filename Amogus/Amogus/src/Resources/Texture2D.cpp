@@ -17,7 +17,7 @@ Texture2D::Texture2D(const unsigned int id, const unsigned int width, const unsi
 	m_width(width),
 	m_height(height),
 	m_name(name),
-	m_filePath("Assets/Sprites/" + filePath)
+	m_filePath(filePath)
 {}
 
 void Texture2D::Bind() const

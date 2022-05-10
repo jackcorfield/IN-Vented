@@ -38,6 +38,7 @@ void CreateSpriteGui(Sprite* sprite, Entity owner);
 void CreateTileGui(Tile* tile);
 void CreateTileMapGui(TileMap* tileMap);
 void CreateTransformGui(Transform* transform);
+void CreateUI_ImageGui(UI_Image* image, Entity owner);
 
 // Helpers (return true if changed)
 bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::string& fragmentPath, std::string& geometryPath);
@@ -143,6 +144,7 @@ void DrawComponentGui(void* component, std::type_index type, Entity entity, Enti
 	else if (type == typeid(Tile)) { CreateTileGui(reinterpret_cast<Tile*>(component)); }
 	else if (type == typeid(TileMap)) { CreateTileMapGui(reinterpret_cast<TileMap*>(component)); }
 	else if (type == typeid(Transform)) { CreateTransformGui(reinterpret_cast<Transform*>(component)); }
+	else if (type == typeid(UI_Image)) { CreateUI_ImageGui(reinterpret_cast<UI_Image*>(component), entity); }
 	else
 	{
 		std::cout << "Error: Invalid component type!" << std::endl;
@@ -170,6 +172,7 @@ void DeleteComponent(void* component, std::type_index type, Entity entity, Entit
 	else if (type == typeid(Tile)) { entityManager->RemoveComponent<Tile>(entity); }
 	else if (type == typeid(TileMap)) { entityManager->RemoveComponent<TileMap>(entity); }
 	else if (type == typeid(Transform)) { entityManager->RemoveComponent<Transform>(entity); }
+	else if (type == typeid(UI_Image)) { entityManager->RemoveComponent<UI_Image>(entity); }
 	else
 	{
 		std::cout << "Error: Invalid component type!" << std::endl;
@@ -181,7 +184,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 	ImGui::Text("Add component");
 
 	static std::string selected = "";
-	const static std::string names[12] =
+	const static std::string names[13] =
 	{ 
 		"Animated Sprite",
 		"Audio",
@@ -194,7 +197,8 @@ void EntityInspectorGui::CreateAddComponentGui()
 		"Script Component",
 		"Sprite",
 		"Tile Map",
-		"Transform"
+		"Transform",
+		"UI Image"
 	};
 
 	if (ImGui::BeginCombo("New component type", selected.c_str()))
@@ -229,6 +233,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 		else if (selected == "Sprite") { m_guiObjects.emplace_back(std::make_unique<NewSpriteGui>(m_activeEntity)); }
 		else if (selected == "Tile Map") { m_guiObjects.emplace_back(std::make_unique<NewTileMapGui>(m_activeEntity)); }
 		else if (selected == "Transform") { entityManager->AddComponent<Transform>(m_activeEntity); }
+		else if (selected == "UI Image") { entityManager->AddComponent<UI_Image>(m_activeEntity); }
 	}
 }
 
@@ -493,6 +498,45 @@ void CreatePhysicsGui(Physics* physics)
 	{
 		// Mass
 		if (ImGui::DragFloat("Mass", &physics->m_mass, 0.1f, 0.0f, 1000.0f)) {}
+	}
+}
+
+void CreateUI_ImageGui(UI_Image* image, Entity owner)
+{
+	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
+	if (ImGui::CollapsingHeader("UI Image", nodeFlags))
+	{
+		ImGui::InputFloat("Relative Pos X", &image->m_position.x);
+		ImGui::InputFloat("Absolute Pos X", &image->m_position.y);
+		ImGui::InputFloat("Relative Pos Y", &image->m_position.z);
+		ImGui::InputFloat("Absolute Pos Y", &image->m_position.w);
+		ImGui::InputFloat("Relative Size X", &image->m_size.x);
+		ImGui::InputFloat("Absolute Size X", &image->m_size.y);
+		ImGui::InputFloat("Relative Size Y", &image->m_size.z);
+		ImGui::InputFloat("Absolute Size Y", &image->m_size.w);
+		ImGui::InputInt("Z Index", &image->m_zIndex);
+
+		// Texture
+		bool edited = false;
+		Texture2D texture = image->m_texture;
+		std::string textureName = texture.m_name;
+		std::string textureFilePath = texture.m_filePath;
+		if (CreateTextureGui(textureName, textureFilePath))
+		{
+			edited = true;
+		}
+
+		if (edited)
+		{
+			// Create new texture and shader first; if these fail, don't replace the Sprite
+			Texture2D newTexture = TextureLoader::CreateTexture2DFromFile(textureName, textureFilePath);
+			if (newTexture.m_id != 0)
+			{
+				EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+				entityManager->RemoveComponent<UI_Image>(owner); // Remove old Sprite
+				entityManager->AddComponent<UI_Image>(owner, newTexture, image->m_position, image->m_size, image->m_zIndex);
+			}
+		}
 	}
 }
 

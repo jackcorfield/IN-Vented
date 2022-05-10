@@ -11,6 +11,7 @@ struct GLFWwindow;
 class Scene;
 class Sprite;
 class Transform;
+class UI_Image;
 
 struct SpriteVertex
 {
@@ -49,9 +50,13 @@ private:
 	void DrawScene();
 	void PostProcessScene();
 
+	void DrawUI();
+	void DrawUI_Image(UI_Image* img);
+
 	void InitQuad();
 
 	Shader* m_defaultShader;
+	Shader* m_uiShader;
 	Shader* m_postProcessingShader;
 	unsigned int m_quadVAO;
 

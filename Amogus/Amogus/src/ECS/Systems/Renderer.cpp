@@ -19,6 +19,7 @@
 #include <ECS/Components/Audio.h>
 #include <ECS/Components/Camera.h>
 #include <ECS/Components/BoxCollider.h>
+#include <ECS/Components/UI_Image.h>
 
 extern Application* g_app;
 
@@ -27,7 +28,8 @@ void UpdateShaderCameraData(Shader* shader, const glm::mat4& view, const glm::ma
 
 Renderer::Renderer() :
     m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
-    m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl"))
+    m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl")),
+    m_uiShader(ShaderFactory::CreatePipelineShader("UI", "UIV.glsl", "UIF.glsl"))
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
@@ -41,6 +43,12 @@ Renderer::~Renderer()
 {
     delete m_defaultShader;
     m_defaultShader = nullptr;
+
+    delete m_uiShader;
+    m_uiShader = nullptr;
+
+    delete m_postProcessingShader;
+    m_postProcessingShader = nullptr;
 }
 
 void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
@@ -177,6 +185,77 @@ void Renderer::PostProcessScene()
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
     activeCamera->m_framebuffer->Unbind();
+
+
+}
+
+void Renderer::DrawUI()
+{
+    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+    if (activeScene)
+    {
+        // View matrix is flat default
+        // Projection matrix is default left handed ortho
+        // Model is just position and size
+        glm::mat4 view = glm::mat4(1.0f);
+
+        m_uiShader->Use();
+        m_uiShader->SetUniform("view", view);
+        m_uiShader->SetUniform("projection", m_projection);
+
+        std::vector<UI_Image*> ui_images = activeScene->m_entityManager->GetAllComponentsOfType<UI_Image>();
+        for (UI_Image* img : ui_images)
+        {
+            DrawUI_Image(img);
+        }
+    }
+}
+
+void Renderer::DrawUI_Image(UI_Image* img)
+{
+    // scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
+    glm::vec2 relativePos = glm::vec2(img->m_position.x, img->m_position.z);
+    relativePos *= glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+
+    // pixel coordinates
+    glm::vec2 absolutePos = glm::vec2(img->m_position.y, img->m_position.w);
+
+    glm::vec3 finalPos = glm::vec3(
+        relativePos.x + absolutePos.x,
+        relativePos.y + absolutePos.y,
+        img->m_zIndex
+    );
+
+    // scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
+    glm::vec2 relativeSize = glm::vec2(img->m_size.x, img->m_size.z);
+    relativeSize *= glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+
+    // pixel coordinates
+    glm::vec2 absoluteSize = glm::vec2(img->m_size.y, img->m_size.w);
+
+    glm::vec3 finalSize = glm::vec3(
+        relativeSize.x + absoluteSize.x,
+        relativeSize.y + absoluteSize.y,
+        1
+    );
+
+    glm::mat4 model = glm::mat4(1.0f);
+
+    // translate by position
+    model = glm::translate(model, finalPos);
+    model = glm::scale(model, finalSize);
+
+    m_uiShader->SetUniform("model", model);
+
+    glActiveTexture(GL_TEXTURE0);
+    m_uiShader->SetUniform("image", 0);
+    img->m_texture.Bind();
+
+    glBindVertexArray(m_quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    img->m_texture.Unbind();
+    glBindVertexArray(0);
 }
 
 void Renderer::Render(float deltaTime)
@@ -185,6 +264,7 @@ void Renderer::Render(float deltaTime)
     m_renderContext.deltaTime = deltaTime;
 
     DrawScene();
+    DrawUI();
 
     // ImGui call is separate, allowing DrawScene to be terminated early without stopping ImGui from rendering
     g_app->onImGui();

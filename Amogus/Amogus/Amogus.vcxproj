@@ -180,6 +180,7 @@
     <ClInclude Include="Amogus.h" />
     <ClInclude Include="src\ECS\Components\AnimatedSprite.h" />
     <ClInclude Include="src\ECS\Components\Audio.h" />
+    <ClInclude Include="src\ECS\Components\UI_Image.h" />
     <ClInclude Include="src\ECS\Systems\AudioManager.h" />
     <ClInclude Include="src\ECS\Components\BoxCollider.h" />
     <ClInclude Include="src\ECS\Components\Camera.h" />
