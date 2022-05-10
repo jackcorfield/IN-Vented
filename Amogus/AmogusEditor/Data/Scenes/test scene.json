@@ -22,10 +22,10 @@
                     "name": "default shader",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
-                "texture": {
-                    "filePath": "test.png",
-                    "name": "TestCharacter"
-                },
+              "texture": {
+                "filePath": "test.png",
+                "name": "TestCharacter"
+              },
                 "type": "sprite"
             },
             {
@@ -48,35 +48,42 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "interval": 0.5,
+                "interval": 0.1,
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
                     "geometryFilePath": "",
                     "name": "default shader",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
-                "textures": [
-                    {
-                        "filePath": "test.png",
-                        "name": "TestCharacter"
-                    },
-                    {
-                        "filePath": "test2.png",
-                        "name": "TestCharacter"
-                    }
-                ],
+              "textures": [
+                {
+                  "filePath": "Enemies/SmallMonster/Running/frame1.png",
+                  "name": "frame1"
+                },
+                {
+                  "filePath": "Enemies/SmallMonster/Running/frame2.png",
+                  "name": "frame2"
+                },
+                {
+                  "filePath": "Enemies/SmallMonster/Running/frame3.png",
+                  "name": "frame3"
+                },
+                {
+                  "filePath": "Enemies/SmallMonster/Running/frame4.png",
+                  "name": "frame4"
+                },
+                {
+                  "filePath": "Enemies/SmallMonster/Running/frame5.png",
+                  "name": "frame5"
+                },
+                {
+                  "filePath": "Enemies/SmallMonster/Running/frame6.png",
+                  "name": "frame6"
+                }
+              ],
                 "type": "animatedSprite"
             },
             {
-                "channelGroup": "sfx",
-                "filePath": "Diesel.wav",
-                "type": "audio"
-            },
-            {
-                "pos": {
-                    "x": -107374176.0,
-                    "y": -107374176.0
-                },
                 "size": {
                     "x": 100.0,
                     "y": 100.0
@@ -108,53 +115,10 @@
                 "type": "transform"
             }
         ],
-        [
-            {
-                "name": "TileMap",
-                "type": "entityName"
-            },
-            {
-                "mapSize": {
-                    "x": 3.0,
-                    "y": 1.0
-                },
-                "tileSize": {
-                    "x": 32.0,
-                    "y": 32.0
-                },
-                "type": "tileMap"
-            }
-        ],
-        [
-            {
-                "name": "Tile0",
-                "type": "entityName"
-            },
-            {
-                "tileType": 0,
-                "type": "tile"
-            }
-        ],
-        [
-            {
-                "name": "Tile1",
-                "type": "entityName"
-            },
-            {
-                "tileType": 0,
-                "type": "tile"
-            }
-        ],
-        [
-            {
-                "name": "Tile2",
-                "type": "entityName"
-            },
-            {
-                "tileType": 0,
-                "type": "tile"
-            }
-        ],
+        null,
+        null,
+        null,
+        null,
         [
             {
                 "far": 1.0,
