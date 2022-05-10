@@ -29,13 +29,15 @@ public:
 		m_gui->Draw();
 
 		Scene* activeScene = m_sceneManager->GetActiveScene();
-		Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_renderer->GetSceneCamera());
-		if (cameraComponent)
+		if (activeScene)
 		{
+			Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_renderer->GetSceneCamera());
+			if (cameraComponent)
+			{
 
-			m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
+				m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
+			}
 		}
-
 		m_gui->EndGui();
 	}
 
@@ -45,7 +47,7 @@ public:
 private:
 };
 
-Application* CreateApplication()
+Application* CreateApplication(int argc, char** argv)
 {
 	return new AmogusEditor();
 }

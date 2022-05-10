@@ -25,6 +25,16 @@ public:
 
 	Framebuffer* m_gameView;
 	bool m_sceneFrameResized = false;
+
+	struct Game
+	{
+		std::string Name;
+		std::vector<std::string> Scenes;
+
+		std::string CurrentSceneName;
+	};
+
+	Game game;
 private:
 	ImGuiLayer(const ImGuiLayer&) = delete;
 	ImGuiLayer& operator=(ImGuiLayer&) = delete;
@@ -32,6 +42,14 @@ private:
 	void DrawMenuBar();
 	void DrawProfiler();
 	void DrawConsole();
+
+	void CreateGame(char* name);
+	void SaveGame();
+	void LoadGame(char* name);
+
+	void CreateScene(char* name, float col[3]);
+	void SaveScene();
+	void LoadScene(char* name);
 
 	void DrawNewEntityMenu();
 	void SelectObject();
@@ -49,10 +67,23 @@ private:
 	bool m_guiEnabled = true;
 	bool m_selecting; // Set to true by click event so we can do selection later (during ImGui phase)
 
+	bool m_sceneLoaded = false;
+	bool m_gameLoaded = false;
+	
+
 	double m_mouseX, m_mouseY;
 
 	ImVec2 m_renderSize;
 	ImVec2 m_tempSize;
 
 	EntityManager* m_entityManager;
+
+private:
+	// Popups
+	bool m_showGameNotLoadedErrorState = false;
+
+	bool m_showNewGameDialogState = false;
+	bool m_showLoadGameDialogState = false;
+	bool m_showNewSceneDialogState = false;
+	bool m_showLoadSceneDialogState = false;
 };

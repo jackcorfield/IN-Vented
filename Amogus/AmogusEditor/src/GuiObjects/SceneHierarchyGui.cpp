@@ -8,25 +8,27 @@ void SceneHierarchyGui::Draw()
 {
 	ImGui::Begin("Hierarchy");
 
-	std::vector<Entity> allEntities = m_activeScene->m_entityManager->GetAllActiveEntities();
-
-	Entity selectedEntity = 0;
-
-	for (size_t i = 0; i < allEntities.size(); i++)
+	if (m_activeScene)
 	{
-		if (DrawEntityNode(allEntities[i], (int)i))
+		std::vector<Entity> allEntities = m_activeScene->m_entityManager->GetAllActiveEntities();
+
+		Entity selectedEntity = 0;
+
+		for (size_t i = 0; i < allEntities.size(); i++)
 		{
-			selectedEntity = allEntities[i];
+			if (DrawEntityNode(allEntities[i], (int)i))
+			{
+				selectedEntity = allEntities[i];
+			}
+		}
+
+		if (selectedEntity != 0)
+		{
+			m_selectedEntity = selectedEntity;
+			m_entityInspector->SetActiveEntity(selectedEntity);
 		}
 	}
-
 	ImGui::End();
-
-	if (selectedEntity != 0)
-	{
-		m_selectedEntity = selectedEntity;
-		m_entityInspector->SetActiveEntity(selectedEntity);
-	}
 }
 
 void SceneHierarchyGui::SetCurrentScene(Scene* scene)

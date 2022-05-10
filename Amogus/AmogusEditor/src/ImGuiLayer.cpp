@@ -4,7 +4,10 @@
 
 #include <GLFW/glfw3.h>
 #include <string.h>
+#include <fstream>
 #include <iostream>
+
+#include <nlohmann/include/nlohmann/json.hpp>
 
 extern Application* g_app;
 
@@ -69,7 +72,8 @@ ImGuiLayer::~ImGuiLayer()
 
 void ImGuiLayer::BeginGui()
 {
-	m_entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+	if (g_app->m_sceneManager->GetActiveScene() != NULL)
+		m_entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
 	static bool p_open = true;
 
@@ -96,19 +100,21 @@ void ImGuiLayer::BeginGui()
 	ImGui::PopStyleVar(2);
 
 	ImGuiIO& io = ImGui::GetIO();
-	
+
 	ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 }
 
 void ImGuiLayer::Draw()
 {
+
 	DrawMenuBar();
 	m_sceneHierarchy.SetCurrentScene(g_app->m_sceneManager->GetActiveScene());
 	m_sceneHierarchy.Draw();
 	DrawConsole();
 	m_entityInspector.Draw();
 	DrawProfiler();
+	
 }
 
 void ImGuiLayer::EndGui()
@@ -130,24 +136,55 @@ void ImGuiLayer::DrawMenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem(ICON_FA_FILE"  New"))
+			if (ImGui::MenuItem(ICON_FA_FILE"  New Game"))
 			{
-				//Do something
+				m_showNewGameDialogState = true;
 			}
-			else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
+			else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"   Save Game"))
 			{
-				SceneImporter::ImportSceneFromFile("testimport.json");
+				if (m_gameLoaded)
+					SaveGame();
+				else
+					m_showGameNotLoadedErrorState = true;
 			}
-			else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
+			else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"   Load Game"))
 			{
-				SceneExporter::ExportActiveSceneToFile(g_app->m_sceneManager->GetActiveSceneName() + ".json");
+				m_showLoadGameDialogState = true;
 			}
+			ImGui::Separator();
+
+			if (ImGui::MenuItem(ICON_FA_PLUS"	Create Scene"))
+			{
+				if (m_gameLoaded)
+					m_showNewSceneDialogState = true;
+				else
+					m_showGameNotLoadedErrorState = true;
+			}
+
+			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Save Scene"))
+			{
+				if (m_sceneLoaded)
+					SaveScene();
+			}
+
+			if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Load Scene"))
+			{
+				m_showLoadSceneDialogState = true;
+			}
+			
+			ImGui::Separator();
+			if (ImGui::MenuItem(ICON_FA_CROSSHAIRS"   Exit"))
+			{
+				g_app->Quit();
+			}
+			
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::BeginMenu("Assets"))
 		{
-			DrawNewEntityMenu();
+			if (m_sceneLoaded)
+				DrawNewEntityMenu();
 
 			ImGui::EndMenu();
 		}
@@ -157,7 +194,100 @@ void ImGuiLayer::DrawMenuBar()
 
 		}
 
+		
 		ImGui::EndMainMenuBar();
+	}	
+
+	if (m_showGameNotLoadedErrorState)
+	{
+		m_showGameNotLoadedErrorState = false;
+		ImGui::OpenPopup("Game Not Loaded");
+	}
+	
+	if (m_showNewGameDialogState)
+	{
+		m_showNewGameDialogState = false;
+		ImGui::OpenPopup("New Game");
+	}
+
+	if (m_showLoadGameDialogState)
+	{
+		m_showLoadGameDialogState = false;
+		ImGui::OpenPopup("Load Game");
+	}
+
+	if (m_showNewSceneDialogState)
+	{
+		m_showNewSceneDialogState = false;
+		ImGui::OpenPopup("New Scene");
+	}
+
+	if (m_showLoadSceneDialogState)
+	{
+		m_showLoadSceneDialogState = false;
+		ImGui::OpenPopup("Load Scene");
+	}
+	
+	if (ImGui::BeginPopupModal("Game Not Loaded"))
+	{
+		ImGui::Text("Game is not loaded");
+		if (ImGui::Button("OK"))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+	
+	if (ImGui::BeginPopupModal("New Game"))
+	{
+		static char gameName[512];
+		ImGui::InputText("Name", gameName, 512);
+		if (ImGui::Button("Create"))
+		{
+			CreateGame(gameName);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+
+	if (ImGui::BeginPopupModal("Load Game"))
+	{
+		static char gameName[512];
+		ImGui::InputText("Name", gameName, 512);
+		if (ImGui::Button("Load"))
+		{
+			LoadGame(gameName);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+
+	if (ImGui::BeginPopupModal("New Scene"))
+	{
+		static char sceneName[512];
+		ImGui::InputText("Name", sceneName, 512);
+		
+		static float col[3];
+		ImGui::ColorPicker3("Scene Colour", col);
+		
+		if (ImGui::Button("Create"))
+		{
+			CreateScene(sceneName, col);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+
+	if (ImGui::BeginPopupModal("Load Scene"))
+	{
+		static char sceneName[512];
+		ImGui::InputText("Name", sceneName, 512);
+		if (ImGui::Button("Load"))
+		{
+			LoadScene(sceneName);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
 	}
 }
 
@@ -202,19 +332,117 @@ void ImGuiLayer::DrawProfiler()
 	ImGui::Begin("Profiler");
 	static float arr[] = { 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f };
 	ImGui::PlotLines("Curve", arr, IM_ARRAYSIZE(arr), 0, "", 0, 30, ImVec2(ImGui::GetWindowWidth() - 100, 30));
+
 	ImGui::End();
+
+	
 }
 
 void ImGuiLayer::DrawConsole()
 {
 	ImGui::Begin("Console");
-	ImGui::End();
+	ImGui::End();	
+}
+
+void ImGuiLayer::CreateGame(char* name)
+{
+	if (!m_gameLoaded)
+	{
+		m_gameLoaded = true;
+		game.Name = name;
+		game.Scenes = {};
+
+		SaveGame();
+	}
+}
+
+void ImGuiLayer::SaveGame()
+{
+	if (m_gameLoaded)
+	{
+		std::string path = "Data/Config/" + game.Name + ".json";
+		std::ofstream outFile(path);
+
+		nlohmann::json json;
+		json["name"] = game.Name;
+		json["scenes"] = game.Scenes;
+
+		outFile << json;
+		outFile.close();
+	}
+}
+
+void ImGuiLayer::LoadGame(char* name)
+{
+	if (m_gameLoaded)
+	{
+		game.Name = "";
+		game.Scenes = {};
+	}
+
+	std::string path = "Data/Config/" + std::string(name) + ".json";
+	std::ifstream inFile(path);
+	if (inFile.is_open())
+	{
+		if (m_gameLoaded)
+		{
+			game.Name = "";
+			game.Scenes = {};
+		}
+		
+		nlohmann::json json;
+		inFile >> json;
+		game.Name = json["name"];
+		game.Scenes = json["scenes"].get<std::vector<std::string>>();
+
+		bool sceneLoaded = SceneImporter::ImportSceneFromFile(std::string(game.Scenes[0]) + ".json", true);
+		
+		m_gameLoaded = true;
+		if (sceneLoaded)
+		{
+			m_sceneLoaded = true;
+			game.CurrentSceneName = game.Scenes[0];
+		}
+		
+		inFile.close();
+	}
+}
+
+void ImGuiLayer::CreateScene(char* name, float col[3])
+{
+	if (std::find(game.Scenes.begin(), game.Scenes.end(), std::string(name)) == game.Scenes.end())
+	{
+		g_app->m_sceneManager->CreateScene(std::string(name), glm::vec3(col[0], col[1], col[2]));
+		g_app->m_sceneManager->SetActiveScene(name);
+		SceneExporter::ExportActiveSceneToFile(std::string(name) + ".json");
+		game.Scenes.push_back(name);
+		game.CurrentSceneName = name;
+		m_sceneLoaded = true;
+	}
+}
+
+void ImGuiLayer::SaveScene()
+{
+	SceneExporter::ExportActiveSceneToFile(std::string(game.CurrentSceneName) + ".json");	
+}
+
+void ImGuiLayer::LoadScene(char* name)
+{
+	SceneImporter::ImportSceneFromFile(std::string(name) + ".json", true);
+	if (std::find(game.Scenes.begin(), game.Scenes.end(), name) == game.Scenes.end())
+	{
+		game.Scenes.push_back(name);
+	}
+
+	m_sceneLoaded = true;
+	game.CurrentSceneName = name;
 }
 
 void ImGuiLayer::DrawSceneView(int textureID)
 {
 	ImGui::Begin("Scene View");
 	//Render the scene here.
+
 	
 	if (m_selecting)
 	{

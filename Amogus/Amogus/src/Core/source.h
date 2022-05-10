@@ -65,4 +65,4 @@ private:
 	bool m_quit;
 };
 
-Application* CreateApplication();
+Application* CreateApplication(int argc, char** argv);

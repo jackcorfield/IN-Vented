@@ -47,7 +47,7 @@ namespace ShaderFactory
 			glDeleteShader(geometryID);
 		}
 
-		return new Shader(name, programID, "Assets/Shaders/" + vertexPath, "Assets/Shaders/" + fragmentPath, "Assets/Shaders/" + geometryPath);
+		return new Shader(name, programID, vertexPath, fragmentPath, geometryPath);
 	}
 
 	ComputeShader* CreateComputeShader(const std::string& name, const std::string& computePath, const unsigned int numGroupsX, const unsigned int numGroupsY, const unsigned int numGroupsZ)
@@ -70,7 +70,7 @@ namespace ShaderFactory
 		glDetachShader(programID, computeID);
 		glDeleteShader(computeID);
 
-		return new ComputeShader(name, programID, numGroupsX, numGroupsY, numGroupsZ, "Assets/Shaders/" + computePath);
+		return new ComputeShader(name, programID, numGroupsX, numGroupsY, numGroupsZ, computePath);
 	}
 
 	void CheckShaderCompileErrors(const GLuint shaderID)
