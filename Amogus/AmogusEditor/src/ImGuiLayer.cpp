@@ -173,6 +173,19 @@ void ImGuiLayer::DrawMenuBar()
 			}
 			
 			ImGui::Separator();
+			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export and Run"))
+			{
+				if (m_sceneLoaded)
+					SaveScene();
+				if (m_gameLoaded)
+				{
+					SaveGame();
+					std::string command = "YokaiFortune.exe -game " + game.Name;
+					system(command.c_str());
+				}
+			}
+			
+			ImGui::Separator();
 			if (ImGui::MenuItem(ICON_FA_CROSSHAIRS"   Exit"))
 			{
 				g_app->Quit();
