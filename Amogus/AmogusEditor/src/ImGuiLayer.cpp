@@ -6,6 +6,7 @@
 #include <string.h>
 #include <iostream>
 
+
 extern Application* g_app;
 
 ImGuiLayer::ImGuiLayer(Application* app) :
@@ -61,6 +62,9 @@ ImGuiLayer::ImGuiLayer(Application* app) :
 
 	m_sceneHierarchy.SetEntityInspector(&m_entityInspector);
 
+	m_numOfConsoleEntries = 0;
+	m_scrollToBottom = true;
+	m_autoScroll = true;
 }
 
 ImGuiLayer::~ImGuiLayer()
@@ -207,7 +211,86 @@ void ImGuiLayer::DrawProfiler()
 
 void ImGuiLayer::DrawConsole()
 {
-	ImGui::Begin("Console");
+
+	if (ImGui::Begin("Console"))
+	{
+		const char* items[] = { "Error", "Warning", "Debug" };
+		static int currentItem = 0;
+		const char* preview = items[currentItem];
+
+		if (ImGui::BeginCombo("Info level", preview))
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				const bool isSelected = currentItem == i;
+				if (ImGui::Selectable(items[i], isSelected))
+				{
+					currentItem = i;
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		g_app->m_debugger->m_LogLevel = (eLogLevel)currentItem;
+
+		if (ImGui::BeginChild("ConsoleList"))
+		{
+			std::vector<DebugLog> tempConsole = g_app->m_debugger->GetDebug();
+			int consoleSize = tempConsole.size();
+
+			std::string consoleOutput;
+			
+
+			
+
+			for (int i = 0; i < consoleSize; i++)
+			{
+				if (tempConsole[i].logLevel <= g_app->m_debugger->m_LogLevel)
+				{
+					switch (tempConsole[i].logLevel)
+					{
+					case LL_DEBUG:
+						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.1f, 0.8f));
+						consoleOutput = tempConsole[i].time + "[DEBUG] " + tempConsole[i].msg;
+						ImGui::Text(consoleOutput.c_str());
+						ImGui::PopStyleColor();
+						break;
+
+					case LL_WARNING:
+						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.5f, 0.0f, 0.8f));
+						consoleOutput = tempConsole[i].time + "[WARNING] " + tempConsole[i].msg;
+						ImGui::Text(consoleOutput.c_str());
+						ImGui::PopStyleColor();
+						break;
+
+					case LL_ERROR:
+						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.0f, 0.0f, 0.8f));
+						consoleOutput = tempConsole[i].time + "[ERROR] " + tempConsole[i].msg;
+						ImGui::Text(consoleOutput.c_str());
+						ImGui::PopStyleColor();
+						break;
+
+					default:
+
+						break;
+					}
+				}
+			}
+
+			if (m_numOfConsoleEntries != consoleSize)
+			{
+				m_numOfConsoleEntries = consoleSize;
+
+				if (m_scrollToBottom || (m_autoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()))
+					ImGui::SetScrollHereY(1.0f);
+				m_scrollToBottom = false;
+			}
+
+			ImGui::EndChild();
+		}
+	}
+
 	ImGui::End();
 }
 
