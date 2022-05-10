@@ -4,18 +4,14 @@
 
 #include "Amogus.h"
 
-struct NewBoxColliderGui :
+struct CreateSceneGui :
 	public IGuiObject
 {
 public:
-	NewBoxColliderGui(Entity entityFor);
+	CreateSceneGui();
 
 	virtual void CreateGui() override;
 
 private:
-	void AddBoxCollider();
-
-	Entity entity;
-
-	glm::vec2 inputPos, inputSize;
+	char inputName[128];
 };

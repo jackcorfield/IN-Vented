@@ -11,7 +11,9 @@ NewTileMapGui::NewTileMapGui(Entity entityFor) :
 
 void NewTileMapGui::CreateGui()
 {
-	if (ImGui::Begin("New tile map"))
+	ImGui::OpenPopup("New tile map");
+
+	if (ImGui::BeginPopupModal("New tile map"))
 	{
 		if (ImGui::DragFloat2("Tile size", glm::value_ptr(inputTileSize), 0.5f)) {}
 		if (ImGui::InputInt("Map width (in tiles)", &inputMapSize.x)) {}
@@ -21,15 +23,17 @@ void NewTileMapGui::CreateGui()
 		{
 			AddTileMap();
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel"))
 		{
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
+		
+		ImGui::EndPopup();
 	}
-
-	ImGui::End();
 }
 
 void NewTileMapGui::AddTileMap()

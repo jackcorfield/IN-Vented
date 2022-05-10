@@ -16,7 +16,9 @@ NewAnimatedSpriteGui::NewAnimatedSpriteGui(Entity entityFor) :
 
 void NewAnimatedSpriteGui::CreateGui()
 {
-	if (ImGui::Begin("New animated sprite"))
+	ImGui::OpenPopup("New animated sprite");
+
+	if (ImGui::BeginPopupModal("New animated sprite"))
 	{
 		ImGui::InputFloat("Interval", &inputInterval);
 		if (ImGui::ColorPicker3("Texture colour##", glm::value_ptr(inputColour))) {}
@@ -80,15 +82,17 @@ void NewAnimatedSpriteGui::CreateGui()
 		{
 			AddAnimatedSprite();
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel"))
 		{
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
-	}
 
-	ImGui::End();
+		ImGui::EndPopup();
+	}
 }
 
 void NewAnimatedSpriteGui::AddAnimatedSprite()

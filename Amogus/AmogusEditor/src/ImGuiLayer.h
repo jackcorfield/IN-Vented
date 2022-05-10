@@ -42,6 +42,7 @@ private:
 	void DrawMenuBar();
 	void DrawProfiler();
 	void DrawConsole();
+	void DrawPlayPauseStopButton(); // Draws a play that controls whether the game is running in-editor, a pause button to pause it, and a stop button to stop runtime
 
 	void CreateGame(char* name);
 	void SaveGame();
@@ -61,6 +62,10 @@ private:
 	EntityInspectorGui m_entityInspector;
 	SceneHierarchyGui m_sceneHierarchy;
 
+	std::vector<std::unique_ptr<IGuiObject>> m_guiObjects; // Stores pointers to dialog boxes
+	std::unique_ptr<IGuiObject> m_popup; // Stores pointer to popup object
+	std::list<std::string> m_recentScenes; // Stores names of recently imported scenes for easy access
+
 	ImGuiDockNodeFlags m_dockspaceFlags;
 	ImGuiWindowFlags m_windowFlags;
 
@@ -75,6 +80,7 @@ private:
 
 	ImVec2 m_renderSize;
 	ImVec2 m_tempSize;
+	ImVec2 m_menuBarSize;
 
 	EntityManager* m_entityManager;
 

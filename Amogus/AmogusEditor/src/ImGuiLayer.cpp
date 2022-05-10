@@ -8,8 +8,15 @@
 #include <iostream>
 
 #include <nlohmann/include/nlohmann/json.hpp>
+#include "GuiObjects/DialogBoxes/CreateSceneGui.h"
+#include "GuiObjects/DialogBoxes/ExportSceneGui.h"
+#include "GuiObjects/DialogBoxes/ImportSceneGui.h"
+
+#define MAX_RECENT_SCENES 5
 
 extern Application* g_app;
+
+void AddNameToUniqueQueueList(std::list<std::string>* list, std::string name, const unsigned int maxItems);
 
 ImGuiLayer::ImGuiLayer(Application* app) :
 	m_app(app),
@@ -68,6 +75,7 @@ ImGuiLayer::ImGuiLayer(Application* app) :
 
 ImGuiLayer::~ImGuiLayer()
 {
+	if (m_popup) { m_popup.release(); }
 }
 
 void ImGuiLayer::BeginGui()
@@ -115,6 +123,14 @@ void ImGuiLayer::Draw()
 	m_entityInspector.Draw();
 	DrawProfiler();
 	
+	if (m_popup)
+	{
+		m_popup.get()->CreateGui();
+		if (m_popup.get()->close)
+		{
+			m_popup.release();
+		}
+	}
 }
 
 void ImGuiLayer::EndGui()
@@ -163,13 +179,14 @@ void ImGuiLayer::DrawMenuBar()
 
 			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Save Scene"))
 			{
-				if (m_sceneLoaded)
-					SaveScene();
+				//if (m_sceneLoaded)
+					//SaveScene();
+				//m_popup = std::make_unique<CreateSceneGui>();
 			}
 
 			if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Load Scene"))
 			{
-				m_showLoadSceneDialogState = true;
+				//m_showLoadSceneDialogState = true;
 			}
 			
 			ImGui::Separator();
@@ -183,6 +200,7 @@ void ImGuiLayer::DrawMenuBar()
 					std::string command = "YokaiFortune.exe -game " + game.Name;
 					system(command.c_str());
 				}
+				m_popup = std::make_unique<ImportSceneGui>(&m_recentScenes);
 			}
 			
 			ImGui::Separator();
@@ -191,6 +209,45 @@ void ImGuiLayer::DrawMenuBar()
 				g_app->Quit();
 			}
 			
+				m_popup = std::make_unique<ExportSceneGui>();
+			}
+			else if (ImGui::BeginMenu("Import recent"))
+			{
+				int i = 0; // Predeclare iterator so it can be pre-incremented
+
+				std::string toAdd = "";
+				for (std::string name : m_recentScenes)
+				{
+					if (ImGui::MenuItem(name.c_str()))
+					{
+						std::string activeSceneName = g_app->m_sceneManager->GetActiveSceneName();
+
+						bool success = SceneImporter::ImportSceneFromFile(name, true);
+						if (success)
+						{
+							g_app->m_sceneManager->DestroyScene(activeSceneName);
+						}
+					
+						toAdd = name;
+					}
+
+					i++; // Increment for each slot used
+				}
+
+				if (!toAdd.empty())
+				{
+					AddNameToUniqueQueueList(&m_recentScenes, toAdd, MAX_RECENT_SCENES);
+				}
+
+				// Display any remaining slots (up to max) using pre-incremented i
+				for (i; i < MAX_RECENT_SCENES; i++)
+				{
+					if (ImGui::MenuItem("-")) {}
+				}
+
+				ImGui::EndMenu();
+			}
+
 			ImGui::EndMenu();
 		}
 
@@ -207,7 +264,9 @@ void ImGuiLayer::DrawMenuBar()
 
 		}
 
-		
+		m_menuBarSize = ImGui::GetWindowSize();
+		DrawPlayPauseStopButton();
+
 		ImGui::EndMainMenuBar();
 	}	
 
@@ -461,6 +520,45 @@ void ImGuiLayer::LoadScene(char* name)
 	game.CurrentSceneName = name;
 }
 
+void ImGuiLayer::DrawPlayPauseStopButton()
+{
+	bool paused = g_app->IsPaused();
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImVec2 buttonPos(io.DisplaySize.x / 2.0f, m_menuBarSize.y / 4.0f);
+	ImGui::SetCursorPos(buttonPos);
+
+	const char* buttonLabel = "";
+	if (paused)
+	{
+		buttonLabel = ICON_FA_PLAY;
+		if (ImGui::Button(buttonLabel))
+		{
+			SceneExporter::ExportActiveSceneToFile("temp");
+			g_app->SetPause(false);
+		}
+	}
+	else
+	{
+		buttonLabel = ICON_FA_PAUSE;
+		if (ImGui::Button(buttonLabel))
+		{
+			g_app->SetPause(true);
+		}
+
+		buttonLabel = ICON_FA_STOP;
+		if (ImGui::Button(buttonLabel))
+		{
+			g_app->SetPause(true);
+
+			std::string activeSceneName = g_app->m_sceneManager->GetActiveSceneName();
+			g_app->m_sceneManager->DestroyScene(activeSceneName);
+			SceneImporter::ImportSceneFromFile("temp", true);
+			m_sceneHierarchy.SetCurrentScene(g_app->m_sceneManager->GetActiveScene());
+		}
+	}
+}
+
 void ImGuiLayer::DrawSceneView(int textureID)
 {
 	ImGui::Begin("Scene View");
@@ -588,5 +686,15 @@ void ImGuiLayer::OnClick(InputEvent* e)
 	if (e->m_action == GLFW_PRESS)
 	{
 		m_selecting = true; // We can't do object selection in event because it won't be during ImGui phase
+	}
+}
+
+void AddNameToUniqueQueueList(std::list<std::string>* list, std::string name, const unsigned int maxItems)
+{
+	list->erase(std::remove(list->begin(), list->end(), name), list->end()); // Remove possible previous instance of this name (thus moving it to the front)
+	list->push_front(name);
+	if (list->size() > maxItems)
+	{
+		list->pop_back();
 	}
 }

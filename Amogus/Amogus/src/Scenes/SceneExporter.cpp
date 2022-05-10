@@ -52,7 +52,7 @@ namespace SceneExporter
 	{
 		Scene* scene = g_app->m_sceneManager->GetActiveScene();
 
-		std::ofstream outFile("Data/Scenes/" + filePath);
+		std::ofstream outFile("Data/Scenes/" + filePath + ".json");
 		if (!outFile.is_open() || outFile.bad())
 		{
 			return false;
@@ -214,9 +214,6 @@ namespace SceneExporter
 	bool WriteBoxCollider(nlohmann::json& jBoxCollider, BoxCollider* boxCollider)
 	{
 		bool success = true;
-
-		const glm::vec2 pos = *boxCollider->m_position;
-		if (!JSON::WriteVec2(pos, jBoxCollider["pos"])) { success = false; }
 
 		const glm::vec2 size = boxCollider->m_size;
 		if (!JSON::WriteVec2(size, jBoxCollider["size"])) { success = false; }

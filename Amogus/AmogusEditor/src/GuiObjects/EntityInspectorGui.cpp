@@ -6,12 +6,12 @@
 
 #include <Amogus.h>
 
-#include "ComponentDialogBoxes/NewAnimatedSpriteGui.h"
-#include "ComponentDialogBoxes/NewAudioGui.h"
-#include "ComponentDialogBoxes/NewBoxColliderGui.h"
-#include "ComponentDialogBoxes/NewCircleColliderGui.h"
-#include "ComponentDialogBoxes/NewSpriteGui.h"
-#include "ComponentDialogBoxes/NewTileMapGui.h"
+#include "DialogBoxes/NewAnimatedSpriteGui.h"
+#include "DialogBoxes/NewAudioGui.h"
+#include "DialogBoxes/NewBoxColliderGui.h"
+#include "DialogBoxes/NewCircleColliderGui.h"
+#include "DialogBoxes/NewSpriteGui.h"
+#include "DialogBoxes/NewTileMapGui.h"
 
 #define MAX_INPUT_LENGTH 256
 
@@ -44,13 +44,12 @@ bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::stri
 bool CreateTextureGui(std::string& textureName, std::string& filePath);
 
 EntityInspectorGui::EntityInspectorGui() :
-	m_guiObjects(),
 	m_activeEntity(0)
 {}
 
 EntityInspectorGui::~EntityInspectorGui()
 {
-	m_guiObjects.clear();
+	if (m_popup) { m_popup.release(); }
 }
 
 void EntityInspectorGui::Draw()
@@ -62,17 +61,11 @@ void EntityInspectorGui::Draw()
 		DrawInspectorInfo();
 	}
 
-	// Draw each dialog box
-	for (int i = 0; i < m_guiObjects.size(); i++)
+	if (m_popup)
 	{
-		IGuiObject* guiObject = m_guiObjects[i].get();
+		m_popup.get()->CreateGui();
 
-		guiObject->CreateGui();
-
-		if (guiObject->close) // If this window is ready to close, delete object
-		{
-			m_guiObjects.erase(m_guiObjects.begin() + i);
-		}
+		if (m_popup.get()->close) { m_popup.release(); }
 	}
 
 	ImGui::End();
@@ -217,17 +210,17 @@ void EntityInspectorGui::CreateAddComponentGui()
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
 		// Components with default/trivial constructors are created directly. Components with higher complexity are instead created through a dialog box
-		if (selected == "Animated Sprite") { m_guiObjects.emplace_back(std::make_unique<NewAnimatedSpriteGui>(m_activeEntity)); }
-		else if (selected == "Audio") { m_guiObjects.emplace_back(std::make_unique<NewAudioGui>(m_activeEntity)); }
-		else if (selected == "Box Collider") { m_guiObjects.emplace_back(std::make_unique<NewBoxColliderGui>(m_activeEntity)); }
+		if (selected == "Animated Sprite") { m_popup = std::make_unique<NewAnimatedSpriteGui>(m_activeEntity); }
+		else if (selected == "Audio") { m_popup = std::make_unique<NewAudioGui>(m_activeEntity); }
+		else if (selected == "Box Collider") { m_popup = std::make_unique<NewBoxColliderGui>(m_activeEntity); }
 		else if (selected == "Camera") { entityManager->AddComponent<Camera>(m_activeEntity, DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT, DEFAULT_NEAR, DEFAULT_FAR, new Framebuffer()); }
-		else if (selected == "Circle Collider") { m_guiObjects.emplace_back(std::make_unique<NewCircleColliderGui>(m_activeEntity)); }
+		else if (selected == "Circle Collider") { m_popup = std::make_unique<NewCircleColliderGui>(m_activeEntity); }
 		else if (selected == "Name") { entityManager->AddComponent<EntityName>(m_activeEntity, "Entity"); }
 		else if (selected == "Physics") { entityManager->AddComponent<Physics>(m_activeEntity); }
 		else if (selected == "Player Movement") { entityManager->AddComponent<PlayerMovement>(m_activeEntity); }
 		else if (selected == "Script Component") { entityManager->AddComponent<ScriptComponent>(m_activeEntity, entityManager, m_activeEntity); }
-		else if (selected == "Sprite") { m_guiObjects.emplace_back(std::make_unique<NewSpriteGui>(m_activeEntity)); }
-		else if (selected == "Tile Map") { m_guiObjects.emplace_back(std::make_unique<NewTileMapGui>(m_activeEntity)); }
+		else if (selected == "Sprite") { m_popup = std::make_unique<NewSpriteGui>(m_activeEntity); }
+		else if (selected == "Tile Map") { m_popup = std::make_unique<NewTileMapGui>(m_activeEntity); }
 		else if (selected == "Transform") { entityManager->AddComponent<Transform>(m_activeEntity); }
 	}
 }
@@ -387,6 +380,11 @@ void CreateAudioGui(Audio* audio, Entity owner)
 			}
 		}
 
+		if (ImGui::Button("Play audio"))
+		{
+			g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+		}
+
 		if (edited)
 		{
 			// Create new audio component
@@ -404,17 +402,6 @@ void CreateBoxColliderGui(BoxCollider* boxCollider)
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::CollapsingHeader("Box Collider", nodeFlags))
 	{
-		// Position
-		{
-			glm::vec2 pos = *boxCollider->m_position;
-			float posArr[2] = { pos.x, pos.y };
-			if (ImGui::DragFloat2("Pos", posArr, 0.5f))
-			{
-				boxCollider->m_position->x = posArr[0];
-				boxCollider->m_position->y = posArr[1];
-			}
-		}
-
 		// Size
 		{
 			glm::vec2 size = boxCollider->m_size;

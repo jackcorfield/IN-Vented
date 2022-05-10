@@ -10,6 +10,8 @@ public:
 	{
 		m_gui = new ImGuiLayer(this);
 		m_renderer->setFramebuffer(m_gui->m_gameView);
+
+		g_app->SetPause(true); // Pause runtime on launch
 	}
 
 	void onUpdate(float dt) override
@@ -42,7 +44,6 @@ public:
 	}
 
 	ImGuiLayer* m_gui;
-
 
 private:
 };

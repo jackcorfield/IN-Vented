@@ -11,7 +11,9 @@ NewCircleColliderGui::NewCircleColliderGui(Entity entityFor) :
 
 void NewCircleColliderGui::CreateGui()
 {
-	if (ImGui::Begin("New circle collider"))
+	ImGui::OpenPopup("New circle collider");
+
+	if (ImGui::BeginPopupModal("New circle collider"))
 	{
 		if (ImGui::DragFloat("Radius", &inputRadius, 0.5f)) {}
 		if (ImGui::DragFloat2("Centre pos", glm::value_ptr(inputCentrePos), 0.5f)) {}
@@ -20,15 +22,17 @@ void NewCircleColliderGui::CreateGui()
 		{
 			AddCircleCollider();
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel"))
 		{
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
-	}
 
-	ImGui::End();
+		ImGui::EndPopup();
+	}
 }
 
 void NewCircleColliderGui::AddCircleCollider()

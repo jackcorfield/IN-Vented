@@ -15,7 +15,9 @@ NewSpriteGui::NewSpriteGui(Entity entityFor) :
 
 void NewSpriteGui::CreateGui()
 {
-	if (ImGui::Begin("New sprite"))
+	ImGui::OpenPopup("New sprite");
+
+	if (ImGui::BeginPopupModal("New sprite"))
 	{
 		ImGui::Text("Texture");
 		if (ImGui::InputText("Texture name##", inputTextureName, IM_ARRAYSIZE(inputTextureName))) {}
@@ -33,15 +35,17 @@ void NewSpriteGui::CreateGui()
 		{
 			AddSprite();
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel##"))
 		{
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
-	}
 
-	ImGui::End();
+		ImGui::EndPopup();
+	}
 }
 
 void NewSpriteGui::AddSprite()
