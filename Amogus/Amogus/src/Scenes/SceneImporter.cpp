@@ -91,6 +91,10 @@ namespace SceneImporter
 
 		sceneManager->CreateScene(name, clearColour);
 		Scene* scene = sceneManager->GetScene(name);
+		if (setToActive)
+		{
+			sceneManager->SetActiveScene(name);
+		}
 
 		if (!jFile.contains("entities"))
 		{
@@ -101,11 +105,6 @@ namespace SceneImporter
 		if (!ReadAllEntities(jFile["entities"]))
 		{
 			return false;
-		}
-
-		if (setToActive)
-		{
-			sceneManager->SetActiveScene(name);
 		}
 
 		return true;

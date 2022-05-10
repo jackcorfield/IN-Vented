@@ -24,7 +24,8 @@ Application::Application() :
 	m_audioManager(nullptr),
 	m_scriptSystem(nullptr),
 	m_window(nullptr),
-	m_quit(false)
+	m_quit(false),
+	m_pauseRuntime(false)
 {	
 	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
 }
@@ -73,11 +74,15 @@ void Application::Run()
 		{
 			Timer->Reset();
 			glfwPollEvents();
-			PhysicsSystem::Update(Timer->DeltaTime());
-			InputHandler::PollGameControllers();
-			CollisionManager::CheckCollision();
-			onUpdate(Timer->DeltaTime());
-			m_scriptSystem->OnUpdate(Timer->DeltaTime());
+			
+			if (!m_pauseRuntime)
+			{
+				PhysicsSystem::Update(Timer->DeltaTime());
+				InputHandler::PollGameControllers();
+				CollisionManager::CheckCollision();
+				onUpdate(Timer->DeltaTime());
+				m_scriptSystem->OnUpdate(Timer->DeltaTime());
+			}
 			onRender(Timer->DeltaTime());
 			m_scriptSystem->OnRender(Timer->DeltaTime());
 			m_renderer->Render(Timer->DeltaTime());
@@ -172,6 +177,21 @@ void Application::Quit(InputEvent* e)
 void Application::Quit()
 {
 	m_quit = true;
+}
+
+bool Application::IsPaused()
+{
+	return m_pauseRuntime;
+}
+
+void Application::SetPause(bool pause)
+{
+	m_pauseRuntime = pause;
+}
+
+void Application::TogglePause()
+{
+	m_pauseRuntime = !m_pauseRuntime;
 }
 
 void Application::TerminateOpenGL()

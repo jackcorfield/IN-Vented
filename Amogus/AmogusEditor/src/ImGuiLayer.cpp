@@ -73,6 +73,7 @@ ImGuiLayer::ImGuiLayer(Application* app) :
 
 ImGuiLayer::~ImGuiLayer()
 {
+	if (m_popup) { m_popup.release(); }
 }
 
 void ImGuiLayer::BeginGui()
@@ -118,8 +119,6 @@ void ImGuiLayer::Draw()
 	m_entityInspector.Draw();
 	DrawProfiler();
 
-	//ImGui::ShowDemoWindow();
-
 	if (m_popup)
 	{
 		m_popup.get()->CreateGui();
@@ -128,19 +127,6 @@ void ImGuiLayer::Draw()
 			m_popup.release();
 		}
 	}
-
-	//// Draw each dialog box
-	//for (int i = 0; i < m_guiObjects.size(); i++)
-	//{
-	//	IGuiObject* guiObject = m_guiObjects[i].get();
-
-	//	guiObject->CreateGui();
-
-	//	if (guiObject->close) // If this window is ready to close, delete object
-	//	{
-	//		m_guiObjects.erase(m_guiObjects.begin() + i);
-	//	}
-	//}
 }
 
 void ImGuiLayer::EndGui()
@@ -226,6 +212,9 @@ void ImGuiLayer::DrawMenuBar()
 
 		}
 
+		m_menuBarSize = ImGui::GetWindowSize();
+		DrawPlayPauseStopButton();
+
 		ImGui::EndMainMenuBar();
 	}
 }
@@ -278,6 +267,45 @@ void ImGuiLayer::DrawConsole()
 {
 	ImGui::Begin("Console");
 	ImGui::End();
+}
+
+void ImGuiLayer::DrawPlayPauseStopButton()
+{
+	bool paused = g_app->IsPaused();
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImVec2 buttonPos(io.DisplaySize.x / 2.0f, m_menuBarSize.y / 4.0f);
+	ImGui::SetCursorPos(buttonPos);
+
+	const char* buttonLabel = "";
+	if (paused)
+	{
+		buttonLabel = ICON_FA_PLAY;
+		if (ImGui::Button(buttonLabel))
+		{
+			SceneExporter::ExportActiveSceneToFile("temp");
+			g_app->SetPause(false);
+		}
+	}
+	else
+	{
+		buttonLabel = ICON_FA_PAUSE;
+		if (ImGui::Button(buttonLabel))
+		{
+			g_app->SetPause(true);
+		}
+
+		buttonLabel = ICON_FA_STOP;
+		if (ImGui::Button(buttonLabel))
+		{
+			g_app->SetPause(true);
+
+			std::string activeSceneName = g_app->m_sceneManager->GetActiveSceneName();
+			g_app->m_sceneManager->DestroyScene(activeSceneName);
+			SceneImporter::ImportSceneFromFile("temp", true);
+			m_sceneHierarchy.SetCurrentScene(g_app->m_sceneManager->GetActiveScene());
+		}
+	}
 }
 
 void ImGuiLayer::DrawSceneView(int textureID)

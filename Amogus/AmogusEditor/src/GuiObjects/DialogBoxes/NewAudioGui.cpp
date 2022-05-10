@@ -9,7 +9,9 @@ NewAudioGui::NewAudioGui(Entity entityFor) :
 
 void NewAudioGui::CreateGui()
 {
-	if (ImGui::Begin("New audio"))
+	ImGui::OpenPopup("New audio");
+
+	if (ImGui::BeginPopupModal("New audio"))
 	{
 		if (ImGui::InputText("Audio filepath##", inputFilePath, IM_ARRAYSIZE(inputFilePath))) {}
 
@@ -48,15 +50,17 @@ void NewAudioGui::CreateGui()
 		{
 			AddAudio();
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel"))
 		{
 			close = true;
+			ImGui::CloseCurrentPopup();
 		}
-	}
 
-	ImGui::End();
+		ImGui::EndPopup();
+	}
 }
 
 void NewAudioGui::AddAudio()

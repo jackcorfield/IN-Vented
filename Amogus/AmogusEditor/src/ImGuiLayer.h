@@ -32,6 +32,7 @@ private:
 	void DrawMenuBar();
 	void DrawProfiler();
 	void DrawConsole();
+	void DrawPlayPauseStopButton(); // Draws a play that controls whether the game is running in-editor, a pause button to pause it, and a stop button to stop runtime
 
 	void DrawNewEntityMenu();
 	void SelectObject();
@@ -57,6 +58,7 @@ private:
 
 	ImVec2 m_renderSize;
 	ImVec2 m_tempSize;
+	ImVec2 m_menuBarSize;
 
 	EntityManager* m_entityManager;
 };

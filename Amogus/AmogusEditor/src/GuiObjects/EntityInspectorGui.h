@@ -20,6 +20,6 @@ private:
 	void DrawInspectorInfo(); // Separated so we can return early and not break ImGui's Begin/End rules
 	void CreateAddComponentGui();
 
-	std::vector<std::unique_ptr<IGuiObject>> m_guiObjects; // Stores pointers to dialog boxes (for components without default constructors)
+	std::unique_ptr<IGuiObject> m_popup; // Stores pointer to popup object
 	Entity m_activeEntity;
 };
