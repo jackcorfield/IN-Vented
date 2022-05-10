@@ -414,6 +414,16 @@ void ImGuiLayer::CreateScene(char* name, float col[3])
 	{
 		g_app->m_sceneManager->CreateScene(std::string(name), glm::vec3(col[0], col[1], col[2]));
 		g_app->m_sceneManager->SetActiveScene(name);
+		Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+
+		Entity entity = activeScene->m_entityManager->CreateEntity();
+
+		Camera* camera = activeScene->m_entityManager->AddComponent<Camera>(entity, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer());
+		Transform* transform = activeScene->m_entityManager->AddComponent<Transform>(entity, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
+		EntityName* nameComponent = activeScene->m_entityManager->AddComponent<EntityName>(entity, "Scene Camera");
+
+		g_app->SetActiveCamera(entity);
+		
 		SceneExporter::ExportActiveSceneToFile(std::string(name) + ".json");
 		game.Scenes.push_back(name);
 		game.CurrentSceneName = name;
