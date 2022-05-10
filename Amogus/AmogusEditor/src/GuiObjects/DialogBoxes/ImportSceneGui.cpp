@@ -2,8 +2,11 @@
 
 #include <ImGui/imgui.h>
 
-ImportSceneGui::ImportSceneGui() :
-	inputFilePath("")
+#define MAX_RECENT_SCENES 5
+
+ImportSceneGui::ImportSceneGui(std::list<std::string>* recentScenes) :
+	m_inputFilePath(""),
+	p_recentScenes(recentScenes)
 {}
 
 void ImportSceneGui::CreateGui()
@@ -20,16 +23,23 @@ void ImportSceneGui::CreateGui()
 		ImGui::Text("Make sure you've exported the current scene!\nUnsaved changes will be deleted.");
 		ImGui::Separator();
 
-		if (ImGui::InputText("Scene filename##", inputFilePath, IM_ARRAYSIZE(inputFilePath))) {}
+		if (ImGui::InputText("Scene filename##", m_inputFilePath, IM_ARRAYSIZE(m_inputFilePath))) {}
 
 		if (ImGui::Button("Import scene##"))
 		{
 			std::string activeSceneName = g_app->m_sceneManager->GetActiveSceneName();
-			std::string filePathString(inputFilePath);
+			std::string filePathString(m_inputFilePath);
 
 			bool success = SceneImporter::ImportSceneFromFile(filePathString, true);
 			if (success)
 			{
+				p_recentScenes->erase(std::remove(p_recentScenes->begin(), p_recentScenes->end(), g_app->m_sceneManager->GetActiveSceneName()), p_recentScenes->end()); // Remove possible previous instance of this name (thus moving it to the front)
+				p_recentScenes->push_front(g_app->m_sceneManager->GetActiveSceneName());
+				if (p_recentScenes->size() > MAX_RECENT_SCENES)
+				{
+					p_recentScenes->pop_back();
+				}
+
 				g_app->m_sceneManager->DestroyScene(activeSceneName);
 
 				close = true;

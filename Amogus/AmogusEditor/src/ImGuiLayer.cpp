@@ -10,7 +10,11 @@
 #include "GuiObjects/DialogBoxes/ExportSceneGui.h"
 #include "GuiObjects/DialogBoxes/ImportSceneGui.h"
 
+#define MAX_RECENT_SCENES 5
+
 extern Application* g_app;
+
+void AddNameToUniqueQueueList(std::list<std::string>* list, std::string name, const unsigned int maxItems);
 
 ImGuiLayer::ImGuiLayer(Application* app) :
 	m_app(app),
@@ -164,12 +168,49 @@ void ImGuiLayer::DrawMenuBar()
 			}
 			else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
 			{
-				m_popup = std::make_unique<ImportSceneGui>();
+				m_popup = std::make_unique<ImportSceneGui>(&m_recentScenes);
 			}
 			else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
 			{
 				m_popup = std::make_unique<ExportSceneGui>();
 			}
+			else if (ImGui::BeginMenu("Import recent"))
+			{
+				int i = 0; // Predeclare iterator so it can be pre-incremented
+
+				std::string toAdd = "";
+				for (std::string name : m_recentScenes)
+				{
+					if (ImGui::MenuItem(name.c_str()))
+					{
+						std::string activeSceneName = g_app->m_sceneManager->GetActiveSceneName();
+
+						bool success = SceneImporter::ImportSceneFromFile(name, true);
+						if (success)
+						{
+							g_app->m_sceneManager->DestroyScene(activeSceneName);
+						}
+					
+						toAdd = name;
+					}
+
+					i++; // Increment for each slot used
+				}
+
+				if (!toAdd.empty())
+				{
+					AddNameToUniqueQueueList(&m_recentScenes, toAdd, MAX_RECENT_SCENES);
+				}
+
+				// Display any remaining slots (up to max) using pre-incremented i
+				for (i; i < MAX_RECENT_SCENES; i++)
+				{
+					if (ImGui::MenuItem("-")) {}
+				}
+
+				ImGui::EndMenu();
+			}
+
 			ImGui::EndMenu();
 		}
 
@@ -365,5 +406,15 @@ void ImGuiLayer::OnClick(InputEvent* e)
 	if (e->m_action == GLFW_PRESS)
 	{
 		m_selecting = true; // We can't do object selection in event because it won't be during ImGui phase
+	}
+}
+
+void AddNameToUniqueQueueList(std::list<std::string>* list, std::string name, const unsigned int maxItems)
+{
+	list->erase(std::remove(list->begin(), list->end(), name), list->end()); // Remove possible previous instance of this name (thus moving it to the front)
+	list->push_front(name);
+	if (list->size() > maxItems)
+	{
+		list->pop_back();
 	}
 }

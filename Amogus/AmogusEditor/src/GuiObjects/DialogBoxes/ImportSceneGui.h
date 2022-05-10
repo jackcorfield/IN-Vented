@@ -8,10 +8,11 @@ struct ImportSceneGui :
 	public IGuiObject
 {
 public:
-	ImportSceneGui();
+	ImportSceneGui(std::list<std::string>* recentScenes);
 
 	virtual void CreateGui() override;
 
 private:
-	char inputFilePath[128];
+	char m_inputFilePath[128];
+	std::list<std::string>* p_recentScenes;
 };

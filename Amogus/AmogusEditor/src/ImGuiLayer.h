@@ -45,6 +45,7 @@ private:
 
 	std::vector<std::unique_ptr<IGuiObject>> m_guiObjects; // Stores pointers to dialog boxes
 	std::unique_ptr<IGuiObject> m_popup; // Stores pointer to popup object
+	std::list<std::string> m_recentScenes; // Stores names of recently imported scenes for easy access
 
 	ImGuiDockNodeFlags m_dockspaceFlags;
 	ImGuiWindowFlags m_windowFlags;
