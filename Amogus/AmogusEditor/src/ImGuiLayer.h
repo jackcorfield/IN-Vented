@@ -55,4 +55,8 @@ private:
 	ImVec2 m_tempSize;
 
 	EntityManager* m_entityManager;
+
+	int m_numOfConsoleEntries;
+	bool m_scrollToBottom;
+	bool m_autoScroll;
 };

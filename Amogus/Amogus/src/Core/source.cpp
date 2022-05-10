@@ -45,6 +45,7 @@ void Application::Init()
 	m_sceneManager = new SceneManager();
 	m_audioManager = new AudioManager();
 	m_scriptSystem = new ScriptSystem();
+	m_debugger = new Debugger();
 
 	m_renderer = new Renderer();
 

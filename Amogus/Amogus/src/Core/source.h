@@ -12,6 +12,7 @@
 #include <ECS/Systems/PhysicsSystem.h>
 #include <ECS/Systems/ScriptSystem.h>
 
+#include "Debugger.h"
 
 struct GLFWwindow;
 
@@ -45,6 +46,7 @@ public:
 	SceneManager*		m_sceneManager;
 	AudioManager*		m_audioManager;
 	ScriptSystem*		m_scriptSystem;
+	Debugger*			m_debugger;
 
 	virtual void onInit() {};
 	virtual void onUpdate(float dt) {}

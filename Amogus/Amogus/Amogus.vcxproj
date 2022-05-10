@@ -149,6 +149,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Debugger.cpp" />
     <ClCompile Include="src\ECS\Components\AnimatedSprite.cpp" />
     <ClCompile Include="src\ECS\Components\Audio.cpp" />
     <ClCompile Include="src\ECS\Systems\AudioManager.cpp" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Amogus.h" />
+    <ClInclude Include="src\Core\Debugger.h" />
     <ClInclude Include="src\ECS\Components\AnimatedSprite.h" />
     <ClInclude Include="src\ECS\Components\Audio.h" />
     <ClInclude Include="src\ECS\Systems\AudioManager.h" />
