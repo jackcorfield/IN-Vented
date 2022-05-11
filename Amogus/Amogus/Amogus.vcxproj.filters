@@ -27,6 +27,7 @@
     <ClCompile Include="src\ECS\Components\Sprite.cpp" />
     <ClCompile Include="src\Resources\Texture2D.cpp" />
     <ClCompile Include="src\Core\Timer.cpp" />
+    <ClCompile Include="src\ECS\Components\UI_Widget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\Components\AnimatedSprite.h" />
@@ -73,7 +74,7 @@
     <ClInclude Include="src\Core\Timer.h" />
     <ClInclude Include="src\ECS\Components\Transform.h" />
     <ClInclude Include="Amogus.h" />
-    <ClInclude Include="src\ECS\Components\UI_Image.h" />
+    <ClInclude Include="src\ECS\Components\UI_Widget.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />

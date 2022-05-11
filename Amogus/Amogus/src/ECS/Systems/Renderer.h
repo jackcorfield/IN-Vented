@@ -11,7 +11,7 @@ struct GLFWwindow;
 class Scene;
 class Sprite;
 class Transform;
-class UI_Image;
+class UI_BaseElement;
 
 struct SpriteVertex
 {
@@ -51,7 +51,7 @@ private:
 	void PostProcessScene();
 
 	void DrawUI();
-	void DrawUI_Image(UI_Image* img);
+	void DrawUI_Element(UI_BaseElement* element);
 
 	void InitQuad();
 
