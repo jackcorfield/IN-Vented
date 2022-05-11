@@ -197,6 +197,10 @@ namespace SceneImporter
 			{
 				if (!CreatePlayerMovement(jComponent, entity)) { success = false; }
 			}
+			else if (componentType == "scriptComponent")
+			{
+				if (!CreateScriptComponent(jComponent, entity)) { success = false; }
+			}
 			else if (componentType == "sprite")
 			{
 				if (!CreateSprite(jComponent, entity)) { success = false; }

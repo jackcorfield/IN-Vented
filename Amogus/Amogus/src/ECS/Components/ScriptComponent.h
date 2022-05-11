@@ -13,14 +13,14 @@ public:
 		m_attachedScript(NULL) {}
 	~ScriptComponent() {}
 
-	template <typename T>
-	void AttachScript()
+	template <typename T, class ...ARGS>
+	void AttachScript(ARGS&&... params)
 	{
 		if (m_attachedScript != NULL)
 		{
 			m_attachedScript->OnUnattach();
 		}
-		T* script = new T(m_entityManager, m_entityID);
+		T* script = new T(m_entityManager, m_entityID, std::forward<ARGS>(params)...);
 		m_attachedScript = script;
 		m_attachedScript->OnAttach();
 	}
