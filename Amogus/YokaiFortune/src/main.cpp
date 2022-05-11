@@ -134,7 +134,7 @@ private:
 
 	void loadGame(const char* gameName)
 	{
-		std::string path = "Data/Config/" + std::string(gameName);
+		std::string path = "Data/Config/" + std::string(gameName) + ".json";
 		std::ifstream file(path);
 		if (file.is_open())
 		{
