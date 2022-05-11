@@ -23,7 +23,7 @@
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
               "texture": {
-                "filePath": "test.png",
+                "filePath": "Weapons/Grenade/grenade.png",
                 "name": "TestCharacter"
               },
                 "type": "sprite"
@@ -48,7 +48,7 @@
                     "y": 1.0,
                     "z": 1.0
                 },
-                "interval": 0.1,
+                "interval": 0.25,
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
                     "geometryFilePath": "",
@@ -57,28 +57,20 @@
                 },
               "textures": [
                 {
-                  "filePath": "Enemies/SmallMonster/Running/frame1.png",
+                  "filePath": "Characters/Homura/Idle/frame1.png",
                   "name": "frame1"
                 },
                 {
-                  "filePath": "Enemies/SmallMonster/Running/frame2.png",
+                  "filePath": "Characters/Homura/Idle/frame2.png",
                   "name": "frame2"
                 },
                 {
-                  "filePath": "Enemies/SmallMonster/Running/frame3.png",
+                  "filePath": "Characters/Homura/Idle/frame3.png",
                   "name": "frame3"
                 },
                 {
-                  "filePath": "Enemies/SmallMonster/Running/frame4.png",
+                  "filePath": "Characters/Homura/Idle/frame4.png",
                   "name": "frame4"
-                },
-                {
-                  "filePath": "Enemies/SmallMonster/Running/frame5.png",
-                  "name": "frame5"
-                },
-                {
-                  "filePath": "Enemies/SmallMonster/Running/frame6.png",
-                  "name": "frame6"
                 }
               ],
                 "type": "animatedSprite"
