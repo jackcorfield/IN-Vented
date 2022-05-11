@@ -57,20 +57,32 @@
                 },
               "textures": [
                 {
-                  "filePath": "Characters/Homura/Idle/frame1.png",
+                  "filePath": "Characters/Homura/Death/frame1.png",
                   "name": "frame1"
                 },
                 {
-                  "filePath": "Characters/Homura/Idle/frame2.png",
+                  "filePath": "Characters/Homura/Death/frame2.png",
                   "name": "frame2"
                 },
                 {
-                  "filePath": "Characters/Homura/Idle/frame3.png",
+                  "filePath": "Characters/Homura/Death/frame3.png",
                   "name": "frame3"
                 },
                 {
-                  "filePath": "Characters/Homura/Idle/frame4.png",
+                  "filePath": "Characters/Homura/Death/frame4.png",
                   "name": "frame4"
+                },
+                {
+                  "filePath": "Characters/Homura/Death/frame5.png",
+                  "name": "frame5"
+                },
+                {
+                  "filePath": "Characters/Homura/Death/frame6.png",
+                  "name": "frame6"
+                },
+                {
+                  "filePath": "Characters/Homura/Death/frame7.png",
+                  "name": "frame7"
                 }
               ],
                 "type": "animatedSprite"
