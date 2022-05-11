@@ -2,6 +2,8 @@
 
 #include <fstream>
 #include <nlohmann/include/nlohmann/json.hpp>
+#include "EnemyMovementScript.h"
+#include "PlayerScript.h"
 
 class Runtime : public Application
 {
@@ -17,6 +19,39 @@ public:
 	void onInit() override
 	{
 		processCommandLine();
+
+		// Give entities called "Enemy" the enemy script
+		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+		auto allEntities = entityManager->GetAllActiveEntities();
+		Entity player = 0;
+
+		for (Entity entity : allEntities)
+		{
+			EntityName* name = entityManager->GetComponent<EntityName>(entity);
+			if (name && name->m_name == "Player")
+			{
+				player = entity;
+
+				ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
+				if (scriptC)
+				{
+					scriptC->AttachScript<PlayerScript>(100.0f);
+				}
+			}
+		}
+
+		for (Entity entity : allEntities)
+		{
+			EntityName* name = entityManager->GetComponent<EntityName>(entity);
+			if (name && name->m_name == "Enemy")
+			{
+				ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
+				if (scriptC)
+				{
+					scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
+				}
+			}
+		}
 	}
 
 	void onUpdate(float dt) override
@@ -99,7 +134,7 @@ private:
 
 	void loadGame(const char* gameName)
 	{
-		std::string path = "Data/Config/" + std::string(gameName) + ".json";
+		std::string path = "Data/Config/" + std::string(gameName);
 		std::ifstream file(path);
 		if (file.is_open())
 		{

@@ -510,7 +510,7 @@ void ImGuiLayer::CreateScene(char* name, float col[3])
 
 void ImGuiLayer::SaveScene()
 {
-	SceneExporter::ExportActiveSceneToFile(std::string(game.CurrentSceneName) + ".json");	
+	SceneExporter::ExportActiveSceneToFile(std::string(game.CurrentSceneName));	
 }
 
 bool ImGuiLayer::LoadScene(const char* name)
