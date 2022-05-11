@@ -19,7 +19,7 @@
 #include <ECS/Components/Audio.h>
 #include <ECS/Components/Camera.h>
 #include <ECS/Components/BoxCollider.h>
-#include <ECS/Components/UI_Widget.h>
+#include <ECS/Components/UI_Image.h>
 
 extern Application* g_app;
 
@@ -193,80 +193,71 @@ void Renderer::DrawUI()
     if (activeScene)
     {
         m_renderContext.framebuffer->Bind();
+        // View matrix is flat default
+        // Projection matrix is default left handed ortho
+        // Model is just position and size
+        glm::mat4 view = glm::mat4(1.0f);
 
-        std::vector<UI_WidgetComponent*> widgets = activeScene->m_entityManager->GetAllComponentsOfType<UI_WidgetComponent>();
+        m_uiShader->Use();
+        m_uiShader->SetUniform("view", view);
+        m_uiShader->SetUniform("projection", m_projection);
 
-        for (UI_WidgetComponent* widget : widgets)
+        std::vector<UI_Image*> ui_images = activeScene->m_entityManager->GetAllComponentsOfType<UI_Image>();
+
+        for (UI_Image* img : ui_images)
         {
-			for (UI_BaseElement* element : widget->m_elements)
-			{
-				DrawUI_Element(element);
-			}
+            DrawUI_Image(img);
         }
         
         m_renderContext.framebuffer->Unbind();
     }
 }
 
-void Renderer::DrawUI_Element(UI_BaseElement* element)
+void Renderer::DrawUI_Image(UI_Image* img)
 {
-	if (element->m_hidden)
-		return;
+    // scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
+    glm::vec2 relativePos = glm::vec2(img->m_position.x, img->m_position.z);
+    relativePos *= glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
 
-	switch (element->m_elementType)
-	{
-	case(ElementType::ET_Image):
-	case(ElementType::ET_ImageButton):
-	{
-		UI_Image* imageElement = (UI_Image*)element;
-		// View matrix is flat default
-		// Projection matrix is default left handed ortho
-		// Model is just position and size
-		glm::mat4 view = glm::mat4(1.0f);
+    // pixel coordinates
+    glm::vec2 absolutePos = glm::vec2(img->m_position.y, img->m_position.w);
 
-		m_uiShader->Use();
-		m_uiShader->SetUniform("view", view);
-		m_uiShader->SetUniform("projection", m_projection);
+    glm::vec3 finalPos = glm::vec3(
+        relativePos.x + absolutePos.x,
+        relativePos.y + absolutePos.y,
+        img->m_zIndex
+    );
 
-		glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
-		glm::vec3 finalPos = glm::vec3(adjustedRelativePos + element->m_absolutePosition, element->m_zIndex);
+    // scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
+    glm::vec2 relativeSize = glm::vec2(img->m_size.x, img->m_size.z);
+    relativeSize *= glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
 
-		// scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
-		glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
-		glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + element->m_absoluteSize, 1);
+    // pixel coordinates
+    glm::vec2 absoluteSize = glm::vec2(img->m_size.y, img->m_size.w);
 
-		glm::mat4 model = glm::mat4(1.0f);
+    glm::vec3 finalSize = glm::vec3(
+        relativeSize.x + absoluteSize.x,
+        relativeSize.y + absoluteSize.y,
+        1
+    );
 
-		// translate by position
-		model = glm::translate(model, finalPos);
-		model = glm::scale(model, finalSize);
+    glm::mat4 model = glm::mat4(1.0f);
 
-		m_uiShader->SetUniform("model", model);
+    // translate by position
+    model = glm::translate(model, finalPos);
+    model = glm::scale(model, finalSize);
 
-		glActiveTexture(GL_TEXTURE0);
-		m_uiShader->SetUniform("image", 0);
-		imageElement->m_texture.Bind();
+    m_uiShader->SetUniform("model", model);
 
-		glBindVertexArray(m_quadVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+    glActiveTexture(GL_TEXTURE0);
+    m_uiShader->SetUniform("image", 0);
+    img->m_texture.Bind();
 
-		imageElement->m_texture.Unbind();
-		glBindVertexArray(0);
-	}
-	break;
-	case(ElementType::ET_Text):
-	case(ElementType::ET_TextButton):
-	{
+    glBindVertexArray(m_quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
-	}
-	break;
-	default:
-	case(ElementType::ET_Base):
-	{
-
-	}
-	break;
-	}
+    img->m_texture.Unbind();
+    glBindVertexArray(0);
 }
 
 void Renderer::Render(float deltaTime)

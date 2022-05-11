@@ -20,7 +20,7 @@
 #include "src/ECS/Components/Tile.h"
 #include "src/ECS/Components/TileMap.h"
 #include "src/ECS/Components/Transform.h"
-#include "src/ECS/Components/UI_Widget.h"
+#include "src/ECS/Components/UI_Image.h"
 // - Systems
 #include "src/ECS/Systems/PathFinding.h"
 #include "src/ECS/Systems/Renderer.h"

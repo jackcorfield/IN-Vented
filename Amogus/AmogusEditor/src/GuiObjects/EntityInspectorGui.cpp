@@ -38,7 +38,7 @@ void CreateSpriteGui(Sprite* sprite, Entity owner);
 void CreateTileGui(Tile* tile);
 void CreateTileMapGui(TileMap* tileMap);
 void CreateTransformGui(Transform* transform);
-void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner);
+void CreateUI_ImageGui(UI_Image* image, Entity owner);
 
 // Helpers (return true if changed)
 bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::string& fragmentPath, std::string& geometryPath);
@@ -144,7 +144,7 @@ void DrawComponentGui(void* component, std::type_index type, Entity entity, Enti
 	else if (type == typeid(Tile)) { CreateTileGui(reinterpret_cast<Tile*>(component)); }
 	else if (type == typeid(TileMap)) { CreateTileMapGui(reinterpret_cast<TileMap*>(component)); }
 	else if (type == typeid(Transform)) { CreateTransformGui(reinterpret_cast<Transform*>(component)); }
-	else if (type == typeid(UI_WidgetComponent)) { CreateUI_WidgetComponentGui(reinterpret_cast<UI_WidgetComponent*>(component), entity); }
+	else if (type == typeid(UI_Image)) { CreateUI_ImageGui(reinterpret_cast<UI_Image*>(component), entity); }
 	else
 	{
 		std::cout << "Error: Invalid component type!" << std::endl;
@@ -172,7 +172,7 @@ void DeleteComponent(void* component, std::type_index type, Entity entity, Entit
 	else if (type == typeid(Tile)) { entityManager->RemoveComponent<Tile>(entity); }
 	else if (type == typeid(TileMap)) { entityManager->RemoveComponent<TileMap>(entity); }
 	else if (type == typeid(Transform)) { entityManager->RemoveComponent<Transform>(entity); }
-	else if (type == typeid(UI_WidgetComponent)) { entityManager->RemoveComponent<UI_WidgetComponent>(entity); }
+	else if (type == typeid(UI_Image)) { entityManager->RemoveComponent<UI_Image>(entity); }
 	else
 	{
 		std::cout << "Error: Invalid component type!" << std::endl;
@@ -198,7 +198,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 		"Sprite",
 		"Tile Map",
 		"Transform",
-		"UI Widget"
+		"UI Image"
 	};
 
 	if (ImGui::BeginCombo("New component type", selected.c_str()))
@@ -233,7 +233,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 		else if (selected == "Sprite") { m_guiObjects.emplace_back(std::make_unique<NewSpriteGui>(m_activeEntity)); }
 		else if (selected == "Tile Map") { m_guiObjects.emplace_back(std::make_unique<NewTileMapGui>(m_activeEntity)); }
 		else if (selected == "Transform") { entityManager->AddComponent<Transform>(m_activeEntity); }
-		else if (selected == "UI Widget") { entityManager->AddComponent<UI_WidgetComponent>(m_activeEntity); }
+		else if (selected == "UI Image") { entityManager->AddComponent<UI_Image>(m_activeEntity); }
 	}
 }
 
@@ -501,110 +501,40 @@ void CreatePhysicsGui(Physics* physics)
 	}
 }
 
-void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
+void CreateUI_ImageGui(UI_Image* image, Entity owner)
 {
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
-	if (ImGui::CollapsingHeader("UI Widget", nodeFlags))
+	if (ImGui::CollapsingHeader("UI Image", nodeFlags))
 	{
-		static std::string selected = "";
-		if (ImGui::BeginCombo("New UI Element", selected.c_str()))
-		{
-			for (int i = 0; i < NumElementTypes; i++)
-			{
-				bool isSelected = selected == s_ElementType[i];
-				if (ImGui::Selectable(s_ElementType[i].c_str(), isSelected))
-				{
-					selected = s_ElementType[i];
-				}
-			}
+		ImGui::InputFloat("Relative Pos X", &image->m_position.x);
+		ImGui::InputFloat("Absolute Pos X", &image->m_position.y);
+		ImGui::InputFloat("Relative Pos Y", &image->m_position.z);
+		ImGui::InputFloat("Absolute Pos Y", &image->m_position.w);
+		ImGui::InputFloat("Relative Size X", &image->m_size.x);
+		ImGui::InputFloat("Absolute Size X", &image->m_size.y);
+		ImGui::InputFloat("Relative Size Y", &image->m_size.z);
+		ImGui::InputFloat("Absolute Size Y", &image->m_size.w);
+		ImGui::InputInt("Z Index", &image->m_zIndex);
 
-			ImGui::EndCombo();
+		// Texture
+		bool edited = false;
+		Texture2D texture = image->m_texture;
+		std::string textureName = texture.m_name;
+		std::string textureFilePath = texture.m_filePath;
+		if (CreateTextureGui(textureName, textureFilePath))
+		{
+			edited = true;
 		}
 
-		if (ImGui::Button("Create UI Element"))
+		if (edited)
 		{
-			for (int i = 0; i < NumElementTypes; i++)
+			// Create new texture and shader first; if these fail, don't replace the Sprite
+			Texture2D newTexture = TextureLoader::CreateTexture2DFromFile(textureName, textureFilePath);
+			if (newTexture.m_id != 0)
 			{
-				if (s_ElementType[i] == selected)
-				{
-					switch (i)
-					{
-					case(ElementType::ET_Base):
-						widget->m_elements.push_back(new UI_BaseElement());
-						break;
-					case(ElementType::ET_Frame):
-						widget->m_elements.push_back(new UI_Frame());
-						break;
-					case(ElementType::ET_Image):
-						widget->m_elements.push_back(new UI_Image());
-						break;
-					case(ElementType::ET_ImageButton):
-						widget->m_elements.push_back(new UI_ImageButton());
-						break;
-					case(ElementType::ET_Text):
-						widget->m_elements.push_back(new UI_Text());
-						break;
-					case(ElementType::ET_TextButton):
-						widget->m_elements.push_back(new UI_TextButton());
-						break;
-					}
-				}
-			}
-		}
-
-		for (int i = 0; i < widget->m_elements.size(); i++)
-		{
-			UI_BaseElement* element = widget->m_elements[i];
-			std::string headerTitle = (std::string(std::to_string(i) + std::string(": ") + s_ElementType[element->m_elementType]));
-			if (ImGui::CollapsingHeader(headerTitle.c_str(), nodeFlags))
-			{
-				ImGui::InputText("Name", &element->m_name[0], element->m_name.size());
-
-				float abPosArr[2] = { element->m_absolutePosition.x, element->m_absolutePosition.y };
-				if (ImGui::InputFloat2("Absolute Position", abPosArr))
-				{
-					element->m_absolutePosition = glm::vec2(abPosArr[0], abPosArr[1]);
-				}
-
-				float abSizeArr[2] = { element->m_absoluteSize.x, element->m_absoluteSize.y };
-				if (ImGui::InputFloat2("Absolute Size", abSizeArr))
-				{
-					element->m_absoluteSize = glm::vec2(abSizeArr[0], abSizeArr[1]);
-				}
-
-				float resPosArr[2] = { element->m_relativePosition.x, element->m_relativePosition.y };
-				if (ImGui::InputFloat2("Relative Position", resPosArr))
-				{
-					element->m_relativePosition = glm::vec2(resPosArr[0], resPosArr[1]);
-				}
-
-				float resSizeArr[2] = { element->m_relativeSize.x, element->m_relativeSize.y };
-				if (ImGui::InputFloat2("Relative Size", resSizeArr))
-				{
-					element->m_relativeSize = glm::vec2(resSizeArr[0], resSizeArr[1]);
-				}
-
-				float colourArr[3] = { element->m_backgroundColour.r, element->m_backgroundColour.g, element->m_backgroundColour.b };
-				if (ImGui::ColorPicker3("Background Colour", colourArr))
-				{
-					element->m_backgroundColour = glm::vec3(colourArr[0], colourArr[1], colourArr[2]);
-				}
-
-				ImGui::Checkbox("Hidden", &element->m_hidden);
-				ImGui::InputInt("Z Index", &element->m_zIndex);
-
-				// Texture
-				if (element->m_elementType == ET_Image || element->m_elementType == ET_ImageButton)
-				{
-					UI_Image* imageElement = (UI_Image*)element;
-					Texture2D texture = imageElement->m_texture;
-					std::string textureName = texture.m_name;
-					std::string textureFilePath = texture.m_filePath;
-					if (CreateTextureGui(textureName, textureFilePath))
-					{
-						imageElement->m_texture = TextureLoader::CreateTexture2DFromFile(textureName, textureFilePath);
-					}
-				}
+				EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+				entityManager->RemoveComponent<UI_Image>(owner); // Remove old Sprite
+				entityManager->AddComponent<UI_Image>(owner, newTexture, image->m_position, image->m_size, image->m_zIndex);
 			}
 		}
 	}
