@@ -27,12 +27,21 @@ struct RenderContext
 	bool screenShake;
 };
 
+struct Font_Character
+{
+	unsigned int m_texture2D;
+	glm::ivec2 m_size;
+	glm::ivec2 m_bearing;
+	unsigned int m_advance;
+};
 
 class Renderer
 {
 public:
 	Renderer();
 	~Renderer();
+
+	void LoadFont(std::string font);
 
 	void Render(float deltaTime);
 
@@ -59,6 +68,8 @@ private:
 	Shader* m_uiShader;
 	Shader* m_postProcessingShader;
 	unsigned int m_quadVAO;
+
+	std::map<char, Font_Character> m_fontCharacters;
 
 	Entity m_sceneCamera;
 	glm::mat4 m_projection;
