@@ -112,7 +112,7 @@ private:
 			
 			for (const std::string& sceneName : json["scenes"].get<std::vector<std::string>>())
 			{
-				SceneImporter::ImportSceneFromFile(sceneName + ".json", false);
+				SceneImporter::ImportSceneFromFile(sceneName, false);
 			}
 			
 			m_sceneManager->SetActiveScene(json["scenes"][0]);
