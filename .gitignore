@@ -338,3 +338,4 @@ imgui.ini
 
 # Custom ignores
 !fmod.dll
+Amogus/AmogusEditor/DebugLog.txt

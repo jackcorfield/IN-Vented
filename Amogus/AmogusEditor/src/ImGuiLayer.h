@@ -96,4 +96,8 @@ private:
 
 	bool m_showNewGameDialogState = false;
 	bool m_showLoadGameDialogState = false;
+
+	int m_numOfConsoleEntries;
+	bool m_scrollToBottom;
+	bool m_autoScroll;
 };
