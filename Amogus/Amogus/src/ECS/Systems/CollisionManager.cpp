@@ -22,7 +22,6 @@ bool BoxVBoxCollision(const glm::vec2& pos1, const glm::vec2& size1, const glm::
 		topLeftA.y < bottomRightB.y &&
 		bottomRightA.y > topLeftB.y)
 		return true;
-
 	return false;
 }
 
@@ -54,6 +53,8 @@ void CollisionManager::CheckCollision()
 {
 	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 	if (!activeScene) return;
+
+
 
 	std::vector<BoxCollider*> boxColliders = activeScene->m_entityManager->GetAllComponentsOfType<BoxCollider>();
 
