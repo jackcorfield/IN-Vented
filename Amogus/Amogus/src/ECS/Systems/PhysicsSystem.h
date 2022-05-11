@@ -7,4 +7,3 @@ class PhysicsSystem
 public:
 	static void Update(float deltaTime);
 };
-

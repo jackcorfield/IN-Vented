@@ -4,10 +4,21 @@
 
 #include <GLFW/glfw3.h>
 #include <string.h>
+#include <fstream>
 #include <iostream>
 
+#include <nlohmann/include/nlohmann/json.hpp>
+#include "GuiObjects/DialogBoxes/NewGameGui.h"
+#include "GuiObjects/DialogBoxes/LoadGameGui.h"
+#include "GuiObjects/DialogBoxes/CreateSceneGui.h"
+#include "GuiObjects/DialogBoxes/ImportSceneGui.h"
+#include "GuiObjects/DialogBoxes/ErrorDialogGui.h"
+
+#define MAX_RECENT_SCENES 5
 
 extern Application* g_app;
+
+void AddNameToUniqueQueueList(std::list<std::string>* list, std::string name, const unsigned int maxItems);
 
 ImGuiLayer::ImGuiLayer(Application* app) :
 	m_app(app),
@@ -62,18 +73,25 @@ ImGuiLayer::ImGuiLayer(Application* app) :
 
 	m_sceneHierarchy.SetEntityInspector(&m_entityInspector);
 
+
+	m_windowTitle = "Amogus Editor";
+	glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
+
 	m_numOfConsoleEntries = 0;
 	m_scrollToBottom = true;
 	m_autoScroll = true;
+
 }
 
 ImGuiLayer::~ImGuiLayer()
 {
+	if (m_popup) { m_popup.release(); }
 }
 
 void ImGuiLayer::BeginGui()
 {
-	m_entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+	if (g_app->m_sceneManager->GetActiveScene() != NULL)
+		m_entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
 	static bool p_open = true;
 
@@ -100,19 +118,29 @@ void ImGuiLayer::BeginGui()
 	ImGui::PopStyleVar(2);
 
 	ImGuiIO& io = ImGui::GetIO();
-	
+
 	ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 }
 
 void ImGuiLayer::Draw()
 {
+
 	DrawMenuBar();
 	m_sceneHierarchy.SetCurrentScene(g_app->m_sceneManager->GetActiveScene());
 	m_sceneHierarchy.Draw();
 	DrawConsole();
 	m_entityInspector.Draw();
 	DrawProfiler();
+	
+	if (m_popup)
+	{
+		m_popup.get()->CreateGui();
+		if (m_popup.get()->close)
+		{
+			m_popup.release();
+		}
+	}
 }
 
 void ImGuiLayer::EndGui()
@@ -134,24 +162,108 @@ void ImGuiLayer::DrawMenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem(ICON_FA_FILE"  New"))
+			if (ImGui::MenuItem(ICON_FA_FILE"  New Game"))
 			{
-				//Do something
+				m_popup = std::make_unique<NewGameGui>(this);
 			}
-			else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Import"))
+			else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"   Save Game"))
 			{
-				SceneImporter::ImportSceneFromFile("testimport.json");
+				if (m_gameLoaded)
+					SaveGame();
+				else
+					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
 			}
-			else if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export"))
+			else if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"   Load Game"))
 			{
-				SceneExporter::ExportActiveSceneToFile(g_app->m_sceneManager->GetActiveSceneName() + ".json");
+				m_popup = std::make_unique<LoadGameGui>(this);
 			}
+			ImGui::Separator();
+
+			if (ImGui::MenuItem(ICON_FA_PLUS"	Create Scene"))
+			{
+				if (m_gameLoaded)
+					m_popup = std::make_unique<CreateSceneGui>(this);
+				else
+					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
+			}
+
+			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Save Scene"))
+			{
+				if (m_sceneLoaded)
+					SaveScene();
+				else
+					m_popup = std::make_unique<ErrorDialogGui>("No scene loaded");
+			}
+
+			if (ImGui::MenuItem(ICON_FA_FILE_IMPORT"	Load Scene"))
+			{
+				m_popup = std::make_unique<ImportSceneGui>(this, &m_recentScenes);
+			}
+
+			ImGui::Separator();
+			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export and Run"))
+			{
+				if (m_sceneLoaded)
+					SaveScene();
+				if (m_gameLoaded)
+				{
+					SaveGame();
+					std::string command = "YokaiFortune.exe -game " + game.Name;
+					system(command.c_str());
+				}
+				else
+					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
+			}
+
+			ImGui::Separator();
+			
+			if (ImGui::BeginMenu("Import recent scene"))
+			{
+				if (m_gameLoaded)
+				{
+					int i = 0; // Predeclare iterator so it can be pre-incremented
+
+					std::string toAdd = "";
+					for (std::string name : m_recentScenes)
+					{
+						if (ImGui::MenuItem(name.c_str()))
+						{
+							if (LoadScene(name.c_str()))
+								toAdd = name;
+						}
+
+						i++; // Increment for each slot used
+					}
+
+					if (!toAdd.empty())
+					{
+						AddNameToUniqueQueueList(&m_recentScenes, toAdd, MAX_RECENT_SCENES);
+					}
+
+					// Display any remaining slots (up to max) using pre-incremented i
+					for (i; i < MAX_RECENT_SCENES; i++)
+					{
+						if (ImGui::MenuItem("-")) {}
+					}
+				}
+				
+				ImGui::EndMenu();
+			}
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem(ICON_FA_CROSSHAIRS"   Exit"))
+			{
+				g_app->Quit();
+			}
+
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::BeginMenu("Assets"))
 		{
-			DrawNewEntityMenu();
+			if (m_sceneLoaded)
+				DrawNewEntityMenu();
 
 			ImGui::EndMenu();
 		}
@@ -160,6 +272,9 @@ void ImGuiLayer::DrawMenuBar()
 		{
 
 		}
+
+		m_menuBarSize = ImGui::GetWindowSize();
+		DrawPlayPauseStopButton();
 
 		ImGui::EndMainMenuBar();
 	}
@@ -206,12 +321,14 @@ void ImGuiLayer::DrawProfiler()
 	ImGui::Begin("Profiler");
 	static float arr[] = { 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f };
 	ImGui::PlotLines("Curve", arr, IM_ARRAYSIZE(arr), 0, "", 0, 30, ImVec2(ImGui::GetWindowWidth() - 100, 30));
+
 	ImGui::End();
+
+	
 }
 
 void ImGuiLayer::DrawConsole()
 {
-
 	if (ImGui::Begin("Console"))
 	{
 		const char* items[] = { "Error", "Warning", "Debug" };
@@ -294,10 +411,176 @@ void ImGuiLayer::DrawConsole()
 	ImGui::End();
 }
 
+void ImGuiLayer::CreateGame(char* name)
+{
+	if (!m_gameLoaded)
+	{
+		m_gameLoaded = true;
+		game.Name = name;
+		game.Scenes = {};
+
+		SaveGame();
+
+		m_windowTitle = "Game: " + game.Name + " Scene: " + game.CurrentSceneName + " - Amogus Editor";
+		glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
+	}
+}
+
+void ImGuiLayer::SaveGame()
+{
+	if (m_gameLoaded)
+	{
+		std::string path = "Data/Config/" + game.Name + ".json";
+		std::ofstream outFile(path);
+
+		nlohmann::json json;
+		json["name"] = game.Name;
+		json["scenes"] = game.Scenes;
+
+		outFile << json;
+		outFile.close();
+	}
+}
+
+void ImGuiLayer::LoadGame(char* name)
+{
+	std::string path = "Data/Config/" + std::string(name) + ".json";
+	std::ifstream inFile(path);
+	if (inFile.is_open())
+	{
+		if (m_gameLoaded)
+		{
+			game.Name = "";
+			game.CurrentSceneName = "";
+			game.Scenes = {};
+		}
+		
+		nlohmann::json json;
+		inFile >> json;
+		game.Name = json["name"];
+		game.Scenes = json["scenes"].get<std::vector<std::string>>();
+
+		//bool sceneLoaded = SceneImporter::ImportSceneFromFile(std::string(game.Scenes[0]) + ".json", true);
+		
+		bool sceneLoaded = false;
+		if (game.Scenes.size() > 0)
+		{
+			sceneLoaded = SceneImporter::ImportSceneFromFile(std::string(game.Scenes[0]), true);
+		}
+		
+		m_gameLoaded = true;
+		if (sceneLoaded)
+		{
+			m_sceneLoaded = true;
+			game.CurrentSceneName = game.Scenes[0];
+		}
+
+		m_windowTitle = "Game: " + game.Name + " Scene: " + game.CurrentSceneName + " - Amogus Editor";
+		glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
+		
+		inFile.close();
+	}
+}
+
+void ImGuiLayer::CreateScene(char* name, float col[3])
+{
+	if (std::find(game.Scenes.begin(), game.Scenes.end(), std::string(name)) == game.Scenes.end())
+	{
+		g_app->m_sceneManager->CreateScene(std::string(name), glm::vec3(col[0], col[1], col[2]));
+		g_app->m_sceneManager->SetActiveScene(name);
+		Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+
+		Entity entity = activeScene->m_entityManager->CreateEntity();
+
+		Camera* camera = activeScene->m_entityManager->AddComponent<Camera>(entity, g_app->m_windowParams.windowWidth, g_app->m_windowParams.windowHeight, -1.0f, 1.0f, new Framebuffer());
+		Transform* transform = activeScene->m_entityManager->AddComponent<Transform>(entity, glm::vec2(50.0f, 100.0f), glm::vec2(0.0f));
+		EntityName* nameComponent = activeScene->m_entityManager->AddComponent<EntityName>(entity, "Scene Camera");
+
+		g_app->SetActiveCamera(entity);
+		
+		SceneExporter::ExportActiveSceneToFile(std::string(name));
+		game.Scenes.push_back(name);
+		game.CurrentSceneName = name;
+		m_sceneLoaded = true;
+
+		m_windowTitle = "Game: " + game.Name + " Scene: " + game.CurrentSceneName + " - Amogus Editor";
+		glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
+	}
+}
+
+void ImGuiLayer::SaveScene()
+{
+	SceneExporter::ExportActiveSceneToFile(std::string(game.CurrentSceneName) + ".json");	
+}
+
+bool ImGuiLayer::LoadScene(const char* name)
+{
+	if (g_app->m_sceneManager->SceneExists(name))
+	{
+		g_app->m_sceneManager->SetActiveScene(name);
+		return true;
+	}
+	bool success = SceneImporter::ImportSceneFromFile(name, true);
+	if (success)
+	{
+		if (std::find(game.Scenes.begin(), game.Scenes.end(), name) == game.Scenes.end())
+		{
+			game.Scenes.push_back(name);
+		}
+
+		m_sceneLoaded = true;
+		game.CurrentSceneName = name;
+
+		m_windowTitle = "Game: " + game.Name + " Scene: " + game.CurrentSceneName + " - Amogus Editor";
+		glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
+	}
+	return success;
+}
+
+void ImGuiLayer::DrawPlayPauseStopButton()
+{
+	bool paused = g_app->IsPaused();
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImVec2 buttonPos(io.DisplaySize.x / 2.0f, m_menuBarSize.y / 4.0f);
+	ImGui::SetCursorPos(buttonPos);
+
+	const char* buttonLabel = "";
+	if (paused)
+	{
+		buttonLabel = ICON_FA_PLAY;
+		if (ImGui::Button(buttonLabel))
+		{
+			SceneExporter::ExportActiveSceneToFile("temp");
+			g_app->SetPause(false);
+		}
+	}
+	else
+	{
+		buttonLabel = ICON_FA_PAUSE;
+		if (ImGui::Button(buttonLabel))
+		{
+			g_app->SetPause(true);
+		}
+
+		buttonLabel = ICON_FA_STOP;
+		if (ImGui::Button(buttonLabel))
+		{
+			g_app->SetPause(true);
+
+			std::string activeSceneName = g_app->m_sceneManager->GetActiveSceneName();
+			g_app->m_sceneManager->DestroyScene(activeSceneName);
+			SceneImporter::ImportSceneFromFile("temp", true);
+			m_sceneHierarchy.SetCurrentScene(g_app->m_sceneManager->GetActiveScene());
+		}
+	}
+}
+
 void ImGuiLayer::DrawSceneView(int textureID)
 {
 	ImGui::Begin("Scene View");
 	//Render the scene here.
+
 	
 	if (m_selecting)
 	{
@@ -420,5 +703,15 @@ void ImGuiLayer::OnClick(InputEvent* e)
 	if (e->m_action == GLFW_PRESS)
 	{
 		m_selecting = true; // We can't do object selection in event because it won't be during ImGui phase
+	}
+}
+
+void AddNameToUniqueQueueList(std::list<std::string>* list, std::string name, const unsigned int maxItems)
+{
+	list->erase(std::remove(list->begin(), list->end(), name), list->end()); // Remove possible previous instance of this name (thus moving it to the front)
+	list->push_front(name);
+	if (list->size() > maxItems)
+	{
+		list->pop_back();
 	}
 }

@@ -56,7 +56,7 @@ namespace SceneImporter
 
 	bool ImportSceneFromFile(const std::string& filePath, bool setToActive)
 	{
-		std::ifstream inFile("Data/Scenes/" + filePath);
+		std::ifstream inFile("Data/Scenes/" + filePath + ".json");
 		if (!inFile.is_open() || !inFile.good())
 		{
 			return false;
@@ -78,6 +78,11 @@ namespace SceneImporter
 
 		std::string name;
 		if (!JSON::Read(name, jFile, "name")) {}
+		if (g_app->m_sceneManager->SceneExists(name))
+		{
+			return false;
+		}
+
 
 		glm::vec3 clearColour;
 		if (!JSON::ReadVec3(clearColour, jFile, "clearColour")) {}
@@ -86,6 +91,10 @@ namespace SceneImporter
 
 		sceneManager->CreateScene(name, clearColour);
 		Scene* scene = sceneManager->GetScene(name);
+		if (setToActive)
+		{
+			sceneManager->SetActiveScene(name);
+		}
 
 		if (!jFile.contains("entities"))
 		{
@@ -97,8 +106,6 @@ namespace SceneImporter
 		{
 			return false;
 		}
-
-		sceneManager->SetActiveScene(name);
 
 		return true;
 	}
@@ -123,25 +130,25 @@ namespace SceneImporter
 
 		// Create TileMap if an Entity owns one
 		// We have to create the TileMap last to allow all Tiles to be created beforehand
-		if (tileMapEntity != 0)
-		{
-			nlohmann::json jEntity = jEntityArray[tileMapEntity - 1];
-			nlohmann::json jComponent;
+		//if (tileMapEntity != 0)
+		//{
+		//	nlohmann::json jEntity = jEntityArray[tileMapEntity - 1];
+		//	nlohmann::json jComponent;
 
-			// Find the TileMap json object
-			for (int i = 0; i < jEntity.size(); i++)
-			{
-				std::string type = jEntity[i]["type"];
-				if (jEntity[i]["type"] == "tileMap")
-				{
-					jComponent = jEntity[i];
-					break;
-				}
-			}
+		//	// Find the TileMap json object
+		//	for (int i = 0; i < jEntity.size(); i++)
+		//	{
+		//		std::string type = jEntity[i]["type"];
+		//		if (jEntity[i]["type"] == "tileMap")
+		//		{
+		//			jComponent = jEntity[i];
+		//			break;
+		//		}
+		//	}
 
-			// If TileMap json object found, create the TileMap
-			if (jComponent.is_object() && !CreateTileMap(jComponent, tileMapEntity, allTiles)) { success = false; }
-		}
+		//	// If TileMap json object found, create the TileMap
+		//	if (jComponent.is_object() && !CreateTileMap(jComponent, tileMapEntity, allTiles)) { success = false; }
+		//}
 
 		return success;
 	}

@@ -17,7 +17,7 @@ Texture2D::Texture2D(const unsigned int id, const unsigned int width, const unsi
 	m_width(width),
 	m_height(height),
 	m_name(name),
-	m_filePath("Assets/Sprites/" + filePath)
+	m_filePath(filePath)
 {}
 
 void Texture2D::Bind() const
@@ -39,7 +39,7 @@ namespace TextureLoader
 		GLuint id;
 		glGenTextures(1, &id);
 
-		Texture2D texture(id, data.m_width, data.m_height, name, f);
+		Texture2D texture(id, data.m_width, data.m_height, name, filePath);
 
 		texture.Bind();
 

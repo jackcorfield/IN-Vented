@@ -52,7 +52,7 @@ namespace SceneExporter
 	{
 		Scene* scene = g_app->m_sceneManager->GetActiveScene();
 
-		std::ofstream outFile("Data/Scenes/" + filePath);
+		std::ofstream outFile("Data/Scenes/" + filePath + ".json");
 		if (!outFile.is_open() || outFile.bad())
 		{
 			return false;

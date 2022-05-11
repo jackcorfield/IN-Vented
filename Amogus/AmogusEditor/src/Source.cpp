@@ -10,6 +10,10 @@ public:
 	{
 		m_gui = new ImGuiLayer(this);
 		m_renderer->setFramebuffer(m_gui->m_gameView);
+
+		glfwSetWindowTitle(m_window, "Amogus Editor");
+
+		g_app->SetPause(true); // Pause runtime on launch
 	}
 
 	void onUpdate(float dt) override
@@ -29,23 +33,24 @@ public:
 		m_gui->Draw();
 
 		Scene* activeScene = m_sceneManager->GetActiveScene();
-		Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_renderer->GetSceneCamera());
-		if (cameraComponent)
+		if (activeScene)
 		{
+			Camera* cameraComponent = activeScene->m_entityManager->GetComponent<Camera>(m_renderer->GetSceneCamera());
+			if (cameraComponent)
+			{
 
-			m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
+				m_gui->DrawSceneView(cameraComponent->m_framebuffer->GetRenderTextureID());
+			}
 		}
-
 		m_gui->EndGui();
 	}
 
 	ImGuiLayer* m_gui;
 
-
 private:
 };
 
-Application* CreateApplication()
+Application* CreateApplication(int argc, char** argv)
 {
 	return new AmogusEditor();
 }

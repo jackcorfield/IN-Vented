@@ -39,6 +39,10 @@ public:
 
 	void Quit();
 
+	bool IsPaused();
+	void SetPause(bool pause);
+	void TogglePause();
+
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
 
@@ -64,7 +68,7 @@ private:
 	bool InitGL();
 	void Quit(InputEvent* e);
 	void TerminateOpenGL();
-	bool m_quit;
+	bool m_quit, m_pauseRuntime;
 };
 
-Application* CreateApplication();
+Application* CreateApplication(int argc, char** argv);

@@ -199,17 +199,17 @@ void Renderer::SetActiveCamera(Entity cameraEntity)
     Scene* scene = g_app->m_sceneManager->GetActiveScene();
     EntityManager* entityManager = scene->m_entityManager;
 
-    if (m_sceneCamera)
+    if (entityManager->IsEntity(m_sceneCamera))
     {
-        Camera* oldCamera = entityManager->GetComponent<Camera>(m_sceneCamera);
-        if (oldCamera)
+        if (entityManager->HasComponent<Camera>(m_sceneCamera))
         {
+            Camera* oldCamera = entityManager->GetComponent<Camera>(m_sceneCamera);
             oldCamera->m_isActive = false;
         }
     }
 
     m_sceneCamera = cameraEntity;
-    if (m_sceneCamera)
+    if (entityManager->IsEntity(m_sceneCamera))
     {
         Camera* newCamera = entityManager->GetComponent<Camera>(m_sceneCamera);
         if (newCamera)
