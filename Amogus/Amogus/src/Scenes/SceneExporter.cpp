@@ -288,9 +288,9 @@ namespace SceneExporter
 
 	bool WriteScriptComponent(nlohmann::json& jScriptComponent, ScriptComponent* scriptComponent)
 	{
-		bool success = false;
+		bool success = true;
 
-		if (!JSON::Write("", jScriptComponent[""])) { success = false; }
+		//if (!JSON::Write("", jScriptComponent[""])) { success = false; }
 
 		return success;
 	}
