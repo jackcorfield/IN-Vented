@@ -1,0 +1,111 @@
+{
+    "clearColour": {
+        "x": -431602080.0,
+        "y": -431602080.0,
+        "z": -431602080.0
+    },
+    "entities": [
+        [
+            {
+                "far": 1.0,
+                "isActive": true,
+                "near": -1.0,
+                "type": "camera",
+                "viewport": {
+                    "height": 720.0,
+                    "width": 1280.0
+                }
+            },
+            {
+                "name": "Scene Camera",
+                "type": "entityName"
+            },
+            {
+                "pos": {
+                    "x": 50.0,
+                    "y": 100.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "type": "transform"
+            }
+        ],
+        [
+            {
+                "name": "Player",
+                "type": "entityName"
+            },
+            {
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "defaultSprite",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "test.png",
+                    "name": "defaultEntity"
+                },
+                "type": "sprite"
+            },
+            {
+                "pos": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
+            }
+        ],
+        [
+            {
+                "name": "Enemy",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "defaultSprite",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "test.png",
+                    "name": "defaultEntity"
+                },
+                "type": "sprite"
+            },
+            {
+                "pos": {
+                    "x": 1172.0,
+                    "y": 432.5
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
+            }
+        ]
+    ],
+    "name": "MainScene"
+}
