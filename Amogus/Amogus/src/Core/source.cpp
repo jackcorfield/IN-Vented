@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include <sstream>
+#include <fstream>
 
 #include <ECS/EntityManager.h>
 #include "Timer.h"
@@ -46,6 +47,7 @@ void Application::Init()
 	m_sceneManager = new SceneManager();
 	m_audioManager = new AudioManager();
 	m_scriptSystem = new ScriptSystem();
+	m_debugger = new Debugger();
 
 	m_renderer = new Renderer();
 
@@ -87,6 +89,29 @@ void Application::Run()
 		}
 		
   }
+
+
+	std::ofstream mFile("DebugLog.txt");
+
+	for (int i = 0; i < m_debugger->GetDebug().size(); i++)
+	{
+		switch (m_debugger->GetDebug()[i].logLevel)
+		{
+		case LL_ERROR:
+			mFile << m_debugger->GetDebug()[i].time << "[ERROR] " << m_debugger->GetDebug()[i].msg << std::endl;
+			break;
+		case LL_WARNING:
+			mFile << m_debugger->GetDebug()[i].time << "[WARNING] " << m_debugger->GetDebug()[i].msg << std::endl;
+			break;
+		case LL_DEBUG:
+			mFile << m_debugger->GetDebug()[i].time << "[DEBUG] " << m_debugger->GetDebug()[i].msg << std::endl;
+			break;
+		default:
+			break;
+		}
+	}
+
+	mFile.close();
 
 	onQuit();
 }
