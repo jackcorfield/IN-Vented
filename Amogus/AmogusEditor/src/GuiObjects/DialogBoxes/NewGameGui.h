@@ -4,15 +4,14 @@
 
 #include "Amogus.h"
 
-struct CreateSceneGui :
+struct NewGameGui :
 	public IGuiObject
 {
 public:
-	CreateSceneGui(ImGuiLayer* layer);
+	NewGameGui(ImGuiLayer* layer);
 
 	virtual void CreateGui() override;
 
 private:
 	char m_inputName[128];
-	float col[3];
 };

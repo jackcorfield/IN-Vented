@@ -4,6 +4,7 @@
 #include <ImGui/imgui.h>
 
 NewSpriteGui::NewSpriteGui(Entity entityFor) :
+	IGuiObject(nullptr),
 	entity(entityFor),
 	inputTextureName(""),
 	inputTextureFilePath(""),

@@ -4,6 +4,7 @@
 #include <ImGui/imgui.h>
 
 NewTileMapGui::NewTileMapGui(Entity entityFor) :
+	IGuiObject(nullptr),
 	entity(entityFor),
 	inputTileSize(16.0f, 16.0f),
 	inputMapSize(3, 3)

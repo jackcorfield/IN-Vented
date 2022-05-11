@@ -65,11 +65,7 @@ bool SceneManager::WriteActiveSceneToFile(const std::string& filePath)
 
 void SceneManager::SetActiveScene(const std::string& name)
 {
-	m_activeScene = m_sceneMap[name];
-
-	std::string windowTitle = "Editor: " + name;
-	glfwSetWindowTitle(g_app->m_window, windowTitle.c_str());
-	
+	m_activeScene = m_sceneMap[name];	
 }
 
 Scene* SceneManager::GetActiveScene() const

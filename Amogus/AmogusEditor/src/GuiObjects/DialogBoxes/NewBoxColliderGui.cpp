@@ -4,6 +4,7 @@
 #include <ImGui/imgui.h>
 
 NewBoxColliderGui::NewBoxColliderGui(Entity entityFor) :
+	IGuiObject(nullptr),
 	entity(entityFor),
 	inputSize()
 {}

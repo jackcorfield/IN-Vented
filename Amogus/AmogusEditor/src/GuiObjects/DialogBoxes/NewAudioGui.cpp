@@ -3,6 +3,7 @@
 #include <ImGui/imgui.h>
 
 NewAudioGui::NewAudioGui(Entity entityFor) :
+	IGuiObject(nullptr),
 	entity(entityFor),
 	inputFilePath("")
 {}

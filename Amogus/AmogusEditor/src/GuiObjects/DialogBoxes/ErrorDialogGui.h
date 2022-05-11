@@ -4,15 +4,14 @@
 
 #include "Amogus.h"
 
-struct CreateSceneGui :
+struct ErrorDialogGui :
 	public IGuiObject
 {
 public:
-	CreateSceneGui(ImGuiLayer* layer);
+	ErrorDialogGui(const char* error);
 
 	virtual void CreateGui() override;
-
+	
 private:
-	char m_inputName[128];
-	float col[3];
+	const char* error;
 };

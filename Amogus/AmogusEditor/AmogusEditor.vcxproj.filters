@@ -48,10 +48,16 @@
     <ClCompile Include="src\GuiObjects\DialogBoxes\ImportSceneGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GuiObjects\DialogBoxes\ExportSceneGui.cpp">
+    <ClCompile Include="src\GuiObjects\DialogBoxes\CreateSceneGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GuiObjects\DialogBoxes\CreateSceneGui.cpp">
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewGameGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\LoadGameGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,10 +98,16 @@
     <ClInclude Include="src\GuiObjects\DialogBoxes\ImportSceneGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GuiObjects\DialogBoxes\ExportSceneGui.h">
+    <ClInclude Include="src\GuiObjects\DialogBoxes\CreateSceneGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GuiObjects\DialogBoxes\CreateSceneGui.h">
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewGameGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\LoadGameGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -50,7 +50,7 @@ private:
 
 	void CreateScene(char* name, float col[3]);
 	void SaveScene();
-	void LoadScene(char* name);
+	bool LoadScene(const char* name);
 
 	void DrawNewEntityMenu();
 	void SelectObject();
@@ -84,12 +84,16 @@ private:
 
 	EntityManager* m_entityManager;
 
+	std::string m_windowTitle;
+
 private:
+	friend class NewGameGui;
+	friend class LoadGameGui;
+	friend class CreateSceneGui;
+	friend class ImportSceneGui;
 	// Popups
 	bool m_showGameNotLoadedErrorState = false;
 
 	bool m_showNewGameDialogState = false;
 	bool m_showLoadGameDialogState = false;
-	bool m_showNewSceneDialogState = false;
-	bool m_showLoadSceneDialogState = false;
 };

@@ -149,8 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GuiObjects\DialogBoxes\CreateSceneGui.cpp" />
-    <ClCompile Include="src\GuiObjects\DialogBoxes\ExportSceneGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\ImportSceneGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\LoadGameGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewGameGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\NewTileMapGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\NewCircleColliderGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\NewBoxColliderGui.cpp" />
@@ -164,9 +166,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GuiObjects\DialogBoxes\CreateSceneGui.h" />
-    <ClInclude Include="src\GuiObjects\DialogBoxes\ExportSceneGui.h" />
     <ClInclude Include="Fonts\IconHeader.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.h" />
     <ClInclude Include="src\GuiObjects\DialogBoxes\ImportSceneGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\LoadGameGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewGameGui.h" />
     <ClInclude Include="src\GuiObjects\DialogBoxes\NewTileMapGui.h" />
     <ClInclude Include="src\GuiObjects\DialogBoxes\NewCircleColliderGui.h" />
     <ClInclude Include="src\GuiObjects\DialogBoxes\NewBoxColliderGui.h" />

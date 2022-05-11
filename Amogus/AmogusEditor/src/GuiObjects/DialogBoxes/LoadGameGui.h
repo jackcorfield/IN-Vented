@@ -4,14 +4,14 @@
 
 #include "Amogus.h"
 
-struct ExportSceneGui :
+struct LoadGameGui :
 	public IGuiObject
 {
 public:
-	ExportSceneGui();
+	LoadGameGui(ImGuiLayer* layer);
 
 	virtual void CreateGui() override;
 
 private:
-	char inputFilePath[128];
+	char m_inputName[128];
 };

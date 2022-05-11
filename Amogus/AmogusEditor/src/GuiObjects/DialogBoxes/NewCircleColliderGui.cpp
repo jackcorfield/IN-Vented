@@ -4,6 +4,7 @@
 #include <ImGui/imgui.h>
 
 NewCircleColliderGui::NewCircleColliderGui(Entity entityFor) :
+	IGuiObject(nullptr),
 	entity(entityFor),
 	inputRadius(1.0f),
 	inputCentrePos()

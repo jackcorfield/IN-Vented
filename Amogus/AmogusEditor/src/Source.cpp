@@ -11,6 +11,8 @@ public:
 		m_gui = new ImGuiLayer(this);
 		m_renderer->setFramebuffer(m_gui->m_gameView);
 
+		glfwSetWindowTitle(m_window, "Amogus Editor");
+
 		g_app->SetPause(true); // Pause runtime on launch
 	}
 

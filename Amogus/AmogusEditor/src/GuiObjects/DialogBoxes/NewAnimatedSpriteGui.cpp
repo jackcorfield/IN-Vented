@@ -4,6 +4,7 @@
 #include <ImGui/imgui.h>
 
 NewAnimatedSpriteGui::NewAnimatedSpriteGui(Entity entityFor) :
+	IGuiObject(nullptr),
 	entity(entityFor),
 	m_selectedTextureParamsIndex(0),
 	inputInterval(0.05f),
