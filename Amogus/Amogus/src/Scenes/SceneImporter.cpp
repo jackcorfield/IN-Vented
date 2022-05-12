@@ -56,9 +56,14 @@ namespace SceneImporter
 
 	bool ImportSceneFromFile(const std::string& filePath, bool setToActive)
 	{
-		std::ifstream inFile("Data/Scenes/" + filePath + ".json");
+		std::string fullFilePath = "Data/Scenes/" + filePath + ".json";
+
+		g_app->m_debugger->Log("Began scene import from: " + fullFilePath, LL_DEBUG);
+
+		std::ifstream inFile(fullFilePath);
 		if (!inFile.is_open() || !inFile.good())
 		{
+			g_app->m_debugger->Log("Failed scene import: failed to open file for reading!", LL_ERROR);
 			return false;
 		}
 
@@ -73,6 +78,7 @@ namespace SceneImporter
 		catch (nlohmann::json::parse_error& e)
 		{
 			std::cout << e.what() << std::endl;
+			g_app->m_debugger->Log("Failed scene import: JSON parse error!", LL_ERROR);
 			return false;
 		}
 
@@ -80,9 +86,9 @@ namespace SceneImporter
 		if (!JSON::Read(name, jFile, "name")) {}
 		if (g_app->m_sceneManager->SceneExists(name))
 		{
+			g_app->m_debugger->Log("Failed scene import: scene with same name already loaded!", LL_ERROR);
 			return false;
 		}
-
 
 		glm::vec3 clearColour;
 		if (!JSON::ReadVec3(clearColour, jFile, "clearColour")) {}
@@ -98,14 +104,18 @@ namespace SceneImporter
 
 		if (!jFile.contains("entities"))
 		{
+			g_app->m_debugger->Log("Failed scene import: missing JSON data!", LL_ERROR);
 			return false;
 		}
 
 		g_entityManager = scene->m_entityManager;
 		if (!ReadAllEntities(jFile["entities"]))
 		{
+			g_app->m_debugger->Log("Failed scene import: failed to import entities and components!", LL_ERROR);
 			return false;
 		}
+
+		g_app->m_debugger->Log("Completed scene import from: " + fullFilePath, LL_DEBUG);
 
 		return true;
 	}
@@ -222,6 +232,11 @@ namespace SceneImporter
 			}
 		}
 
+		if (!success)
+		{
+			g_app->m_debugger->Log("Failed scene import: failed to import entity " + std::to_string(entity) + "!", LL_ERROR);
+		}
+
 		return success;
 	}
 
@@ -230,19 +245,29 @@ namespace SceneImporter
 		bool success = true;
 
 		float interval;
-		if (!JSON::Read(interval, j, "interval")) { success = false; }
+		if (!JSON::Read(interval, j, "interval"))
+		{
+			g_app->m_debugger->Log("Failed to import AnimatedSprite: failed to read interval!", LL_ERROR);
+			success = false;
+		}
 
 		glm::vec3 colour = glm::vec3(1.0f);
-		if (!JSON::ReadVec3(colour, j, "colour")) { success = false; }
+		if (!JSON::ReadVec3(colour, j, "colour"))
+		{
+			g_app->m_debugger->Log("Failed to import AnimatedSprite: failed to read tint colour!", LL_ERROR);
+			success = false;
+		}
 
 		Shader* shader = nullptr;
 		if (!j.contains("shader") || !ReadShader(j["shader"], &shader))
 		{
+			g_app->m_debugger->Log("Failed to import AnimatedSprite: failed to read shader!", LL_ERROR);
 			return false;
 		}
 
 		if (!j.contains("textures"))
 		{
+			g_app->m_debugger->Log("Failed to import AnimatedSprite: missing JSON data!", LL_ERROR);
 			return false;
 		}
 		std::vector<Texture2D> textures;
@@ -257,6 +282,7 @@ namespace SceneImporter
 			}
 			else
 			{
+				g_app->m_debugger->Log("Failed to import AnimatedSprite: failed to read texture!", LL_ERROR);
 				success = false;
 			}
 		}
@@ -271,10 +297,18 @@ namespace SceneImporter
 		bool success = true;
 
 		std::string filePath;
-		if (!JSON::Read(filePath, j, "filePath")) { success = false; }
+		if (!JSON::Read(filePath, j, "filePath"))
+		{
+			g_app->m_debugger->Log("Failed to import Audio: failed to read audio file path!", LL_ERROR);
+			success = false;
+		}
 
 		std::string channelGroupString;
-		if (!JSON::Read(channelGroupString, j, "channelGroup")) { success = false; }
+		if (!JSON::Read(channelGroupString, j, "channelGroup"))
+		{
+			g_app->m_debugger->Log("Failed to import Audio: failed to read channel group!", LL_ERROR);
+			success = false;
+		}
 
 		FMOD::ChannelGroup* channelGroup = nullptr;
 		if (channelGroupString == "bgm")
@@ -287,7 +321,7 @@ namespace SceneImporter
 		}
 		else
 		{
-			std::cerr << "Audio object has no defined channel group! Defaulting to sfx" << std::endl;
+			g_app->m_debugger->Log("Importing Audio: defaulted channel group to 'sfx'.", LL_WARNING);
 			channelGroup = g_app->m_audioManager->m_sfx;
 		}
 
@@ -303,7 +337,11 @@ namespace SceneImporter
 		bool success = true;
 
 		glm::vec2 size;
-		if (!JSON::ReadVec2(size, j, "size")) { success = false; }
+		if (!JSON::ReadVec2(size, j, "size"))
+		{
+			g_app->m_debugger->Log("Failed to import BoxCollider: failed to read size!", LL_ERROR);
+			success = false;
+		}
 
 		BoxCollider* component = g_entityManager->AddComponent<BoxCollider>(entity, size);
 		return success;
@@ -314,19 +352,25 @@ namespace SceneImporter
 		bool success = true;
 
 		if (!j.contains("viewport"))
+		{
+			g_app->m_debugger->Log("Failed to import Camera: missing JSON data!", LL_ERROR);
 			return false;
+		}
+
 
 		nlohmann::json jViewport = j["viewport"];
 
 		float viewportWidth;
 		if (!JSON::Read(viewportWidth, jViewport, "width"))
 		{
+			g_app->m_debugger->Log("Failed to import Camera: failed to read viewport width!", LL_ERROR);
 			success = false;
 		}
 
 		float viewportHeight;
 		if (!JSON::Read(viewportHeight, jViewport, "height"))
 		{
+			g_app->m_debugger->Log("Failed to import Camera: failed to read viewport height!", LL_ERROR);
 			success = false;
 		}
 
@@ -341,7 +385,10 @@ namespace SceneImporter
 		}
 
 		bool isActive = false;
-		if (!JSON::Read(isActive, j, "isActive")) {}
+		if (!JSON::Read(isActive, j, "isActive"))
+		{
+			g_app->m_debugger->Log("Importing Camera: failed to read active value.", LL_WARNING);
+		}
 
 		if (isActive)
 		{
@@ -356,10 +403,18 @@ namespace SceneImporter
 		bool success = true;
 
 		glm::vec2 centre;
-		if (!JSON::ReadVec2(centre, j, "centre")) { success = false; }
+		if (!JSON::ReadVec2(centre, j, "centre"))
+		{
+			g_app->m_debugger->Log("Failed to import CircleCollider: failed to read centre!", LL_ERROR);
+			success = false;
+		}
 
 		float radius;
-		if (!JSON::Read(radius, j, "radius")) { success = false; }
+		if (!JSON::Read(radius, j, "radius"))
+		{
+			g_app->m_debugger->Log("Failed to import CircleCollider: failed to read radius!", LL_ERROR);
+			success = false;
+		}
 
 		CircleCollider* component = g_entityManager->AddComponent<CircleCollider>(entity, radius, centre);
 
@@ -371,7 +426,11 @@ namespace SceneImporter
 		bool success = true;
 
 		std::string name = "";
-		if (!JSON::Read(name, j, "name")) { success = false; }
+		if (!JSON::Read(name, j, "name"))
+		{
+			g_app->m_debugger->Log("Failed to import EntityName: failed to read name!", LL_ERROR);
+			success = false;
+		}
 
 		EntityName* component = g_entityManager->AddComponent<EntityName>(entity, name);
 
@@ -383,7 +442,11 @@ namespace SceneImporter
 		bool success = true;
 
 		float mass = 0.0f;
-		if (!JSON::Read(mass, j, "mass")) { success = false; }
+		if (!JSON::Read(mass, j, "mass"))
+		{
+			g_app->m_debugger->Log("Failed to import Physics: failed to read mass!", LL_ERROR);
+			success = false;
+		}
 
 		Physics* component = g_entityManager->AddComponent<Physics>(entity, mass);
 
@@ -395,7 +458,11 @@ namespace SceneImporter
 		bool success = true;
 
 		float speed = 0.0f;
-		if (!JSON::Read(speed, j, "speed")) { success = false; }
+		if (!JSON::Read(speed, j, "speed"))
+		{
+			g_app->m_debugger->Log("Failed to import PlayerMovement: failed to read speed!", LL_ERROR);
+			success = false;
+		}
 
 		PlayerMovement* component = g_entityManager->AddComponent<PlayerMovement>(entity, speed);
 
@@ -416,17 +483,22 @@ namespace SceneImporter
 		bool success = true;
 
 		glm::vec3 colour;
-		if (!JSON::ReadVec3(colour, j, "colour")) {}
+		if (!JSON::ReadVec3(colour, j, "colour"))
+		{
+			g_app->m_debugger->Log("Importing Sprite: failed to read tint colour.", LL_WARNING);
+		}
 
 		Shader* shader = nullptr;
 		if (!j.contains("shader") || !ReadShader(j["shader"], &shader))
 		{
+			g_app->m_debugger->Log("Failed to import Sprite: failed to read shader!", LL_ERROR);
 			return false;
 		}
 
 		Texture2D texture;
 		if (!j.contains("texture") || !ReadTexture(j["texture"], texture))
 		{
+			g_app->m_debugger->Log("Failed to import Sprite: failed to read texture!", LL_ERROR);
 			return false;
 		}
 
@@ -440,7 +512,11 @@ namespace SceneImporter
 		bool success = true;
 
 		int tileType = (int)TileObject::NONE;
-		if (!JSON::Read(tileType, j, "tileType")) { success = false; }
+		if (!JSON::Read(tileType, j, "tileType"))
+		{
+			g_app->m_debugger->Log("Failed to import Tile: failed to read tile type!", LL_ERROR);
+			success = false;
+		}
 
 		Tile* component = g_entityManager->AddComponent<Tile>(entity, (TileObject)tileType);
 		if (component)
@@ -456,10 +532,18 @@ namespace SceneImporter
 		bool success = true;
 
 		glm::vec2 tileSize;
-		if (!JSON::ReadVec2(tileSize, j, "tileSize")) { success = false; }
+		if (!JSON::ReadVec2(tileSize, j, "tileSize"))
+		{
+			g_app->m_debugger->Log("Failed to import TileMap: failed to read tile size!", LL_ERROR);
+			success = false;
+		}
 
 		glm::vec2 mapSize;
-		if (!JSON::ReadVec2(mapSize, j, "mapSize")) { success = false; }
+		if (!JSON::ReadVec2(mapSize, j, "mapSize"))
+		{
+			g_app->m_debugger->Log("Failed to import TileMap: failed to read map size!", LL_ERROR);
+			success = false;
+		}
 
 		TileMap* component = g_entityManager->AddComponent<TileMap>(entity, tileSize, mapSize, tiles);
 
@@ -470,14 +554,23 @@ namespace SceneImporter
 	{
 		bool success = true;
 
-		glm::vec2 pos;
-		if (!JSON::ReadVec2(pos, j, "pos")) {}
+		glm::vec2 pos(0.0f);
+		if (!JSON::ReadVec2(pos, j, "pos"))
+		{
+			g_app->m_debugger->Log("Importing Transform: failed to read position.", LL_WARNING);
+		}
 
-		glm::vec2 size;
-		if (!JSON::ReadVec2(size, j, "size")) {}
+		glm::vec2 size(1.0f);
+		if (!JSON::ReadVec2(size, j, "size"))
+		{
+			g_app->m_debugger->Log("Importing Transform: failed to read size.", LL_WARNING);
+		}
 
-		float rotate;
-		if (!JSON::Read(rotate, j, "rotate")) {}
+		float rotate(0.0f);
+		if (!JSON::Read(rotate, j, "rotate"))
+		{
+			g_app->m_debugger->Log("Importing Transform: failed to read rotation.", LL_WARNING);
+		}
 
 		Transform* component = g_entityManager->AddComponent<Transform>(entity, pos, size, rotate);
 
@@ -489,16 +582,20 @@ namespace SceneImporter
 		bool success = true;
 
 		std::string name;
-		if (!JSON::Read(name, jShader, "name")) {}
+		if (!JSON::Read(name, jShader, "name"))
+		{
+			g_app->m_debugger->Log("Importing shader: failed to read shader name.", LL_WARNING);
+		}
 
 		std::string vertexPath, fragmentPath;
 		if (!JSON::Read(vertexPath, jShader, "vertexFilePath") || !JSON::Read(fragmentPath, jShader, "fragmentFilePath"))
 		{
+			g_app->m_debugger->Log("Failed to import shader: failed to read shader file paths!", LL_ERROR);
 			success = false; // Cannot render a sprite without vertex & fragment shader
 		}
 
 		std::string geometryPath;
-		if (!JSON::Read(geometryPath, jShader, "geometryFilePath")) {}
+		if (!JSON::Read(geometryPath, jShader, "geometryFilePath")) {} // Does not need a log as this is an optional field
 
 		*readTo = ShaderFactory::CreatePipelineShader(name, vertexPath, fragmentPath, geometryPath);
 
@@ -510,11 +607,15 @@ namespace SceneImporter
 		bool success = true;
 
 		std::string textureName;
-		if (!JSON::Read(textureName, jTexture, "name")) {}
+		if (!JSON::Read(textureName, jTexture, "name"))
+		{
+			g_app->m_debugger->Log("Importing texture: failed to read texture name.", LL_WARNING);
+		}
 
 		std::string texturePath;
 		if (!JSON::Read(texturePath, jTexture, "filePath"))
 		{
+			g_app->m_debugger->Log("Failed to import texture: failed to read texture file path!", LL_ERROR);
 			success = false; // Cannot render a sprite without a texture
 		}
 
