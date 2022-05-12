@@ -35,7 +35,7 @@ public:
 			scriptC->AttachScript<PlayerScript>(100.0f);
 		}
 
-		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
+		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
 		if (scriptC)
 		{
 			scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
