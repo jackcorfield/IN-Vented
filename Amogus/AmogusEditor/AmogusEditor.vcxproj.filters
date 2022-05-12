@@ -60,6 +60,9 @@
     <ClCompile Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\SettingsGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ImGuiLayer.h">
@@ -108,6 +111,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\SettingsGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
