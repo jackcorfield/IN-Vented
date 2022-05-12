@@ -6,7 +6,7 @@ class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, int level, bool moving);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize , int level, bool moving);
     ~WeaponScript();
     void OnAttach();
     void OnUpdate(float dt);
@@ -17,6 +17,7 @@ public:
     void SpawnProjectile();
 
 private:
+
     enum modifier
     {
         SPEED = 0,
@@ -30,6 +31,13 @@ private:
     Entity m_player;
     EntityManager* m_manager;
 
+    Sprite m_icon;
+    Sprite m_sprite;
+
+    glm::vec2 m_hitboxSize;
+
+    std::vector<std::pair<Entity, float>> m_vecProjectiles;
+
     bool m_IsMoving;
 
     int m_maxLevel;
@@ -40,14 +48,14 @@ private:
     float m_currentCooldown;
     //Modifiers
 
-    int m_baseProjectileSpeed; //Speed of projectiles
-    int m_baseProjectileCooldown; //How often weapon attacks
-    int m_baseProjectileArea; //Size of weapon
-    int m_baseProjectileDuration; //How long the projectile stays on the screen
+    float m_baseProjectileSpeed; //Speed of projectiles
+    float m_baseProjectileCooldown; //How often weapon attacks
+    float m_baseProjectileArea; //Size of weapon
+    float m_baseProjectileDuration; //How long the projectile stays on the screen
     int m_baseProjectileCount; //How many projectiles
     int m_projectileMax;
     
-    int m_baseDamageModifier;
+    float m_baseDamageModifier;
 
     float m_hitDelay;
     float m_critMultiplier;

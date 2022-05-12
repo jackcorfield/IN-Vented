@@ -1,16 +1,16 @@
 #include "WeaponScript.h"
 
 
-WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, int level, bool moving) :Script(entityManager, parentEntityID),
+WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving) :Script(entityManager, parentEntityID),
 m_manager(entityManager),
 m_player(parentEntityID),
-m_canLevel(true),
+m_icon(icon),
+m_sprite(sprite),
+m_hitboxSize(m_hitboxSize),
+m_currentLevel(level),
 m_IsMoving(moving),
-m_currentLevel(level)
-{
-	//AddComponent<Sprite>(m_player, newTexture, newColour, newShader);
-	//AddComponent<BoxCollider>(m_player, (GetComponent<Sprite>()->GetTexture().m_width, GetComponent<Sprite>()->GetTexture().m_height));
-}
+m_canLevel(true)
+{}
 
 void WeaponScript::OnLevelUp()
 {
@@ -63,24 +63,52 @@ void WeaponScript::OnUpdate(float dt)
 		m_currentCooldown = m_baseProjectileCooldown;
 	}
 	
-	if (m_IsMoving)
+	for (auto projectile = m_vecProjectiles.begin(); projectile != m_vecProjectiles.end(); projectile++)
 	{
-		//move projectile according to speed
-		///transform += m_baseProjectileSpeed*dt;
+		
+		if (projectile->second >= 0)
+		{
+			if (!m_IsMoving)
+			{
+				continue;
+			}
+			
+			//TEMPORARY
+			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
+		
+			m_manager->GetComponent<Transform>(projectile->first)->m_position+= m_baseProjectileSpeed * dt;
+
+			//TEMPORARY	
+
+			projectile->second -= dt;
+		}
+		else
+		{
+			m_manager->DeleteEntity(projectile->first);
+			m_vecProjectiles.erase(projectile--);
+		}
 	}
 
-	//for all projectiles in list, check duration, if >= 0, remove
-
-	//check for collision
+	//COLLISION SHOULD BE TAKING PLACE IN CHECK COLLISION FUNCTION : )
 }
 
 void WeaponScript::SpawnProjectile()
 {
-	//get sprite
-	// 
-	//set box collider
-	// 
-	//set move direction ( if projectile moves)
-	// 
-	//add to list of projectiles + duration (Pair?)
+
+	Entity newProjectile = m_manager->CreateEntity();
+
+	Transform* startLocation = GetComponent<Transform>();
+	
+	m_manager->AddComponent<Transform>(newProjectile, startLocation->m_position, startLocation->m_size);
+	m_manager->AddComponent<Sprite>(newProjectile, m_sprite.GetTexture(), m_sprite.GetColour(), m_sprite.GetShader()); //replace later with animated sprite!
+	m_manager->AddComponent<BoxCollider>(newProjectile, startLocation->m_size); // Needs a box collider that ignores player?
+	
+	if (m_IsMoving)
+	{
+		//set move direction
+	}
+
+	m_vecProjectiles.push_back(std::make_pair(newProjectile, m_baseProjectileDuration));
+
+	//play noise
 }

@@ -76,9 +76,7 @@ void PlayerScript::OnUpdate(float dt)
 	if (!m_manager || m_player == 0)
 		return;
 
-
-		Transform* playerTransform = GetComponent<Transform>();
-
+	Transform* playerTransform = GetComponent<Transform>();
 
 	if(m_registeredKeys.W)
 		playerTransform->m_position.y -= m_movementSpeed * dt;
@@ -88,7 +86,6 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.y += m_movementSpeed * dt;
 	if (m_registeredKeys.A)
 		playerTransform->m_position.x -= m_movementSpeed * dt;
-
 
 	/*switch (m_latestGameInput)
 	{

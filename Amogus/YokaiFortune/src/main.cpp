@@ -4,6 +4,7 @@
 #include <nlohmann/include/nlohmann/json.hpp>
 #include "EnemyMovementScript.h"
 #include "PlayerScript.h"
+#include "WeaponScript.h"
 
 class Runtime : public Application
 {
@@ -36,6 +37,7 @@ public:
 				if (scriptC)
 				{
 					scriptC->AttachScript<PlayerScript>(100.0f);
+					//scriptC->AttachScript<WeaponScript>
 				}
 			}
 		}
