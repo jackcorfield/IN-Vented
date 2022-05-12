@@ -10,7 +10,20 @@ m_sprite(sprite),
 m_currentLevel(level),
 m_IsMoving(moving),
 m_canLevel(true)
-{}
+{
+	 m_baseProjectileSpeed = 10; //Speed of projectiles
+	 m_baseProjectileCooldown = 1; //How often weapon attacks
+	 m_baseProjectileArea = 1; //Size of weapon
+	 m_baseProjectileDuration = 0.4; //How long the projectile stays on the screen
+	 m_baseProjectileCount = 2; //How many projectiles
+	 m_projectileMax = 2;
+
+	 m_baseDamageModifier = 1;
+
+	 m_hitDelay = 1;
+	 m_critMultiplier = 1;
+
+}
 
 WeaponScript::~WeaponScript()
 {
@@ -21,7 +34,7 @@ void WeaponScript::OnLevelUp()
 	if (!m_canLevel)
 		return;
 
-	if (!m_currentLevel < m_maxLevel)
+	if (m_currentLevel >= m_maxLevel)
 	{
 		m_canLevel = false;
 		return;
@@ -71,10 +84,12 @@ void WeaponScript::OnUpdate(float dt)
 		m_currentCooldown = m_baseProjectileCooldown;
 	}
 	
-	for (auto projectile = m_vecProjectiles.begin(); projectile != m_vecProjectiles.end(); projectile++)
+	if (m_vecProjectiles.size() <= 0)
+		return;
+
+	for (int i = 0; i < m_vecProjectiles.size(); i++)
 	{
-		
-		if (projectile->second >= 0)
+		if (m_vecProjectiles[i].second > 0)
 		{
 			if (!m_IsMoving)
 			{
@@ -84,16 +99,23 @@ void WeaponScript::OnUpdate(float dt)
 			//TEMPORARY
 			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
 		
-			m_manager->GetComponent<Transform>(projectile->first)->m_position+= m_baseProjectileSpeed * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].first)->m_position+= 100 * dt;
 
 			//TEMPORARY	
 
-			projectile->second -= dt;
+			m_vecProjectiles[i].second -= dt;
 		}
 		else
 		{
-			m_manager->DeleteEntity(projectile->first);
-			m_vecProjectiles.erase(projectile--);
+			Entity entity = m_vecProjectiles[i].first;
+			//m_manager->DeleteEntity(projectile->first);
+			if (m_vecProjectiles[i] != m_vecProjectiles[0])
+				m_vecProjectiles.erase(m_vecProjectiles.begin() + i);
+			else
+				m_vecProjectiles.erase(m_vecProjectiles.begin()+i);
+
+			m_manager->DeleteEntity(entity);
+			i--;
 		}
 	}
 
@@ -116,7 +138,7 @@ void WeaponScript::SpawnProjectile()
 	Transform* transform = GetComponent<Transform>();
 
 	//m_manager->AddComponent<Transform>(newProjectile, startLocation->m_position, m_hitboxSize);
-	m_manager->AddComponent<Transform>(newProjectile, transform->m_position, transform->m_size);
+	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(0,0), glm::vec2(.1f * m_baseProjectileArea,.1f * m_baseProjectileArea));
 	// m_manager->AddComponent<Texture2D>(newProjectile);
 	m_manager->AddComponent<Sprite>(newProjectile, m_sprite.GetTexture(), m_sprite.GetColour(), m_sprite.GetShader()); //replace later with animated sprite!
 	m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?

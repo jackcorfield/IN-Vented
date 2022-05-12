@@ -1,8 +1,8 @@
 {
     "clearColour": {
-        "x": -431602080.0,
-        "y": -431602080.0,
-        "z": -431602080.0
+        "x": 0.04165997728705406,
+        "y": 0.4596390724182129,
+        "z": 0.7594936490058899
     },
     "entities": [
         [
@@ -53,10 +53,31 @@
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "test.png",
+                    "filePath": "Characters/Homura/idle/frame1.png",
                     "name": "defaultEntity"
                 },
                 "type": "sprite"
+            },
+            {
+                "pos": {
+                    "x": 193.5,
+                    "y": 111.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 6.800000190734863,
+                    "y": 3.9000000953674316
+                },
+                "type": "transform"
+            }
+        ],
+        [
+            {
+                "name": "Weapon",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
             },
             {
                 "pos": {
@@ -65,65 +86,12 @@
                 },
                 "rotate": 0.0,
                 "size": {
-                    "x": 1.0,
-                    "y": 1.0
-                },
-                "type": "transform"
-            }
-        ],
-        [
-            {
-                "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "interval": 0.25,
-                "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default shader",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
-                },
-                "textures": [
-                    {
-                        "filePath": "Characters/Homura/Idle/frame1.png",
-                        "name": "frame1"
-                    },
-                    {
-                        "filePath": "Characters/Homura/Idle/frame2.png",
-                        "name": "frame2"
-                    },
-                    {
-                        "filePath": "Characters/Homura/Idle/frame3.png",
-                        "name": "frame3"
-                    },
-                    {
-                        "filePath": "Characters/Homura/Idle/frame4.png",
-                        "name": "frame4"
-                    }
-                ],
-                "type": "animatedSprite"
-            },
-            {
-                "name": "Enemy",
-                "type": "entityName"
-            },
-            {
-                "type": "scriptComponent"
-            },
-            {
-                "pos": {
-                    "x": 1172.0,
-                    "y": 432.5
-                },
-                "rotate": 0.0,
-                "size": {
-                    "x": 1.0,
-                    "y": 1.0
+                    "x": 0.0,
+                    "y": 0.0
                 },
                 "type": "transform"
             }
         ]
     ],
-    "name": "MainScene"
+    "name": "SceneOne"
 }

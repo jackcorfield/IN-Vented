@@ -21,8 +21,6 @@ public:
 	{
 		processCommandLine();
 
-
-
 		EntityManager* entityManager = m_sceneManager->GetActiveScene()->m_entityManager;
 		auto nameComponents = entityManager->GetAllComponentsOfType<EntityName>();
 		for (EntityName* name : nameComponents)
@@ -30,13 +28,14 @@ public:
 			if (name->m_name == "Player")
 			{
 				Entity player = entityManager->GetEntityFromComponent<EntityName>(name);
-				entityManager->GetComponent<ScriptComponent>(player)->AttachScript<PlayerScript>(5.0f);
+				entityManager->GetComponent<ScriptComponent>(player)->AttachScript<PlayerScript>(100.0f);
 			}
 
 			if (name->m_name == "Weapon")
 			{
 				Entity weapon = entityManager->GetEntityFromComponent<EntityName>(name);
-				entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>();
+				Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+				entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>(*sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
 			}
 		}
 
