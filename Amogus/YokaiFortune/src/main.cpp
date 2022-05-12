@@ -18,6 +18,8 @@ public:
 
 	void onInit() override
 	{
+		g_app->m_debugger->Log("Launched Yokai Fortune.", LL_DEBUG);
+
 		processCommandLine();
 
 		// Give entities called "Enemy" the enemy script

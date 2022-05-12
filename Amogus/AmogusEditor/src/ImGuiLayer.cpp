@@ -419,6 +419,8 @@ void ImGuiLayer::CreateGame(char* name)
 		game.Name = name;
 		game.Scenes = {};
 
+		g_app->m_debugger->Log("Game (" + game.Name + ") created.", LL_DEBUG); // Placed here to appear before save game log
+
 		SaveGame();
 
 		m_windowTitle = "Game: " + game.Name + " Scene: " + game.CurrentSceneName + " - Amogus Editor";
@@ -439,6 +441,8 @@ void ImGuiLayer::SaveGame()
 
 		outFile << json;
 		outFile.close();
+
+		g_app->m_debugger->Log("Game (" + game.Name + ") saved to: " + path, LL_DEBUG);
 	}
 }
 
@@ -479,6 +483,8 @@ void ImGuiLayer::LoadGame(char* name)
 		glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
 		
 		inFile.close();
+
+		g_app->m_debugger->Log("Game (" + std::string(name) + ") loaded from: " + path, LL_DEBUG);
 	}
 }
 
@@ -505,6 +511,8 @@ void ImGuiLayer::CreateScene(char* name, float col[3])
 
 		m_windowTitle = "Game: " + game.Name + " Scene: " + game.CurrentSceneName + " - Amogus Editor";
 		glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
+
+		g_app->m_debugger->Log("New scene created: " + std::string(name), LL_DEBUG);
 	}
 }
 
