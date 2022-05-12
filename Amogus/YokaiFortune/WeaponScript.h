@@ -6,7 +6,7 @@ class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, int level);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, int level, bool moving);
     ~WeaponScript();
     void OnAttach();
     void OnUpdate(float dt);
@@ -14,6 +14,7 @@ public:
     void OnUnattach();
 
     void OnLevelUp();
+    void SpawnProjectile();
 
 private:
     enum modifier
@@ -29,11 +30,14 @@ private:
     Entity m_player;
     EntityManager* m_manager;
 
+    bool m_IsMoving;
+
     int m_maxLevel;
 
     bool m_canLevel;
     int m_currentLevel;
 
+    float m_currentCooldown;
     //Modifiers
 
     int m_baseProjectileSpeed; //Speed of projectiles

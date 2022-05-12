@@ -1,10 +1,11 @@
 #include "WeaponScript.h"
 
 
-WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, int level) :Script(entityManager, parentEntityID),
+WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, int level, bool moving) :Script(entityManager, parentEntityID),
 m_manager(entityManager),
 m_player(parentEntityID),
 m_canLevel(true),
+m_IsMoving(moving),
 m_currentLevel(level)
 {
 	//AddComponent<Sprite>(m_player, newTexture, newColour, newShader);
@@ -13,8 +14,14 @@ m_currentLevel(level)
 
 void WeaponScript::OnLevelUp()
 {
-	if (!m_currentLevel < m_maxLevel)
+	if (!m_canLevel)
 		return;
+
+	if (!m_currentLevel < m_maxLevel)
+	{
+		m_canLevel = false;
+		return;
+	}
 
 	m_currentLevel++;
 
@@ -39,4 +46,41 @@ void WeaponScript::OnLevelUp()
 		m_baseDamageModifier += m_levelingInfo[m_currentLevel].second;
 		break;
 	}
+}
+
+void WeaponScript::OnUpdate(float dt)
+{
+	m_currentCooldown -= dt;
+
+	if (m_currentCooldown <= 0)
+	{
+		for (int i = 0; i < m_baseProjectileCount; i++)
+		{
+			SpawnProjectile();
+			//add a delay?
+		}
+
+		m_currentCooldown = m_baseProjectileCooldown;
+	}
+	
+	if (m_IsMoving)
+	{
+		//move projectile according to speed
+		///transform += m_baseProjectileSpeed*dt;
+	}
+
+	//for all projectiles in list, check duration, if >= 0, remove
+
+	//check for collision
+}
+
+void WeaponScript::SpawnProjectile()
+{
+	//get sprite
+	// 
+	//set box collider
+	// 
+	//set move direction ( if projectile moves)
+	// 
+	//add to list of projectiles + duration (Pair?)
 }
