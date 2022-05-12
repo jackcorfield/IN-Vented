@@ -37,7 +37,7 @@ public:
 				if (scriptC)
 				{
 					scriptC->AttachScript<PlayerScript>(100.0f);
-					//scriptC->AttachScript<WeaponScript>
+					scriptC->AttachScript<WeaponScript>();
 				}
 			}
 		}

@@ -151,12 +151,12 @@
     <ClCompile Include="src\EnemyMovementScript.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PlayerScript.cpp" />
-    <ClCompile Include="WeaponScript.cpp" />
+    <ClCompile Include="src\WeaponScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EnemyMovementScript.h" />
     <ClInclude Include="src\PlayerScript.h" />
-    <ClInclude Include="WeaponScript.h" />
+    <ClInclude Include="src\WeaponScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

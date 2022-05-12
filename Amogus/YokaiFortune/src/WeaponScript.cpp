@@ -1,12 +1,11 @@
 #include "WeaponScript.h"
 
 
-WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving) :Script(entityManager, parentEntityID),
+WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level = 0, bool moving = true) :Script(entityManager, parentEntityID),
 m_manager(entityManager),
 m_player(parentEntityID),
 m_icon(icon),
 m_sprite(sprite),
-m_hitboxSize(m_hitboxSize),
 m_currentLevel(level),
 m_IsMoving(moving),
 m_canLevel(true)
@@ -97,11 +96,13 @@ void WeaponScript::SpawnProjectile()
 
 	Entity newProjectile = m_manager->CreateEntity();
 
-	Transform* startLocation = GetComponent<Transform>();
-	
-	m_manager->AddComponent<Transform>(newProjectile, startLocation->m_position, startLocation->m_size);
+	Transform* transform = GetComponent<Transform>();
+
+	//m_manager->AddComponent<Transform>(newProjectile, startLocation->m_position, m_hitboxSize);
+	m_manager->AddComponent<Transform>(newProjectile, transform->m_position, transform->m_size);
+	// m_manager->AddComponent<Texture2D>(newProjectile);
 	m_manager->AddComponent<Sprite>(newProjectile, m_sprite.GetTexture(), m_sprite.GetColour(), m_sprite.GetShader()); //replace later with animated sprite!
-	m_manager->AddComponent<BoxCollider>(newProjectile, startLocation->m_size); // Needs a box collider that ignores player?
+	m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
 	
 	if (m_IsMoving)
 	{
