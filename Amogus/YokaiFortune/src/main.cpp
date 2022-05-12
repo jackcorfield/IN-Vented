@@ -25,34 +25,20 @@ public:
 		// Give entities called "Enemy" the enemy script
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 		auto allEntities = entityManager->GetAllActiveEntities();
-		Entity player = 0;
-
-		for (Entity entity : allEntities)
+		
+		Entity player = GetEntityByName("Player");
+		Entity enemy = GetEntityByName("Enemy");
+		
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
+		if (scriptC)
 		{
-			EntityName* name = entityManager->GetComponent<EntityName>(entity);
-			if (name && name->m_name == "Player")
-			{
-				player = entity;
-
-				ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
-				if (scriptC)
-				{
-					scriptC->AttachScript<PlayerScript>(100.0f);
-				}
-			}
+			scriptC->AttachScript<PlayerScript>(100.0f);
 		}
 
-		for (Entity entity : allEntities)
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
+		if (scriptC)
 		{
-			EntityName* name = entityManager->GetComponent<EntityName>(entity);
-			if (name && name->m_name == "Enemy")
-			{
-				ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
-				if (scriptC)
-				{
-					scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
-				}
-			}
+			scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
 		}
 	}
 
@@ -153,6 +139,19 @@ private:
 			}
 			
 			m_sceneManager->SetActiveScene(json["scenes"][0]);
+		}
+	}
+
+	Entity GetEntityByName(const std::string& name)
+	{
+		EntityManager* entityManager = m_sceneManager->GetActiveScene()->m_entityManager;
+		auto allNameComponents = entityManager->GetAllComponentsOfType<EntityName>();
+		for (EntityName* nameComponent : allNameComponents)
+		{
+			if (nameComponent->m_name == name)
+			{
+				return entityManager->GetEntityFromComponent<EntityName>(nameComponent);
+			}
 		}
 	}
 
