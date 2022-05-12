@@ -1,5 +1,5 @@
 #include "WeaponScript.h"
-
+#include <Windows.h>
 
 WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving) :
 Script(entityManager, parentEntityID),
@@ -23,6 +23,7 @@ m_canLevel(true)
 	 m_hitDelay = 1;
 	 m_critMultiplier = 1;
 
+	 m_wait = 0.1;
 }
 
 WeaponScript::~WeaponScript()
@@ -72,15 +73,19 @@ void WeaponScript::OnAttach()
 void WeaponScript::OnUpdate(float dt)
 {
 	m_currentCooldown -= dt;
+	m_wait -= dt;
+	if (!m_isMax && m_wait <= 0)
+	{
+		SpawnProjectile();
+		m_wait = 0.1f;
+	}
+
+	if (m_vecProjectiles.size() == m_baseProjectileCount)
+		m_isMax = true;
 
 	if (m_currentCooldown <= 0)
 	{
-		for (int i = 0; i < m_baseProjectileCount; i++)
-		{
-			SpawnProjectile();
-			//add a delay?
-		}
-
+		m_isMax = false;
 		m_currentCooldown = m_baseProjectileCooldown;
 	}
 	
@@ -99,7 +104,7 @@ void WeaponScript::OnUpdate(float dt)
 			//TEMPORARY
 			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
 		
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].first)->m_position+= 100 * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].first)->m_position.x += 100 * dt;
 
 			//TEMPORARY	
 

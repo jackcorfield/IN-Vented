@@ -55,10 +55,14 @@ private:
     int m_baseProjectileCount; //How many projectiles
     int m_projectileMax;
     
+    float m_wait;
+
     float m_baseDamageModifier;
 
     float m_hitDelay;
     float m_critMultiplier;
+
+    bool m_isMax;
 
     std::vector<std::pair<modifier, int>> m_levelingInfo; // WILL NEED TO BE SET UP FOR EACH WEAPON
 };
