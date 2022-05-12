@@ -14,9 +14,9 @@ m_canLevel(true)
 	 m_baseProjectileSpeed = 10; //Speed of projectiles
 	 m_baseProjectileCooldown = 1; //How often weapon attacks
 	 m_baseProjectileArea = 1; //Size of weapon
-	 m_baseProjectileDuration = 0.4; //How long the projectile stays on the screen
-	 m_baseProjectileCount = 2; //How many projectiles
-	 m_projectileMax = 2;
+	 m_baseProjectileDuration = 0.7; //How long the projectile stays on the screen
+	 m_baseProjectileCount = 3; //How many projectiles
+	 m_projectileMax = 6;
 
 	 m_baseDamageModifier = 1;
 
