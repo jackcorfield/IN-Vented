@@ -46,6 +46,12 @@ public:
 		m_gui->EndGui();
 	}
 
+	virtual void onQuit() override
+	{
+		delete m_gui;
+		m_gui = nullptr;
+	}
+
 	ImGuiLayer* m_gui;
 
 private:
