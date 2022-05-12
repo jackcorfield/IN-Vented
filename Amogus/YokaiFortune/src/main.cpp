@@ -21,39 +21,25 @@ public:
 	{
 		processCommandLine();
 
-		// Give entities called "Enemy" the enemy script
-		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
-		auto allEntities = entityManager->GetAllActiveEntities();
-		Entity player = 0;
 
-		for (Entity entity : allEntities)
+
+		EntityManager* entityManager = m_sceneManager->GetActiveScene()->m_entityManager;
+		auto nameComponents = entityManager->GetAllComponentsOfType<EntityName>();
+		for (EntityName* name : nameComponents)
 		{
-			EntityName* name = entityManager->GetComponent<EntityName>(entity);
-			if (name && name->m_name == "Player")
+			if (name->m_name == "Player")
 			{
-				player = entity;
+				Entity player = entityManager->GetEntityFromComponent<EntityName>(name);
+				entityManager->GetComponent<ScriptComponent>(player)->AttachScript<PlayerScript>(5.0f);
+			}
 
-				ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
-				if (scriptC)
-				{
-					scriptC->AttachScript<PlayerScript>(100.0f);
-					scriptC->AttachScript<WeaponScript>();
-				}
+			if (name->m_name == "Weapon")
+			{
+				Entity weapon = entityManager->GetEntityFromComponent<EntityName>(name);
+				entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>();
 			}
 		}
 
-		for (Entity entity : allEntities)
-		{
-			EntityName* name = entityManager->GetComponent<EntityName>(entity);
-			if (name && name->m_name == "Enemy")
-			{
-				ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
-				if (scriptC)
-				{
-					scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
-				}
-			}
-		}
 	}
 
 	void onUpdate(float dt) override

@@ -6,7 +6,7 @@ class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize , int level, bool moving);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize , int level = 0, bool moving = true);
     ~WeaponScript();
     void OnAttach();
     void OnUpdate(float dt);
@@ -31,8 +31,8 @@ private:
     Entity m_player;
     EntityManager* m_manager;
 
-    Sprite m_icon;
-    Sprite m_sprite;
+   Sprite m_icon;
+   Sprite m_sprite;
 
     glm::vec2 m_hitboxSize;
 

@@ -1,7 +1,8 @@
 #include "WeaponScript.h"
 
 
-WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level = 0, bool moving = true) :Script(entityManager, parentEntityID),
+WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving) :
+Script(entityManager, parentEntityID),
 m_manager(entityManager),
 m_player(parentEntityID),
 m_icon(icon),
@@ -10,6 +11,10 @@ m_currentLevel(level),
 m_IsMoving(moving),
 m_canLevel(true)
 {}
+
+WeaponScript::~WeaponScript()
+{
+}
 
 void WeaponScript::OnLevelUp()
 {
@@ -45,6 +50,10 @@ void WeaponScript::OnLevelUp()
 		m_baseDamageModifier += m_levelingInfo[m_currentLevel].second;
 		break;
 	}
+}
+
+void WeaponScript::OnAttach()
+{
 }
 
 void WeaponScript::OnUpdate(float dt)
@@ -89,6 +98,14 @@ void WeaponScript::OnUpdate(float dt)
 	}
 
 	//COLLISION SHOULD BE TAKING PLACE IN CHECK COLLISION FUNCTION : )
+}
+
+void WeaponScript::OnRender(float dt)
+{
+}
+
+void WeaponScript::OnUnattach()
+{
 }
 
 void WeaponScript::SpawnProjectile()
