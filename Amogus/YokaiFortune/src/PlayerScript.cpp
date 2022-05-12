@@ -2,7 +2,7 @@
 
 PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, float speed):Script(entityManager, parentEntityID), 
 m_manager(entityManager),
-m_speed(speed),
+m_movementSpeed(speed),
 m_player(parentEntityID),
 m_movePlayer(false)
 {
@@ -30,6 +30,8 @@ void PlayerScript::KeyEvent(InputEvent* e)
 			break;
 		case GLFW_KEY_A:
 			m_registeredKeys.A = true;
+			//AnimatedSprite* pAnimatedSprite = GetComponent<AnimatedSprite>();
+			//pAnimatedSprite->SetFrames();
 			break;
 		case GLFW_KEY_S:
 			m_registeredKeys.S = true;
@@ -79,13 +81,13 @@ void PlayerScript::OnUpdate(float dt)
 
 
 	if(m_registeredKeys.W)
-		playerTransform->m_position.y -= m_speed * dt;
+		playerTransform->m_position.y -= m_movementSpeed * dt;
 	if (m_registeredKeys.D)
-		playerTransform->m_position.x += m_speed * dt;
+		playerTransform->m_position.x += m_movementSpeed * dt;
 	if (m_registeredKeys.S)
-		playerTransform->m_position.y += m_speed * dt;
+		playerTransform->m_position.y += m_movementSpeed * dt;
 	if (m_registeredKeys.A)
-		playerTransform->m_position.x -= m_speed * dt;
+		playerTransform->m_position.x -= m_movementSpeed * dt;
 
 
 	/*switch (m_latestGameInput)

@@ -11,6 +11,7 @@ public:
 
 	float GetFrameInterval() const { return m_frameInterval; }
 	std::vector<Texture2D> GetFrames() const { return m_frames; }
+	void SetFrames(std::vector<Texture2D> frames, float interval) { m_frames = frames; m_frameInterval = interval; }
 
 private:
 	std::vector<Texture2D> m_frames;
