@@ -4,6 +4,7 @@
 #include <nlohmann/include/nlohmann/json.hpp>
 #include "EnemyMovementScript.h"
 #include "PlayerScript.h"
+#include "WeaponScript.h"
 
 class Runtime : public Application
 {
@@ -28,7 +29,8 @@ public:
 		
 		Entity player = GetEntityByName("Player");
 		Entity enemy = GetEntityByName("Enemy");
-		
+		Entity weapon = GetEntityByName("Weapon");
+
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
 		{
@@ -40,6 +42,14 @@ public:
 		{
 			scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
 		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(weapon);
+		if (scriptC)
+		{
+			Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+			entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
+		}
+
 	}
 
 	void onUpdate(float dt) override
