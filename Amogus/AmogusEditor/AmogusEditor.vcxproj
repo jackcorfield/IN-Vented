@@ -148,6 +148,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\EditAnimationsGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\SettingsGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\CreateSceneGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\EditAnimationsGui.h" />
     <ClInclude Include="src\GuiObjects\DialogBoxes\SettingsGui.h" />
     <ClInclude Include="src\GuiObjects\DialogBoxes\CreateSceneGui.h" />
     <ClInclude Include="Fonts\IconHeader.h" />

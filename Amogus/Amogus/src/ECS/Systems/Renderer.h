@@ -8,6 +8,7 @@
 
 struct GLFWwindow;
 
+class AnimatedSprite;
 class Scene;
 class Sprite;
 class Transform;
@@ -45,15 +46,19 @@ public:
 
 private:
 	void DrawSprite(Sprite* sprite, Transform* transform);
+	void DrawAnimatedSprite(AnimatedSprite* sprite, Transform* transform);
 
 	void DrawScene();
 	void PostProcessScene();
 
 	void InitQuad();
+	void SetQuadUVs(glm::vec2 tl, glm::vec2 tr, glm::vec2 bl, glm::vec2 br);
 
 	Shader* m_defaultShader;
 	Shader* m_postProcessingShader;
 	unsigned int m_quadVAO;
+	unsigned int m_quadVBO;
+	
 
 	Entity m_sceneCamera;
 	glm::mat4 m_projection;

@@ -73,7 +73,29 @@
         ],
         [
             {
-                "name": "Weapon",
+                "animations": [],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 58.0,
+                    "y": 41.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "run.png",
+                    "name": "animsheet"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "name": "Enemy",
                 "type": "entityName"
             },
             {
@@ -81,17 +103,17 @@
             },
             {
                 "pos": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 1172.0,
+                    "y": 432.5
                 },
                 "rotate": 0.0,
                 "size": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 1.0,
+                    "y": 1.0
                 },
                 "type": "transform"
             }
         ]
     ],
-    "name": "SceneOne"
+    "name": "MainScene"
 }
