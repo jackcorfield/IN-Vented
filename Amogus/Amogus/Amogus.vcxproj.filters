@@ -28,6 +28,7 @@
     <ClCompile Include="src\Resources\Texture2D.cpp" />
     <ClCompile Include="src\Core\Timer.cpp" />
     <ClCompile Include="src\Core\Debugger.cpp" />
+    <ClCompile Include="src\Resources\Script.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\Components\AnimatedSprite.h" />

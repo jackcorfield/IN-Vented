@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ECS/EntityManager.h>
+#include <string>
 
 class Script
 {
