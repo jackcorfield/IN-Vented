@@ -517,6 +517,13 @@ namespace SceneExporter
 			success = false;
 		}
 
+		const float depth = transform->m_depth;
+		if (!JSON::Write(depth, jTransform["depth"]))
+		{
+			g_app->m_debugger->Log("Failed to export Transform: failed to write depth!", LL_ERROR);
+			success = false;
+		}
+
 		return success;
 	}
 }
