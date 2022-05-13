@@ -87,7 +87,7 @@ void EditAnimationsGui::CreateGui()
 
 			// Delete frame
 			ImGui::SameLine();
-			if (ImGui::Button("-"))
+			if (ImGui::Button("Delete frame"))
 			{
 				animation.frames.erase(animation.frames.begin() + selectedFrameIndex);
 			}
@@ -103,7 +103,7 @@ void EditAnimationsGui::CreateGui()
 					inputFrameNo = 0;
 				}
 			}
-			if (ImGui::Button("+"))
+			if (ImGui::Button("Add frame"))
 			{
 				animation.frames.emplace_back(inputFrameNo);
 			}
