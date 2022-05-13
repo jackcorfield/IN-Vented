@@ -246,6 +246,19 @@ void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
 			}
 		}
 
+		// FrameSize
+		glm::vec2 frameSize;
+		{
+			frameSize = animatedSprite->getFrameSize();
+			int frameSizeArr[2] = { frameSize.x, frameSize.y };
+			if (ImGui::DragInt2("Frame Size", frameSizeArr))
+			{
+				frameSize.x = frameSizeArr[0];
+				frameSize.y = frameSizeArr[1];
+				edited = true;
+			}
+		}
+
 		// Shader
 		Shader* shader = animatedSprite->GetShader();
 		std::string shaderName = shader->m_name;
