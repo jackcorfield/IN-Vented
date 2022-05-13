@@ -19,6 +19,9 @@ private:
 	void SpawnWave();
 	void SpawnEnemy();
 
+	// Tries to find an entity called "Player" to spawn enemies around
+	Entity FindPlayer();
+
 	Entity m_spawnAround; // Player entity that enemies spawn around
 
 	float m_totalTimeElapsed; // Total time elapsed since game start

@@ -19,6 +19,8 @@ public:
 
 	void onInit() override
 	{
+		srand(std::time(nullptr));
+
 		g_app->m_debugger->Log("Launched Yokai Fortune.", LL_DEBUG);
 
 		processCommandLine();
@@ -40,13 +42,13 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
 		if (scriptC)
 		{
-			scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
+			scriptC->AttachScript<EnemyMovementScript>(15.0f, player);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(enemySpawner);
 		if (scriptC)
 		{
-			scriptC->AttachScript<>();
+			scriptC->AttachScript<EnemySpawnerScript>(player);
 		}
 	}
 
@@ -80,7 +82,7 @@ private:
 		switch (m_argc)
 		{
 		case 1:
-			loadGame("MyGame");
+			loadGame("YokaiFortune");
 			//Quit();
 			break;
 		case 2:

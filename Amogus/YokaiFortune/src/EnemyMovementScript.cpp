@@ -31,7 +31,7 @@ void EnemyMovementScript::OnUpdate(float dt)
 
 	// Calculate direction toward target entity
 	Transform* seekToTransform = g_app->m_sceneManager->GetActiveScene()->m_entityManager->GetComponent<Transform>(m_seekTo);
-	glm::vec2 dir = Seek(m_transform->m_position, seekToTransform->m_position);
+	glm::vec2 dir = Seek(m_transform->m_position, seekToTransform->m_position); // Think about maybe only creating a new dir a few times per second, rather than every frame. Done right, this could be a big optimisation
 
 	// Move toward target entity
 	m_transform->m_position += dir * m_moveSpeed * dt;
