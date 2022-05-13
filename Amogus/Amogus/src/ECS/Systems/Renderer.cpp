@@ -107,13 +107,14 @@ void Renderer::DrawAnimatedSprite(AnimatedSprite* sprite, Transform* transform)
 
 	int currentFrame = sprite->getCurrentFrame();
 
-	int frameX = currentFrame % (imageWidth / frameWidth);
-	int frameY = currentFrame / (imageWidth / frameWidth);
+    int framesPerRow = imageWidth / frameWidth;
+	int frameX = frameWidth * (currentFrame % framesPerRow);
+    int frameY = frameHeight * (currentFrame / framesPerRow);
 	
 	float uvLeft = (float)frameX / (float)imageWidth;
 	float uvRight = (float)(frameX + frameWidth) / (float)imageWidth;
-	float uvTop = (float)frameY / (float)imageHeight;
-	float uvBottom = (float)(frameY + frameHeight) / (float)imageHeight;
+	float uvTop = (float)(frameY + frameHeight) / (float)imageHeight;
+	float uvBottom = (float)frameY / (float)imageHeight;
 
 	
 	
