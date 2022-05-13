@@ -153,7 +153,6 @@ void WeaponScript::SpawnProjectile()
 	offset.x = (rand() % 200 - 100)/2;
 	offset.y = (rand() % 200 - 100)/2;
 
-
 	//MAKE BASE SET
 	//IF MORE ARE NEEDED (EG THE CURRENT ARE STILL IN USE)
 	//ADD MORE ENTITIES TO THE LIST
@@ -176,21 +175,8 @@ void WeaponScript::SpawnProjectile()
 	
 	if (m_isMoving)
 	{
-		
-
-		if (currentPosition.x > m_playerPreviousPosition.x)
-			direction.x = 1;
-
-		if (currentPosition.x < m_playerPreviousPosition.x)
-			direction.x = -1;
-
-		if (currentPosition.y > m_playerPreviousPosition.y)
-			direction.y = 1;
-
-		if (currentPosition.y < m_playerPreviousPosition.y)
-			direction.y= -1;
-
-		//set move direction
+		direction =  currentPosition - m_playerPreviousPosition;
+		glm::normalize(direction);
 	}
 
 	if (direction == glm::vec2(0, 0))
