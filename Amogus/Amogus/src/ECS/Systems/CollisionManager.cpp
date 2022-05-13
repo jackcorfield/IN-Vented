@@ -54,15 +54,14 @@ void CollisionManager::CheckCollision()
 	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 	if (!activeScene) return;
 
-
-
 	std::vector<BoxCollider*> boxColliders = activeScene->m_entityManager->GetAllComponentsOfType<BoxCollider>();
 
-	for (BoxCollider* b1 : boxColliders)
+	for (unsigned int i = 0; i < boxColliders.size() - 1; i++)
 	{
-		for(BoxCollider* b2 : boxColliders)
+		for(unsigned int j = 0; j < boxColliders.size(); j++)
 		{
-			if (b1 == b2) continue;
+			BoxCollider* b1 = boxColliders[i];
+			BoxCollider* b2 = boxColliders[j];
 
 			if(activeScene->m_entityManager->GetEntityFromComponent<BoxCollider>(b2) == activeScene->m_entityManager->GetEntityFromComponent<BoxCollider>(b1))
 				continue;
