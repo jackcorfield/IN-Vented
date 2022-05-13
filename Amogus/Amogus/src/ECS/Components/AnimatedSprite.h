@@ -34,7 +34,7 @@ public:
 
 	unsigned int getNumFrames() const { return m_numFrames; }
 
-	std::map<std::string, Animation> getAnimations() const { return m_animations; }
+	std::map<std::string, Animation>& getAnimations() { return m_animations; }
 	
 private:
 	glm::vec2 m_frameSize;
