@@ -15,12 +15,17 @@ public:
 
 private:
     
+    bool m_keyboardInUse;
     struct KeyRegister
     {
         bool W, A, S, D;
+        bool UP, DOWN, LEFT, RIGHT;
     };
     
     KeyRegister m_registeredKeys;
+
+    bool m_leftStickInUse;
+    glm::vec2 m_leftStickDirection;
 
     Entity m_player;
     EntityManager* m_manager;

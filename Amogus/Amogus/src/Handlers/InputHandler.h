@@ -77,7 +77,7 @@ public:
 	static void MouseCallback(GLFWwindow* window, double xpos, double ypos);
 	static void MouseButtonCallback(GLFWwindow* window, int key, int action, int mods);
 
-	static void GamepadButtonPressed(int button);
+	static void GamepadButtonPressed(int button, const unsigned char action);
 	static void GamepadAxisChanged(int axis, float value);
 
 	static void ReadMappings();
