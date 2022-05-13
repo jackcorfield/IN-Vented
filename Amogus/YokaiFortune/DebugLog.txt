@@ -1,0 +1,4 @@
+[13:56:50][DEBUG] Launched Yokai Fortune.
+[13:56:50][DEBUG] Began scene import from: Data/Scenes/SceneOne.json
+[13:56:50][DEBUG] Completed scene import from: Data/Scenes/SceneOne.json
+[13:56:50][ERROR] ATTACHED

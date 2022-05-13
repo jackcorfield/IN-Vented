@@ -6,7 +6,7 @@ class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize , int level = 0, bool moving = true, bool autoTarget = false);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Sprite icon, Sprite sprite, glm::vec2 hitboxSize , int level = 0, bool moving = true, bool autoTarget = false);
     ~WeaponScript();
     void OnAttach();
     void OnUpdate(float dt);
@@ -28,6 +28,14 @@ private:
         DAMAGE
     };
 
+    struct Projectiles
+    {
+        Entity        name;
+        float           duration;
+        glm::vec2   direction;
+    };
+
+    Entity m_weapon;
     Entity m_player;
     EntityManager* m_manager;
 
@@ -36,7 +44,10 @@ private:
 
     glm::vec2 m_hitboxSize;
 
-    std::vector<std::pair<Entity, float>> m_vecProjectiles;
+    //std::vector<std::pair<Entity, float>> m_vecProjectiles;
+
+    std::vector<Projectiles> m_vecProjectiles;
+
 
     bool m_isMoving;
     bool m_isAutoTarget;
@@ -64,6 +75,8 @@ private:
     float m_critMultiplier;
 
     bool m_isMax;
+
+    glm::vec2 m_playerPreviousPosition;
 
     std::vector<std::pair<modifier, int>> m_levelingInfo; // WILL NEED TO BE SET UP FOR EACH WEAPON
 };
