@@ -20,7 +20,7 @@ void ImportSceneGui::CreateGui()
 		ImGui::Text("Make sure you've exported the current scene!\nUnsaved changes will be deleted.");
 		ImGui::Separator();
 
-		ImGui::InputText("Scene Name", m_inputName, 128);
+		ImGui::InputText("Scene Name", m_inputName, IM_ARRAYSIZE(m_inputName));
 
 		if (ImGui::Button("Load"))
 		{
