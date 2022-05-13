@@ -187,8 +187,11 @@ namespace SceneExporter
 
 		// Write Animation data
 		{
-			jAnimatedSprite["animations"] = nlohmann::json::array();
-			nlohmann::json jAnimation;
+			if (jAnimatedSprite["animations"].is_null())
+			{
+				jAnimatedSprite["animations"] = nlohmann::json::array();
+			}
+
 			const std::map<std::string, Animation> animations = animatedSprite->getAnimations();
 			
 			for (auto& animation : animations)
@@ -205,7 +208,7 @@ namespace SceneExporter
 				const std::vector<unsigned int> frames = animationData.frames;
 				if (!JSON::Write(frames, jAnimationData["frames"])) { success = false; }
 
-				jAnimation["animations"].push_back(jAnimationData);
+				jAnimatedSprite["animations"].push_back(jAnimationData);
 			}
 		}
 
