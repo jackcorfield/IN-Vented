@@ -246,46 +246,6 @@ void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
 			}
 		}
 
-		// Frame interval
-		float frameInterval = animatedSprite->GetFrameInterval();
-		{
-			if (ImGui::DragFloat("Frame interval", &frameInterval, 0.1f, 0.0f))
-			{
-				edited = true;
-			}
-		}
-
-		// Frames
-		std::string textureName, textureFilePath;
-		std::vector<Texture2D> frames = animatedSprite->GetFrames();
-		static int selected = 0;
-		{
-			std::vector<std::string> names;
-
-			if (ImGui::BeginCombo("Frames", frames[selected].m_name.c_str()))
-			{
-				for (int i = 0; i < frames.size(); i++)
-				{
-					bool isSelected = frames[selected].m_id == frames[i].m_id;
-
-					std::string text = frames[i].m_name + "##" + std::to_string(i);
-					if (ImGui::Selectable(text.c_str(), isSelected))
-					{
-						selected = i;
-					}
-				}
-
-				ImGui::EndCombo();
-			}
-
-			textureName = frames[selected].m_name;
-			textureFilePath = frames[selected].m_filePath;
-			if (CreateTextureGui(textureName, textureFilePath))
-			{
-				edited = true;
-			}
-		}
-
 		// Shader
 		Shader* shader = animatedSprite->GetShader();
 		std::string shaderName = shader->m_name;
@@ -297,35 +257,18 @@ void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
 			edited = true;
 		}
 
+		// Texture
+		Texture2D texture = animatedSprite->GetTexture();
+		std::string textureName = texture.m_name;
+		std::string textureFilePath = texture.m_filePath;
+		if (CreateTextureGui(textureName, textureFilePath))
+		{
+			edited = true;
+		}
+
 		if (edited)
 		{
-			// Create new frames and shader first; if these fail, don't replace the AnimatedSprite
-			std::vector<Texture2D> newFrames;
-			for (int i = 0; i < frames.size(); i++)
-			{
-				std::string name, filePath;
-				if (i == selected)
-				{
-					name = textureName;
-					filePath = textureFilePath;
-				}
-				else
-				{
-					name = frames[i].m_name;
-					filePath = frames[i].m_filePath;
-				}
-
-				newFrames.emplace_back(TextureLoader::CreateTexture2DFromFile(name, filePath));
-			}
-
-			Shader* newShader = ShaderFactory::CreatePipelineShader(shaderName, vertexPath, fragmentPath, geometryPath);
-			if (newShader)
-			{
-				EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
-				entityManager->RemoveComponent<AnimatedSprite>(owner); // Remove old Sprite
-
-				entityManager->AddComponent<AnimatedSprite>(owner, newFrames, frameInterval, colour, newShader);
-			}
+			
 		}
 	}
 }
