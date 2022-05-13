@@ -8,10 +8,11 @@ public:
 
 	void onInit() override
 	{
+		g_app->m_debugger->Log("Launched editor.", LL_DEBUG);
+		glfwSetWindowTitle(m_window, "Amogus Editor");
+
 		m_gui = new ImGuiLayer(this);
 		m_renderer->setFramebuffer(m_gui->m_gameView);
-
-		glfwSetWindowTitle(m_window, "Amogus Editor");
 
 		g_app->SetPause(true); // Pause runtime on launch
 	}
@@ -43,6 +44,12 @@ public:
 			}
 		}
 		m_gui->EndGui();
+	}
+
+	virtual void onQuit() override
+	{
+		delete m_gui;
+		m_gui = nullptr;
 	}
 
 	ImGuiLayer* m_gui;

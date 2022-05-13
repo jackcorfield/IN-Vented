@@ -19,25 +19,35 @@ public:
 
 	void onInit() override
 	{
+		g_app->m_debugger->Log("Launched Yokai Fortune.", LL_DEBUG);
+
 		processCommandLine();
 
-		EntityManager* entityManager = m_sceneManager->GetActiveScene()->m_entityManager;
-		auto nameComponents = entityManager->GetAllComponentsOfType<EntityName>();
-		for (EntityName* name : nameComponents)
+		// Give entities called "Enemy" the enemy script
+		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+		auto allEntities = entityManager->GetAllActiveEntities();
+		
+		Entity player = GetEntityByName("Player");
+		Entity enemy = GetEntityByName("Enemy");
+		
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
+		if (scriptC)
 		{
-			if (name->m_name == "Player")
-			{
-				Entity player = entityManager->GetEntityFromComponent<EntityName>(name);
-				entityManager->GetComponent<ScriptComponent>(player)->AttachScript<PlayerScript>(100.0f);
-			}
+			scriptC->AttachScript<PlayerScript>(100.0f);
+		}
 
-			if (name->m_name == "Weapon")
+		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
+		if (scriptC)
+		{
+			scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
+		}
+
+		if (name->m_name == "Weapon")
 			{
 				Entity weapon = entityManager->GetEntityFromComponent<EntityName>(name);
 				Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 				entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>(*sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
 			}
-		}
 
 	}
 
@@ -138,6 +148,19 @@ private:
 			}
 			
 			m_sceneManager->SetActiveScene(json["scenes"][0]);
+		}
+	}
+
+	Entity GetEntityByName(const std::string& name)
+	{
+		EntityManager* entityManager = m_sceneManager->GetActiveScene()->m_entityManager;
+		auto allNameComponents = entityManager->GetAllComponentsOfType<EntityName>();
+		for (EntityName* nameComponent : allNameComponents)
+		{
+			if (nameComponent->m_name == name)
+			{
+				return entityManager->GetEntityFromComponent<EntityName>(nameComponent);
+			}
 		}
 	}
 

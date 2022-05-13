@@ -1,14 +1,15 @@
 #include "WeaponScript.h"
 #include <Windows.h>
 
-WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving) :
+WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving, bool autoTarget) :
 Script(entityManager, parentEntityID),
 m_manager(entityManager),
 m_player(parentEntityID),
 m_icon(icon),
 m_sprite(sprite),
 m_currentLevel(level),
-m_IsMoving(moving),
+m_isMoving(moving),
+m_isAutoTarget(autoTarget),
 m_canLevel(true)
 {
 	 m_baseProjectileSpeed = 10; //Speed of projectiles
@@ -96,7 +97,7 @@ void WeaponScript::OnUpdate(float dt)
 	{
 		if (m_vecProjectiles[i].second > 0)
 		{
-			if (!m_IsMoving)
+			if (!m_isMoving)
 			{
 				continue;
 			}
@@ -141,14 +142,24 @@ void WeaponScript::SpawnProjectile()
 	Entity newProjectile = m_manager->CreateEntity();
 
 	Transform* transform = GetComponent<Transform>();
-
-	//m_manager->AddComponent<Transform>(newProjectile, startLocation->m_position, m_hitboxSize);
 	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(0,0), glm::vec2(.1f * m_baseProjectileArea,.1f * m_baseProjectileArea));
-	// m_manager->AddComponent<Texture2D>(newProjectile);
+
+	auto nameComponents = m_manager->GetAllComponentsOfType<EntityName>();
+
+	for (EntityName* name : nameComponents)
+	{
+		if (name->m_name == "Player")
+		{
+			transform = m_manager->GetComponent<Transform>(name);
+		}
+	}
+
 	m_manager->AddComponent<Sprite>(newProjectile, m_sprite.GetTexture(), m_sprite.GetColour(), m_sprite.GetShader()); //replace later with animated sprite!
 	m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
 	
-	if (m_IsMoving)
+
+
+	if (m_isMoving)
 	{
 		//set move direction
 	}

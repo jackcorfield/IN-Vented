@@ -9,6 +9,9 @@
 #include "GuiObjects/EntityInspectorGui.h"
 #include "GuiObjects/SceneHierarchyGui.h"
 
+#define STYLE_LIGHT_MODE 0
+#define STYLE_DARK_MODE 1
+
 class ImGuiLayer
 {
 public:
@@ -21,7 +24,17 @@ public:
 
 	void DrawSceneView(int textureID);
 
+	void ChangeFont(const std::string& fontPath, const float sizeInPixels);
+	void ChangeStyle();
+	void SetConsoleColours(const ImVec4& debugColour, const ImVec4& warningColour, const ImVec4& errorColour);
+
 	inline ImVec2 GetFrameSize() { return m_renderSize; };
+	float GetFontSize() const { return m_fontSize; }
+	std::string GetFontPath() const { return m_fontPath; }
+	ImVec4 GetDebugColour() const { return m_debugColour; }
+	ImVec4 GetWarningColour() const { return m_warningColour; }
+	ImVec4 GetErrorColour() const { return m_errorColour; }
+	bool GetColourMode() const { return m_colourMode; }
 
 	Framebuffer* m_gameView;
 	bool m_sceneFrameResized = false;
@@ -35,6 +48,9 @@ public:
 	};
 
 	Game game;
+
+	bool m_roundedCorners;
+
 private:
 	ImGuiLayer(const ImGuiLayer&) = delete;
 	ImGuiLayer& operator=(ImGuiLayer&) = delete;
@@ -55,6 +71,9 @@ private:
 	void DrawNewEntityMenu();
 	void SelectObject();
 
+	void LoadSettingsFromFile();
+	void SaveSettingsToFile();
+
 	void OnClick(InputEvent* e);
 
 	Application* m_app;
@@ -71,6 +90,7 @@ private:
 
 	bool m_guiEnabled = true;
 	bool m_selecting; // Set to true by click event so we can do selection later (during ImGui phase)
+	bool m_colourMode; // Light == 0, Dark == 1
 
 	bool m_sceneLoaded = false;
 	bool m_gameLoaded = false;
@@ -91,6 +111,7 @@ private:
 	friend class LoadGameGui;
 	friend class CreateSceneGui;
 	friend class ImportSceneGui;
+
 	// Popups
 	bool m_showGameNotLoadedErrorState = false;
 
@@ -100,4 +121,9 @@ private:
 	int m_numOfConsoleEntries;
 	bool m_scrollToBottom;
 	bool m_autoScroll;
+
+	bool m_fontDirty;
+	float m_fontSize;
+	std::string m_fontPath;
+	ImVec4 m_debugColour, m_warningColour, m_errorColour;
 };

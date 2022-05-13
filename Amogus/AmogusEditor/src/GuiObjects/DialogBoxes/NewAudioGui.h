@@ -17,6 +17,6 @@ private:
 
 	Entity entity;
 
-	char inputFilePath[128];
+	char inputFilePath[512];
 	FMOD::ChannelGroup* selectedChannelGroup;
 };

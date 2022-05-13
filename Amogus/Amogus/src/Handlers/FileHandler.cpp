@@ -1,6 +1,9 @@
 #include "FileHandler.h"
 #include "LodePNG/lodepng.h"
 #include <iostream>
+#include "../Core/source.h"
+
+extern Application* g_app;
 
 PNG_Data FileHandler::ReadPNG(const char* filename)
 {
@@ -10,7 +13,8 @@ PNG_Data FileHandler::ReadPNG(const char* filename)
 
 	if (error != 0)
 	{
-		std::cout << "Error reading file " << filename << std::endl;
+		g_app->m_debugger->Log("Failed to create image data: failed to read PNG file at: " + std::string(filename), LL_ERROR);
+		//std::cout << "Error reading file " << filename << std::endl;
 	}
 	
 	PNG_Data data(image, width, height);

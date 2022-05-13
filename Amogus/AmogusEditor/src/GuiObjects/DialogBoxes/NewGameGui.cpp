@@ -18,7 +18,7 @@ void NewGameGui::CreateGui()
 		ImGui::Text("Make sure you've saved the current game!\nUnsaved changes will be deleted.");
 		ImGui::Separator();
 
-		ImGui::InputText("Name", m_inputName, 128);
+		ImGui::InputText("Name", m_inputName, IM_ARRAYSIZE(m_inputName));
 		if (ImGui::Button("Create"))
 		{
 			layer->CreateGame(m_inputName);

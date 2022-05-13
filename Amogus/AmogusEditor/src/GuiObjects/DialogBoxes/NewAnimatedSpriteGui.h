@@ -27,8 +27,8 @@ private:
 			inputTextureFilePath("")
 		{}
 
-		char inputTextureName[128];
-		char inputTextureFilePath[128];
+		char inputTextureName[512];
+		char inputTextureFilePath[512];
 	};
 
 	// Texture data
@@ -36,8 +36,8 @@ private:
 	int m_selectedTextureParamsIndex;
 
 	// Shader data
-	char inputShaderName[128];
-	char inputVertexPath[128];
-	char inputFragmentPath[128];
-	char inputGeometryPath[128];
+	char inputShaderName[512];
+	char inputVertexPath[512];
+	char inputFragmentPath[512];
+	char inputGeometryPath[512];
 };

@@ -13,6 +13,8 @@
 #include "GuiObjects/DialogBoxes/CreateSceneGui.h"
 #include "GuiObjects/DialogBoxes/ImportSceneGui.h"
 #include "GuiObjects/DialogBoxes/ErrorDialogGui.h"
+#include "GuiObjects/DialogBoxes/SettingsGui.h"
+#include "Handlers/JSONHelpers.h"
 
 #define MAX_RECENT_SCENES 5
 
@@ -23,12 +25,20 @@ void AddNameToUniqueQueueList(std::list<std::string>* list, std::string name, co
 ImGuiLayer::ImGuiLayer(Application* app) :
 	m_app(app),
 	m_selecting(false),
+	m_colourMode(1), // Start in dark mode because we are civilised
 	m_mouseX(0),
 	m_mouseY(0),
 	m_guiEnabled(true),
 	m_windowFlags(0),
 	m_dockspaceFlags(0),
-	m_entityManager(nullptr)
+	m_entityManager(nullptr),
+	m_fontPath("Fonts/ComicNeueAngular-Regular.ttf"),
+	m_fontSize(16.0f),
+	m_fontDirty(false),
+	m_debugColour(0.0f, 1.0f, 0.1f, 0.8f),
+	m_warningColour(0.5f, 0.5f, 0.0f, 0.8f),
+	m_errorColour(0.8f, 0.0f, 0.0f, 0.8f),
+	m_roundedCorners(true)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -41,25 +51,12 @@ ImGuiLayer::ImGuiLayer(Application* app) :
 	ImGui_ImplGlfw_InitForOpenGL(g_app->m_window, true);
 	ImGui_ImplOpenGL3_Init("#version 130");
 
+	LoadSettingsFromFile();
+
 	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
+	ChangeStyle();
 
-	ImGuiStyle& style = ImGui::GetStyle();
-
-	style.ChildRounding = 12;
-	style.FrameRounding = 12;
-	style.GrabRounding = 12;
-	style.PopupRounding = 12;
-	style.ScrollbarRounding = 12;
-	style.TabRounding = 12;
-	style.WindowRounding = 12;
-	style.ChildBorderSize = 0;
-	style.FrameBorderSize = 0;
-	style.PopupBorderSize = 0;
-	style.TabBorderSize = 0;
-	style.WindowBorderSize = 0;
-
-	io.Fonts->AddFontFromFileTTF("Fonts/ComicNeueAngular-Regular.ttf", 16);
+	io.Fonts->AddFontFromFileTTF(m_fontPath.c_str(), m_fontSize);
 
 	ImFontConfig config;
 	config.MergeMode = true;
@@ -85,6 +82,8 @@ ImGuiLayer::ImGuiLayer(Application* app) :
 
 ImGuiLayer::~ImGuiLayer()
 {
+	SaveSettingsToFile();
+
 	if (m_popup) { m_popup.release(); }
 }
 
@@ -149,6 +148,14 @@ void ImGuiLayer::EndGui()
 	ImGui::Render();
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	// Check if font has changed and update accordingly
+	if (m_fontDirty)
+	{
+		// Load font
+
+		m_fontDirty = false;
+	}
 
 	GLFWwindow* backup_current_context = glfwGetCurrentContext();
 	ImGui::UpdatePlatformWindows();
@@ -268,9 +275,27 @@ void ImGuiLayer::DrawMenuBar()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::MenuItem(ICON_FA_COG" Settings"))
+		if (ImGui::BeginMenu(ICON_FA_COG" Settings"))
 		{
+			bool lightMode = !m_colourMode;
+			if (ImGui::MenuItem("Light mode", nullptr, &lightMode))
+			{
+				m_colourMode = STYLE_LIGHT_MODE;
+				ChangeStyle();
+			}
 
+			if (ImGui::MenuItem("Dark mode", nullptr, &m_colourMode))
+			{
+				m_colourMode = STYLE_DARK_MODE;
+				ChangeStyle();
+			}
+
+			if (ImGui::MenuItem("Accessibility..."))
+			{
+				m_popup = std::make_unique<SettingsGui>(this);
+			}
+
+			ImGui::EndMenu();
 		}
 
 		m_menuBarSize = ImGui::GetWindowSize();
@@ -368,21 +393,21 @@ void ImGuiLayer::DrawConsole()
 					switch (tempConsole[i].logLevel)
 					{
 					case LL_DEBUG:
-						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.1f, 0.8f));
+						ImGui::PushStyleColor(ImGuiCol_Text, m_debugColour);
 						consoleOutput = tempConsole[i].time + "[DEBUG] " + tempConsole[i].msg;
 						ImGui::Text(consoleOutput.c_str());
 						ImGui::PopStyleColor();
 						break;
 
 					case LL_WARNING:
-						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.5f, 0.0f, 0.8f));
+						ImGui::PushStyleColor(ImGuiCol_Text, m_warningColour);
 						consoleOutput = tempConsole[i].time + "[WARNING] " + tempConsole[i].msg;
 						ImGui::Text(consoleOutput.c_str());
 						ImGui::PopStyleColor();
 						break;
 
 					case LL_ERROR:
-						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.8f, 0.0f, 0.0f, 0.8f));
+						ImGui::PushStyleColor(ImGuiCol_Text, m_errorColour);
 						consoleOutput = tempConsole[i].time + "[ERROR] " + tempConsole[i].msg;
 						ImGui::Text(consoleOutput.c_str());
 						ImGui::PopStyleColor();
@@ -419,6 +444,8 @@ void ImGuiLayer::CreateGame(char* name)
 		game.Name = name;
 		game.Scenes = {};
 
+		g_app->m_debugger->Log("Game (" + game.Name + ") created.", LL_DEBUG); // Placed here to appear before save game log
+
 		SaveGame();
 
 		m_windowTitle = "Game: " + game.Name + " Scene: " + game.CurrentSceneName + " - Amogus Editor";
@@ -439,6 +466,8 @@ void ImGuiLayer::SaveGame()
 
 		outFile << json;
 		outFile.close();
+
+		g_app->m_debugger->Log("Game (" + game.Name + ") saved to: " + path, LL_DEBUG);
 	}
 }
 
@@ -479,6 +508,8 @@ void ImGuiLayer::LoadGame(char* name)
 		glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
 		
 		inFile.close();
+
+		g_app->m_debugger->Log("Game (" + std::string(name) + ") loaded from: " + path, LL_DEBUG);
 	}
 }
 
@@ -505,6 +536,8 @@ void ImGuiLayer::CreateScene(char* name, float col[3])
 
 		m_windowTitle = "Game: " + game.Name + " Scene: " + game.CurrentSceneName + " - Amogus Editor";
 		glfwSetWindowTitle(g_app->m_window, m_windowTitle.c_str());
+
+		g_app->m_debugger->Log("New scene created: " + std::string(name), LL_DEBUG);
 	}
 }
 
@@ -696,6 +729,168 @@ void ImGuiLayer::SelectObject()
 	}
 
 	m_entityInspector.SetActiveEntity(selectedEntity);
+}
+
+void ImGuiLayer::ChangeStyle()
+{
+	ImGuiStyle& style = ImGui::GetStyle();
+
+	float rounding = 0.0f;
+	if (m_roundedCorners)
+	{
+		rounding = 12.0f;
+	}
+
+	style.ChildRounding = rounding;
+	style.FrameRounding = rounding;
+	style.GrabRounding = rounding;
+	style.PopupRounding = rounding;
+	style.ScrollbarRounding = rounding;
+	style.TabRounding = rounding;
+	style.WindowRounding = rounding;
+	style.ChildBorderSize = 0.0f;
+	style.FrameBorderSize = 0.0f;
+	style.PopupBorderSize = 0.0f;
+	style.TabBorderSize = 0.0f;
+	style.WindowBorderSize = 0.0f;
+
+	if (m_colourMode == STYLE_LIGHT_MODE)
+	{
+		ImGui::StyleColorsLight();
+	}
+	else
+	{
+		ImGui::StyleColorsDark();
+	}
+}
+
+using json = nlohmann::json;
+
+void ImGuiLayer::LoadSettingsFromFile()
+{
+	std::ifstream inFile("Data/Config/SETTINGS.json");
+	if (!inFile.is_open() || !inFile.good())
+	{
+		g_app->m_debugger->Log("Failed settings import: failed to open file for reading!", LL_ERROR);
+		return;
+	}
+
+	nlohmann::json jFile;
+	try
+	{
+		jFile = nlohmann::json::parse(inFile);
+	}
+	catch (nlohmann::json::parse_error& e)
+	{
+		std::cout << e.what() << std::endl;
+		g_app->m_debugger->Log("Failed settings import: JSON parse error!", LL_ERROR);
+		return;
+	}
+
+	// Light/dark mode
+	if (!JSON::Read(m_colourMode, jFile, "colourMode"))
+	{
+		g_app->m_debugger->Log("Failed settings import: failed to read colour mode value!", LL_ERROR);
+	}
+
+	// Debug colour
+	glm::vec4 glmColour;
+	if (JSON::ReadVec4(glmColour, jFile, "debugColour"))
+	{
+		m_debugColour = ImVec4(glmColour.x, glmColour.y, glmColour.z, glmColour.w);
+	}
+	else
+	{
+		g_app->m_debugger->Log("Failed settings import: failed to read debug colour!", LL_ERROR);
+	}
+
+	// Warning colour
+	if (JSON::ReadVec4(glmColour, jFile, "warningColour"))
+	{
+		m_warningColour = ImVec4(glmColour.x, glmColour.y, glmColour.z, glmColour.w);
+	}
+	else
+	{
+		g_app->m_debugger->Log("Failed settings import: failed to read warning colour!", LL_ERROR);
+	}
+
+	// Error colour
+	if (JSON::ReadVec4(glmColour, jFile, "errorColour"))
+	{
+		m_errorColour = ImVec4(glmColour.x, glmColour.y, glmColour.z, glmColour.w);
+	}
+	else
+	{
+		g_app->m_debugger->Log("Failed settings import: failed to read error colour!", LL_ERROR);
+	}
+
+	// Rounded corners
+	if (!JSON::Read(m_roundedCorners, jFile, "roundedCorners"))
+	{
+		g_app->m_debugger->Log("Failed settings import: failed to read rounded corners value!", LL_ERROR);
+	}
+}
+
+void ImGuiLayer::SaveSettingsToFile()
+{
+	std::ofstream outFile("Data/Config/SETTINGS.json");
+	if (!outFile.is_open() || outFile.bad())
+	{
+		g_app->m_debugger->Log("Failed settings export: failed to open file for writing!", LL_ERROR);
+		return;
+	}
+
+	nlohmann::json jFile;
+
+	// Light/dark mode
+	if (!JSON::Write(m_colourMode, jFile["colourMode"]))
+	{
+		g_app->m_debugger->Log("Failed settings export: failed to write colour mode value!", LL_ERROR);
+	}
+
+	// Console debug colour
+	glm::vec4 glmColour(m_debugColour.x, m_debugColour.y, m_debugColour.z, m_debugColour.w);
+	if (!JSON::WriteVec4(glmColour, jFile["debugColour"]))
+	{
+		g_app->m_debugger->Log("Failed settings export: failed to write debug colour!", LL_ERROR);
+	}
+
+	// Console warning colour
+	glmColour = glm::vec4(m_warningColour.x, m_warningColour.y, m_warningColour.z, m_warningColour.w);
+	if (!JSON::WriteVec4(glmColour, jFile["warningColour"]))
+	{
+		g_app->m_debugger->Log("Failed settings export: failed to write warning colour!", LL_ERROR);
+	}
+
+	// Console error colour
+	glmColour = glm::vec4(m_errorColour.x, m_errorColour.y, m_errorColour.z, m_errorColour.w);
+	if (!JSON::WriteVec4(glmColour, jFile["errorColour"]))
+	{
+		g_app->m_debugger->Log("Failed settings export: failed to write error colour!", LL_ERROR);
+	}
+
+	// Rounded corners
+	if (!JSON::Write(m_roundedCorners, jFile["roundedCorners"]))
+	{
+		g_app->m_debugger->Log("Failed settings export: failed to write rounded corners value!", LL_ERROR);
+	}
+
+	outFile << std::setw(4) << jFile << std::endl; // Write the exported data to file. std::setw(4) modifies the width of the stream to make the resulting file readable
+	outFile.close();
+}
+
+void ImGuiLayer::ChangeFont(const std::string& fontPath, const float sizeInPixels)
+{
+	m_fontSize = sizeInPixels;
+	m_fontPath = fontPath;
+	m_fontDirty = true;
+}
+
+void ImGuiLayer::SetConsoleColours(const ImVec4& debugColour, const ImVec4& warningColour, const ImVec4& errorColour)
+{
+	m_debugColour = debugColour;
+	m_warningColour = warningColour;
+	m_errorColour = errorColour;
 }
 
 void ImGuiLayer::OnClick(InputEvent* e)
