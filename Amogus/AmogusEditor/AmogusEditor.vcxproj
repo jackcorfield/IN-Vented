@@ -114,7 +114,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Amogus;$(SolutionDir)Amogus\src;$(SolutionDir)Amogus\dependencies\fmod\inc;$(SolutionDir)Dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GuiObjects\DialogBoxes\EditAnimationsGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\SettingsGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\CreateSceneGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.cpp" />
     <ClCompile Include="src\GuiObjects\DialogBoxes\ImportSceneGui.cpp" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GuiObjects\DialogBoxes\EditAnimationsGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\SettingsGui.h" />
     <ClInclude Include="src\GuiObjects\DialogBoxes\CreateSceneGui.h" />
     <ClInclude Include="Fonts\IconHeader.h" />
     <ClInclude Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.h" />

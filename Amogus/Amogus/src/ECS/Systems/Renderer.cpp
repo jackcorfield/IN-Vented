@@ -345,7 +345,8 @@ void CheckGLErrors()
     GLenum error = glGetError();
     if (error != GL_NO_ERROR)
     {
-        std::cerr << "GL error! Code: " << error << std::endl;
+        g_app->m_debugger->Log("GL error! Code: " + std::to_string(error), LL_ERROR);
+        //std::cerr << "GL error! Code: " << error << std::endl;
     }
 }
 

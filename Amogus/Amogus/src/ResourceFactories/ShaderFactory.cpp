@@ -5,7 +5,11 @@
 #include <iostream>
 #include <sstream>
 
+#include "../Core/source.h"
+
 #define INVALID_SHADER_ID 0
+
+extern Application* g_app;
 
 namespace ShaderFactory
 {
@@ -22,6 +26,7 @@ namespace ShaderFactory
 		// Check if any shaders failed to compile
 		if (vertexID == INVALID_SHADER_ID || fragmentID == INVALID_SHADER_ID || (!geometryPath.empty() && geometryID == INVALID_SHADER_ID))
 		{
+			g_app->m_debugger->Log("Failed to create shader: failed to compile shader files!", LL_ERROR);
 			return nullptr;
 		}
 
@@ -57,6 +62,7 @@ namespace ShaderFactory
 		// Check if shader failed to compile
 		if (computeID == 0)
 		{
+			g_app->m_debugger->Log("Failed to create compute shader: failed to compile shader file!", LL_ERROR);
 			return nullptr;
 		}
 
@@ -82,7 +88,8 @@ namespace ShaderFactory
 		{
 			GLchar* infoLog = new GLchar[logLength];
 			glGetShaderInfoLog(shaderID, logLength, &logLength, infoLog);
-			std::cerr << "Error: Shader compilation failed: " << infoLog << std::endl;
+			g_app->m_debugger->Log("Failed to create shader: failed to compile shader! Details:" + std::string(infoLog), LL_ERROR);
+			//std::cerr << "Error: Shader compilation failed: " << infoLog << std::endl;
 			delete[] infoLog;
 		}
 	}
@@ -96,7 +103,8 @@ namespace ShaderFactory
 		{
 			GLchar* infoLog = new GLchar[logLength];
 			glGetProgramInfoLog(programID, logLength, &logLength, infoLog);
-			std::cerr << "Error: Shader program linking failed: " << infoLog << std::endl;
+			g_app->m_debugger->Log("Failed to create shader: failed to link shader program! Details:" + std::string(infoLog), LL_ERROR);
+			//std::cerr << "Error: Shader program linking failed: " << infoLog << std::endl;
 			delete[] infoLog;
 		}
 	}
@@ -105,7 +113,8 @@ namespace ShaderFactory
 	{
 		if (shaderType != GL_VERTEX_SHADER && shaderType != GL_FRAGMENT_SHADER && shaderType != GL_GEOMETRY_SHADER && shaderType != GL_COMPUTE_SHADER)
 		{
-			std::cerr << "Invalid shader type requested in CompileShaderFromFile!" << std::endl;
+			g_app->m_debugger->Log("Failed to create shader: invalid shader type specified!", LL_ERROR);
+			//std::cerr << "Invalid shader type requested in CompileShaderFromFile!" << std::endl;
 			return INVALID_SHADER_ID;
 		}
 

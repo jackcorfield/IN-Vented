@@ -1,6 +1,10 @@
 #include "AudioManager.h"
 #include <stdlib.h>
 
+#include "../../Core/source.h"
+
+extern Application* g_app;
+
 AudioManager::AudioManager() 
 {	
     FMOD_RESULT result;
@@ -18,11 +22,13 @@ bool AudioManager::AudioManagerInit()
     result = FMOD::System_Create(&m_system);
     if (result != FMOD_OK)
     {
+        g_app->m_debugger->Log("Failed to create audio system!", LL_ERROR);
         return false;
     }
     result = m_system->init(32, FMOD_INIT_NORMAL, NULL);
     if (result != FMOD_OK)
     {
+        g_app->m_debugger->Log("Failed to initialise audio system!");
         return false;
     }
 

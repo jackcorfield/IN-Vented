@@ -50,19 +50,24 @@ namespace SceneExporter
 
 	bool ExportActiveSceneToFile(const std::string& filePath)
 	{
-		Scene* scene = g_app->m_sceneManager->GetActiveScene();
+		std::string fullFilePath = "Data/Scenes/" + filePath + ".json";
 
-		std::ofstream outFile("Data/Scenes/" + filePath + ".json");
+		g_app->m_debugger->Log("Began scene export to: " + fullFilePath, LL_DEBUG);
+
+		std::ofstream outFile(fullFilePath);
 		if (!outFile.is_open() || outFile.bad())
 		{
+			g_app->m_debugger->Log("Failed scene export: failed to open file for writing!", LL_ERROR);
 			return false;
 		}
 
 		nlohmann::json jFile;
 
+		Scene* scene = g_app->m_sceneManager->GetActiveScene();
 		std::string name = g_app->m_sceneManager->GetActiveSceneName();
 		if (!JSON::Write(name, jFile["name"]))
 		{
+			g_app->m_debugger->Log("Failed scene export: failed to export scene name!", LL_ERROR);
 			return false; // Need a name for scene map key
 		}
 
@@ -71,11 +76,14 @@ namespace SceneExporter
 		g_entityManager = scene->m_entityManager;
 		if (!WriteAllComponents(jFile["entities"], scene))
 		{
+			g_app->m_debugger->Log("Failed scene export: failed to export entities and components!", LL_ERROR);
 			return false;
 		}
 
 		outFile << std::setw(4) << jFile << std::endl; // Write the exported data to file. std::setw(4) modifies the width of the stream to make the resulting file readable
 		outFile.close();
+
+		g_app->m_debugger->Log("Completed scene export to: " + fullFilePath, LL_DEBUG);
 
 		return true;
 	}
@@ -128,13 +136,18 @@ namespace SceneExporter
 			jEntityArray[entity - 1].push_back(jComponent);
 		}
 
+		if (!success)
+		{
+			g_app->m_debugger->Log("Failed scene export: failed to export components of type '" + componentJSONName + "'!", LL_ERROR);
+		}
+
 		return success;
 	}
 
 	bool WriteAnimatedSprite(nlohmann::json& jAnimatedSprite, AnimatedSprite* animatedSprite)
 	{
 		bool success = true;
-
+    
 		const glm::vec3 colour = animatedSprite->GetColour();
 		if (!JSON::WriteVec3(colour, jAnimatedSprite["colour"]))
 		{
@@ -153,19 +166,23 @@ namespace SceneExporter
 			const Shader* shader = animatedSprite->GetShader();
 
 			const std::string shaderName = shader->m_name;
-			if (!JSON::Write(shaderName, jShader["name"])) {}
+			if (!JSON::Write(shaderName, jShader["name"]))
+			{
+				g_app->m_debugger->Log("Exporting AnimatedSprite: failed to write shader name.", LL_WARNING);
+			}
 
 			const std::string vertexPath = shader->m_vertexPath;
 			const std::string fragmentPath = shader->m_fragmentPath;
 			if (!JSON::Write(vertexPath, jShader["vertexFilePath"]) || !JSON::Write(fragmentPath, jShader["fragmentFilePath"]))
 			{
+				g_app->m_debugger->Log("Failed to export AnimatedSprite: failed to write shader file paths!", LL_ERROR);
 				return false; // Cannot render a sprite without vertex & fragment shader
 			}
 
 			const std::string geometryPath = shader->m_geometryPath;
 			if (!geometryPath.empty())
 			{
-				if (!JSON::Write(geometryPath, jShader["geometryFilePath"])) {}
+				if (!JSON::Write(geometryPath, jShader["geometryFilePath"])) {} // Does not need a log as this is an optional field
 			}
 
 			jAnimatedSprite["shader"] = jShader;
@@ -220,11 +237,15 @@ namespace SceneExporter
 		bool success = true;
 
 		const std::string filePath = audio->m_filePath;
-		if (!JSON::Write(filePath, jAudio["filePath"])) { success = false; }
+		if (!JSON::Write(filePath, jAudio["filePath"]))
+		{
+			g_app->m_debugger->Log("Failed to export Audio: failed to write audio file path!", LL_ERROR);
+			success = false;
+		}
 
 		const FMOD::ChannelGroup* channelGroup = g_app->m_audioManager->GetGroup(audio->m_channel);
 		std::string channelGroupString;
-		if (channelGroup == g_app->m_audioManager->m_bgm) // Gross but the simplest solution without adding some kind of identifier in Audio
+		if (channelGroup == g_app->m_audioManager->m_bgm) // Pointer comparison is the simplest solution without adding some kind of identifier in Audio
 		{
 			channelGroupString = "bgm";
 		}
@@ -234,10 +255,15 @@ namespace SceneExporter
 		}
 		else
 		{
+			g_app->m_debugger->Log("Exporting Audio: defaulted channel group to 'sfx'.", LL_WARNING);
 			channelGroupString = "sfx";
 		}
 
-		if (!JSON::Write(channelGroupString, jAudio["channelGroup"])) { success = false; }
+		if (!JSON::Write(channelGroupString, jAudio["channelGroup"]))
+		{
+			g_app->m_debugger->Log("Failed to export Audio: failed to write channel group!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -247,7 +273,11 @@ namespace SceneExporter
 		bool success = true;
 
 		const glm::vec2 size = boxCollider->m_size;
-		if (!JSON::WriteVec2(size, jBoxCollider["size"])) { success = false; }
+		if (!JSON::WriteVec2(size, jBoxCollider["size"]))
+		{
+			g_app->m_debugger->Log("Failed to export BoxCollider: failed to write size!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -257,19 +287,39 @@ namespace SceneExporter
 		bool success = true;
 
 		const float viewportWidth = camera->m_viewportWidth;
-		if (!JSON::Write(viewportWidth, jCamera["viewport"]["width"])) { success = false; }
+		if (!JSON::Write(viewportWidth, jCamera["viewport"]["width"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write viewport width!", LL_ERROR);
+			success = false;
+		}
 
 		const float viewportHeight = camera->m_viewportHeight;
-		if (!JSON::Write(viewportHeight, jCamera["viewport"]["height"])) { success = false; }
+		if (!JSON::Write(viewportHeight, jCamera["viewport"]["height"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write viewport height!", LL_ERROR);
+			success = false;
+		}
 
 		const float near = camera->m_near;
-		if (!JSON::Write(near, jCamera["near"])) { success = false; }
+		if (!JSON::Write(near, jCamera["near"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write near clip!", LL_ERROR);
+			success = false;
+		}
 
 		const float far = camera->m_far;
-		if (!JSON::Write(far, jCamera["far"])) { success = false; }
+		if (!JSON::Write(far, jCamera["far"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write far clip!", LL_ERROR);
+			success = false;
+		}
 
 		const bool isActive = camera->m_isActive;
-		if (!JSON::Write(isActive, jCamera["isActive"])) { success = false; }
+		if (!JSON::Write(isActive, jCamera["isActive"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write active value!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -279,10 +329,18 @@ namespace SceneExporter
 		bool success = true;
 
 		const glm::vec2 centre = circleCollider->m_centre;
-		if (!JSON::WriteVec2(centre, jCircleCollider["centre"])) { success = false; }
+		if (!JSON::WriteVec2(centre, jCircleCollider["centre"]))
+		{
+			g_app->m_debugger->Log("Failed to export CircleCollider: failed to write centre!", LL_ERROR);
+			success = false;
+		}
 
 		const float radius = circleCollider->m_radius;
-		if (!JSON::Write(radius, jCircleCollider["radius"])) { success = false; }
+		if (!JSON::Write(radius, jCircleCollider["radius"]))
+		{
+			g_app->m_debugger->Log("Failed to export CircleCollider: failed to write radius!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -292,7 +350,11 @@ namespace SceneExporter
 		bool success = true;
 
 		const std::string name = entityName->m_name;
-		if (!JSON::Write(name, jEntityName["name"])) { success = false; }
+		if (!JSON::Write(name, jEntityName["name"]))
+		{
+			g_app->m_debugger->Log("Failed to export EntityName: failed to write name!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -302,7 +364,11 @@ namespace SceneExporter
 		bool success = true;
 
 		const float mass = physics->m_mass;
-		if (!JSON::Write(mass, jPhysics["mass"])) { success = false; }
+		if (!JSON::Write(mass, jPhysics["mass"]))
+		{
+			g_app->m_debugger->Log("Failed to export Physics: failed to write mass!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -312,7 +378,11 @@ namespace SceneExporter
 		bool success = true;
 
 		const float speed = playerMovement->m_speed;
-		if (!JSON::Write(speed, jPlayerMovement["speed"])) { success = false; }
+		if (!JSON::Write(speed, jPlayerMovement["speed"]))
+		{
+			g_app->m_debugger->Log("Failed to export PlayerMovement: failed to write speed!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -320,8 +390,6 @@ namespace SceneExporter
 	bool WriteScriptComponent(nlohmann::json& jScriptComponent, ScriptComponent* scriptComponent)
 	{
 		bool success = true;
-
-		//if (!JSON::Write("", jScriptComponent[""])) { success = false; }
 
 		return success;
 	}
@@ -333,6 +401,7 @@ namespace SceneExporter
 		const glm::vec3 colour = sprite->GetColour();
 		if (!JSON::WriteVec3(colour, jSprite["colour"]))
 		{
+			g_app->m_debugger->Log("Failed to export Sprite: failed to write tint colour!", LL_ERROR);
 			success = false;
 		}
 
@@ -342,19 +411,23 @@ namespace SceneExporter
 			const Shader* shader = sprite->GetShader();
 
 			const std::string shaderName = shader->m_name;
-			if (!JSON::Write(shaderName, jShader["name"])) {}
+			if (!JSON::Write(shaderName, jShader["name"]))
+			{
+				g_app->m_debugger->Log("Exporting Sprite: failed to write shader name.", LL_WARNING);
+			}
 
 			const std::string vertexPath = shader->m_vertexPath;
 			const std::string fragmentPath = shader->m_fragmentPath;
 			if (!JSON::Write(vertexPath, jShader["vertexFilePath"]) || !JSON::Write(fragmentPath, jShader["fragmentFilePath"]))
 			{
+				g_app->m_debugger->Log("Failed to export Sprite: failed to write shader file paths!", LL_ERROR);
 				return false; // Cannot render a sprite without vertex & fragment shader
 			}
 
 			const std::string geometryPath = shader->m_geometryPath;
 			if (!geometryPath.empty())
 			{
-				if (!JSON::Write(geometryPath, jShader["geometryFilePath"])) {}
+				if (!JSON::Write(geometryPath, jShader["geometryFilePath"])) {} // Does not need a log as this an optional field
 			}
 
 			jSprite["shader"] = jShader;
@@ -366,10 +439,17 @@ namespace SceneExporter
 			const Texture2D texture = sprite->GetTexture();
 
 			const std::string textureName = sprite->GetTexture().m_name;
-			if (!JSON::Write(textureName, jTexture["name"])) {}
+			if (!JSON::Write(textureName, jTexture["name"]))
+			{
+				g_app->m_debugger->Log("Exporting Sprite: failed to write texture name.", LL_WARNING);
+			}
 
 			const std::string texturePath = sprite->GetTexture().m_filePath;
-			if (!JSON::Write(texturePath, jTexture["filePath"])) { return false; }// Cannot render a sprite without a texture
+			if (!JSON::Write(texturePath, jTexture["filePath"]))
+			{
+				g_app->m_debugger->Log("Failed to export Sprite: failed to write texture file path!", LL_ERROR);
+				return false; // Cannot render a sprite without a texture
+			}
 
 			jSprite["texture"] = jTexture;
 		}
@@ -382,7 +462,11 @@ namespace SceneExporter
 		bool success = true;
 
 		const TileObject tileType = tile->m_object;
-		if (!JSON::Write((int)tileType, jTile["tileType"])) { success = false; }
+		if (!JSON::Write((int)tileType, jTile["tileType"]))
+		{
+			g_app->m_debugger->Log("Failed to export Tile: failed to write tile type!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -392,12 +476,18 @@ namespace SceneExporter
 		bool success = true;
 
 		const glm::vec2 tileSize = tileMap->m_tileSize;
-		if (!JSON::WriteVec2(tileSize, jTileMap["tileSize"])) { success = false; }
+		if (!JSON::WriteVec2(tileSize, jTileMap["tileSize"]))
+		{
+			g_app->m_debugger->Log("Failed to export TileMap: failed to write tile size!", LL_ERROR);
+			success = false;
+		}
 
 		const glm::vec2 mapSize = tileMap->m_mapSize;
-		if (!JSON::WriteVec2(mapSize, jTileMap["mapSize"])) { success = false; }
-
-
+		if (!JSON::WriteVec2(mapSize, jTileMap["mapSize"]))
+		{
+			g_app->m_debugger->Log("Failed to export TileMap: failed to write map size!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}
@@ -407,13 +497,25 @@ namespace SceneExporter
 		bool success = true;
 
 		const glm::vec2 pos = transform->m_position;
-		if (!JSON::WriteVec2(pos, jTransform["pos"])) { success = false; }
+		if (!JSON::WriteVec2(pos, jTransform["pos"]))
+		{
+			g_app->m_debugger->Log("Failed to export Transform: failed to write position!", LL_ERROR);
+			success = false;
+		}
 
 		const glm::vec2 size = transform->m_size;
-		if (!JSON::WriteVec2(size, jTransform["size"])) { success = false; }
+		if (!JSON::WriteVec2(size, jTransform["size"]))
+		{
+			g_app->m_debugger->Log("Failed to export Transform: failed to write size!", LL_ERROR);
+			success = false;
+		}
 
 		const float rotate = transform->m_rotate;
-		if (!JSON::Write(rotate, jTransform["rotate"])) { success = false; }
+		if (!JSON::Write(rotate, jTransform["rotate"]))
+		{
+			g_app->m_debugger->Log("Failed to export Transform: failed to write rotation!", LL_ERROR);
+			success = false;
+		}
 
 		return success;
 	}

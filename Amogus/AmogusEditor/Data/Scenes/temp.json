@@ -1,8 +1,8 @@
 {
     "clearColour": {
-        "x": -431602080.0,
-        "y": -431602080.0,
-        "z": -431602080.0
+        "x": 0.04165997728705406,
+        "y": 0.4596390724182129,
+        "z": 0.7594936490058899
     },
     "entities": [
         [
@@ -53,20 +53,20 @@
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "TestImages/test.png",
+                    "filePath": "Characters/Homura/idle/frame1.png",
                     "name": "defaultEntity"
                 },
                 "type": "sprite"
             },
             {
                 "pos": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 193.5,
+                    "y": 111.0
                 },
                 "rotate": 0.0,
                 "size": {
-                    "x": 1.0,
-                    "y": 1.0
+                    "x": 6.800000190734863,
+                    "y": 3.9000000953674316
                 },
                 "type": "transform"
             }

@@ -4,6 +4,7 @@
 #include <nlohmann/include/nlohmann/json.hpp>
 #include "EnemyMovementScript.h"
 #include "PlayerScript.h"
+#include "WeaponScript.h"
 
 class Runtime : public Application
 {
@@ -18,40 +19,37 @@ public:
 
 	void onInit() override
 	{
+		g_app->m_debugger->Log("Launched Yokai Fortune.", LL_DEBUG);
+
 		processCommandLine();
 
 		// Give entities called "Enemy" the enemy script
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 		auto allEntities = entityManager->GetAllActiveEntities();
-		Entity player = 0;
+		
+		Entity player = GetEntityByName("Player");
+		Entity enemy = GetEntityByName("Enemy");
+		Entity weapon = GetEntityByName("Weapon");
 
-		for (Entity entity : allEntities)
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
+		if (scriptC)
 		{
-			EntityName* name = entityManager->GetComponent<EntityName>(entity);
-			if (name && name->m_name == "Player")
-			{
-				player = entity;
-
-				ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
-				if (scriptC)
-				{
-					scriptC->AttachScript<PlayerScript>(100.0f);
-				}
-			}
+			scriptC->AttachScript<PlayerScript>(100.0f);
 		}
 
-		for (Entity entity : allEntities)
+		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
+		if (scriptC)
 		{
-			EntityName* name = entityManager->GetComponent<EntityName>(entity);
-			if (name && name->m_name == "Enemy")
-			{
-				ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
-				if (scriptC)
-				{
-					scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
-				}
-			}
+			scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
 		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(weapon);
+		if (scriptC)
+		{
+			Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+			entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
+		}
+
 	}
 
 	void onUpdate(float dt) override
@@ -151,6 +149,19 @@ private:
 			}
 			
 			m_sceneManager->SetActiveScene(json["scenes"][0]);
+		}
+	}
+
+	Entity GetEntityByName(const std::string& name)
+	{
+		EntityManager* entityManager = m_sceneManager->GetActiveScene()->m_entityManager;
+		auto allNameComponents = entityManager->GetAllComponentsOfType<EntityName>();
+		for (EntityName* nameComponent : allNameComponents)
+		{
+			if (nameComponent->m_name == name)
+			{
+				return entityManager->GetEntityFromComponent<EntityName>(nameComponent);
+			}
 		}
 	}
 
