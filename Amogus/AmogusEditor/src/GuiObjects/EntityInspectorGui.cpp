@@ -6,6 +6,7 @@
 
 #include <Amogus.h>
 
+#include "DialogBoxes/EditAnimationsGui.h"
 #include "DialogBoxes/NewAnimatedSpriteGui.h"
 #include "DialogBoxes/NewAudioGui.h"
 #include "DialogBoxes/NewBoxColliderGui.h"
@@ -13,19 +14,19 @@
 #include "DialogBoxes/NewSpriteGui.h"
 #include "DialogBoxes/NewTileMapGui.h"
 
-#define MAX_INPUT_LENGTH 256
+#define MAX_INPUT_LENGTH 512
 
 #define DEFAULT_VIEWPORT_WIDTH 1280
 #define DEFAULT_VIEWPORT_HEIGHT 720
 #define DEFAULT_NEAR 0.1f
 #define DEFAULT_FAR 1.0f
 
-void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i);
+void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i, std::unique_ptr<IGuiObject>& popupPtr);
 void DeleteComponent(void* component, std::type_index type, Entity entity, EntityManager* entityManager);
 
 /// Add prototypes here for new components (and define below with the others) ///
 // Inspector gui functions
-void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner);
+void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner, std::unique_ptr<IGuiObject>& popupPtr);
 void CreateAudioGui(Audio* audio, Entity owner);
 void CreateBoxColliderGui(BoxCollider* boxCollider);
 void CreateCameraGui(Camera* camera);
@@ -101,7 +102,7 @@ void EntityInspectorGui::DrawInspectorInfo()
 		std::type_index typeIndex = componentPair.first;
 		void* component = componentPair.second; // To pass into correct function
 
-		DrawComponentGui(component, typeIndex, m_activeEntity, entityManager, i);
+		DrawComponentGui(component, typeIndex, m_activeEntity, entityManager, i, m_popup);
 
 		ImGui::Separator();
 
@@ -116,14 +117,14 @@ void EntityInspectorGui::SetActiveEntity(Entity entity)
 	m_activeEntity = entity;
 }
 
-void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i)
+void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i, std::unique_ptr<IGuiObject>& popupPtr)
 {
 	if (!component)
 	{
 		return;
 	}
 
-	if (type == typeid(AnimatedSprite)) { CreateAnimatedSpriteGui(reinterpret_cast<AnimatedSprite*>(component), entity); }
+	if (type == typeid(AnimatedSprite)) { CreateAnimatedSpriteGui(reinterpret_cast<AnimatedSprite*>(component), entity, popupPtr); }
 	else if (type == typeid(Audio)) { CreateAudioGui(reinterpret_cast<Audio*>(component), entity); }
 	else if (type == typeid(BoxCollider)) { CreateBoxColliderGui(reinterpret_cast<BoxCollider*>(component)); }
 	else if (type == typeid(Camera)) { CreateCameraGui(reinterpret_cast<Camera*>(component)); }
@@ -225,7 +226,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 	}
 }
 
-void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
+void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner, std::unique_ptr<IGuiObject>& popupPtr)
 {
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::CollapsingHeader("Animated Sprite", nodeFlags))
@@ -277,6 +278,31 @@ void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
 		if (CreateTextureGui(textureName, textureFilePath))
 		{
 			edited = true;
+		}
+
+		// Animation selection for visual testing
+		static std::string preview = "##";
+		
+		if (ImGui::BeginCombo("Animation tests", preview.c_str()))
+		{
+			std::map<std::string, Animation>& allAnimations = animatedSprite->getAnimations();
+			for (auto i = allAnimations.begin(); i != allAnimations.end(); i++)
+			{
+				bool isSelected = preview == i->first;
+				if (ImGui::Selectable(i->first.c_str(), isSelected))
+				{
+					preview = i->first;
+					animatedSprite->setAnimation(i->first);
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		// Open edit animations dialog
+		if (ImGui::Button("Edit animations..."))
+		{
+			popupPtr = std::make_unique<EditAnimationsGui>(owner);
 		}
 
 		if (edited)

@@ -187,6 +187,7 @@ namespace SceneExporter
 
 		// Write Animation data
 		{
+			jAnimatedSprite["animations"] = nlohmann::json::array();
 			nlohmann::json jAnimation;
 			const std::map<std::string, Animation> animations = animatedSprite->getAnimations();
 			

@@ -33,6 +33,7 @@ bool AnimatedSprite::setAnimation(const std::string& name)
 	if (m_animations.count(name) == 0)
 		return false;
 	m_currentAnimation = &m_animations[name];
+	m_currentFrame = 0;
 }
 
 void AnimatedSprite::update(float dt)

@@ -607,95 +607,95 @@ void ImGuiLayer::DrawSceneView(int textureID)
 
 void ImGuiLayer::SelectObject()
 {
-	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+	//EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
-	// Get mouse pos in world space
-	{
-		ImVec2 windowPosIm = ImGui::GetCursorScreenPos();
-		ImVec2 mousePosIm = ImGui::GetMousePos();
-		glm::vec2 windowPos = glm::vec2(windowPosIm.x, windowPosIm.y);
-		glm::vec2 mousePos = glm::vec2(mousePosIm.x, mousePosIm.y);
+	//// Get mouse pos in world space
+	//{
+	//	ImVec2 windowPosIm = ImGui::GetCursorScreenPos();
+	//	ImVec2 mousePosIm = ImGui::GetMousePos();
+	//	glm::vec2 windowPos = glm::vec2(windowPosIm.x, windowPosIm.y);
+	//	glm::vec2 mousePos = glm::vec2(mousePosIm.x, mousePosIm.y);
 
-		// Check that click is in window
-		if (mousePos.x > windowPos.x + g_app->m_windowParams.windowWidth)
-			return;
-		if (mousePos.x < windowPos.x)
-			return;
-		if (mousePos.y > windowPos.y + g_app->m_windowParams.windowHeight)
-			return;
-		if (mousePos.y < windowPos.y)
-			return;
+	//	// Check that click is in window
+	//	if (mousePos.x > windowPos.x + g_app->m_windowParams.windowWidth)
+	//		return;
+	//	if (mousePos.x < windowPos.x)
+	//		return;
+	//	if (mousePos.y > windowPos.y + g_app->m_windowParams.windowHeight)
+	//		return;
+	//	if (mousePos.y < windowPos.y)
+	//		return;
 
-		Camera* activeCamera = nullptr;
-		{
-			std::vector<Camera*> allCameras = entityManager->GetAllComponentsOfType<Camera>();
-			for (Camera* camera : allCameras)
-			{
-				if (camera->m_isActive)
-				{
-					activeCamera = camera;
-					break;
-				}
-			}
-		}
+	//	Camera* activeCamera = nullptr;
+	//	{
+	//		std::vector<Camera*> allCameras = entityManager->GetAllComponentsOfType<Camera>();
+	//		for (Camera* camera : allCameras)
+	//		{
+	//			if (camera->m_isActive)
+	//			{
+	//				activeCamera = camera;
+	//				break;
+	//			}
+	//		}
+	//	}
 
-		Entity cameraEntity = entityManager->GetEntityFromComponent<Camera>(activeCamera);
-		Transform* cameraTransform = entityManager->GetComponent<Transform>(cameraEntity);
+	//	Entity cameraEntity = entityManager->GetEntityFromComponent<Camera>(activeCamera);
+	//	Transform* cameraTransform = entityManager->GetComponent<Transform>(cameraEntity);
 
-		glm::vec2 localMousePos = mousePos - windowPos;
+	//	glm::vec2 localMousePos = mousePos - windowPos;
 
-		if (localMousePos.x > ImGui::GetWindowSize().x || localMousePos.y > ImGui::GetWindowSize().y) // Outside window bounds
-		{
-			return;
-		}
+	//	if (localMousePos.x > ImGui::GetWindowSize().x || localMousePos.y > ImGui::GetWindowSize().y) // Outside window bounds
+	//	{
+	//		return;
+	//	}
 
-		glm::vec2 worldMousePos = localMousePos + cameraTransform->m_position;
+	//	glm::vec2 worldMousePos = localMousePos + cameraTransform->m_position;
 
-		m_mouseX = worldMousePos.x;
-		m_mouseY = worldMousePos.y;
-	}
+	//	m_mouseX = worldMousePos.x;
+	//	m_mouseY = worldMousePos.y;
+	//}
 
-	Entity selectedEntity = 0;
+	//Entity selectedEntity = 0;
 
-	std::vector<Transform*> allTransforms = entityManager->GetAllComponentsOfType<Transform>();
-	for (Transform* transform : allTransforms)
-	{
-		Entity entity = entityManager->GetEntityFromComponent<Transform>(transform);
-		glm::vec2 pos = transform->m_position;
-		glm::vec2 size = transform->m_size;
+	//std::vector<Transform*> allTransforms = entityManager->GetAllComponentsOfType<Transform>();
+	//for (Transform* transform : allTransforms)
+	//{
+	//	Entity entity = entityManager->GetEntityFromComponent<Transform>(transform);
+	//	glm::vec2 pos = transform->m_position;
+	//	glm::vec2 size = transform->m_size;
 
-		if (entityManager->HasComponent<Sprite>(entity))
-		{
-			Sprite* sprite = entityManager->GetComponent<Sprite>(entity);
-			Texture2D texture = sprite->GetTexture();
-			size.x = texture.m_width;
-			size.y = texture.m_height;
-		}
-		else if (entityManager->HasComponent<AnimatedSprite>(entity))
-		{
-			AnimatedSprite* sprite = entityManager->GetComponent<AnimatedSprite>(entity);
-			Texture2D firstFrame = sprite->GetFrames()[0];
-			size.x = firstFrame.m_width;
-			size.y = firstFrame.m_height;
-		}
-		else
-		{
-			size *= 200.0f;
-		}
+	//	if (entityManager->HasComponent<Sprite>(entity))
+	//	{
+	//		Sprite* sprite = entityManager->GetComponent<Sprite>(entity);
+	//		Texture2D texture = sprite->GetTexture();
+	//		size.x = texture.m_width;
+	//		size.y = texture.m_height;
+	//	}
+	//	else if (entityManager->HasComponent<AnimatedSprite>(entity))
+	//	{
+	//		AnimatedSprite* sprite = entityManager->GetComponent<AnimatedSprite>(entity);
+	//		Texture2D firstFrame = sprite->GetFrames()[0];
+	//		size.x = firstFrame.m_width;
+	//		size.y = firstFrame.m_height;
+	//	}
+	//	else
+	//	{
+	//		size *= 200.0f;
+	//	}
 
-		if (m_mouseX > pos.x + size.x)
-			continue;
-		if (m_mouseX < pos.x)
-			continue;
-		if (m_mouseY > pos.y + size.y)
-			continue;
-		if (m_mouseY < pos.y)
-			continue;
+	//	if (m_mouseX > pos.x + size.x)
+	//		continue;
+	//	if (m_mouseX < pos.x)
+	//		continue;
+	//	if (m_mouseY > pos.y + size.y)
+	//		continue;
+	//	if (m_mouseY < pos.y)
+	//		continue;
 
-		selectedEntity = entity;
-	}
+	//	selectedEntity = entity;
+	//}
 
-	m_entityInspector.SetActiveEntity(selectedEntity);
+	//m_entityInspector.SetActiveEntity(selectedEntity);
 }
 
 void ImGuiLayer::OnClick(InputEvent* e)

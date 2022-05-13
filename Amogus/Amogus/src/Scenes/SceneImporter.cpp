@@ -249,6 +249,11 @@ namespace SceneImporter
 
 		AnimatedSprite* component = g_entityManager->AddComponent<AnimatedSprite>(entity, texture, frameSize, colour, shader);
 		
+		if (!j.contains("animations"))
+		{
+			return success; // Return early; not a fail state, just no animations stored
+		}
+
 		nlohmann::json animations = j["animations"];
 		for (auto& animation : animations)
 		{
