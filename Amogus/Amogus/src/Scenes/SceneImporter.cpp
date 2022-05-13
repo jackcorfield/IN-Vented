@@ -229,11 +229,11 @@ namespace SceneImporter
 	{
 		bool success = true;
 
-		float interval;
-		if (!JSON::Read(interval, j, "interval")) { success = false; }
-
 		glm::vec3 colour = glm::vec3(1.0f);
 		if (!JSON::ReadVec3(colour, j, "colour")) { success = false; }
+
+		glm::vec2 frameSize = glm::vec2(1.0f);
+		if (!JSON::ReadVec2(frameSize, j, "frameSize")) { success = false; }
 
 		Shader* shader = nullptr;
 		if (!j.contains("shader") || !ReadShader(j["shader"], &shader))
@@ -241,27 +241,23 @@ namespace SceneImporter
 			return false;
 		}
 
-		if (!j.contains("textures"))
+		Texture2D texture;
+		if (!j.contains("texture") || !ReadTexture(j["texture"], texture))
 		{
 			return false;
 		}
-		std::vector<Texture2D> textures;
-		for (int i = 0; i < j["textures"].size(); i++)
+
+		AnimatedSprite* component = g_entityManager->AddComponent<AnimatedSprite>(entity, texture, frameSize, colour, shader);
+		
+		nlohmann::json animations = j["animations"];
+		for (auto& animation : animations)
 		{
-			nlohmann::json jTexture = j["textures"][i];
-			Texture2D newTexture;
+			std::string animationName = animation["name"];
+			float frameTime = animation["frameTime"];
+			std::vector<unsigned int> frames = animation["frames"];
 
-			if (ReadTexture(jTexture, newTexture))
-			{
-				textures.emplace_back(newTexture);
-			}
-			else
-			{
-				success = false;
-			}
+			component->createAnimation(animationName, frames, frameTime);
 		}
-
-		AnimatedSprite* component = g_entityManager->AddComponent<AnimatedSprite>(entity, textures, interval, colour, shader);
 
 		return success;
 	}

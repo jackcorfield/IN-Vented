@@ -135,11 +135,17 @@ namespace SceneExporter
 	{
 		bool success = true;
 
-		const float interval = animatedSprite->GetFrameInterval();
-		if (!JSON::Write(interval, jAnimatedSprite["interval"])) { success = false; }
-
 		const glm::vec3 colour = animatedSprite->GetColour();
-		if (!JSON::WriteVec3(colour, jAnimatedSprite["colour"])) { success = false; }
+		if (!JSON::WriteVec3(colour, jAnimatedSprite["colour"]))
+		{
+			success = false;
+		}
+
+		const glm::vec2 frameSize = animatedSprite->getFrameSize();
+		if (!JSON::WriteVec2(frameSize, jAnimatedSprite["frameSize"]))
+		{
+			success = false;
+		}
 
 		// Write Shader data
 		{
@@ -165,20 +171,41 @@ namespace SceneExporter
 			jAnimatedSprite["shader"] = jShader;
 		}
 
-		// Write frame Texture2D data
-		const std::vector<Texture2D> frames = animatedSprite->GetFrames();
-		for (int i = 0; i < frames.size(); i++)
+		// Write Texture2D data
 		{
 			nlohmann::json jTexture;
-			const Texture2D texture = frames[i];
+			const Texture2D texture = animatedSprite->GetTexture();
 
-			const std::string textureName = texture.m_name;
+			const std::string textureName = animatedSprite->GetTexture().m_name;
 			if (!JSON::Write(textureName, jTexture["name"])) {}
 
-			const std::string texturePath = texture.m_filePath;
+			const std::string texturePath = animatedSprite->GetTexture().m_filePath;
 			if (!JSON::Write(texturePath, jTexture["filePath"])) { return false; }// Cannot render a sprite without a texture
 
-			jAnimatedSprite["textures"][i] = jTexture;
+			jAnimatedSprite["texture"] = jTexture;
+		}
+
+		// Write Animation data
+		{
+			nlohmann::json jAnimation;
+			const std::map<std::string, Animation> animations = animatedSprite->getAnimations();
+			
+			for (auto& animation : animations)
+			{
+				nlohmann::json jAnimationData;
+				const Animation& animationData = animation.second;
+				
+				const std::string animationName = animation.first;
+				if (!JSON::Write(animationName, jAnimationData["name"])) { success = false; }
+				
+				const float frameTime = animationData.frameTime;
+				if (!JSON::Write(frameTime, jAnimationData["frameTime"])) { success = false; }
+
+				const std::vector<unsigned int> frames = animationData.frames;
+				if (!JSON::Write(frames, jAnimationData["frames"])) { success = false; }
+
+				jAnimation["animations"].push_back(jAnimationData);
+			}
 		}
 
 		return success;

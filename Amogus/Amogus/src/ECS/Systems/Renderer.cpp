@@ -74,6 +74,58 @@ void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
     glBindVertexArray(0);
 }
 
+void Renderer::DrawAnimatedSprite(AnimatedSprite* sprite, Transform* transform)
+{
+    Shader* shader = sprite->GetShader();
+    if (shader == NULL)
+        shader = m_defaultShader;
+    shader->Use();
+
+    // Translate, then rotate, then scale
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(transform->m_position, 0.0f));
+
+    model = glm::translate(model, glm::vec3(0.5f * transform->m_size.x, 0.5f * transform->m_size.y, 0.0f)); // Moves rotation origin to center
+    model = glm::rotate(model, glm::radians(transform->m_rotate), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::translate(model, glm::vec3(-0.5f * transform->m_size.x, -0.5f * transform->m_size.y, 0.0f)); // Moves origin back
+
+    model = glm::scale(model, glm::vec3(transform->m_size * 200.0f, 1.0f));
+
+    shader->SetUniform("model", model);
+    shader->SetUniform("spriteColor", sprite->GetColour());
+
+    glActiveTexture(GL_TEXTURE0);
+    shader->SetUniform("image", 0);
+    sprite->GetTexture().Bind();
+
+    int imageWidth = sprite->GetTexture().m_width;
+	int imageHeight = sprite->GetTexture().m_height;
+    int frameWidth = sprite->getFrameSize().x;
+    int frameHeight = sprite->getFrameSize().y;
+
+	int frameCount = sprite->getNumFrames();
+
+	int currentFrame = sprite->getCurrentFrame();
+
+	int frameX = currentFrame % (imageWidth / frameWidth);
+	int frameY = currentFrame / (imageWidth / frameWidth);
+	
+	float uvLeft = (float)frameX / (float)imageWidth;
+	float uvRight = (float)(frameX + frameWidth) / (float)imageWidth;
+	float uvTop = (float)frameY / (float)imageHeight;
+	float uvBottom = (float)(frameY + frameHeight) / (float)imageHeight;
+
+	
+	
+    SetQuadUVs({ uvLeft, uvTop }, { uvRight, uvTop }, { uvLeft, uvBottom }, { uvRight, uvBottom });
+	
+    glBindVertexArray(m_quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    sprite->GetTexture().Unbind();
+    glBindVertexArray(0);
+}
+
 void Renderer::DrawScene()
 {
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
@@ -115,7 +167,8 @@ void Renderer::DrawScene()
         std::vector<AnimatedSprite*> animatedSprites = activeScene->m_entityManager->GetAllComponentsOfType<AnimatedSprite>();
         for (AnimatedSprite* aSprite : animatedSprites)
         {
-            aSprite->Update(m_renderContext.deltaTime);
+			if (!g_app->IsPaused())
+                aSprite->update(m_renderContext.deltaTime);
 
             Shader* shader = aSprite->GetShader();
             if (shader == NULL)
@@ -127,9 +180,11 @@ void Renderer::DrawScene()
 
             if (transform)
             {
-                DrawSprite(aSprite, transform);
+                DrawAnimatedSprite(aSprite, transform);
             }
         }
+
+        SetQuadUVs({ 0.0f, 1.0f }, { 1.0f, 1.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f });
 
         std::vector<Sprite*> sprites = activeScene->m_entityManager->GetAllComponentsOfType<Sprite>();
         for (Sprite* sprite : sprites)
@@ -236,7 +291,6 @@ void Renderer::setScreenShake(bool screenShake)
 
 void Renderer::InitQuad()
 {
-    unsigned int VBO;
     SpriteVertex vertices[] = {
         // pos      // texCoords
         { {-0.5f, 0.5f}, {0.0f, 1.0f} },
@@ -249,11 +303,11 @@ void Renderer::InitQuad()
     };
 
     glGenVertexArrays(1, &m_quadVAO);
-    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &m_quadVBO);
 
     glBindVertexArray(m_quadVAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_quadVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
@@ -264,6 +318,25 @@ void Renderer::InitQuad()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+void Renderer::SetQuadUVs(glm::vec2 tl, glm::vec2 tr, glm::vec2 bl, glm::vec2 br)
+{
+    glBindVertexArray(m_quadVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_quadVBO);
+
+	SpriteVertex vertices[] = {
+		// pos      // texCoords
+        { {-0.5f, 0.5f}, tl }, // TL
+        { {0.5f, -0.5f}, br }, // BR
+        { {-0.5f, -0.5f}, bl }, // BL
+
+        { {-0.5f, 0.5f}, tl }, // TL
+        { {0.5f, 0.5f}, tr }, // TR
+        { {0.5f, -0.5f}, br } // BR
+	};
+	
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 }
 
 void CheckGLErrors()
