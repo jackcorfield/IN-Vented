@@ -17,6 +17,7 @@ public:
 
 protected:
 
+	// ECS
 	template <typename T, class ...ARGS>
 	T* AddComponent(ARGS&&... params)
 	{
@@ -40,6 +41,11 @@ protected:
 	{
 		return m_entityManager->RemoveComponent<T>(m_entityID);
 	}
+
+	// Scenes
+	bool SceneExists(const std::string& name);
+	void GotoScene(const std::string& name);
+	std::string GetCurrentScene() const;
 
 private:
 	Entity m_entityID;
