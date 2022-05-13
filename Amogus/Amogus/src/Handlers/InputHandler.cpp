@@ -55,7 +55,7 @@ void InputHandler::MouseButtonCallback(GLFWwindow* window, int button, int actio
 	m_mouseClickBus->publish(e);
 }
 
-void InputHandler::GamepadButtonPressed(int button)
+void InputHandler::GamepadButtonPressed(int button, const unsigned char action)
 {
 	// JIT initialization
 	if (!m_initialized)
@@ -69,6 +69,7 @@ void InputHandler::GamepadButtonPressed(int button)
 			{
 				InputEvent* e = new InputEvent();
 				e->m_gamepadInput = button;
+				e->m_action = action;
 
 				mapping->m_bus->publish(e);
 			}
@@ -95,6 +96,20 @@ void InputHandler::GamepadAxisChanged(int axis, float value)
 
 	if (axis == GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER)
 		m_gamepadRightTriggerAxis = value;
+
+
+	for (InputMapping* mapping : m_mappings)
+	{
+		if (mapping->m_name != "Input_Movement")
+			continue;
+
+		InputEvent* e = new InputEvent();
+
+		e->m_leftStickAxis = m_gamepadLeftStickAxis;
+		e->m_rightStickAxis = m_gamepadRightStickAxis;
+
+		mapping->m_bus->publish(e);
+	}
 }
 
 void InputHandler::ReadMappings()
@@ -223,7 +238,7 @@ void InputHandler::PollGameControllers()
 		{
 			if (GLFW_PRESS == buttons[i])
 			{
-				GamepadButtonPressed(i);
+				GamepadButtonPressed(i, buttons[i]);
 			}
 		}
 	}
