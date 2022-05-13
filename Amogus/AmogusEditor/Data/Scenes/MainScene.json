@@ -123,6 +123,15 @@
                 },
                 "type": "transform"
             }
+        ],
+        [
+            {
+                "name": "Enemy Spawner",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            }
         ]
     ],
     "name": "MainScene"

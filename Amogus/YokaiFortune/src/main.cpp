@@ -3,6 +3,7 @@
 #include <fstream>
 #include <nlohmann/include/nlohmann/json.hpp>
 #include "EnemyMovementScript.h"
+#include "EnemySpawnerScript.h"
 #include "PlayerScript.h"
 
 class Runtime : public Application
@@ -28,7 +29,8 @@ public:
 		
 		Entity player = GetEntityByName("Player");
 		Entity enemy = GetEntityByName("Enemy");
-		
+		Entity enemySpawner = GetEntityByName("Enemy Spawner");
+
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
 		{
@@ -39,6 +41,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(enemySpawner);
+		if (scriptC)
+		{
+			scriptC->AttachScript<>();
 		}
 	}
 
