@@ -568,7 +568,13 @@ namespace SceneImporter
 			g_app->m_debugger->Log("Importing Transform: failed to read rotation.", LL_WARNING);
 		}
 
-		Transform* component = g_entityManager->AddComponent<Transform>(entity, pos, size, rotate);
+		float depth(0.0f);
+		if (!JSON::Read(depth, j, "depth"))
+		{
+			g_app->m_debugger->Log("Importing Transform: failed to read depth", LL_WARNING);
+		}
+
+		Transform* component = g_entityManager->AddComponent<Transform>(entity, pos, size, rotate, depth);
 
 		return success;
 	}

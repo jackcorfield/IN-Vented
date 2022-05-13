@@ -413,10 +413,10 @@ void CreateCameraGui(Camera* camera)
 		}
 
 		// Near
-		if (ImGui::DragFloat("Near clip", &camera->m_near, 0.1f, 0.0f, 1000.0f)) {}
+		if (ImGui::DragFloat("Near clip", &camera->m_near, 0.1f)) {}
 
 		// Far
-		if (ImGui::DragFloat("Far clip", &camera->m_far, 0.1f, 0.0f, 1000.0f)) {}
+		if (ImGui::DragFloat("Far clip", &camera->m_far, 0.1f)) {}
 
 		// Active status
 		if (camera->m_isActive)
@@ -637,6 +637,9 @@ void CreateTransformGui(Transform* transform)
 				transform->m_size.y = sizeArr[1];
 			}
 		}
+
+		// Depth
+		if (ImGui::DragFloat("Depth", &transform->m_depth, 0.1f, -1.0f, 1.0f)) {}
 	}
 }
 
