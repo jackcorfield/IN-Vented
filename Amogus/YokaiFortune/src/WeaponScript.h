@@ -9,14 +9,14 @@ public:
     WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Sprite icon, Sprite sprite, glm::vec2 hitboxSize , int level = 0, bool moving = true, bool autoTarget = false);
     ~WeaponScript();
     void OnAttach();
-    void OnUpdate(float dt);
+    virtual void OnUpdate(float dt);
     void OnRender(float dt);
     void OnUnattach();
 
     void OnLevelUp();
-    void SpawnProjectile();
+    virtual void SpawnProjectile();
 
-private:
+protected:
 
     enum modifier
     {

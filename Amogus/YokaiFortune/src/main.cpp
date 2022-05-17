@@ -7,6 +7,7 @@
 #include "EnemySpawnerScript.h"
 #include "PlayerScript.h"
 #include "WeaponScript.h"
+#include "Shuriken.h"
 
 class Runtime : public Application
 {
@@ -65,7 +66,7 @@ public:
 		if (scriptC)
 		{
 			Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-			entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
+			entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<Shuriken>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
 		}
 
 	}
