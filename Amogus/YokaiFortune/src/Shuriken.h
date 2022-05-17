@@ -15,5 +15,7 @@ class Shuriken :
     void SpawnProjectile();
 
 private:
+
+
 };
 

@@ -15,7 +15,7 @@ m_isMoving(moving),
 m_isAutoTarget(autoTarget),
 m_canLevel(true)
 {
-	 
+	m_currentProjectile = 0;
 }
 
 WeaponScript::~WeaponScript()
@@ -77,6 +77,5 @@ void WeaponScript::OnUpdate(float dt)
 
 void WeaponScript::SpawnProjectile()
 {
-
 	
 }

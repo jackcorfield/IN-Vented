@@ -33,6 +33,7 @@ protected:
         Entity        name;
         float           duration;
         glm::vec2   direction;
+        bool isSpawned;
     };
 
     Entity m_weapon;
@@ -75,6 +76,8 @@ protected:
     float m_critMultiplier;
 
     bool m_isMax;
+
+    int m_currentProjectile;
 
     glm::vec2 m_playerPreviousPosition;
 

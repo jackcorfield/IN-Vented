@@ -36,7 +36,8 @@ public:
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
-		Entity weapon = GetEntityByName("Weapon");
+		Entity shuriken = GetEntityByName("Shuriken");
+		Entity hDevice = GetEntityByName("HackingDevice");
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
@@ -62,11 +63,18 @@ public:
 			scriptC->AttachScript<CameraFollowScript>(player);
 		}
 
-		scriptC = entityManager->GetComponent<ScriptComponent>(weapon);
+		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-			entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<Shuriken>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
+			Sprite* sprite = entityManager->AddComponent<Sprite>(shuriken, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+			scriptC->AttachScript<Shuriken>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(shuriken)->m_size);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
+		if (scriptC)
+		{
+			Sprite* sprite = entityManager->AddComponent<Sprite>(hDevice, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/LaserGun/laser.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+			scriptC->AttachScript<Shuriken>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(hDevice)->m_size);
 		}
 
 	}

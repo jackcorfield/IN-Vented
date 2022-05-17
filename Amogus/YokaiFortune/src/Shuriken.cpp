@@ -8,7 +8,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 	m_baseProjectileArea = 1; //Size of weapon
 	m_baseProjectileDuration = 4; //How long the projectile stays on the screen
 	m_baseProjectileCount = 3; //How many projectiles
-	m_projectileMax = 6;
+	m_projectileMax = 30;
 
 	m_baseDamageModifier = 1;
 
@@ -20,6 +20,42 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 	m_playerPreviousPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 	std::srand(time(NULL));
+
+	for (int i = 0; i < m_projectileMax; i++)
+	{
+		Entity newProjectile = m_manager->CreateEntity();
+
+		Transform* transform = GetComponent<Transform>();
+
+		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
+
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
+
+		m_manager->AddComponent<Sprite>(newProjectile, m_sprite.GetTexture(), m_sprite.GetColour(), m_sprite.GetShader()); //replace later with animated sprite!
+		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
+
+		glm::vec2 direction(0, 0);
+
+		if (m_isMoving)
+		{
+			direction = currentPosition - m_playerPreviousPosition;
+			glm::normalize(direction);
+		}
+
+		if (direction == glm::vec2(0, 0))
+			direction = glm::vec2(1, 0);
+
+		Projectiles p;
+
+		p.name = newProjectile;
+		p.duration = m_baseProjectileDuration;
+		p.direction = direction;
+		p.isSpawned = false;
+
+		m_vecProjectiles.push_back(p);
+	}
+
+
 }
 
 Shuriken::~Shuriken()
@@ -64,12 +100,13 @@ void Shuriken::OnUpdate(float dt)
 
 	for (int i = 0; i < m_vecProjectiles.size(); i++)
 	{
+		if (!m_vecProjectiles[i].isSpawned)
+			continue;
+
 		if (m_vecProjectiles[i].duration > 0)
 		{
 			if (!m_isMoving)
-			{
 				continue;
-			}
 
 			//TEMPORARY
 			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
@@ -85,9 +122,8 @@ void Shuriken::OnUpdate(float dt)
 		}
 		else
 		{
-			Entity entity = m_vecProjectiles[i].name;
-			m_vecProjectiles.erase(m_vecProjectiles.begin() + i);
-			m_manager->DeleteEntity(entity);
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position = glm::vec2(1000.0f, 1000.0f);
+			m_vecProjectiles[i].isSpawned = false;
 			i--;
 		}
 	}
@@ -99,7 +135,6 @@ void Shuriken::OnUpdate(float dt)
 
 void Shuriken::SpawnProjectile()
 {
-
 	glm::vec2 offset;
 
 	offset.x = (rand() % 200 - 100) / 2;
@@ -110,37 +145,40 @@ void Shuriken::SpawnProjectile()
 	//ADD MORE ENTITIES TO THE LIST
 	//IF NOT, REUSE OLD ENTITIES
 
-	Entity newProjectile = m_manager->CreateEntity();
+	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
+	newProjectile->isSpawned = true;
+
+	m_currentProjectile++;
+	if (m_currentProjectile >= m_vecProjectiles.size() - 1)
+		m_currentProjectile = 0;
 
 	Transform* transform = GetComponent<Transform>();
 
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(0, 0), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
-
-	m_manager->GetComponent<Transform>(newProjectile)->m_position = currentPosition + offset;
-
-	m_manager->AddComponent<Sprite>(newProjectile, m_sprite.GetTexture(), m_sprite.GetColour(), m_sprite.GetShader()); //replace later with animated sprite!
-	m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
+	m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + offset;
 
 	glm::vec2 direction(0, 0);
+
+	
 
 	if (m_isMoving)
 	{
 		direction = currentPosition - m_playerPreviousPosition;
-		glm::normalize(direction);
+		
+		if (direction == glm::vec2(0, 0))
+			direction = glm::vec2(1, 0);
+		else
+			direction = glm::normalize(direction);
 	}
 
-	if (direction == glm::vec2(0, 0))
-		direction = glm::vec2(1, 0);
+	
 
-	Projectiles p;
 
-	p.name = newProjectile;
-	p.duration = m_baseProjectileDuration;
-	p.direction = direction;
-
-	m_vecProjectiles.push_back(p);
 
 	//play noise
+
+	newProjectile->duration = m_baseProjectileDuration;
+	newProjectile->direction = direction;
+
 }
