@@ -21,28 +21,49 @@
     <ClCompile Include="src\ImGuiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewAnimatedSpriteGui.cpp">
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewAnimatedSpriteGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewAudioGui.cpp">
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewAudioGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewBoxColliderGui.cpp">
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewBoxColliderGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewCircleColliderGui.cpp">
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewCircleColliderGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewSpriteGui.cpp">
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewSpriteGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewTileMapGui.cpp">
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewTileMapGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GuiObjects\SceneHierarchyGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GuiObjects\EntityInspectorGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\ImportSceneGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\CreateSceneGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewGameGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\LoadGameGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\EditAnimationsGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuiObjects\DialogBoxes\SettingsGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,22 +74,22 @@
     <ClInclude Include="Fonts\IconHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewAnimatedSpriteGui.h">
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewAnimatedSpriteGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewAudioGui.h">
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewAudioGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewBoxColliderGui.h">
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewBoxColliderGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewCircleColliderGui.h">
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewCircleColliderGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewSpriteGui.h">
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewSpriteGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewTileMapGui.h">
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewTileMapGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GuiObjects\SceneHierarchyGui.h">
@@ -78,6 +99,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GuiObjects\IGuiObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\ImportSceneGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\CreateSceneGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewGameGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\LoadGameGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\EditAnimationsGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\SettingsGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,0 +1,14 @@
+{
+    "Mappings": [
+      {
+        "name": "Input_Exit",
+        "keys": [ 256 ],
+        "buttons": [ 1 ]
+      },
+      {
+        "name": "Input_Movement",
+        "keys": [ 87, 65, 83, 68 ],
+        "buttons": [ 10, 11, 12, 13]
+      }
+    ]
+}

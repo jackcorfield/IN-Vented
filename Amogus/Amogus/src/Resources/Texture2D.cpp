@@ -39,7 +39,7 @@ namespace TextureLoader
 		GLuint id;
 		glGenTextures(1, &id);
 
-		Texture2D texture(id, data.m_width, data.m_height, name, f);
+		Texture2D texture(id, data.m_width, data.m_height, name, filePath);
 
 		texture.Bind();
 

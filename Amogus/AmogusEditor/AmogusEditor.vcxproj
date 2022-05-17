@@ -48,7 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -114,9 +114,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Amogus;$(SolutionDir)Amogus\src;$(SolutionDir)Amogus\dependencies\fmod\inc;$(SolutionDir)Dependencies\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,8 +130,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Amogus;$(SolutionDir)Amogus\src;$(SolutionDir)Amogus\dependencies\fmod\inc;$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,26 +151,40 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewTileMapGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewCircleColliderGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewBoxColliderGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewAudioGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewAnimatedSpriteGui.cpp" />
-    <ClCompile Include="src\GuiObjects\ComponentDialogBoxes\NewSpriteGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\EditAnimationsGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\SettingsGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\CreateSceneGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\ImportSceneGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\LoadGameGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewGameGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewTileMapGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewCircleColliderGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewBoxColliderGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewAudioGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewAnimatedSpriteGui.cpp" />
+    <ClCompile Include="src\GuiObjects\DialogBoxes\NewSpriteGui.cpp" />
     <ClCompile Include="src\GuiObjects\EntityInspectorGui.cpp" />
     <ClCompile Include="src\ImGuiLayer.cpp" />
     <ClCompile Include="src\GuiObjects\SceneHierarchyGui.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GuiObjects\DialogBoxes\EditAnimationsGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\SettingsGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\CreateSceneGui.h" />
     <ClInclude Include="Fonts\IconHeader.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewTileMapGui.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewCircleColliderGui.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewBoxColliderGui.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewAudioGui.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewAnimatedSpriteGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\ErrorDialogGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\ImportSceneGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\LoadGameGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewGameGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewTileMapGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewCircleColliderGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewBoxColliderGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewAudioGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewAnimatedSpriteGui.h" />
     <ClInclude Include="src\GuiObjects\IGuiObject.h" />
-    <ClInclude Include="src\GuiObjects\ComponentDialogBoxes\NewSpriteGui.h" />
+    <ClInclude Include="src\GuiObjects\DialogBoxes\NewSpriteGui.h" />
     <ClInclude Include="src\GuiObjects\EntityInspectorGui.h" />
     <ClInclude Include="src\ImGuiLayer.h" />
     <ClInclude Include="src\GuiObjects\SceneHierarchyGui.h" />

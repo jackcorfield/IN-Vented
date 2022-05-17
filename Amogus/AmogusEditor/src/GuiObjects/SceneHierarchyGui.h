@@ -19,7 +19,6 @@ public:
 private:
 	// Return true if clicked
 	bool DrawEntityNode(Entity entity, int i);
-	//bool DrawComponentNode(void* component, std::type_index type, int i);
 
 	Scene* m_activeScene;
 	Entity m_selectedEntity;

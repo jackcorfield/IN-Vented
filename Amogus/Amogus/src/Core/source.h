@@ -12,6 +12,7 @@
 #include <ECS/Systems/PhysicsSystem.h>
 #include <ECS/Systems/ScriptSystem.h>
 
+#include "Debugger.h"
 
 struct GLFWwindow;
 
@@ -38,6 +39,10 @@ public:
 
 	void Quit();
 
+	bool IsPaused();
+	void SetPause(bool pause);
+	void TogglePause();
+
 	GLFWwindow* m_window;
 	WindowParams m_windowParams;
 
@@ -45,6 +50,7 @@ public:
 	SceneManager*		m_sceneManager;
 	AudioManager*		m_audioManager;
 	ScriptSystem*		m_scriptSystem;
+	Debugger*			m_debugger;
 
 	virtual void onInit() {};
 	virtual void onUpdate(float dt) {}
@@ -62,7 +68,7 @@ private:
 	bool InitGL();
 	void Quit(InputEvent* e);
 	void TerminateOpenGL();
-	bool m_quit;
+	bool m_quit, m_pauseRuntime;
 };
 
-Application* CreateApplication();
+Application* CreateApplication(int argc, char** argv);

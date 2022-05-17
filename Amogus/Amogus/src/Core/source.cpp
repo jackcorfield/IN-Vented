@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include <sstream>
+#include <fstream>
 
 #include <ECS/EntityManager.h>
 #include "Timer.h"
@@ -24,7 +25,8 @@ Application::Application() :
 	m_audioManager(nullptr),
 	m_scriptSystem(nullptr),
 	m_window(nullptr),
-	m_quit(false)
+	m_quit(false),
+	m_pauseRuntime(false)
 {	
 	InputHandler::GetMapping("Input_Exit")->m_bus->subscribe(this, &Application::Quit);
 }
@@ -45,10 +47,9 @@ void Application::Init()
 	m_sceneManager = new SceneManager();
 	m_audioManager = new AudioManager();
 	m_scriptSystem = new ScriptSystem();
+	m_debugger = new Debugger();
 
 	m_renderer = new Renderer();
-
-	ImportScene("test scene.json", true);
 
 	InputHandler();
 
@@ -73,17 +74,44 @@ void Application::Run()
 		{
 			Timer->Reset();
 			glfwPollEvents();
-			PhysicsSystem::Update(Timer->DeltaTime());
-			InputHandler::PollGameControllers();
-			CollisionManager::CheckCollision();
-			onUpdate(Timer->DeltaTime());
-			m_scriptSystem->OnUpdate(Timer->DeltaTime());
+			
+			if (!m_pauseRuntime)
+			{
+				PhysicsSystem::Update(Timer->DeltaTime());
+				InputHandler::PollGameControllers();
+				CollisionManager::CheckCollision();
+				onUpdate(Timer->DeltaTime());
+				m_scriptSystem->OnUpdate(Timer->DeltaTime());
+			}
 			onRender(Timer->DeltaTime());
 			m_scriptSystem->OnRender(Timer->DeltaTime());
 			m_renderer->Render(Timer->DeltaTime());
 		}
 		
   }
+
+
+	std::ofstream mFile("DebugLog.txt");
+
+	for (int i = 0; i < m_debugger->GetDebug().size(); i++)
+	{
+		switch (m_debugger->GetDebug()[i].logLevel)
+		{
+		case LL_ERROR:
+			mFile << m_debugger->GetDebug()[i].time << "[ERROR] " << m_debugger->GetDebug()[i].msg << std::endl;
+			break;
+		case LL_WARNING:
+			mFile << m_debugger->GetDebug()[i].time << "[WARNING] " << m_debugger->GetDebug()[i].msg << std::endl;
+			break;
+		case LL_DEBUG:
+			mFile << m_debugger->GetDebug()[i].time << "[DEBUG] " << m_debugger->GetDebug()[i].msg << std::endl;
+			break;
+		default:
+			break;
+		}
+	}
+
+	mFile.close();
 
 	onQuit();
 }
@@ -172,6 +200,21 @@ void Application::Quit(InputEvent* e)
 void Application::Quit()
 {
 	m_quit = true;
+}
+
+bool Application::IsPaused()
+{
+	return m_pauseRuntime;
+}
+
+void Application::SetPause(bool pause)
+{
+	m_pauseRuntime = pause;
+}
+
+void Application::TogglePause()
+{
+	m_pauseRuntime = !m_pauseRuntime;
 }
 
 void Application::TerminateOpenGL()
