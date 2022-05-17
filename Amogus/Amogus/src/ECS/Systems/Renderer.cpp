@@ -84,7 +84,7 @@ void Renderer::DrawScene()
 
         if (m_projection == glm::mat4(1.0f))
         {
-            m_projection = glm::orthoLH(0.0f, (float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight, 0.0f, activeCamera->m_near, activeCamera->m_far);
+            m_projection = glm::orthoLH(0.0f, activeCamera->m_internalWidth, activeCamera->m_internalHeight, 0.0f, activeCamera->m_near, activeCamera->m_far);
         }
 
         glm::mat4 view = glm::mat4(1.0f);

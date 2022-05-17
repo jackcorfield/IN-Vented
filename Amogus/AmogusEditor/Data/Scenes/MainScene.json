@@ -8,6 +8,10 @@
         [
             {
                 "far": 1.0,
+				"internalViewport": {
+                    "height": 180.0,
+                    "width": 320.0
+                }
                 "isActive": true,
                 "near": -1.0,
                 "type": "camera",

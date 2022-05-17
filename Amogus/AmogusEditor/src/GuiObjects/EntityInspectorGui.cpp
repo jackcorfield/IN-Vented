@@ -430,6 +430,16 @@ void CreateCameraGui(Camera* camera)
 			}
 		}
 
+		// Internal viewport width/height
+		{
+			float internalViewportArr[2] = { camera->m_internalWidth, camera->m_internalHeight };
+			if (ImGui::DragFloat2("Internal viewport size", internalViewportArr, 1.0f, 1.0f, 10000.0f))
+			{
+				camera->m_internalWidth = internalViewportArr[0];
+				camera->m_internalHeight = internalViewportArr[1];
+			}
+		}
+
 		// Near
 		if (ImGui::DragFloat("Near clip", &camera->m_near, 0.1f, 0.0f, 1000.0f)) {}
 
