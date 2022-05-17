@@ -8,6 +8,7 @@
 #include "PlayerScript.h"
 #include "WeaponScript.h"
 #include "Shuriken.h"
+#include "HackingDevice.h"
 
 class Runtime : public Application
 {
@@ -73,8 +74,8 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
 		if (scriptC)
 		{
-			Sprite* sprite = entityManager->AddComponent<Sprite>(hDevice, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/LaserGun/laser.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-			scriptC->AttachScript<Shuriken>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(hDevice)->m_size);
+			Sprite* sprite = entityManager->AddComponent<Sprite>(hDevice, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/HackingDevice/Animation/frame1.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+			scriptC->AttachScript<HackingDevice>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(hDevice)->m_size);
 		}
 
 	}

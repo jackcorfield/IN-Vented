@@ -151,6 +151,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\HackingDevice.cpp" />
     <ClCompile Include="src\Shuriken.cpp" />
     <ClCompile Include="src\CameraFollowScript.cpp" />
     <ClCompile Include="src\EnemyMovementScript.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="src\WeaponScript.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\HackingDevice.h" />
     <ClInclude Include="src\Shuriken.h" />
     <ClInclude Include="src\CameraFollowScript.h" />
     <ClInclude Include="src\EnemyMovementScript.h" />
