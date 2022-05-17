@@ -9,8 +9,7 @@ TODO COMPONENTS:
 - Frame
 - Image
 - ImageButton
-- Text
-- TextButtons                                                                                                                                                                                          
+- Text                                                                                                                                                                                        
 */
 
 enum ElementType
@@ -20,7 +19,6 @@ enum ElementType
 	ET_Image,
 	ET_ImageButton,
 	ET_Text,
-	ET_TextButton,
 	NumElementTypes
 };
 
@@ -31,7 +29,6 @@ static const std::vector<std::string> s_ElementType
 	"Image Element",
 	"Image Button Element",
 	"Text Element",
-	"Text Element Button"
 };
 
 class UI_BaseElement
@@ -79,15 +76,10 @@ public:
 class UI_Text : public UI_BaseElement
 {
 public:
+	std::string m_text;
+
 	UI_Text();
 	~UI_Text();
-};
-
-class UI_TextButton : public UI_Text
-{
-public:
-	UI_TextButton();
-	~UI_TextButton();
 };
 
 class UI_WidgetComponent

@@ -1,8 +1,8 @@
 {
     "clearColour": {
-        "x": 0.04165997728705406,
-        "y": 0.4596390724182129,
-        "z": 0.7594936490058899
+        "x": -431602080.0,
+        "y": -431602080.0,
+        "z": -431602080.0
     },
     "entities": [
         [
@@ -21,6 +21,7 @@
                 "type": "entityName"
             },
             {
+                "depth": 0.0,
                 "pos": {
                     "x": 50.0,
                     "y": 100.0
@@ -53,27 +54,41 @@
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "Characters/Homura/idle/frame1.png",
+                    "filePath": "TestImages/test.png",
                     "name": "defaultEntity"
                 },
                 "type": "sprite"
             },
             {
+                "depth": 0.0,
                 "pos": {
-                    "x": 193.5,
-                    "y": 111.0
+                    "x": 0.0,
+                    "y": 0.0
                 },
                 "rotate": 0.0,
                 "size": {
-                    "x": 6.800000190734863,
-                    "y": 3.9000000953674316
+                    "x": 1.0,
+                    "y": 1.0
                 },
                 "type": "transform"
             }
         ],
         [
             {
-                "animations": [],
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "name": "Run"
+                    }
+                ],
                 "colour": {
                     "x": 1.0,
                     "y": 1.0,
@@ -102,6 +117,7 @@
                 "type": "scriptComponent"
             },
             {
+                "depth": 0.0,
                 "pos": {
                     "x": 1172.0,
                     "y": 432.5

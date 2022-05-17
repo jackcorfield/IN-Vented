@@ -21,6 +21,7 @@
                 "type": "entityName"
             },
             {
+                "depth": 0.0,
                 "pos": {
                     "x": 50.0,
                     "y": 100.0
@@ -59,6 +60,7 @@
                 "type": "sprite"
             },
             {
+                "depth": 0.0,
                 "pos": {
                     "x": 0.0,
                     "y": 0.0
@@ -115,6 +117,7 @@
                 "type": "scriptComponent"
             },
             {
+                "depth": 0.0,
                 "pos": {
                     "x": 1172.0,
                     "y": 432.5

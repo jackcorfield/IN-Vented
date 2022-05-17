@@ -78,7 +78,7 @@ void Renderer::LoadFont(std::string font)
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     for (unsigned char c = 0; c < 128; c++)
     {
-        if (FT_Load_Char(face, 'X', FT_LOAD_RENDER))
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER))
         {
             std::cout << "Error loading glyph" << std::endl;
             continue;
@@ -86,6 +86,8 @@ void Renderer::LoadFont(std::string font)
 
         unsigned int texture;
         glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+
         glTexImage2D(
             GL_TEXTURE_2D,
             0,
@@ -104,7 +106,7 @@ void Renderer::LoadFont(std::string font)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // now store character for later use
         Font_Character character = {
-            texture,
+            Texture2D(texture, face->glyph->bitmap.width, face->glyph->bitmap.rows, std::string(1, c).c_str(), ""),
             glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
             glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
             face->glyph->advance.x
@@ -375,9 +377,55 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
 	}
 	break;
 	case(ElementType::ET_Text):
-	case(ElementType::ET_TextButton):
 	{
+        UI_Text* textElement = (UI_Text*)element;
+        // View matrix is flat default
+        // Projection matrix is default left handed ortho
+        // Model is just position and size
+        glm::mat4 view = glm::mat4(1.0f);
 
+        m_uiShader->Use();
+        m_uiShader->SetUniform("view", view);
+        m_uiShader->SetUniform("projection", m_projection);
+
+        glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+        glm::vec3 finalPos = glm::vec3(adjustedRelativePos + element->m_absolutePosition, element->m_zIndex);
+
+        // scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
+        glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+        glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + element->m_absoluteSize, 1);
+        float scale = finalSize.y;
+
+        float x_offset = 0;
+
+        for (int i = 0; i < textElement->m_text.size(); i++)
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+
+            Font_Character ch = m_fontCharacters[textElement->m_text[i]];
+
+            float xpos = x_offset + (ch.m_bearing.x * scale);
+            float w = ch.m_size.x * scale;
+            float h = ch.m_size.y * scale;
+
+            // translate by position
+            model = glm::translate(model, finalPos + glm::vec3(xpos, 0, 0));
+            model = glm::scale(model, glm::vec3(w, h, 1));
+
+            m_uiShader->SetUniform("model", model);
+
+            glActiveTexture(GL_TEXTURE0);
+            m_uiShader->SetUniform("image", 0);
+            ch.m_texture.Bind();
+
+            glBindVertexArray(m_quadVAO);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+
+            ch.m_texture.Unbind();
+            glBindVertexArray(0);
+
+            x_offset += (ch.m_advance >> 6) * scale;
+        }
 	}
 	break;
 	default:

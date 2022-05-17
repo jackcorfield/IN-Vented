@@ -524,9 +524,6 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 					case(ElementType::ET_Text):
 						widget->m_elements.push_back(new UI_Text());
 						break;
-					case(ElementType::ET_TextButton):
-						widget->m_elements.push_back(new UI_TextButton());
-						break;
 					}
 				}
 			}
@@ -538,7 +535,7 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 			std::string headerTitle = (std::string(std::to_string(i) + std::string(": ") + s_ElementType[element->m_elementType]));
 			if (ImGui::CollapsingHeader(headerTitle.c_str(), nodeFlags))
 			{
-				ImGui::InputText("Name", &element->m_name[0], element->m_name.size());
+				ImGui::InputText("Name", &element->m_name[0], MAX_INPUT_LENGTH);
 
 				float abPosArr[2] = { element->m_absolutePosition.x, element->m_absolutePosition.y };
 				if (ImGui::InputFloat2("Absolute Position", abPosArr))
@@ -584,6 +581,14 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 					{
 						imageElement->m_texture = TextureLoader::CreateTexture2DFromFile(textureName, textureFilePath);
 					}
+				}
+
+				if (element->m_elementType == ET_Text)
+				{
+					UI_Text* textElement = (UI_Text*)element;
+					char* buffer = &textElement->m_text[0];
+					ImGui::InputText("Text", buffer, MAX_INPUT_LENGTH);
+					textElement->m_text = std::string(buffer);
 				}
 			}
 		}

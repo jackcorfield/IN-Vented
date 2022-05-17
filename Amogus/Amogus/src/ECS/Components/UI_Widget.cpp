@@ -61,12 +61,3 @@ UI_ImageButton::UI_ImageButton()
 UI_ImageButton::~UI_ImageButton()
 {
 }
-
-UI_TextButton::UI_TextButton()
-{
-	m_elementType = ET_TextButton;
-}
-
-UI_TextButton::~UI_TextButton()
-{
-}

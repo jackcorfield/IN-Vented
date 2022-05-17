@@ -5,6 +5,7 @@
 #include <ECS/EntityManager.h>
 #include <Resources/Framebuffer.h>
 #include <Resources/Shader.h>
+#include <Resources/Texture2D.h>
 
 struct GLFWwindow;
 
@@ -30,7 +31,7 @@ struct RenderContext
 
 struct Font_Character
 {
-	unsigned int m_texture2D;
+	Texture2D m_texture;
 	glm::ivec2 m_size;
 	glm::ivec2 m_bearing;
 	unsigned int m_advance;
