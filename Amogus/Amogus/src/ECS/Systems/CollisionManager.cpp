@@ -56,9 +56,9 @@ void CollisionManager::CheckCollision()
 
 	std::vector<BoxCollider*> boxColliders = activeScene->m_entityManager->GetAllComponentsOfType<BoxCollider>();
 
-	for (unsigned int i = 0; i < boxColliders.size() - 1; i++)
+	for (int i = 0; i < (int)boxColliders.size() - 1; i++)
 	{
-		for(unsigned int j = 0; j < boxColliders.size(); j++)
+		for(int j = 0; j < (int)boxColliders.size(); j++)
 		{
 			BoxCollider* b1 = boxColliders[i];
 			BoxCollider* b2 = boxColliders[j];

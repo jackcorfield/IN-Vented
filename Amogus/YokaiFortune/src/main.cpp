@@ -2,7 +2,9 @@
 
 #include <fstream>
 #include <nlohmann/include/nlohmann/json.hpp>
+#include "CameraFollowScript.h"
 #include "EnemyMovementScript.h"
+#include "EnemySpawnerScript.h"
 #include "PlayerScript.h"
 #include "WeaponScript.h"
 
@@ -19,6 +21,8 @@ public:
 
 	void onInit() override
 	{
+		srand(std::time(nullptr));
+
 		g_app->m_debugger->Log("Launched Yokai Fortune.", LL_DEBUG);
 
 		processCommandLine();
@@ -29,6 +33,8 @@ public:
 		
 		Entity player = GetEntityByName("Player");
 		Entity enemy = GetEntityByName("Enemy");
+		Entity enemySpawner = GetEntityByName("Enemy Spawner");
+		Entity camera = GetEntityByName("Camera");
 		Entity weapon = GetEntityByName("Weapon");
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
@@ -40,7 +46,19 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
 		if (scriptC)
 		{
-			scriptC->AttachScript<EnemyMovementScript>(10.0f, player);
+			scriptC->AttachScript<EnemyMovementScript>(15.0f, player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(enemySpawner);
+		if (scriptC)
+		{
+			scriptC->AttachScript<EnemySpawnerScript>(player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(camera);
+		if (scriptC)
+		{
+			scriptC->AttachScript<CameraFollowScript>(player);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(weapon);
@@ -82,7 +100,7 @@ private:
 		switch (m_argc)
 		{
 		case 1:
-			loadGame("MyGame");
+			loadGame("YokaiFortune");
 			//Quit();
 			break;
 		case 2:

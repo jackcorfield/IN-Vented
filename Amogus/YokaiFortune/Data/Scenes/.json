@@ -9,8 +9,8 @@
             {
                 "far": 1.0,
                 "internalViewport": {
-                    "height": 180.0,
-                    "width": 320.0
+                    "height": 360.0,
+                    "width": 640.0
                 },
                 "isActive": true,
                 "near": -1.0,
@@ -24,14 +24,10 @@
                 "name": "Scene Camera",
                 "type": "entityName"
             },
-			{
-				"type": "scriptComponent"
-			},
             {
-                "depth": 0.0,
                 "pos": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 50.0,
+                    "y": 100.0
                 },
                 "rotate": 0.0,
                 "size": {
@@ -49,45 +45,24 @@
             {
                 "type": "scriptComponent"
             },
-			{
-                "animations": [
-                    {
-                        "frameTime": 0.10000000149011612,
-                        "frames": [
-                            0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-							6,
-							7
-                        ],
-                        "name": "Run"
-                    }
-                ],
+            {
                 "colour": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0
                 },
-                "frameSize": {
-                    "x": 200.0,
-                    "y": 200.0
-                },
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default",
+                    "name": "defaultSprite",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "Characters/Haru/Run.png",
-                    "name": "animsheet haru"
+                    "filePath": "TestImages/test.png",
+                    "name": "defaultEntity"
                 },
-                "type": "animatedSprite"
+                "type": "sprite"
             },
             {
-                "depth": 0.0,
                 "pos": {
                     "x": 0.0,
                     "y": 0.0
@@ -102,40 +77,35 @@
         ],
         [
             {
-                "animations": [
-                    {
-                        "frameTime": 0.10000000149011612,
-                        "frames": [
-                            0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-							6,
-							7
-                        ],
-                        "name": "Run"
-                    }
-                ],
                 "colour": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0
                 },
-                "frameSize": {
-                    "x": 200.0,
-                    "y": 200.0
-                },
+                "interval": 0.25,
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default",
+                    "name": "default shader",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
-                "texture": {
-                    "filePath": "Characters/Homura/Run.png",
-                    "name": "animsheet homura"
-                },
+                "textures": [
+                    {
+                        "filePath": "Characters/Homura/Idle/frame1.png",
+                        "name": "frame1"
+                    },
+                    {
+                        "filePath": "Characters/Homura/Idle/frame2.png",
+                        "name": "frame2"
+                    },
+                    {
+                        "filePath": "Characters/Homura/Idle/frame3.png",
+                        "name": "frame3"
+                    },
+                    {
+                        "filePath": "Characters/Homura/Idle/frame4.png",
+                        "name": "frame4"
+                    }
+                ],
                 "type": "animatedSprite"
             },
             {
@@ -146,7 +116,6 @@
                 "type": "scriptComponent"
             },
             {
-                "depth": 0.0,
                 "pos": {
                     "x": 1172.0,
                     "y": 432.5
