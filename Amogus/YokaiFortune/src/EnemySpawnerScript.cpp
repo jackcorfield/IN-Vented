@@ -85,44 +85,9 @@ void EnemySpawnerScript::SpawnEnemy()
 	{
 		Entity newEntity = entityManager->CreateEntity();
 
-		// Set up animated sprite
-		
-		Texture2D texture = templateAnimatedSprite->GetTexture();
-		glm::vec3 colour = templateAnimatedSprite->GetColour();
-		Shader* shader = templateAnimatedSprite->GetShader();
-		glm::vec2 frameSize = templateAnimatedSprite->getFrameSize();
+		CloneEnemy(templateEntity, newEntity);
 
-		AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(newEntity, texture, frameSize, colour, shader);
-
-		// Set up animations
-		std::map<std::string, Animation> animations = templateAnimatedSprite->getAnimations();
-		for (auto animationItr = animations.begin(); animationItr != animations.end(); animationItr++)
-		{
-			std::string name = animationItr->first;
-			float frameTime = animationItr->second.frameTime;
-			std::vector<unsigned int> frames = animationItr->second.frames;
-			newAnimatedSprite->createAnimation(name, frames, frameTime);
-		}
-
-		// Set up name
-		entityManager->AddComponent<EntityName>(newEntity, "Enemy");
-		
-		// Get camera internal viewport so we can spawn enemies offscreen
-		Camera* camera = g_app->m_sceneManager->GetActiveScene()->m_entityManager->GetAllComponentsOfType<Camera>()[0];
-		glm::vec2 viewportSize(300.0f);
-		if (camera)
-		{
-			viewportSize = glm::vec2(camera->m_internalWidth, camera->m_internalHeight);
-		}
-
-		// Set up transform
-		Transform* playerTransform = entityManager->GetComponent<Transform>(m_spawnAround);
-		Transform* newTransform = entityManager->AddComponent<Transform>(newEntity);
-		newTransform->m_position = SetRandomSpawnPos(viewportSize, playerTransform->m_position);
-		newTransform->m_rotate = templateTransform->m_rotate;
-		newTransform->m_size = templateTransform->m_size;
-
-		// Set up script
+		// New entities need a script set up, so do that
 		ScriptComponent* scriptC = entityManager->AddComponent<ScriptComponent>(newEntity, entityManager, newEntity);
 		if (scriptC)
 		{
@@ -136,35 +101,60 @@ void EnemySpawnerScript::SpawnEnemy()
 	{
 		Entity replacedEntity = m_enemyEntities[0]; // Replace the oldest entity
 		
-		// Set up animated sprite
+		// Remove animated sprite so it can be replaced
 		entityManager->RemoveComponent<AnimatedSprite>(replacedEntity);
-		Texture2D texture = templateAnimatedSprite->GetTexture();
-		glm::vec3 colour = templateAnimatedSprite->GetColour();
-		Shader* shader = templateAnimatedSprite->GetShader();
-		glm::vec2 frameSize = templateAnimatedSprite->getFrameSize();
 
-		AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(replacedEntity, texture, frameSize, colour, shader);
-
-		// Set up animations
-		std::map<std::string, Animation> animations = templateAnimatedSprite->getAnimations();
-		for (auto animationItr = animations.begin(); animationItr != animations.end(); animationItr++)
-		{
-			std::string name = animationItr->first;
-			float frameTime = animationItr->second.frameTime;
-			std::vector<unsigned int> frames = animationItr->second.frames;
-			newAnimatedSprite->createAnimation(name, frames, frameTime);
-		}
-
-		// Set up transform
-		Transform* playerTransform = entityManager->GetComponent<Transform>(m_spawnAround);
-		Transform* newTransform = entityManager->GetComponent<Transform>(replacedEntity);
-		newTransform->m_position = SetRandomSpawnPos(glm::vec2(300.0f), playerTransform->m_position);
-		newTransform->m_rotate = templateTransform->m_rotate;
-		newTransform->m_size = templateTransform->m_size;
+		CloneEnemy(templateEntity, replacedEntity);
 
 		m_enemyEntities.erase(m_enemyEntities.begin());
 		m_enemyEntities.emplace_back(replacedEntity);
 	}
+}
+
+void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
+{
+	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+
+	AnimatedSprite* templateAnimatedSprite = entityManager->GetComponent<AnimatedSprite>(templateEntity);
+	Transform* templateTransform = entityManager->GetComponent<Transform>(templateEntity);
+
+	// Set up animated sprite
+	Texture2D texture = templateAnimatedSprite->GetTexture();
+	glm::vec3 colour = templateAnimatedSprite->GetColour();
+	Shader* shader = templateAnimatedSprite->GetShader();
+	glm::vec2 frameSize = templateAnimatedSprite->getFrameSize();
+
+	AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(targetEntity, texture, frameSize, colour, shader);
+
+	// Set up animations
+	std::map<std::string, Animation> animations = templateAnimatedSprite->getAnimations();
+	for (auto animationItr = animations.begin(); animationItr != animations.end(); animationItr++)
+	{
+		std::string name = animationItr->first;
+		float frameTime = animationItr->second.frameTime;
+		std::vector<unsigned int> frames = animationItr->second.frames;
+		newAnimatedSprite->createAnimation(name, frames, frameTime);
+	}
+	newAnimatedSprite->setAnimation(animations.begin()->first);
+
+	// Set up name
+	entityManager->AddComponent<EntityName>(targetEntity, "Enemy");
+
+	// Get camera internal viewport so we can spawn enemies offscreen
+	Camera* camera = g_app->m_sceneManager->GetActiveScene()->m_entityManager->GetAllComponentsOfType<Camera>()[0];
+	glm::vec2 viewportSize(300.0f);
+	if (camera)
+	{
+		viewportSize = glm::vec2(camera->m_internalWidth, camera->m_internalHeight);
+	}
+
+	// Set up transform
+	Transform* playerTransform = entityManager->GetComponent<Transform>(m_spawnAround);
+	Transform* newTransform = entityManager->AddComponent<Transform>(targetEntity);
+	newTransform->m_position = SetRandomSpawnPos(viewportSize, playerTransform->m_position);
+	newTransform->m_rotate = templateTransform->m_rotate;
+	newTransform->m_size = templateTransform->m_size;
+	newTransform->m_depth = 0.0f;
 }
 
 glm::vec2 SetRandomSpawnPos(const glm::vec2& viewport, const glm::vec2& centrePos)

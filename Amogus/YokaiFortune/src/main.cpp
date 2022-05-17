@@ -64,10 +64,9 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(weapon);
 		if (scriptC)
 		{
-			Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-			entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
+			Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("shuriken", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+			scriptC->AttachScript<WeaponScript>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
 		}
-
 	}
 
 	void onUpdate(float dt) override
@@ -181,6 +180,8 @@ private:
 				return entityManager->GetEntityFromComponent<EntityName>(nameComponent);
 			}
 		}
+
+		return 0;
 	}
 
 	bool m_debug = false;
