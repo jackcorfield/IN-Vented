@@ -18,7 +18,6 @@ void EnemySpawnerScript::OnAttach()
 {
 	// If no player ID was provided in constructor, try to find player to spawn enemies around
 	if (m_spawnAround == 0) { m_spawnAround = FindPlayer(); }
-	if (m_spawnAround == 0) { return; }
 
 	// Fill template vector
 	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
@@ -98,11 +97,18 @@ void EnemySpawnerScript::SpawnEnemy()
 		// Set up name
 		entityManager->AddComponent<EntityName>(newEntity, "Enemy");
 		
+		// Get camera internal viewport so we can spawn enemies offscreen
+		Camera* camera = g_app->m_sceneManager->GetActiveScene()->m_entityManager->GetAllComponentsOfType<Camera>()[0];
+		glm::vec2 viewportSize(300.0f);
+		if (camera)
+		{
+			viewportSize = glm::vec2(camera->m_internalWidth, camera->m_internalHeight);
+		}
+
 		// Set up transform
-		
 		Transform* playerTransform = entityManager->GetComponent<Transform>(m_spawnAround);
 		Transform* newTransform = entityManager->AddComponent<Transform>(newEntity);
-		newTransform->m_position = SetRandomSpawnPos(glm::vec2(300.0f), playerTransform->m_position);
+		newTransform->m_position = SetRandomSpawnPos(viewportSize, playerTransform->m_position);
 		newTransform->m_rotate = templateTransform->m_rotate;
 		newTransform->m_size = templateTransform->m_size;
 

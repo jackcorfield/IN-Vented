@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <nlohmann/include/nlohmann/json.hpp>
+#include "CameraFollowScript.h"
 #include "EnemyMovementScript.h"
 #include "EnemySpawnerScript.h"
 #include "PlayerScript.h"
@@ -32,6 +33,7 @@ public:
 		Entity player = GetEntityByName("Player");
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
+		Entity camera = GetEntityByName("Camera");
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
@@ -49,6 +51,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<EnemySpawnerScript>(player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(camera);
+		if (scriptC)
+		{
+			scriptC->AttachScript<CameraFollowScript>(player);
 		}
 	}
 

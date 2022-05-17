@@ -148,12 +148,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CameraFollowScript.cpp" />
     <ClCompile Include="src\EnemyMovementScript.cpp" />
     <ClCompile Include="src\EnemySpawnerScript.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PlayerScript.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CameraFollowScript.h" />
     <ClInclude Include="src\EnemyMovementScript.h" />
     <ClInclude Include="src\EnemySpawnerScript.h" />
     <ClInclude Include="src\PlayerScript.h" />
