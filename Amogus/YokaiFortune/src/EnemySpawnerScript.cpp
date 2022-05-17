@@ -87,13 +87,23 @@ void EnemySpawnerScript::SpawnEnemy()
 
 		// Set up animated sprite
 		
-		std::vector<Texture2D> textures = templateAnimatedSprite->GetFrames();
-		float interval = templateAnimatedSprite->GetFrameInterval();
+		Texture2D texture = templateAnimatedSprite->GetTexture();
 		glm::vec3 colour = templateAnimatedSprite->GetColour();
 		Shader* shader = templateAnimatedSprite->GetShader();
+		glm::vec2 frameSize = templateAnimatedSprite->getFrameSize();
 
-		AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(newEntity, textures, interval, colour, shader);
-		
+		AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(newEntity, texture, frameSize, colour, shader);
+
+		// Set up animations
+		std::map<std::string, Animation> animations = templateAnimatedSprite->getAnimations();
+		for (auto animationItr = animations.begin(); animationItr != animations.end(); animationItr++)
+		{
+			std::string name = animationItr->first;
+			float frameTime = animationItr->second.frameTime;
+			std::vector<unsigned int> frames = animationItr->second.frames;
+			newAnimatedSprite->createAnimation(name, frames, frameTime);
+		}
+
 		// Set up name
 		entityManager->AddComponent<EntityName>(newEntity, "Enemy");
 		
@@ -126,15 +136,26 @@ void EnemySpawnerScript::SpawnEnemy()
 	{
 		Entity replacedEntity = m_enemyEntities[0]; // Replace the oldest entity
 		
+		// Set up animated sprite
 		entityManager->RemoveComponent<AnimatedSprite>(replacedEntity);
-
-		std::vector<Texture2D> textures = templateAnimatedSprite->GetFrames();
-		float interval = templateAnimatedSprite->GetFrameInterval();
+		Texture2D texture = templateAnimatedSprite->GetTexture();
 		glm::vec3 colour = templateAnimatedSprite->GetColour();
 		Shader* shader = templateAnimatedSprite->GetShader();
+		glm::vec2 frameSize = templateAnimatedSprite->getFrameSize();
 
-		AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(replacedEntity, textures, interval, colour, shader);
+		AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(replacedEntity, texture, frameSize, colour, shader);
 
+		// Set up animations
+		std::map<std::string, Animation> animations = templateAnimatedSprite->getAnimations();
+		for (auto animationItr = animations.begin(); animationItr != animations.end(); animationItr++)
+		{
+			std::string name = animationItr->first;
+			float frameTime = animationItr->second.frameTime;
+			std::vector<unsigned int> frames = animationItr->second.frames;
+			newAnimatedSprite->createAnimation(name, frames, frameTime);
+		}
+
+		// Set up transform
 		Transform* playerTransform = entityManager->GetComponent<Transform>(m_spawnAround);
 		Transform* newTransform = entityManager->GetComponent<Transform>(replacedEntity);
 		newTransform->m_position = SetRandomSpawnPos(glm::vec2(300.0f), playerTransform->m_position);
