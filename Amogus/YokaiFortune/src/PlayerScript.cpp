@@ -112,27 +112,33 @@ void PlayerScript::OnUpdate(float dt)
 		return;
 
 	Transform* playerTransform = GetComponent<Transform>();
+	AnimatedSprite* animatedSprite = GetComponent<AnimatedSprite>();
 
+	bool moving = false;
 	//Keyboard Controls
 	if (m_registeredKeys.W)
 	{
 		playerTransform->m_position.y -= m_movementSpeed * dt;
 		m_keyboardInUse = true;
+		moving = true;
 	}
 	if (m_registeredKeys.D)
 	{
 		playerTransform->m_position.x += m_movementSpeed * dt;
 		m_keyboardInUse = true;
+		moving = true;
 	}
 	if (m_registeredKeys.S)
 	{
 		playerTransform->m_position.y += m_movementSpeed * dt;
 		m_keyboardInUse = true;
+		moving = true;
 	}
 	if (m_registeredKeys.A)
 	{
 		playerTransform->m_position.x -= m_movementSpeed * dt;
 		m_keyboardInUse = true;
+		moving = true;
 	}
 		
 
@@ -141,21 +147,25 @@ void PlayerScript::OnUpdate(float dt)
 	{
 		playerTransform->m_position.y -= m_movementSpeed * dt;
 		m_registeredKeys.UP = false;
+		moving = true;
 	}
 	if (m_registeredKeys.RIGHT && !m_keyboardInUse)
 	{
 		playerTransform->m_position.x += m_movementSpeed * dt;
 		m_registeredKeys.RIGHT = false;
+		moving = true;
 	}
 	if (m_registeredKeys.DOWN && !m_keyboardInUse)
 	{
 		playerTransform->m_position.y += m_movementSpeed * dt;
 		m_registeredKeys.DOWN = false;
+		moving = true;
 	}
 	if (m_registeredKeys.LEFT && !m_keyboardInUse)
 	{
 		playerTransform->m_position.x -= m_movementSpeed * dt;
 		m_registeredKeys.LEFT = false;
+		moving = true;
 	}
 
 	//Joystick Control
@@ -163,6 +173,18 @@ void PlayerScript::OnUpdate(float dt)
 	{
 		playerTransform->m_position.x += m_leftStickDirection.x * m_movementSpeed * dt;
 		playerTransform->m_position.y += m_leftStickDirection.y * m_movementSpeed * dt;
+		moving = true;
+	}
+
+	if (moving && !m_movingLastFrame)
+	{
+		m_movingLastFrame = true;
+		animatedSprite->setAnimation("Run");
+	}
+	else if (!moving && m_movingLastFrame)
+	{
+		m_movingLastFrame = false;
+		animatedSprite->setAnimation("Idle");
 	}
 
 	m_keyboardInUse = false;

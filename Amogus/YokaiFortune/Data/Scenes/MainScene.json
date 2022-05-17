@@ -55,15 +55,29 @@
                         "frameTime": 0.10000000149011612,
                         "frames": [
                             0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-							6,
-							7
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+							0,
+							0
                         ],
                         "name": "Run"
+                    },
+					{
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+							0,
+							0
+                        ],
+                        "name": "Idle"
                     }
                 ],
                 "colour": {
@@ -81,7 +95,7 @@
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "Characters/Haru/Run.png",
+                    "filePath": "Characters/Haru/spritesheet.png",
                     "name": "animsheet haru"
                 },
                 "type": "animatedSprite"
@@ -133,7 +147,7 @@
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "Characters/Homura/Run.png",
+                    "filePath": "Characters/Homura/spritesheet.png",
                     "name": "animsheet homura"
                 },
                 "type": "animatedSprite"
