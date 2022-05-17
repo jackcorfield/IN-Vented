@@ -147,18 +147,16 @@ namespace SceneExporter
 	bool WriteAnimatedSprite(nlohmann::json& jAnimatedSprite, AnimatedSprite* animatedSprite)
 	{
 		bool success = true;
-
-		const float interval = animatedSprite->GetFrameInterval();
-		if (!JSON::Write(interval, jAnimatedSprite["interval"]))
-		{
-			g_app->m_debugger->Log("Failed to export AnimatedSprite: failed to write interval!", LL_ERROR);
-			success = false;
-		}
-
+    
 		const glm::vec3 colour = animatedSprite->GetColour();
 		if (!JSON::WriteVec3(colour, jAnimatedSprite["colour"]))
 		{
-			g_app->m_debugger->Log("Failed to export AnimatedSprite: failed to write tint colour!", LL_ERROR);
+			success = false;
+		}
+
+		const glm::vec2 frameSize = animatedSprite->getFrameSize();
+		if (!JSON::WriteVec2(frameSize, jAnimatedSprite["frameSize"]))
+		{
 			success = false;
 		}
 
@@ -190,27 +188,45 @@ namespace SceneExporter
 			jAnimatedSprite["shader"] = jShader;
 		}
 
-		// Write frame Texture2D data
-		const std::vector<Texture2D> frames = animatedSprite->GetFrames();
-		for (int i = 0; i < frames.size(); i++)
+		// Write Texture2D data
 		{
 			nlohmann::json jTexture;
-			const Texture2D texture = frames[i];
+			const Texture2D texture = animatedSprite->GetTexture();
 
-			const std::string textureName = texture.m_name;
-			if (!JSON::Write(textureName, jTexture["name"]))
+			const std::string textureName = animatedSprite->GetTexture().m_name;
+			if (!JSON::Write(textureName, jTexture["name"])) {}
+
+			const std::string texturePath = animatedSprite->GetTexture().m_filePath;
+			if (!JSON::Write(texturePath, jTexture["filePath"])) { return false; }// Cannot render a sprite without a texture
+
+			jAnimatedSprite["texture"] = jTexture;
+		}
+
+		// Write Animation data
+		{
+			if (jAnimatedSprite["animations"].is_null())
 			{
-				g_app->m_debugger->Log("Exporting AnimatedSprite: failed to write texture name.", LL_WARNING);
+				jAnimatedSprite["animations"] = nlohmann::json::array();
 			}
 
-			const std::string texturePath = texture.m_filePath;
-			if (!JSON::Write(texturePath, jTexture["filePath"]))
+			const std::map<std::string, Animation> animations = animatedSprite->getAnimations();
+			
+			for (auto& animation : animations)
 			{
-				g_app->m_debugger->Log("Failed to export AnimatedSprite: failed to write texture file path!", LL_ERROR);
-				return false; // Cannot render a sprite without a texture
-			}
+				nlohmann::json jAnimationData;
+				const Animation& animationData = animation.second;
+				
+				const std::string animationName = animation.first;
+				if (!JSON::Write(animationName, jAnimationData["name"])) { success = false; }
+				
+				const float frameTime = animationData.frameTime;
+				if (!JSON::Write(frameTime, jAnimationData["frameTime"])) { success = false; }
 
-			jAnimatedSprite["textures"][i] = jTexture;
+				const std::vector<unsigned int> frames = animationData.frames;
+				if (!JSON::Write(frames, jAnimationData["frames"])) { success = false; }
+
+				jAnimatedSprite["animations"].push_back(jAnimationData);
+			}
 		}
 
 		return success;
@@ -512,6 +528,13 @@ namespace SceneExporter
 		if (!JSON::Write(rotate, jTransform["rotate"]))
 		{
 			g_app->m_debugger->Log("Failed to export Transform: failed to write rotation!", LL_ERROR);
+			success = false;
+		}
+
+		const float depth = transform->m_depth;
+		if (!JSON::Write(depth, jTransform["depth"]))
+		{
+			g_app->m_debugger->Log("Failed to export Transform: failed to write depth!", LL_ERROR);
 			success = false;
 		}
 

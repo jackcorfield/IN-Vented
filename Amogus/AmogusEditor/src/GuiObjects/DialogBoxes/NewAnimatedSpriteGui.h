@@ -17,23 +17,12 @@ private:
 
 	Entity entity;
 
-	float inputInterval;
 	glm::vec3 inputColour;
 
-	struct TextureParams
-	{
-		TextureParams() :
-			inputTextureName("New texture"),
-			inputTextureFilePath("")
-		{}
-
-		char inputTextureName[512];
-		char inputTextureFilePath[512];
-	};
-
 	// Texture data
-	std::vector<TextureParams> m_inputTextureParams;
-	int m_selectedTextureParamsIndex;
+	char inputTextureName[128];
+	char inputTextureFilePath[128];
+	glm::vec2 inputFrameSize;
 
 	// Shader data
 	char inputShaderName[512];

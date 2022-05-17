@@ -244,19 +244,15 @@ namespace SceneImporter
 	{
 		bool success = true;
 
-		float interval;
-		if (!JSON::Read(interval, j, "interval"))
-		{
-			g_app->m_debugger->Log("Failed to import AnimatedSprite: failed to read interval!", LL_ERROR);
-			success = false;
-		}
-
 		glm::vec3 colour = glm::vec3(1.0f);
 		if (!JSON::ReadVec3(colour, j, "colour"))
 		{
 			g_app->m_debugger->Log("Failed to import AnimatedSprite: failed to read tint colour!", LL_ERROR);
 			success = false;
 		}
+
+		glm::vec2 frameSize = glm::vec2(1.0f);
+		if (!JSON::ReadVec2(frameSize, j, "frameSize")) { success = false; }
 
 		Shader* shader = nullptr;
 		if (!j.contains("shader") || !ReadShader(j["shader"], &shader))
@@ -265,29 +261,29 @@ namespace SceneImporter
 			return false;
 		}
 
-		if (!j.contains("textures"))
+		Texture2D texture;
+		if (!j.contains("texture") || !ReadTexture(j["texture"], texture))
 		{
 			g_app->m_debugger->Log("Failed to import AnimatedSprite: missing JSON data!", LL_ERROR);
 			return false;
 		}
-		std::vector<Texture2D> textures;
-		for (int i = 0; i < j["textures"].size(); i++)
-		{
-			nlohmann::json jTexture = j["textures"][i];
-			Texture2D newTexture;
 
-			if (ReadTexture(jTexture, newTexture))
-			{
-				textures.emplace_back(newTexture);
-			}
-			else
-			{
-				g_app->m_debugger->Log("Failed to import AnimatedSprite: failed to read texture!", LL_ERROR);
-				success = false;
-			}
+		AnimatedSprite* component = g_entityManager->AddComponent<AnimatedSprite>(entity, texture, frameSize, colour, shader);
+		
+		if (!j.contains("animations"))
+		{
+			return success; // Return early; not a fail state, just no animations stored
 		}
 
-		AnimatedSprite* component = g_entityManager->AddComponent<AnimatedSprite>(entity, textures, interval, colour, shader);
+		nlohmann::json animations = j["animations"];
+		for (auto& animation : animations)
+		{
+			std::string animationName = animation["name"];
+			float frameTime = animation["frameTime"];
+			std::vector<unsigned int> frames = animation["frames"];
+
+			component->createAnimation(animationName, frames, frameTime);
+		}
 
 		return success;
 	}
@@ -597,7 +593,13 @@ namespace SceneImporter
 			g_app->m_debugger->Log("Importing Transform: failed to read rotation.", LL_WARNING);
 		}
 
-		Transform* component = g_entityManager->AddComponent<Transform>(entity, pos, size, rotate);
+		float depth(0.0f);
+		if (!JSON::Read(depth, j, "depth"))
+		{
+			g_app->m_debugger->Log("Importing Transform: failed to read depth", LL_WARNING);
+		}
+
+		Transform* component = g_entityManager->AddComponent<Transform>(entity, pos, size, rotate, depth);
 
 		return success;
 	}

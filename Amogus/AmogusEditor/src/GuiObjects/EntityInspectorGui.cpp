@@ -6,6 +6,7 @@
 
 #include <Amogus.h>
 
+#include "DialogBoxes/EditAnimationsGui.h"
 #include "DialogBoxes/NewAnimatedSpriteGui.h"
 #include "DialogBoxes/NewAudioGui.h"
 #include "DialogBoxes/NewBoxColliderGui.h"
@@ -13,19 +14,19 @@
 #include "DialogBoxes/NewSpriteGui.h"
 #include "DialogBoxes/NewTileMapGui.h"
 
-#define MAX_INPUT_LENGTH 256
+#define MAX_INPUT_LENGTH 512
 
 #define DEFAULT_VIEWPORT_WIDTH 1280
 #define DEFAULT_VIEWPORT_HEIGHT 720
 #define DEFAULT_NEAR 0.1f
 #define DEFAULT_FAR 1.0f
 
-void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i);
+void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i, std::unique_ptr<IGuiObject>& popupPtr);
 void DeleteComponent(void* component, std::type_index type, Entity entity, EntityManager* entityManager);
 
 /// Add prototypes here for new components (and define below with the others) ///
 // Inspector gui functions
-void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner);
+void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner, std::unique_ptr<IGuiObject>& popupPtr);
 void CreateAudioGui(Audio* audio, Entity owner);
 void CreateBoxColliderGui(BoxCollider* boxCollider);
 void CreateCameraGui(Camera* camera);
@@ -101,7 +102,7 @@ void EntityInspectorGui::DrawInspectorInfo()
 		std::type_index typeIndex = componentPair.first;
 		void* component = componentPair.second; // To pass into correct function
 
-		DrawComponentGui(component, typeIndex, m_activeEntity, entityManager, i);
+		DrawComponentGui(component, typeIndex, m_activeEntity, entityManager, i, m_popup);
 
 		ImGui::Separator();
 
@@ -116,14 +117,14 @@ void EntityInspectorGui::SetActiveEntity(Entity entity)
 	m_activeEntity = entity;
 }
 
-void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i)
+void DrawComponentGui(void* component, std::type_index type, Entity entity, EntityManager* entityManager, int i, std::unique_ptr<IGuiObject>& popupPtr)
 {
 	if (!component)
 	{
 		return;
 	}
 
-	if (type == typeid(AnimatedSprite)) { CreateAnimatedSpriteGui(reinterpret_cast<AnimatedSprite*>(component), entity); }
+	if (type == typeid(AnimatedSprite)) { CreateAnimatedSpriteGui(reinterpret_cast<AnimatedSprite*>(component), entity, popupPtr); }
 	else if (type == typeid(Audio)) { CreateAudioGui(reinterpret_cast<Audio*>(component), entity); }
 	else if (type == typeid(BoxCollider)) { CreateBoxColliderGui(reinterpret_cast<BoxCollider*>(component)); }
 	else if (type == typeid(Camera)) { CreateCameraGui(reinterpret_cast<Camera*>(component)); }
@@ -225,7 +226,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 	}
 }
 
-void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
+void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner, std::unique_ptr<IGuiObject>& popupPtr)
 {
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::CollapsingHeader("Animated Sprite", nodeFlags))
@@ -246,42 +247,15 @@ void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
 			}
 		}
 
-		// Frame interval
-		float frameInterval = animatedSprite->GetFrameInterval();
+		// FrameSize
+		glm::vec2 frameSize;
 		{
-			if (ImGui::DragFloat("Frame interval", &frameInterval, 0.1f, 0.0f))
+			frameSize = animatedSprite->getFrameSize();
+			int frameSizeArr[2] = { frameSize.x, frameSize.y };
+			if (ImGui::DragInt2("Frame Size", frameSizeArr))
 			{
-				edited = true;
-			}
-		}
-
-		// Frames
-		std::string textureName, textureFilePath;
-		std::vector<Texture2D> frames = animatedSprite->GetFrames();
-		static int selected = 0;
-		{
-			std::vector<std::string> names;
-
-			if (ImGui::BeginCombo("Frames", frames[selected].m_name.c_str()))
-			{
-				for (int i = 0; i < frames.size(); i++)
-				{
-					bool isSelected = frames[selected].m_id == frames[i].m_id;
-
-					std::string text = frames[i].m_name + "##" + std::to_string(i);
-					if (ImGui::Selectable(text.c_str(), isSelected))
-					{
-						selected = i;
-					}
-				}
-
-				ImGui::EndCombo();
-			}
-
-			textureName = frames[selected].m_name;
-			textureFilePath = frames[selected].m_filePath;
-			if (CreateTextureGui(textureName, textureFilePath))
-			{
+				frameSize.x = frameSizeArr[0];
+				frameSize.y = frameSizeArr[1];
 				edited = true;
 			}
 		}
@@ -297,35 +271,43 @@ void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner)
 			edited = true;
 		}
 
+		// Texture
+		Texture2D texture = animatedSprite->GetTexture();
+		std::string textureName = texture.m_name;
+		std::string textureFilePath = texture.m_filePath;
+		if (CreateTextureGui(textureName, textureFilePath))
+		{
+			edited = true;
+		}
+
+		// Animation selection for visual testing
+		static std::string preview = "##";
+		
+		if (ImGui::BeginCombo("Animation tests", preview.c_str()))
+		{
+			std::map<std::string, Animation>& allAnimations = animatedSprite->getAnimations();
+			for (auto i = allAnimations.begin(); i != allAnimations.end(); i++)
+			{
+				bool isSelected = preview == i->first;
+				if (ImGui::Selectable(i->first.c_str(), isSelected))
+				{
+					preview = i->first;
+					animatedSprite->setAnimation(i->first);
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		// Open edit animations dialog
+		if (ImGui::Button("Edit animations..."))
+		{
+			popupPtr = std::make_unique<EditAnimationsGui>(owner);
+		}
+
 		if (edited)
 		{
-			// Create new frames and shader first; if these fail, don't replace the AnimatedSprite
-			std::vector<Texture2D> newFrames;
-			for (int i = 0; i < frames.size(); i++)
-			{
-				std::string name, filePath;
-				if (i == selected)
-				{
-					name = textureName;
-					filePath = textureFilePath;
-				}
-				else
-				{
-					name = frames[i].m_name;
-					filePath = frames[i].m_filePath;
-				}
-
-				newFrames.emplace_back(TextureLoader::CreateTexture2DFromFile(name, filePath));
-			}
-
-			Shader* newShader = ShaderFactory::CreatePipelineShader(shaderName, vertexPath, fragmentPath, geometryPath);
-			if (newShader)
-			{
-				EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
-				entityManager->RemoveComponent<AnimatedSprite>(owner); // Remove old Sprite
-
-				entityManager->AddComponent<AnimatedSprite>(owner, newFrames, frameInterval, colour, newShader);
-			}
+			
 		}
 	}
 }
@@ -441,10 +423,10 @@ void CreateCameraGui(Camera* camera)
 		}
 
 		// Near
-		if (ImGui::DragFloat("Near clip", &camera->m_near, 0.1f, 0.0f, 1000.0f)) {}
+		if (ImGui::DragFloat("Near clip", &camera->m_near, 0.1f)) {}
 
 		// Far
-		if (ImGui::DragFloat("Far clip", &camera->m_far, 0.1f, 0.0f, 1000.0f)) {}
+		if (ImGui::DragFloat("Far clip", &camera->m_far, 0.1f)) {}
 
 		// Active status
 		if (camera->m_isActive)
@@ -665,6 +647,9 @@ void CreateTransformGui(Transform* transform)
 				transform->m_size.y = sizeArr[1];
 			}
 		}
+
+		// Depth
+		if (ImGui::DragFloat("Depth", &transform->m_depth, 0.1f, -1.0f, 1.0f)) {}
 	}
 }
 
