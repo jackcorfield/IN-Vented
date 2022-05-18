@@ -1,14 +1,14 @@
-#include "LaserGun.h"
+#include "NeonKatana.h"
 
-LaserGun::LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
-WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
+NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
+	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
-	m_baseProjectileSpeed = .1f; //Speed of projectiles
-	m_baseProjectileCooldown = 3; //How often weapon attacks
-	m_baseProjectileArea = .4f; //Size of weapon
-	m_baseProjectileDuration = 2; //How long the projectile stays on the screen
-	m_baseProjectileCount = 4; //How many projectiles
-	m_projectileMax = 20;
+	m_baseProjectileSpeed = 1; //Speed of projectiles
+	m_baseProjectileCooldown = 1; //How often weapon attacks
+	m_baseProjectileArea = 1; //Size of weapon
+	m_baseProjectileDuration = .1f; //How long the projectile stays on the screen
+	m_baseProjectileCount = 10; //How many projectiles
+	m_projectileMax = 25;
 
 	m_baseDamageModifier = 1;
 
@@ -21,8 +21,9 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 
 	std::srand(time(NULL));
 
-	Sprite* icon = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("HackingIcon", "Weapons/LaserGun/LaserGun.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("ShurikenIconSprite", "Weapons/LaserGun/laser.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+	Sprite* icon = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("NeonKatanaIcon", "Weapons/NeonKatana/neonkatana.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("NeonKatanaAnimation", "Weapons/NeonKatana/Animation/frame5.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+
 	SetSprites(icon, sprite);
 
 	for (int i = 0; i < m_projectileMax; i++)
@@ -35,7 +36,7 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 
 		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
 
-		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); 
+		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
 		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
 
 		glm::vec2 direction(0, 0);
@@ -49,18 +50,17 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 
 		m_vecProjectiles.push_back(p);
 	}
-
 }
 
-LaserGun::~LaserGun()
+NeonKatana::~NeonKatana()
 {
 }
 
-void LaserGun::OnAttach()
+void NeonKatana::OnAttach()
 {
 }
 
-void LaserGun::OnUpdate(float dt)
+void NeonKatana::OnUpdate(float dt)
 {
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
@@ -68,16 +68,10 @@ void LaserGun::OnUpdate(float dt)
 
 	if (m_currentCooldown <= 0)
 	{
-		int currentPos = 0;
-
 		for (int i = 0; i < m_baseProjectileCount; i++)
 		{
-			SpawnProjectile(currentPos);
 
-			if (currentPos == 3)
-				currentPos = 0;
-			else
-				currentPos++;
+			SpawnProjectile(i);
 
 			if (m_currentCooldown <= 0)
 			{
@@ -113,24 +107,19 @@ void LaserGun::OnUpdate(float dt)
 		}
 	}
 
-
 	m_playerPreviousPosition = currentPosition;
 }
 
-void LaserGun::OnRender(float dt)
+void NeonKatana::OnRender(float dt)
 {
 }
 
-void LaserGun::OnUnattach()
+void NeonKatana::OnUnattach()
 {
 }
 
-void LaserGun::SpawnProjectile(int currentPos)
+void NeonKatana::SpawnProjectile(int currentPos)
 {
-	glm::vec2 offset;
-
-	offset.x = (rand() % 200 - 100) / 2;
-	offset.y = (rand() % 200 - 100) / 2;
 
 	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
 	newProjectile->isSpawned = true;
@@ -143,18 +132,21 @@ void LaserGun::SpawnProjectile(int currentPos)
 
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-	m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + offset;
-
 	glm::vec2 direction(0, 0);
 
-	if (currentPos == 0)
-		direction = glm::vec2(-1, 1);
-	if (currentPos == 1)
-		direction = glm::vec2(1, -1);
-	if (currentPos == 2)
-		direction = glm::vec2(1, 1);
-	if (currentPos == 3)
-		direction = glm::vec2(-1, -1);
+	//set sprite to one direction
+
+	if (currentPos % 2 == 0)
+	{
+		//even -> right
+		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(-20, -20* currentPos);
+		//flip sprite
+	}
+	else
+	{
+		//odd -> left
+		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(20, 20*-currentPos);
+	}
 
 	//play noise
 

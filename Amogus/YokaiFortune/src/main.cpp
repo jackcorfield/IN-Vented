@@ -12,6 +12,7 @@
 #include "Shuriken.h"
 #include "HackingDevice.h"
 #include "LaserGun.h"
+#include "NeonKatana.h"
 
 class Runtime : public Application
 {
@@ -43,6 +44,7 @@ public:
 		Entity shuriken = GetEntityByName("Shuriken");
 		Entity hDevice = GetEntityByName("HackingDevice");
 		Entity lGun = GetEntityByName("LaserGun");
+		Entity nKatana = GetEntityByName("NeonKatana");
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
@@ -68,10 +70,26 @@ public:
 			scriptC->AttachScript<CameraFollowScript>(player);
 		}
 
+#pragma region Weapon Scripts
+
+		// need to be ordered in draw order
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
+		if (scriptC)
+		{
+			scriptC->AttachScript<NeonKatana>(player, nKatana);
+		}
+
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
 			scriptC->AttachScript<Shuriken>(player, shuriken);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
+		if (scriptC)
+		{
+			scriptC->AttachScript<LaserGun>(player, lGun);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
@@ -80,11 +98,7 @@ public:
 			scriptC->AttachScript<HackingDevice>(player, hDevice);
 		}
 
-		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
-		if (scriptC)
-		{
-			scriptC->AttachScript<LaserGun>(player, lGun);
-		}
+#pragma endregion
 
 	}
 
