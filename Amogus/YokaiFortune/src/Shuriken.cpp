@@ -3,12 +3,12 @@
 Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) : 
 	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
-	m_baseProjectileSpeed = 10; //Speed of projectiles
+	m_baseProjectileSpeed = 1; //Speed of projectiles
 	m_baseProjectileCooldown = 1; //How often weapon attacks
 	m_baseProjectileArea = 1; //Size of weapon
 	m_baseProjectileDuration = 4; //How long the projectile stays on the screen
 	m_baseProjectileCount = 3; //How many projectiles
-	m_projectileMax = 30;
+	m_projectileMax = 15;
 
 	m_baseDamageModifier = 1;
 
@@ -116,8 +116,8 @@ void Shuriken::OnUpdate(float dt)
 			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
 
 
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * dt;
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += ((m_vecProjectiles[i].direction.x * 1000 )* m_baseProjectileSpeed) * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += ((m_vecProjectiles[i].direction.y * 1000 )* m_baseProjectileSpeed) * dt;
 			//m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += 100 * dt;
 
 			//TEMPORARY	

@@ -3,12 +3,12 @@
 LaserGun::LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
 WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
-	m_baseProjectileSpeed = .5f; //Speed of projectiles
+	m_baseProjectileSpeed = .1f; //Speed of projectiles
 	m_baseProjectileCooldown = 1; //How often weapon attacks
 	m_baseProjectileArea = .4f; //Size of weapon
 	m_baseProjectileDuration = 4; //How long the projectile stays on the screen
 	m_baseProjectileCount = 4; //How many projectiles
-	m_projectileMax = 30;
+	m_projectileMax = 25;
 
 	m_baseDamageModifier = 1;
 
@@ -100,8 +100,8 @@ void LaserGun::OnUpdate(float dt)
 			if (!m_isMoving)
 				continue;
 
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * dt;
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += ((m_vecProjectiles[i].direction.x * 1000) * m_baseProjectileSpeed) * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += ((m_vecProjectiles[i].direction.y * 1000) * m_baseProjectileSpeed) * dt;
 
 			m_vecProjectiles[i].duration -= dt;
 		}
