@@ -1,7 +1,7 @@
 #include "HackingDevice.h"
 
-HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID, Entity player, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving, bool autoTarget) :
-	WeaponScript(entityManager, parentEntityID, player, icon, sprite, hitboxSize, level, moving, autoTarget)
+HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
+	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
 	m_baseProjectileSpeed = 10; //Speed of projectiles
 
@@ -25,36 +25,39 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 
 	std::srand(time(NULL));
 
-		Entity newProjectile = m_manager->CreateEntity();
+	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/HackingDevice/Animation/frame1.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+	SetSprites(sprite, sprite);
 
-		Transform* transform = GetComponent<Transform>();
+	Entity newProjectile = m_manager->CreateEntity();
 
-		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
+	Transform* transform = GetComponent<Transform>();
 
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
+	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-		m_manager->AddComponent<Sprite>(newProjectile, m_sprite.GetTexture(), m_sprite.GetColour(), m_sprite.GetShader()); //replace later with animated sprite!
-		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
+	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
 
-		glm::vec2 direction(0, 0);
+	m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
+	m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
 
-		if (m_isMoving)
-		{
-			direction = currentPosition - m_playerPreviousPosition;
-			glm::normalize(direction);
-		}
+	glm::vec2 direction(0, 0);
 
-		if (direction == glm::vec2(0, 0))
-			direction = glm::vec2(1, 0);
+	if (m_isMoving)
+	{
+		direction = currentPosition - m_playerPreviousPosition;
+		glm::normalize(direction);
+	}
 
-		Projectiles p;
+	if (direction == glm::vec2(0, 0))
+		direction = glm::vec2(1, 0);
 
-		p.name = newProjectile;
-		p.duration = m_baseProjectileDuration;
-		p.direction = direction;
-		p.isSpawned = false;
+	Projectiles p;
 
-		m_vecProjectiles.push_back(p);
+	p.name = newProjectile;
+	p.duration = m_baseProjectileDuration;
+	p.direction = direction;
+	p.isSpawned = false;
+
+	m_vecProjectiles.push_back(p);
 }
 
 HackingDevice::~HackingDevice()

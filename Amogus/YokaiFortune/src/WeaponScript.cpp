@@ -3,23 +3,30 @@
 #include <random>
 
 
-WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving, bool autoTarget) :
+WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon,  int level, bool moving, bool autoTarget) :
 Script(entityManager, parentEntityID),
 m_manager(entityManager),
 m_weapon(parentEntityID),
 m_player(player),
-m_icon(icon),
-m_sprite(sprite),
 m_currentLevel(level),
 m_isMoving(moving),
 m_isAutoTarget(autoTarget),
-m_canLevel(true)
+m_canLevel(true),
+m_icon(nullptr),
+m_sprite(nullptr)
 {
 	m_currentProjectile = 0;
 }
 
 WeaponScript::~WeaponScript()
 {
+}
+
+void WeaponScript::SetSprites(Sprite* icon, Sprite* sprite)
+{
+	m_icon = icon;
+	m_sprite = sprite;
+	m_hitboxSize = glm::vec2(m_sprite->GetTexture().m_width, m_sprite->GetTexture().m_height);
 }
 
 void WeaponScript::OnLevelUp()

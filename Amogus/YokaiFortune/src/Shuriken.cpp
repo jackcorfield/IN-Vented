@@ -1,7 +1,7 @@
 #include "Shuriken.h"
 
-Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity player, Sprite icon, Sprite sprite, glm::vec2 hitboxSize, int level, bool moving, bool autoTarget) : 
-	WeaponScript(entityManager, parentEntityID, player, icon, sprite, hitboxSize, level, moving, autoTarget)
+Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) : 
+	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
 	m_baseProjectileSpeed = 10; //Speed of projectiles
 	m_baseProjectileCooldown = 1; //How often weapon attacks
@@ -21,6 +21,10 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 	std::srand(time(NULL));
 
+	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+
+	SetSprites(sprite, sprite);
+
 	for (int i = 0; i < m_projectileMax; i++)
 	{
 		Entity newProjectile = m_manager->CreateEntity();
@@ -31,7 +35,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
 
-		m_manager->AddComponent<Sprite>(newProjectile, m_sprite.GetTexture(), m_sprite.GetColour(), m_sprite.GetShader()); //replace later with animated sprite!
+		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
 		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
 
 		glm::vec2 direction(0, 0);

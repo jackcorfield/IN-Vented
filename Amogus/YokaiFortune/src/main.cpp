@@ -67,15 +67,13 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			Sprite* sprite = entityManager->AddComponent<Sprite>(shuriken, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-			scriptC->AttachScript<Shuriken>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(shuriken)->m_size);
+			scriptC->AttachScript<Shuriken>(player, shuriken);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
 		if (scriptC)
 		{
-			Sprite* sprite = entityManager->AddComponent<Sprite>(hDevice, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/HackingDevice/Animation/frame1.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-			scriptC->AttachScript<HackingDevice>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(hDevice)->m_size);
+			scriptC->AttachScript<HackingDevice>(player, hDevice);
 		}
 
 	}

@@ -6,8 +6,9 @@ class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Sprite icon, Sprite sprite, glm::vec2 hitboxSize , int level = 0, bool moving = true, bool autoTarget = false);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 0, bool moving = true, bool autoTarget = false);
     ~WeaponScript();
+    void SetSprites(Sprite* icon, Sprite* sprite);
     void OnAttach();
     virtual void OnUpdate(float dt);
     void OnRender(float dt);
@@ -40,8 +41,8 @@ protected:
     Entity m_player;
     EntityManager* m_manager;
 
-   Sprite m_icon;
-   Sprite m_sprite;
+   Sprite* m_icon;
+   Sprite* m_sprite;
 
     glm::vec2 m_hitboxSize;
 
