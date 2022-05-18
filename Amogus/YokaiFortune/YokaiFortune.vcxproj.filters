@@ -9,6 +9,7 @@
     <ClCompile Include="src\WeaponScript.cpp" />
     <ClCompile Include="src\Shuriken.cpp" />
     <ClCompile Include="src\HackingDevice.cpp" />
+    <ClCompile Include="src\LaserGun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CameraFollowScript.h" />
@@ -18,5 +19,6 @@
     <ClInclude Include="src\WeaponScript.h" />
     <ClInclude Include="src\Shuriken.h" />
     <ClInclude Include="src\HackingDevice.h" />
+    <ClInclude Include="src\LaserGun.h" />
   </ItemGroup>
 </Project>

@@ -5,10 +5,13 @@
 #include "CameraFollowScript.h"
 #include "EnemyMovementScript.h"
 #include "EnemySpawnerScript.h"
+
 #include "PlayerScript.h"
 #include "WeaponScript.h"
+
 #include "Shuriken.h"
 #include "HackingDevice.h"
+#include "LaserGun.h"
 
 class Runtime : public Application
 {
@@ -39,6 +42,7 @@ public:
 		Entity camera = GetEntityByName("Camera");
 		Entity shuriken = GetEntityByName("Shuriken");
 		Entity hDevice = GetEntityByName("HackingDevice");
+		Entity lGun = GetEntityByName("LaserGun");
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
@@ -74,6 +78,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<HackingDevice>(player, hDevice);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
+		if (scriptC)
+		{
+			scriptC->AttachScript<LaserGun>(player, lGun);
 		}
 
 	}

@@ -25,8 +25,10 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 
 	std::srand(time(NULL));
 
-	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/HackingDevice/Animation/frame1.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-	SetSprites(sprite, sprite);
+	Sprite* icon = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("HackingIcon", "Weapons/HackingDevice/HackingDevice.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("HackingAnimation", "Weapons/HackingDevice/Animation/frame1.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+
+	SetSprites(icon, sprite);
 
 	Entity newProjectile = m_manager->CreateEntity();
 
@@ -35,7 +37,6 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
-
 	m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
 	m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
 
@@ -87,7 +88,6 @@ void HackingDevice::OnUpdate(float dt)
 		//DO HIT HERE!
 	}
 
-	
 	m_manager->GetComponent<Transform>(m_vecProjectiles[0].name)->m_position = currentPosition;
 	m_manager->GetComponent<Transform>(m_vecProjectiles[0].name)->m_size* m_baseProjectileArea;
 

@@ -1,13 +1,13 @@
-#include "Shuriken.h"
+#include "LaserGun.h"
 
-Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) : 
-	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
+LaserGun::LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
+WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
-	m_baseProjectileSpeed = 10; //Speed of projectiles
+	m_baseProjectileSpeed = .5f; //Speed of projectiles
 	m_baseProjectileCooldown = 1; //How often weapon attacks
-	m_baseProjectileArea = 1; //Size of weapon
+	m_baseProjectileArea = .4f; //Size of weapon
 	m_baseProjectileDuration = 4; //How long the projectile stays on the screen
-	m_baseProjectileCount = 3; //How many projectiles
+	m_baseProjectileCount = 4; //How many projectiles
 	m_projectileMax = 30;
 
 	m_baseDamageModifier = 1;
@@ -21,9 +21,9 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 	std::srand(time(NULL));
 
-	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("ShurikenIconSprite", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-
-	SetSprites(sprite, sprite);
+	Sprite* icon = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("HackingIcon", "Weapons/LaserGun/LaserGun.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("ShurikenIconSprite", "Weapons/LaserGun/laser.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+	SetSprites(icon, sprite);
 
 	for (int i = 0; i < m_projectileMax; i++)
 	{
@@ -35,19 +35,10 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
 
-		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
+		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); 
 		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
 
 		glm::vec2 direction(0, 0);
-
-		if (m_isMoving)
-		{
-			direction = currentPosition - m_playerPreviousPosition;
-			glm::normalize(direction);
-		}
-
-		if (direction == glm::vec2(0, 0))
-			direction = glm::vec2(1, 0);
 
 		Projectiles p;
 
@@ -59,26 +50,17 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 		m_vecProjectiles.push_back(p);
 	}
 
-
 }
 
-Shuriken::~Shuriken()
+LaserGun::~LaserGun()
 {
 }
 
-void Shuriken::OnAttach()
+void LaserGun::OnAttach()
 {
 }
 
-void Shuriken::OnRender(float dt)
-{
-}
-
-void Shuriken::OnUnattach()
-{
-}
-
-void Shuriken::OnUpdate(float dt)
+void LaserGun::OnUpdate(float dt)
 {
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
@@ -86,10 +68,16 @@ void Shuriken::OnUpdate(float dt)
 
 	if (m_currentCooldown <= 0)
 	{
+		int currentPos = 0;
+
 		for (int i = 0; i < m_baseProjectileCount; i++)
 		{
+			SpawnProjectile(currentPos);
 
-			SpawnProjectile();
+			if (currentPos == 3)
+				currentPos = 0;
+			else
+				currentPos++;
 
 			if (m_currentCooldown <= 0)
 			{
@@ -112,15 +100,8 @@ void Shuriken::OnUpdate(float dt)
 			if (!m_isMoving)
 				continue;
 
-			//TEMPORARY
-			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
-
-
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * dt;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * dt;
-			//m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += 100 * dt;
-
-			//TEMPORARY	
 
 			m_vecProjectiles[i].duration -= dt;
 		}
@@ -132,22 +113,24 @@ void Shuriken::OnUpdate(float dt)
 		}
 	}
 
-	//COLLISION SHOULD BE TAKING PLACE IN CHECK COLLISION FUNCTION : )
 
 	m_playerPreviousPosition = currentPosition;
 }
 
-void Shuriken::SpawnProjectile()
+void LaserGun::OnRender(float dt)
+{
+}
+
+void LaserGun::OnUnattach()
+{
+}
+
+void LaserGun::SpawnProjectile(int currentPos)
 {
 	glm::vec2 offset;
 
 	offset.x = (rand() % 200 - 100) / 2;
 	offset.y = (rand() % 200 - 100) / 2;
-
-	//MAKE BASE SET
-	//IF MORE ARE NEEDED (EG THE CURRENT ARE STILL IN USE)
-	//ADD MORE ENTITIES TO THE LIST
-	//IF NOT, REUSE OLD ENTITIES
 
 	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
 	newProjectile->isSpawned = true;
@@ -164,21 +147,14 @@ void Shuriken::SpawnProjectile()
 
 	glm::vec2 direction(0, 0);
 
-	
-
-	if (m_isMoving)
-	{
-		direction = currentPosition - m_playerPreviousPosition;
-		
-		if (direction == glm::vec2(0, 0))
-			direction = glm::vec2(1, 0);
-		else
-			direction = glm::normalize(direction);
-	}
-
-	
-
-
+	if (currentPos == 0)
+		direction = glm::vec2(-1, 1);
+	if (currentPos == 1)
+		direction = glm::vec2(1, -1);
+	if (currentPos == 2)
+		direction = glm::vec2(1, 1);
+	if (currentPos == 3)
+		direction = glm::vec2(-1, -1);
 
 	//play noise
 
