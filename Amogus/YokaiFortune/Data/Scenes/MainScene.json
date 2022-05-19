@@ -8,6 +8,10 @@
         [
             {
                 "far": 1.0,
+                "internalViewport": {
+                    "height": 360.0,
+                    "width": 640.0
+                },
                 "isActive": true,
                 "near": -1.0,
                 "type": "camera",
@@ -17,13 +21,17 @@
                 }
             },
             {
-                "name": "Scene Camera",
+                "name": "Camera",
                 "type": "entityName"
             },
+			{
+				"type": "scriptComponent"
+			},
             {
+                "depth": 0.0,
                 "pos": {
-                    "x": 50.0,
-                    "y": 100.0
+                    "x": 0.0,
+                    "y": 0.0
                 },
                 "rotate": 0.0,
                 "size": {
@@ -41,24 +49,45 @@
             {
                 "type": "scriptComponent"
             },
-            {
+			{
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+							6,
+							7
+                        ],
+                        "name": "Run"
+                    }
+                ],
                 "colour": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0
                 },
+                "frameSize": {
+                    "x": 200.0,
+                    "y": 200.0
+                },
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "defaultSprite",
+                    "name": "default",
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "test.png",
-                    "name": "defaultEntity"
+                    "filePath": "Characters/Haru/Run.png",
+                    "name": "animsheet haru"
                 },
-                "type": "sprite"
+                "type": "animatedSprite"
             },
             {
+                "depth": 0.0,
                 "pos": {
                     "x": 0.0,
                     "y": 0.0
@@ -71,61 +100,93 @@
                 "type": "transform"
             }
         ],
-      [
-        {
-          "name": "Enemy",
-          "type": "entityName"
-        },
-        {
-          "type": "scriptComponent"
-        },
-        {
-          "colour": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-          },
-          "interval": 0.25,
-          "shader": {
-            "fragmentFilePath": "DefaultSpriteF.glsl",
-            "geometryFilePath": "",
-            "name": "default shader",
-            "vertexFilePath": "DefaultSpriteV.glsl"
-          },
-          "textures": [
+        [
             {
-              "filePath": "Characters/Homura/Idle/frame1.png",
-              "name": "frame1"
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+							6,
+							7
+                        ],
+                        "name": "Run"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 200.0,
+                    "y": 200.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Characters/Homura/Run.png",
+                    "name": "animsheet homura"
+                },
+                "type": "animatedSprite"
             },
             {
-              "filePath": "Characters/Homura/Idle/frame2.png",
-              "name": "frame2"
+                "name": "Enemy",
+                "type": "entityName"
             },
             {
-              "filePath": "Characters/Homura/Idle/frame3.png",
-              "name": "frame3"
-            },
-            {
-              "filePath": "Characters/Homura/Idle/frame4.png",
-              "name": "frame4"
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
             }
-          ],
-          "type": "animatedSprite"
-        },
-        {
-          "pos": {
-            "x": 1172.0,
-            "y": 432.5
-          },
-          "rotate": 0.0,
-          "size": {
-            "x": 1.0,
-            "y": 1.0
-          },
-          "type": "transform"
-
-        }
-      ]
+        ],
+        [
+            {
+                "name": "Enemy Spawner",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            }
+        ],
+		[
+			{
+				"name": "Weapon",
+				"type": "entityName"
+			},
+			{
+				"type": "scriptComponent"
+			},
+			 {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
+            }
+		]
     ],
     "name": "MainScene"
 }
