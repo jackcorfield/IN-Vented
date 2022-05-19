@@ -28,7 +28,7 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 
 	for (int i = 0; i < m_projectileMax; i++)
 	{
-		Entity newProjectile = m_manager->CreateEntity();wwww
+		Entity newProjectile = m_manager->CreateEntity();
 
 		Transform* transform = GetComponent<Transform>();
 
