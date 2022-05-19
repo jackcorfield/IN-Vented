@@ -171,13 +171,10 @@
                 "type": "entityName"
             },
             {
-                "type": "scriptComponent"
-            },
-            {
                 "depth": 0.0,
                 "pos": {
-                    "x": 1172.0,
-                    "y": 432.5
+                    "x": 0.0,
+                    "y": -1000.0
                 },
                 "rotate": 0.0,
                 "size": {
@@ -203,7 +200,20 @@
 			},
 			{
 				"type": "scriptComponent"
-			}
+			},
+			 {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
+            }
 		]
     ],
     "name": "MainScene"

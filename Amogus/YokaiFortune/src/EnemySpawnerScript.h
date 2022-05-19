@@ -19,6 +19,8 @@ private:
 	void SpawnWave();
 	void SpawnEnemy();
 
+	void CloneEnemy(Entity templateEntity, Entity targetEntity);
+
 	// Tries to find an entity called "Player" to spawn enemies around
 	Entity FindPlayer();
 
