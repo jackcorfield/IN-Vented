@@ -34,6 +34,8 @@ bool AnimatedSprite::setAnimation(const std::string& name)
 		return false;
 	m_currentAnimation = &m_animations[name];
 	m_currentFrame = 0;
+
+	return true;
 }
 
 void AnimatedSprite::update(float dt)

@@ -29,6 +29,7 @@
     <ClCompile Include="src\Core\Timer.cpp" />
     <ClCompile Include="src\Core\Debugger.cpp" />
     <ClCompile Include="src\Resources\Script.cpp" />
+    <ClCompile Include="src\Handlers\SpatialHash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\Components\AnimatedSprite.h" />
@@ -76,6 +77,7 @@
     <ClInclude Include="src\ECS\Components\Transform.h" />
     <ClInclude Include="Amogus.h" />
     <ClInclude Include="src\Core\Debugger.h" />
+    <ClInclude Include="src\Handlers\SpatialHash.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />

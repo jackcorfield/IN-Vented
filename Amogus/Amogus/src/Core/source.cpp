@@ -24,7 +24,10 @@ Application::Application() :
 	m_renderer(nullptr),
 	m_audioManager(nullptr),
 	m_scriptSystem(nullptr),
+	m_debugger(nullptr),
+	m_collisionManager(nullptr),
 	m_window(nullptr),
+	m_windowParams({}),
 	m_quit(false),
 	m_pauseRuntime(false)
 {	
@@ -48,6 +51,7 @@ void Application::Init()
 	m_audioManager = new AudioManager();
 	m_scriptSystem = new ScriptSystem();
 	m_debugger = new Debugger();
+	m_collisionManager = new CollisionManager();
 
 	m_renderer = new Renderer();
 
@@ -79,7 +83,7 @@ void Application::Run()
 			{
 				PhysicsSystem::Update(Timer->DeltaTime());
 				InputHandler::PollGameControllers();
-				CollisionManager::CheckCollision();
+				m_collisionManager->update();
 				onUpdate(Timer->DeltaTime());
 				m_scriptSystem->OnUpdate(Timer->DeltaTime());
 			}
@@ -190,6 +194,8 @@ bool Application::InitGL()
 	glEnable(GL_DEPTH_TEST);
 	if (m_windowParams.MSAASamples > 0)
 		glEnable(GL_MULTISAMPLE);
+
+	return true;
 }
 
 void Application::Quit(InputEvent* e)

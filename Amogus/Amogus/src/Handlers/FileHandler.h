@@ -11,9 +11,9 @@ struct PNG_Data
 	{
 		std::vector<unsigned char> buffer(m_image.size());
 
-		for (int y = 0; y < m_height; y++)
+		for (unsigned int y = 0; y < m_height; y++)
 		{
-			for (int x = 0; x < m_width; x++)
+			for (unsigned int x = 0; x < m_width; x++)
 			{
 				int oldPos = (m_height - y - 1) * (m_width * 4) + 4 * x;
 				int newPos = y * (m_width * 4) + 4 * x;
@@ -34,9 +34,9 @@ struct PNG_Data
 	{
 		std::vector<unsigned char> buffer(m_image.size());
 
-		for (int y = 0; y < m_height; y++)
+		for (unsigned int y = 0; y < m_height; y++)
 		{
-			for (int x = 0; x < m_width; x++)
+			for (unsigned int x = 0; x < m_width; x++)
 			{
 				int oldPos = (m_height - y - 1) * (m_width * 4) + 4 * x;
 				int newPos = y * (m_width * 4) + 4 * x;

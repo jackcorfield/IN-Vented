@@ -25,71 +25,60 @@ bool BoxVBoxCollision(const glm::vec2& pos1, const glm::vec2& size1, const glm::
 	return false;
 }
 
-bool CollisionManager::ResolveCollision(glm::vec2 axis, float min_a, float min_b, float max_a, float max_b, glm::vec2& mtvAxis, float& mtvDistance)
+CollisionManager::CollisionManager()
 {
-	float axisLengthSquared = glm::dot(axis, axis);
-
-	float d0 = (max_b - min_a);
-	float d1 = (max_a - min_b);
-
-	if (d0 <= 0.0f || d1 <= 0.0)
-		return false;
-
-	float overlap = (d0 < d1) ? d0 : -d1;
-
-	glm::vec2 sep = axis * (overlap / axisLengthSquared);
-	float sepLengthSquared = glm::dot(sep, sep);
-
-	if (sepLengthSquared < mtvDistance)
-	{
-		mtvDistance = sepLengthSquared;
-		mtvAxis = sep;
-	}
-
-	return true;
+	m_spatialHash = new SpatialHash(200);
 }
 
-void CollisionManager::CheckCollision()
+CollisionManager::~CollisionManager()
 {
-	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
-	if (!activeScene) return;
+	delete m_spatialHash;
+	m_spatialHash = nullptr;
+}
 
-	std::vector<BoxCollider*> boxColliders = activeScene->m_entityManager->GetAllComponentsOfType<BoxCollider>();
-
-	for (int i = 0; i < (int)boxColliders.size() - 1; i++)
+void CollisionManager::update()
+{
+	m_spatialHash->updateAll();
+	
+	EntityManager* ecs = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+	std::vector<Transform*> transforms = ecs->GetAllComponentsOfType<Transform>();
+	
+	for (Transform* t : transforms)
 	{
-		for(int j = 0; j < (int)boxColliders.size(); j++)
+		Entity e = ecs->GetEntityFromComponent<Transform>(t);
+		BoxCollider* b = ecs->GetComponent<BoxCollider>(e);
+		
+		if (b != NULL)
 		{
-			BoxCollider* b1 = boxColliders[i];
-			BoxCollider* b2 = boxColliders[j];
-
-			if(activeScene->m_entityManager->GetEntityFromComponent<BoxCollider>(b2) == activeScene->m_entityManager->GetEntityFromComponent<BoxCollider>(b1))
-				continue;
-			
-			Entity us = activeScene->m_entityManager->GetEntityFromComponent<BoxCollider>(b1);
-			Entity them = activeScene->m_entityManager->GetEntityFromComponent<BoxCollider>(b2);
-
-			Physics* ourPhysics = activeScene->m_entityManager->GetComponent<Physics>(us);
-			Transform* t1 = activeScene->m_entityManager->GetComponent<Transform>(us);
-			Transform* t2 = activeScene->m_entityManager->GetComponent<Transform>(them);
-
-			if (BoxVBoxCollision(t1->m_position, b1->m_size, t2->m_position, b2->m_size) && ourPhysics->m_velocity.length() != 0.0f)
+			if (!m_spatialHash->isInHash(e))
 			{
-				float mtvDistance = FLT_MAX;
-				glm::vec2 mtvAxis;
-
-				if (!ResolveCollision(glm::vec2(1, 0), t1->m_position.x, t1->m_position.x, t1->m_position.x + (b1->m_size.x / 2), t2->m_position.x + (b2->m_size.x / 2), mtvAxis, mtvDistance))
-					return;
-
-				if (!ResolveCollision(glm::vec2(0, 1), t1->m_position.y, t1->m_position.y, t1->m_position.y + (b1->m_size.y / 2), t2->m_position.y + (b2->m_size.y / 2), mtvAxis, mtvDistance))
-					return;
-
-				glm::vec2 penetrationVector = glm::normalize(mtvAxis);
-				float penetrationDepth = sqrt(mtvDistance) * 1.001f;
-				glm::vec2 resolutionVector = (penetrationVector * penetrationDepth);
-
-				t1->m_position += resolutionVector;
+				m_spatialHash->insert(e);
 			}
 		}
 	}
+}
+
+bool CollisionManager::checkCollision(Entity a, Entity b)
+{
+	std::vector<Entity> potentialCollisions = m_spatialHash->broadCollisionCheck(a);
+	if (std::find(potentialCollisions.begin(), potentialCollisions.end(), b) == potentialCollisions.end())
+		return false;
+
+	EntityManager* ecs = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+
+	Transform* t1 = ecs->GetComponent<Transform>(a);
+	Transform* t2 = ecs->GetComponent<Transform>(b);
+	BoxCollider* b1 = ecs->GetComponent<BoxCollider>(a);
+	BoxCollider* b2 = ecs->GetComponent<BoxCollider>(b);
+
+	if (t1 == NULL || t2 == NULL ||
+		b1 == NULL || b2 == NULL)
+		return false;
+	
+	return BoxVBoxCollision(t1->m_position, b1->m_size, t2->m_position, b2->m_size);
+}
+
+std::vector<Entity> CollisionManager::potentialCollisions(Entity e)
+{
+	return m_spatialHash->broadCollisionCheck(e);
 }

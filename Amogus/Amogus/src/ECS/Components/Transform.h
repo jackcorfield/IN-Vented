@@ -8,7 +8,8 @@ public:
 	Transform() :
 		m_position(),
 		m_size(),
-		m_rotate(0.0f)
+		m_rotate(0.0f),
+		m_depth(0.0f)
 	{}
 	Transform(const glm::vec2& pos, const glm::vec2& size, const float rotate = 0.0f, float depth = 0.0f) :
 		m_position(pos),

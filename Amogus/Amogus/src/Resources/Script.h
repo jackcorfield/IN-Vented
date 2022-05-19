@@ -48,6 +48,9 @@ protected:
 	void GotoScene(const std::string& name);
 	std::string GetCurrentScene() const;
 
+	// Collision
+	bool IsColliding(Entity entity, bool precise = true);
+
 private:
 	Entity m_entityID;
 	EntityManager* m_entityManager;
