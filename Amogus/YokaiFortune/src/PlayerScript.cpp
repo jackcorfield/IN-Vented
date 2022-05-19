@@ -1,10 +1,9 @@
 #include "PlayerScript.h"
 
 PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, float speed):Script(entityManager, parentEntityID), 
-m_manager(entityManager),
+//m_manager(entityManager),
 m_movementSpeed(speed),
-m_player(parentEntityID),
-m_movePlayer(false),
+//m_player(parentEntityID),
 m_leftStickDirection(glm::vec2(0,0)),
 m_leftStickInUse(false)
 {
@@ -23,9 +22,12 @@ m_leftStickInUse(false)
 	m_registeredKeys.RIGHT = false;
 }
 
+PlayerScript::~PlayerScript()
+{}
+
 void PlayerScript::OnAttach()
 {
-	g_app->m_debugger->Log("ATTACHED", LL_ERROR);
+	g_app->m_debugger->Log("ATTACHED", LL_DEBUG);
 }
 
 void PlayerScript::KeyEvent(InputEvent* e)
@@ -70,7 +72,7 @@ void PlayerScript::KeyEvent(InputEvent* e)
 		}
 
 		m_leftStickInUse = false;
-		m_latestGameInput = e->m_gamepadInput;
+		//m_latestGameInput = e->m_gamepadInput;
 	}
 	else if (e->m_action == GLFW_RELEASE)
 	{
@@ -92,7 +94,7 @@ void PlayerScript::KeyEvent(InputEvent* e)
 		default:
 			break;
 		}
-		m_latestGameInput = -1;
+		//m_latestGameInput = -1;
 	}
 	else if(e->m_leftStickAxis.x < 0.1f && e->m_leftStickAxis.y < 0.1f && e->m_leftStickAxis.x > -0.1f && e->m_leftStickAxis.y > -0.1f)
 	{
@@ -108,15 +110,14 @@ void PlayerScript::KeyEvent(InputEvent* e)
 
 void PlayerScript::OnUpdate(float dt)
 {
-	if (!m_manager || m_player == 0)
-		return;
+	//if (!m_manager || m_player == 0)
+		//return;
 
 	Transform* playerTransform = GetComponent<Transform>();
-	AnimatedSprite* animatedSprite = GetComponent<AnimatedSprite>();
 
 	// Use to check if these properties change this frame
 	bool moving = false;
-	bool faceLeft = m_faceLeft;
+	bool facingLeft = m_facingLeftLastFrame;
 
 	//Keyboard Controls
 	if (m_registeredKeys.W)
@@ -130,7 +131,7 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x += m_movementSpeed * dt;
 		m_keyboardInUse = true;
 		moving = true;
-		faceLeft = false;
+		facingLeft = false;
 	}
 	if (m_registeredKeys.S)
 	{
@@ -143,7 +144,7 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x -= m_movementSpeed * dt;
 		m_keyboardInUse = true;
 		moving = true;
-		faceLeft = true;
+		facingLeft = true;
 	}
 		
 
@@ -159,7 +160,7 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x += m_movementSpeed * dt;
 		m_registeredKeys.RIGHT = false;
 		moving = true;
-		faceLeft = false;
+		facingLeft = false;
 	}
 	if (m_registeredKeys.DOWN && !m_keyboardInUse)
 	{
@@ -172,7 +173,7 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x -= m_movementSpeed * dt;
 		m_registeredKeys.LEFT = false;
 		moving = true;
-		faceLeft = true;
+		facingLeft = true;
 	}
 
 	//Joystick Control
@@ -182,43 +183,16 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.y += m_leftStickDirection.y * m_movementSpeed * dt;
 		moving = true;
 
-		faceLeft = false;
+		facingLeft = false;
 		if (m_leftStickDirection.x < 0)
 		{
-			faceLeft = true;
+			facingLeft = true;
 		}
 	}
 
-	if (moving && !m_movingLastFrame)
-	{
-		if (m_faceLeft)
-		{
-			animatedSprite->setAnimation("RunLeft");
-		}
-		else
-		{
-			animatedSprite->setAnimation("RunRight");
-		}
-		
-	}
-	else if (!moving && m_movingLastFrame)
-	{
-		animatedSprite->setAnimation("Idle");
-	}
+	UpdateSpriteAnimation(facingLeft, moving);
 
-	m_movingLastFrame = moving;
-
-	if (faceLeft && !m_faceLeft)
-	{
-		animatedSprite->setAnimation("RunLeft"); // Turning means we are moving anyway so no need to check
-	}
-	else if (!faceLeft && m_faceLeft)
-	{
-		animatedSprite->setAnimation("RunRight");
-	}
-
-	m_faceLeft = faceLeft;
-
+	// Update member based on current frame
 	m_keyboardInUse = false;
 }
 
@@ -232,7 +206,41 @@ void PlayerScript::OnUnattach()
 
 }
 
-PlayerScript::~PlayerScript()
+void PlayerScript::UpdateSpriteAnimation(bool facingLeft, bool moving)
 {
+	AnimatedSprite* animatedSprite = GetComponent<AnimatedSprite>();
 
+	// If changed direction, change running sprite. Turning means we are moving anyway so no need to check
+	if (facingLeft && !m_facingLeftLastFrame)
+	{
+		animatedSprite->setAnimation("RunLeft");
+	}
+	else if (!facingLeft && m_facingLeftLastFrame)
+	{
+		animatedSprite->setAnimation("RunRight");
+	}
+
+	// If newly moving, start running
+	if (moving && !m_movingLastFrame)
+	{
+		// Choose animation based on direction
+		if (facingLeft)
+		{
+			animatedSprite->setAnimation("RunLeft");
+		}
+		else
+		{
+			animatedSprite->setAnimation("RunRight");
+		}
+
+	}
+	else if (!moving && m_movingLastFrame) // If newly idle, start idle animation
+	{
+		facingLeft = false; // Default direction is right
+		animatedSprite->setAnimation("Idle");
+	}
+
+	// Update members based on current frame
+	m_movingLastFrame = moving;
+	m_facingLeftLastFrame = facingLeft;
 }
