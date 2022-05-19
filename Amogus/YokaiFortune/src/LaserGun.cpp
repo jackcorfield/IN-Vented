@@ -25,6 +25,9 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("ShurikenIconSprite", "Weapons/LaserGun/laser.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 	SetSprites(icon, sprite);
 
+	//const char* path, FMOD::System* system, FMOD::ChannelGroup* group
+	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/lasergunalt1.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+	
 	for (int i = 0; i < m_projectileMax; i++)
 	{
 		Entity newProjectile = m_manager->CreateEntity();
@@ -85,6 +88,8 @@ void LaserGun::OnUpdate(float dt)
 				m_currentCooldown = m_baseProjectileCooldown;
 			}
 		}
+
+		g_app->m_audioManager->m_system->playSound(audio->m_sound, audio->m_group, false, &audio->m_channel);
 	}
 
 	if (m_vecProjectiles.size() <= 0)
@@ -155,8 +160,6 @@ void LaserGun::SpawnProjectile(int currentPos)
 		direction = glm::vec2(1, 1);
 	if (currentPos == 3)
 		direction = glm::vec2(-1, -1);
-
-	//play noise
 
 	newProjectile->duration = m_baseProjectileDuration;
 	newProjectile->direction = direction;

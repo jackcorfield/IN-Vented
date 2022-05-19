@@ -22,8 +22,10 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 	std::srand(time(NULL));
 
 	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("ShurikenIconSprite", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-
 	SetSprites(sprite, sprite);
+
+	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+
 
 	for (int i = 0; i < m_projectileMax; i++)
 	{
@@ -97,6 +99,8 @@ void Shuriken::OnUpdate(float dt)
 				m_currentCooldown = m_baseProjectileCooldown;
 			}
 		}
+
+		g_app->m_audioManager->m_system->playSound(audio->m_sound, audio->m_group, false, &audio->m_channel);
 	}
 
 	if (m_vecProjectiles.size() <= 0)

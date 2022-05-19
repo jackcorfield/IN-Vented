@@ -46,6 +46,9 @@ public:
 		Entity lGun = GetEntityByName("LaserGun");
 		Entity nKatana = GetEntityByName("NeonKatana");
 
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
+
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
 		{
@@ -72,8 +75,9 @@ public:
 
 #pragma region Weapon Scripts
 
-		// need to be ordered in draw order
+		
 
+		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
 		if (scriptC)
 		{
