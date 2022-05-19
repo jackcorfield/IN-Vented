@@ -24,6 +24,7 @@ Application::Application() :
 	m_renderer(nullptr),
 	m_audioManager(nullptr),
 	m_scriptSystem(nullptr),
+	m_collisionManager(nullptr),
 	m_window(nullptr),
 	m_quit(false),
 	m_pauseRuntime(false)
@@ -48,6 +49,7 @@ void Application::Init()
 	m_audioManager = new AudioManager();
 	m_scriptSystem = new ScriptSystem();
 	m_debugger = new Debugger();
+	m_collisionManager = new CollisionManager();
 
 	m_renderer = new Renderer();
 
@@ -79,7 +81,7 @@ void Application::Run()
 			{
 				PhysicsSystem::Update(Timer->DeltaTime());
 				InputHandler::PollGameControllers();
-				CollisionManager::CheckCollision();
+				m_collisionManager->update();
 				onUpdate(Timer->DeltaTime());
 				m_scriptSystem->OnUpdate(Timer->DeltaTime());
 			}
