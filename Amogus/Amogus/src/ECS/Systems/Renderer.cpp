@@ -107,7 +107,15 @@ void Renderer::DrawAnimatedSprite(AnimatedSprite* sprite, Transform* transform)
 
 	int frameCount = sprite->getNumFrames();
 
-	int currentFrame = sprite->getCurrentFrame();
+	int currentFrameIndex = sprite->getCurrentFrame();
+
+    int currentFrame = 0;
+    Animation* currentAnimation = sprite->getCurrentAnimation();
+    if (currentAnimation)
+    {
+        currentFrame = sprite->getCurrentAnimation()->frames[currentFrameIndex];
+    }
+    
 
     int framesPerRow = imageWidth / frameWidth;
 	int frameX = frameWidth * (currentFrame % framesPerRow);
