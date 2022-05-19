@@ -24,8 +24,10 @@ Application::Application() :
 	m_renderer(nullptr),
 	m_audioManager(nullptr),
 	m_scriptSystem(nullptr),
+	m_debugger(nullptr),
 	m_collisionManager(nullptr),
 	m_window(nullptr),
+	m_windowParams({}),
 	m_quit(false),
 	m_pauseRuntime(false)
 {	
@@ -192,6 +194,8 @@ bool Application::InitGL()
 	glEnable(GL_DEPTH_TEST);
 	if (m_windowParams.MSAASamples > 0)
 		glEnable(GL_MULTISAMPLE);
+
+	return true;
 }
 
 void Application::Quit(InputEvent* e)
