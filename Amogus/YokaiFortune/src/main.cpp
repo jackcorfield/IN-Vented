@@ -181,6 +181,8 @@ private:
 				return entityManager->GetEntityFromComponent<EntityName>(nameComponent);
 			}
 		}
+
+		return 0;
 	}
 
 	bool m_debug = false;

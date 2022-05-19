@@ -17,6 +17,7 @@ private:
     
     bool m_keyboardInUse;
     bool m_movingLastFrame; // Used to test against current movement status (to set correct animation)
+    bool m_faceLeft; // Used to determine whether to flip sprite
     struct KeyRegister
     {
         bool W, A, S, D;

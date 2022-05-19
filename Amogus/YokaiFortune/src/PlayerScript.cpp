@@ -114,7 +114,10 @@ void PlayerScript::OnUpdate(float dt)
 	Transform* playerTransform = GetComponent<Transform>();
 	AnimatedSprite* animatedSprite = GetComponent<AnimatedSprite>();
 
+	// Use to check if these properties change this frame
 	bool moving = false;
+	bool faceLeft = m_faceLeft;
+
 	//Keyboard Controls
 	if (m_registeredKeys.W)
 	{
@@ -127,6 +130,7 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x += m_movementSpeed * dt;
 		m_keyboardInUse = true;
 		moving = true;
+		faceLeft = false;
 	}
 	if (m_registeredKeys.S)
 	{
@@ -139,6 +143,7 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x -= m_movementSpeed * dt;
 		m_keyboardInUse = true;
 		moving = true;
+		faceLeft = true;
 	}
 		
 
@@ -154,6 +159,7 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x += m_movementSpeed * dt;
 		m_registeredKeys.RIGHT = false;
 		moving = true;
+		faceLeft = false;
 	}
 	if (m_registeredKeys.DOWN && !m_keyboardInUse)
 	{
@@ -166,6 +172,7 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x -= m_movementSpeed * dt;
 		m_registeredKeys.LEFT = false;
 		moving = true;
+		faceLeft = true;
 	}
 
 	//Joystick Control
@@ -174,18 +181,43 @@ void PlayerScript::OnUpdate(float dt)
 		playerTransform->m_position.x += m_leftStickDirection.x * m_movementSpeed * dt;
 		playerTransform->m_position.y += m_leftStickDirection.y * m_movementSpeed * dt;
 		moving = true;
+
+		faceLeft = false;
+		if (m_leftStickDirection.x < 0)
+		{
+			faceLeft = true;
+		}
 	}
 
 	if (moving && !m_movingLastFrame)
 	{
-		m_movingLastFrame = true;
-		animatedSprite->setAnimation("Run");
+		if (m_faceLeft)
+		{
+			animatedSprite->setAnimation("RunLeft");
+		}
+		else
+		{
+			animatedSprite->setAnimation("RunRight");
+		}
+		
 	}
 	else if (!moving && m_movingLastFrame)
 	{
-		m_movingLastFrame = false;
 		animatedSprite->setAnimation("Idle");
 	}
+
+	m_movingLastFrame = moving;
+
+	if (faceLeft && !m_faceLeft)
+	{
+		animatedSprite->setAnimation("RunLeft"); // Turning means we are moving anyway so no need to check
+	}
+	else if (!faceLeft && m_faceLeft)
+	{
+		animatedSprite->setAnimation("RunRight");
+	}
+
+	m_faceLeft = faceLeft;
 
 	m_keyboardInUse = false;
 }
