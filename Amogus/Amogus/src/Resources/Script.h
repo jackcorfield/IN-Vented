@@ -50,6 +50,7 @@ protected:
 
 	// Collision
 	bool IsColliding(Entity entity, bool precise = true);
+	std::vector<Entity> GetNearbyEntities() const;
 
 private:
 	Entity m_entityID;
