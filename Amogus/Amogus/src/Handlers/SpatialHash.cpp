@@ -155,6 +155,7 @@ std::vector<Entity> SpatialHash::broadCollisionCheck(Entity entity)
 	if (transform == nullptr || boxCollider == nullptr)
 	{
 		forceRemove(entity);
+		return {};
 	}
 
 	glm::vec2 min = hash(transform->m_position - boxCollider->m_size / 2.0f);
