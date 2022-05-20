@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include "EventHandler.h"
+#include "../ECS/Components/UI_Widget.h"
 
 // AP. Mapped out by hand and trial and error
 enum XBOX_CONTROLS
@@ -69,9 +70,22 @@ public:
 struct GLFWindow;
 class InputMapping;
 
+struct ClickedButton
+{
+	UI_ImageButton* button;
+	float timeSinceClick = 0.0f;
+
+	ClickedButton(UI_ImageButton* b)
+		: button(b)
+	{
+
+	}
+};
+
 class InputHandler
 {
 public:
+	static bool ButtonIsSelected(UI_ImageButton* button);
 	// The GLFW callback for key events.  Sends events to all KeyInput instances
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void MouseCallback(GLFWwindow* window, double xpos, double ypos);
@@ -85,6 +99,7 @@ public:
 	static void WriteMappings();
 	static InputMapping* GetMapping(std::string name);
 	static void PollGameControllers();
+	static void Update(float dt);
 
 	static double GetMousePosition(double& x, double& y)
 	{
@@ -96,6 +111,7 @@ public:
 
 private:
 	static std::vector<InputMapping*> m_mappings;
+	static std::vector<ClickedButton> m_clickedButtons;
 
 	static double m_mouseX;
 	static double m_mouseY;

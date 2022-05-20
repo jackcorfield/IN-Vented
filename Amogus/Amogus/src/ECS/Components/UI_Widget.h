@@ -3,19 +3,22 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include "../../Handlers/EventHandler.h"
 
 /*
 TODO COMPONENTS:
-- Frame
+- 
+
 - Image
 - ImageButton
 - Text                                                                                                                                                                                        
 */
 
+class UI_WidgetComponent;
+
 enum ElementType
 {
 	ET_Base,
-	ET_Frame,
 	ET_Image,
 	ET_ImageButton,
 	ET_Text,
@@ -24,11 +27,10 @@ enum ElementType
 
 static const std::vector<std::string> s_ElementType
 {
-	"Base Element",
-	"Frame Element",
-	"Image Element",
-	"Image Button Element",
-	"Text Element",
+	"BaseElement",
+	"ImageElement",
+	"ImageButtonElement",
+	"TextElement",
 };
 
 class UI_BaseElement
@@ -37,6 +39,8 @@ public:
 	UI_BaseElement();
 	~UI_BaseElement();
 
+	UI_WidgetComponent* m_widget;
+
 	int m_elementType;
 	glm::vec2 m_absolutePosition;
 	glm::vec2 m_relativePosition;
@@ -44,15 +48,8 @@ public:
 	glm::vec2 m_relativeSize;
 	bool m_hidden;
 	int m_zIndex;
-	glm::vec3 m_backgroundColour;
+	glm::vec3 m_colour;
 	std::string m_name;
-};
-
-class UI_Frame : public UI_BaseElement
-{
-public:
-	UI_Frame();
-	~UI_Frame();
 };
 
 class UI_Image : public UI_BaseElement
@@ -64,6 +61,13 @@ public:
 	Texture2D m_texture;
 };
 
+enum ButtonState
+{
+	BS_None,
+	BS_Hover,
+	BS_Click
+};
+
 class UI_ImageButton : public UI_Image
 {
 public:
@@ -71,12 +75,15 @@ public:
 	~UI_ImageButton();
 
 	Texture2D m_texture;
+	EventBus* m_clickBus;
+	int m_state;
 };
 
 class UI_Text : public UI_BaseElement
 {
 public:
 	std::string m_text;
+	bool m_centered;
 
 	UI_Text();
 	~UI_Text();
@@ -90,18 +97,3 @@ public:
 
 	std::vector<UI_BaseElement*> m_elements;
 };
-
-/*
-class UI_Image
-{
-public:
-	UI_Image() : m_texture(TextureLoader::CreateTexture2DFromFile("UI_test", "hi.png")), m_position(0, 0, 0, 0), m_size(0, 100, 0, 100), m_zIndex(1) {}
-	UI_Image(const Texture2D& texture, glm::vec4 pos, glm::vec4 size, int zIdx) : m_texture(texture), m_position(pos), m_size(size), m_zIndex(zIdx) {}
-
-	Texture2D m_texture;
-	int m_zIndex;
-	// FORMAT: RELATIVE X, ABSOLUTE X, RELATIVE Y, ABSOLUTE Y
-	glm::vec4 m_position;
-	glm::vec4 m_size;
-};
-*/

@@ -70,6 +70,7 @@ private:
 
 	Shader* m_defaultShader;
 	Shader* m_uiShader;
+	Shader* m_textShader;
 	Shader* m_postProcessingShader;
 	unsigned int m_quadVAO;
 	unsigned int m_quadVBO;

@@ -49,6 +49,7 @@ namespace SceneImporter
 	bool CreateTile(const nlohmann::json& j, Entity entity, std::vector<Entity>& allTiles);
 	bool CreateTileMap(const nlohmann::json& j, Entity entity, const std::vector<Entity>& tiles);
 	bool CreateTransform(const nlohmann::json& j, Entity entity);
+	bool CreateWidget(const nlohmann::json& j, Entity entity);
 
 	// Helpers
 	bool ReadShader(const nlohmann::json& jShader, Shader** readTo);
@@ -229,6 +230,10 @@ namespace SceneImporter
 			else if (componentType == "transform")
 			{
 				if (!CreateTransform(jComponent, entity)) { success = false; }
+			}
+			else if (componentType == "uiWidget")
+			{
+				if (!CreateWidget(jComponent, entity)) { success = false; }
 			}
 		}
 
@@ -575,6 +580,14 @@ namespace SceneImporter
 		}
 
 		Transform* component = g_entityManager->AddComponent<Transform>(entity, pos, size, rotate, depth);
+
+		return success;
+	}
+
+	bool CreateWidget(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
 
 		return success;
 	}

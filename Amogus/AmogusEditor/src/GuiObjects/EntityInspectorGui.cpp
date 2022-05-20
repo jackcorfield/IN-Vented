@@ -43,7 +43,7 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner);
 
 // Helpers (return true if changed)
 bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::string& fragmentPath, std::string& geometryPath);
-bool CreateTextureGui(std::string& textureName, std::string& filePath);
+bool CreateTextureGui(std::string& textureName, std::string& filePath, int optionalId = -1);
 
 EntityInspectorGui::EntityInspectorGui() :
 	m_activeEntity(0)
@@ -491,6 +491,8 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 		{
 			for (int i = 0; i < NumElementTypes; i++)
 			{
+				if (i == ET_Base) continue;
+
 				bool isSelected = selected == s_ElementType[i];
 				if (ImGui::Selectable(s_ElementType[i].c_str(), isSelected))
 				{
@@ -509,20 +511,54 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 				{
 					switch (i)
 					{
-					case(ElementType::ET_Base):
-						widget->m_elements.push_back(new UI_BaseElement());
-						break;
-					case(ElementType::ET_Frame):
-						widget->m_elements.push_back(new UI_Frame());
-						break;
 					case(ElementType::ET_Image):
-						widget->m_elements.push_back(new UI_Image());
+					{
+						UI_Image* newElement = new UI_Image();
+						newElement->m_widget = widget;
+
+						int count = 0;
+						for (UI_BaseElement* e : widget->m_elements)
+						{
+							if (e->m_elementType == ET_Image)
+								count++;
+						}
+
+						newElement->m_name = s_ElementType[ElementType::ET_Image] + std::to_string(count);
+
+						widget->m_elements.push_back(newElement);
+					}
 						break;
 					case(ElementType::ET_ImageButton):
-						widget->m_elements.push_back(new UI_ImageButton());
+					{
+						UI_ImageButton* newElement = new UI_ImageButton();
+						newElement->m_widget = widget;
+
+						int count = 0;
+						for (UI_BaseElement* e : widget->m_elements)
+						{
+							if (e->m_elementType == ET_ImageButton)
+								count++;
+						}
+
+						newElement->m_name = s_ElementType[ElementType::ET_ImageButton] + std::to_string(count);
+						widget->m_elements.push_back(newElement);
+					}
 						break;
 					case(ElementType::ET_Text):
-						widget->m_elements.push_back(new UI_Text());
+					{
+						UI_Text* newElement = new UI_Text();
+						newElement->m_widget = widget;
+
+						int count = 0;
+						for (UI_BaseElement* e : widget->m_elements)
+						{
+							if (e->m_elementType == ET_Text)
+								count++;
+						}
+
+						newElement->m_name = s_ElementType[ElementType::ET_Text] + std::to_string(count);
+						widget->m_elements.push_back(newElement);
+					}
 						break;
 					}
 				}
@@ -531,44 +567,61 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 
 		for (int i = 0; i < widget->m_elements.size(); i++)
 		{
+			std::string sIdx = std::to_string(i);
 			UI_BaseElement* element = widget->m_elements[i];
-			std::string headerTitle = (std::string(std::to_string(i) + std::string(": ") + s_ElementType[element->m_elementType]));
-			if (ImGui::CollapsingHeader(headerTitle.c_str(), nodeFlags))
+			if (ImGui::CollapsingHeader(element->m_name.c_str(), nodeFlags))
 			{
-				ImGui::InputText("Name", &element->m_name[0], MAX_INPUT_LENGTH);
+				std::string nameCopy = element->m_name;
+				if (ImGui::InputText("Name##"+i, &nameCopy[0], MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+				{
+					bool used = false;
+					for (UI_BaseElement* e : widget->m_elements)
+					{
+						if (e == element) continue;
+						if (e->m_name == nameCopy)
+						{
+							used = true;
+						}
+					}
+
+					if (!used)
+					{
+						element->m_name = nameCopy;
+					}
+				}
 
 				float abPosArr[2] = { element->m_absolutePosition.x, element->m_absolutePosition.y };
-				if (ImGui::InputFloat2("Absolute Position", abPosArr))
+				if (ImGui::InputFloat2((std::string("Absolute Position##")+sIdx).c_str(), abPosArr))
 				{
 					element->m_absolutePosition = glm::vec2(abPosArr[0], abPosArr[1]);
 				}
 
 				float abSizeArr[2] = { element->m_absoluteSize.x, element->m_absoluteSize.y };
-				if (ImGui::InputFloat2("Absolute Size", abSizeArr))
+				if (ImGui::InputFloat2((std::string("Absolute Size##") + sIdx).c_str(), abSizeArr))
 				{
 					element->m_absoluteSize = glm::vec2(abSizeArr[0], abSizeArr[1]);
 				}
 
 				float resPosArr[2] = { element->m_relativePosition.x, element->m_relativePosition.y };
-				if (ImGui::InputFloat2("Relative Position", resPosArr))
+				if (ImGui::InputFloat2((std::string("Relative Position##") + sIdx).c_str(), resPosArr))
 				{
 					element->m_relativePosition = glm::vec2(resPosArr[0], resPosArr[1]);
 				}
 
 				float resSizeArr[2] = { element->m_relativeSize.x, element->m_relativeSize.y };
-				if (ImGui::InputFloat2("Relative Size", resSizeArr))
+				if (ImGui::InputFloat2((std::string("Relative Size##") + sIdx).c_str(), resSizeArr))
 				{
 					element->m_relativeSize = glm::vec2(resSizeArr[0], resSizeArr[1]);
 				}
 
-				float colourArr[3] = { element->m_backgroundColour.r, element->m_backgroundColour.g, element->m_backgroundColour.b };
-				if (ImGui::ColorPicker3("Background Colour", colourArr))
+				float colourArr[3] = { element->m_colour.r, element->m_colour.g, element->m_colour.b };
+				if (ImGui::ColorPicker3((std::string("Colour##") + sIdx).c_str(), colourArr))
 				{
-					element->m_backgroundColour = glm::vec3(colourArr[0], colourArr[1], colourArr[2]);
+					element->m_colour = glm::vec3(colourArr[0], colourArr[1], colourArr[2]);
 				}
 
-				ImGui::Checkbox("Hidden", &element->m_hidden);
-				ImGui::InputInt("Z Index", &element->m_zIndex);
+				ImGui::Checkbox((std::string("Hidden##") + sIdx).c_str(), &element->m_hidden);
+				ImGui::InputInt((std::string("Z Index##") + sIdx).c_str(), &element->m_zIndex);
 
 				// Texture
 				if (element->m_elementType == ET_Image || element->m_elementType == ET_ImageButton)
@@ -577,7 +630,7 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 					Texture2D texture = imageElement->m_texture;
 					std::string textureName = texture.m_name;
 					std::string textureFilePath = texture.m_filePath;
-					if (CreateTextureGui(textureName, textureFilePath))
+					if (CreateTextureGui(textureName, textureFilePath, i))
 					{
 						imageElement->m_texture = TextureLoader::CreateTexture2DFromFile(textureName, textureFilePath);
 					}
@@ -586,8 +639,11 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 				if (element->m_elementType == ET_Text)
 				{
 					UI_Text* textElement = (UI_Text*)element;
+
+					ImGui::Checkbox((std::string("Centered##") + sIdx).c_str(), &textElement->m_centered);
+
 					char* buffer = &textElement->m_text[0];
-					ImGui::InputText("Text", buffer, MAX_INPUT_LENGTH);
+					ImGui::InputText((std::string("Text##") + sIdx).c_str(), buffer, MAX_INPUT_LENGTH);
 					textElement->m_text = std::string(buffer);
 				}
 			}
@@ -811,15 +867,16 @@ bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::stri
 	return edited;
 }
 
-bool CreateTextureGui(std::string& textureName, std::string& filePath)
+bool CreateTextureGui(std::string& textureName, std::string& filePath, int optionalId)
 {
 	bool edited = false;
 	char temp[MAX_INPUT_LENGTH]; // Use to store input
+	std::string optionalIdString = std::to_string(optionalId);
 
 	// Texture name
 	{
 		strcpy_s(temp, textureName.length() + 1, textureName.c_str());
-		if (ImGui::InputText("Texture name##", temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText((std::string("Texture name##") + optionalIdString).c_str(), temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			textureName = temp;
 			edited = true;
@@ -829,7 +886,7 @@ bool CreateTextureGui(std::string& textureName, std::string& filePath)
 	// File path
 	{
 		strcpy_s(temp, filePath.length() + 1, filePath.c_str());
-		if (ImGui::InputText("File path##", temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText((std::string("File path##") + optionalIdString).c_str(), temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			filePath = temp;
 			edited = true;

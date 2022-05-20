@@ -32,7 +32,8 @@ void UpdateShaderCameraData(Shader* shader, const glm::mat4& view, const glm::ma
 Renderer::Renderer() :
     m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
     m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl")),
-    m_uiShader(ShaderFactory::CreatePipelineShader("UI", "UIV.glsl", "UIF.glsl"))
+    m_uiShader(ShaderFactory::CreatePipelineShader("UI", "UIV.glsl", "UIF.glsl")),
+	m_textShader(ShaderFactory::CreatePipelineShader("Text", "TextV.glsl", "TextF.glsl"))
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
@@ -112,7 +113,7 @@ void Renderer::LoadFont(std::string font)
             (face->glyph->advance.x >> 6)
         };
         m_fontCharacters.insert(std::pair<char, Font_Character>(c, character));
-		std::cout << "Character " << c << " loaded. Size: " << character.m_size.x << ", " << character.m_size.y << ". Bearing: " << character.m_bearing.x << ", " << character.m_bearing.y << ". Advance: " << character.m_advance << std::endl;
+		//std::cout << "Character " << c << " loaded. Size: " << character.m_size.x << ", " << character.m_size.y << ". Bearing: " << character.m_bearing.x << ", " << character.m_bearing.y << ". Advance: " << character.m_advance << std::endl;
     }
 
     FT_Done_Face(face);
@@ -385,9 +386,9 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
         // Model is just position and size
         glm::mat4 view = glm::mat4(1.0f);
 
-        m_uiShader->Use();
-        m_uiShader->SetUniform("view", view);
-        m_uiShader->SetUniform("projection", m_projection);
+        m_textShader->Use();
+		m_textShader->SetUniform("view", view);
+		m_textShader->SetUniform("projection", m_projection);
 
         glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
         glm::vec3 finalPos = glm::vec3(adjustedRelativePos + element->m_absolutePosition, element->m_zIndex);
@@ -396,6 +397,17 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
         glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
         glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + element->m_absoluteSize, 1);
         float scale = finalSize.y;
+
+		if (textElement->m_centered)
+		{
+			int sum = 0;
+			for (int i = 0; i < textElement->m_text.size(); i++)
+			{
+				Font_Character ch = m_fontCharacters[textElement->m_text[i]];
+				sum += (ch.m_advance * scale);
+			}
+			finalPos.x -= (sum / 2);
+		}
 
         float x_offset = 0;
 
@@ -414,10 +426,11 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
             model = glm::translate(model, (finalPos + glm::vec3(xpos, y_offset, 0)) - glm::vec3(0, h/2, 0));
             model = glm::scale(model, glm::vec3(w, h, 1));
 
-            m_uiShader->SetUniform("model", model);
+			m_textShader->SetUniform("model", model);
 
             glActiveTexture(GL_TEXTURE0);
-            m_uiShader->SetUniform("image", 0);
+			m_textShader->SetUniform("image", 0);
+			m_textShader->SetUniform("textColor", textElement->m_colour);
             ch.m_texture.Bind();
 
             glBindVertexArray(m_quadVAO);

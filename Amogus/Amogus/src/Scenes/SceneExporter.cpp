@@ -47,6 +47,7 @@ namespace SceneExporter
 	bool WriteTile(nlohmann::json& jTile, Tile* tile);
 	bool WriteTileMap(nlohmann::json& jTileMap, TileMap* tileMap);
 	bool WriteTransform(nlohmann::json& jTransform, Transform* transform);
+	bool WriteWidget(nlohmann::json& jTransform, UI_WidgetComponent* widget);
 
 	bool ExportActiveSceneToFile(const std::string& filePath)
 	{
@@ -106,6 +107,7 @@ namespace SceneExporter
 		if (!WriteComponentsOfType<Tile>(jEntityArray, "tile", WriteTile)) { success = false; }
 		if (!WriteComponentsOfType<TileMap>(jEntityArray, "tileMap", WriteTileMap)) { success = false; }
 		if (!WriteComponentsOfType<Transform>(jEntityArray, "transform", WriteTransform)) { success = false; }
+		if (!WriteComponentsOfType<UI_WidgetComponent>(jEntityArray, "uiWidget", WriteWidget)) { success = false; }
 
 		return success;
 	}
@@ -523,6 +525,13 @@ namespace SceneExporter
 			g_app->m_debugger->Log("Failed to export Transform: failed to write depth!", LL_ERROR);
 			success = false;
 		}
+
+		return success;
+	}
+
+	bool WriteWidget(nlohmann::json& jTransform, UI_WidgetComponent* widget)
+	{
+		bool success = true;
 
 		return success;
 	}
