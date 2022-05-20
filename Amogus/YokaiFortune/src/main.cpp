@@ -13,6 +13,7 @@
 #include "HackingDevice.h"
 #include "LaserGun.h"
 #include "NeonKatana.h"
+#include "Grenade.h"
 
 class Runtime : public Application
 {
@@ -45,6 +46,7 @@ public:
 		Entity hDevice = GetEntityByName("HackingDevice");
 		Entity lGun = GetEntityByName("LaserGun");
 		Entity nKatana = GetEntityByName("NeonKatana");
+		Entity gGrenade = GetEntityByName("Grenade");
 
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
@@ -81,25 +83,30 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
 		if (scriptC)
 		{
-			scriptC->AttachScript<NeonKatana>(player, nKatana);
+			//scriptC->AttachScript<NeonKatana>(player, nKatana);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Shuriken>(player, shuriken);
+			//scriptC->AttachScript<Shuriken>(player, shuriken);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
 		if (scriptC)
 		{
-			scriptC->AttachScript<LaserGun>(player, lGun);
+			//scriptC->AttachScript<LaserGun>(player, lGun);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
 		if (scriptC)
 		{
-			scriptC->AttachScript<HackingDevice>(player, hDevice);
+			//scriptC->AttachScript<HackingDevice>(player, hDevice);
+		}
+		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
+		if (scriptC)
+		{
+			scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 
 #pragma endregion
