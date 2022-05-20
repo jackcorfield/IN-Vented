@@ -28,3 +28,8 @@ bool Script::IsColliding(Entity entity, bool precise)
 	
 	return (std::find(potentialCollisions.begin(), potentialCollisions.end(), entity) != potentialCollisions.end());
 }
+
+std::vector<Entity> Script::GetNearbyEntities() const
+{
+	return g_app->m_collisionManager->potentialCollisions(m_entityID);
+}
