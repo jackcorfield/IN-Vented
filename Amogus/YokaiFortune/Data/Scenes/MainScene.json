@@ -282,28 +282,125 @@
         "type": "transform"
       }
     ],
-	[
-      {
-        "name": "Grenade",
-        "type": "entityName"
-      },
-      {
-        "type": "scriptComponent"
-      },
-      {
-        "depth": 0.0,
-        "pos": {
-          "x": 0.0,
-          "y": -1000.0
-        },
-        "rotate": 0.0,
-        "size": {
-          "x": 1.0,
-          "y": 1.0
-        },
-        "type": "transform"
-      }
-    ],
+[
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            61,
+                            62,
+                            63,
+                            64,
+                            65,
+                            66,
+                            67,
+                            68,
+                            69,
+                            70,
+                            71,
+                            72,
+                            73,
+                            74,
+                            75,
+                            76,
+                            77,
+                            78,
+                            79,
+                            80,
+                            81,
+                            82,
+                            83,
+                            84,
+                            85,
+                            86,
+                            87,
+                            88,
+                            89,
+                            90,
+                            91,
+                            92,
+                            93,
+                            94,
+                            95,
+                            96,
+                            97,
+                            98,
+                            99,
+                            100,
+                            101,
+                            102,
+                            103,
+                            104,
+                            105,
+                            106,
+                            107,
+                            108,
+                            109,
+                            110,
+                            111,
+                            112,
+                            113,
+                            114,
+                            115,
+                            116,
+                            117,
+                            118,
+                            119,
+                            120,
+                            121
+                        ],
+                        "name": "Exploding"
+                    },
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0
+                        ],
+                        "name": "Throwing"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 100.0,
+                    "y": 100.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "DefaultSprite",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Weapons/Grenade/GrenadeSpriteSheet.png",
+                    "name": "grenade spritesheet"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "name": "Grenade",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
+            }
+        ],
     [
       {
         "name": "HackingDevice",
