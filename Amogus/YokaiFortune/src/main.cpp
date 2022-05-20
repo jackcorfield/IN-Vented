@@ -5,8 +5,15 @@
 #include "CameraFollowScript.h"
 #include "EnemyMovementScript.h"
 #include "EnemySpawnerScript.h"
+
 #include "PlayerScript.h"
 #include "WeaponScript.h"
+
+#include "Shuriken.h"
+#include "HackingDevice.h"
+#include "LaserGun.h"
+#include "NeonKatana.h"
+#include "Grenade.h"
 
 class Runtime : public Application
 {
@@ -35,7 +42,14 @@ public:
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
-		Entity weapon = GetEntityByName("Weapon");
+		Entity shuriken = GetEntityByName("Shuriken");
+		Entity hDevice = GetEntityByName("HackingDevice");
+		Entity lGun = GetEntityByName("LaserGun");
+		Entity nKatana = GetEntityByName("NeonKatana");
+		Entity gGrenade = GetEntityByName("Grenade");
+
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
@@ -61,12 +75,42 @@ public:
 			scriptC->AttachScript<CameraFollowScript>(player);
 		}
 
-		scriptC = entityManager->GetComponent<ScriptComponent>(weapon);
+#pragma region Weapon Scripts
+
+		
+
+		// need to be ordered in draw order
+		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
 		if (scriptC)
 		{
-			//Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("defaultEntity", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
-			//entityManager->GetComponent<ScriptComponent>(weapon)->AttachScript<WeaponScript>(player, *sprite, *sprite, entityManager->GetComponent<Transform>(weapon)->m_size);
+			//scriptC->AttachScript<NeonKatana>(player, nKatana);
 		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
+		if (scriptC)
+		{
+			//scriptC->AttachScript<Shuriken>(player, shuriken);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
+		if (scriptC)
+		{
+			//scriptC->AttachScript<LaserGun>(player, lGun);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
+		if (scriptC)
+		{
+			//scriptC->AttachScript<HackingDevice>(player, hDevice);
+		}
+		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
+		if (scriptC)
+		{
+			scriptC->AttachScript<Grenade>(player, gGrenade);
+		}
+
+#pragma endregion
+
 	}
 
 	void onUpdate(float dt) override

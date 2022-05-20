@@ -191,46 +191,216 @@
                 "type": "transform"
             }
         ],
-        [
-            {
-                "name": "Enemy Spawner",
-                "type": "entityName"
-            },
-            {
-                "type": "scriptComponent"
-            }
-        ],
-		[
-            {
-                "name": "Enemy Collision Handler",
-                "type": "entityName"
-            },
-            {
-                "type": "scriptComponent"
-            }
-		],
-		[
-			{
-				"name": "Weapon",
-				"type": "entityName"
-			},
-			{
-				"type": "scriptComponent"
-			},
-			 {
-                "depth": 0.0,
-                "pos": {
-                    "x": 0.0,
-                    "y": -1000.0
-                },
-                "rotate": 0.0,
-                "size": {
-                    "x": 1.0,
-                    "y": 1.0
-                },
-                "type": "transform"
-            }
-		]
+        "colour": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "frameSize": {
+          "x": 200.0,
+          "y": 200.0
+        },
+        "shader": {
+          "fragmentFilePath": "DefaultSpriteF.glsl",
+          "name": "default",
+          "vertexFilePath": "DefaultSpriteV.glsl"
+        },
+        "texture": {
+          "filePath": "Characters/Haru/Run.png",
+          "name": "animsheet haru"
+        },
+        "type": "animatedSprite"
+      },
+      {
+        "depth": 0.0,
+        "pos": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "rotate": 0.0,
+        "size": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "type": "transform"
+      }
     ],
-    "name": "MainScene"
+    [
+      {
+        "animations": [
+          {
+            "frameTime": 0.10000000149011612,
+            "frames": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "name": "Run"
+          }
+        ],
+        "colour": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "frameSize": {
+          "x": 200.0,
+          "y": 200.0
+        },
+        "shader": {
+          "fragmentFilePath": "DefaultSpriteF.glsl",
+          "name": "default",
+          "vertexFilePath": "DefaultSpriteV.glsl"
+        },
+        "texture": {
+          "filePath": "Characters/Homura/Run.png",
+          "name": "animsheet homura"
+        },
+        "type": "animatedSprite"
+      },
+      {
+        "name": "Enemy",
+        "type": "entityName"
+      },
+      {
+        "depth": 0.0,
+        "pos": {
+          "x": 0.0,
+          "y": -1000.0
+        },
+        "rotate": 0.0,
+        "size": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "type": "transform"
+      }
+    ],
+    [
+      {
+        "name": "Enemy Spawner",
+        "type": "entityName"
+      },
+      {
+        "type": "scriptComponent"
+      }
+    ],
+    [
+      {
+        "name": "Shuriken",
+        "type": "entityName"
+      },
+      {
+        "type": "scriptComponent"
+      },
+      {
+        "depth": 0.0,
+        "pos": {
+          "x": 0.0,
+          "y": -1000.0
+        },
+        "rotate": 0.0,
+        "size": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "type": "transform"
+      }
+    ],
+	[
+      {
+        "name": "Grenade",
+        "type": "entityName"
+      },
+      {
+        "type": "scriptComponent"
+      },
+      {
+        "depth": 0.0,
+        "pos": {
+          "x": 0.0,
+          "y": -1000.0
+        },
+        "rotate": 0.0,
+        "size": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "type": "transform"
+      }
+    ],
+    [
+      {
+        "name": "HackingDevice",
+        "type": "entityName"
+      },
+      {
+        "type": "scriptComponent"
+      },
+      {
+        "depth": 0.0,
+        "pos": {
+          "x": 0.0,
+          "y": -1000.0
+        },
+        "rotate": 0.0,
+        "size": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "type": "transform"
+      }
+    ],
+    [
+      {
+        "name": "LaserGun",
+        "type": "entityName"
+      },
+      {
+        "type": "scriptComponent"
+      },
+      {
+        "depth": 0.0,
+        "pos": {
+          "x": 0.0,
+          "y": -1000.0
+        },
+        "rotate": 0.0,
+        "size": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "type": "transform"
+      }
+    ],
+    [
+      {
+        "name": "NeonKatana",
+        "type": "entityName"
+      },
+      {
+        "type": "scriptComponent"
+      },
+      {
+        "depth": 0.0,
+        "pos": {
+          "x": 0.0,
+          "y": -1000.0
+        },
+        "rotate": 0.0,
+        "size": {
+          "x": 1.0,
+          "y": 1.0
+        },
+        "type": "transform"
+      }
+    ]
+  ],
+
+  "name": "MainScene"
 }

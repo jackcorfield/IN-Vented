@@ -151,6 +151,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Grenade.cpp" />
+    <ClCompile Include="src\NeonKatana.cpp" />
+    <ClCompile Include="src\LaserGun.cpp" />
+    <ClCompile Include="src\HackingDevice.cpp" />
+    <ClCompile Include="src\Shuriken.cpp" />
     <ClCompile Include="src\CameraFollowScript.cpp" />
     <ClCompile Include="src\EnemyMovementScript.cpp" />
     <ClCompile Include="src\EnemySpawnerScript.cpp" />
@@ -159,6 +164,11 @@
     <ClCompile Include="src\WeaponScript.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Grenade.h" />
+    <ClInclude Include="src\NeonKatana.h" />
+    <ClInclude Include="src\LaserGun.h" />
+    <ClInclude Include="src\HackingDevice.h" />
+    <ClInclude Include="src\Shuriken.h" />
     <ClInclude Include="src\CameraFollowScript.h" />
     <ClInclude Include="src\EnemyMovementScript.h" />
     <ClInclude Include="src\EnemySpawnerScript.h" />
