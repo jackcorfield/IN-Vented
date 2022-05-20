@@ -16,6 +16,8 @@ public:
 	bool insert(Entity entity);
 	bool remove(Entity entity);
 
+	void forceRemove(Entity entity);
+
 	void updateCell(const glm::vec2& cellid);
 	void updateAll();
 	
@@ -31,5 +33,12 @@ private:
 	};
 
 	std::unordered_map<glm::vec2, Cell> m_map;
-	std::vector<Entity> m_allEntities;
+
+	struct Entry
+	{
+		Entity entityID;
+		glm::vec2 entryPosition;
+	};
+
+	std::vector<Entry> m_allEntities;
 };
