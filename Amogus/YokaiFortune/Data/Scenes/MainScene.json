@@ -128,44 +128,44 @@
                 "type": "transform"
             }
         ],
-        [
+		[
 		{
-                "animations": [
-					{
-                        "frameTime": 0.10000000149011612,
-                        "frames": [
-                            8,
-                            9,
-                            10,
-                            11,
-                            12,
-                            13,
-							14,
-							15
-                        ],
-                        "name": "Run"
-                    }
-                ],
-                "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "frameSize": {
-                    "x": 200.0,
-                    "y": 200.0
-                },
-                "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
-                },
-                "texture": {
-                    "filePath": "Characters/Homura/spritesheet.png",
-                    "name": "animsheet homura"
-                },
-                "type": "animatedSprite"
-            },
+			"animations": [
+				{
+					"frameTime": 0.10000000149011612,
+					"frames": [
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					],
+					"name": "Run"
+				}
+			],
+			"colour": {
+				"x": 1.0,
+				"y": 1.0,
+				"z": 1.0
+			},
+			"frameSize": {
+				"x": 200.0,
+				"y": 200.0
+			},
+			"shader": {
+				"fragmentFilePath": "DefaultSpriteF.glsl",
+				"name": "default",
+				"vertexFilePath": "DefaultSpriteV.glsl"
+			},
+			"texture": {
+				"filePath": "Characters/Homura/spritesheet.png",
+				"name": "animsheet homura"
+			},
+			"type": "animatedSprite"
+        },
 			{
 				"type": "boxCollider",
 				"size": {
@@ -191,25 +191,27 @@
                 "type": "transform"
             }
         ],
-        "colour": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        },
-        "frameSize": {
-          "x": 200.0,
-          "y": 200.0
-        },
-        "shader": {
-          "fragmentFilePath": "DefaultSpriteF.glsl",
-          "name": "default",
-          "vertexFilePath": "DefaultSpriteV.glsl"
-        },
-        "texture": {
-          "filePath": "Characters/Haru/Run.png",
-          "name": "animsheet haru"
-        },
-        "type": "animatedSprite"
+		[
+		{
+			"colour": {
+			  "x": 1.0,
+			  "y": 1.0,
+			  "z": 1.0
+			},
+			"frameSize": {
+			  "x": 200.0,
+			  "y": 200.0
+			},
+			"shader": {
+			  "fragmentFilePath": "DefaultSpriteF.glsl",
+			  "name": "default",
+			  "vertexFilePath": "DefaultSpriteV.glsl"
+			},
+			"texture": {
+			  "filePath": "Characters/Haru/Run.png",
+			  "name": "animsheet haru"
+			},
+			"type": "animatedSprite"
       },
       {
         "depth": 0.0,
