@@ -7,10 +7,13 @@
 
 extern Application* g_app;
 
-bool BoxVBoxCollision(const glm::vec2& pos1, const glm::vec2& size1, const glm::vec2& pos2, const glm::vec2& size2)
+bool BoxVBoxCollision(const BoxCollider* collider1, const Transform* transform1, const BoxCollider* collider2, const Transform* transform2)
 {
-	glm::vec2 halfSize1 = size1 / 2.0f;
-	glm::vec2 halfSize2 = size2 / 2.0f;
+	glm::vec2 pos1 = transform1->m_position + collider1->m_offset;
+	glm::vec2 pos2 = transform2->m_position + collider2->m_offset;
+
+	glm::vec2 halfSize1 = collider1->m_size / 2.0f;
+	glm::vec2 halfSize2 = collider2->m_size / 2.0f;
 
 	glm::vec2 topLeftA = glm::vec2(pos1.x - halfSize1.x, pos1.y - halfSize1.y);
 	glm::vec2 bottomRightA = glm::vec2(pos1.x + halfSize1.x, pos1.y + halfSize1.y);
@@ -27,7 +30,7 @@ bool BoxVBoxCollision(const glm::vec2& pos1, const glm::vec2& size1, const glm::
 
 CollisionManager::CollisionManager()
 {
-	m_spatialHash = new SpatialHash(200);
+	m_spatialHash = new SpatialHash(400);
 }
 
 CollisionManager::~CollisionManager()
@@ -73,7 +76,7 @@ bool CollisionManager::checkCollision(Entity a, Entity b)
 		b1 == NULL || b2 == NULL)
 		return false;
 	
-	return BoxVBoxCollision(t1->m_position, b1->m_size, t2->m_position, b2->m_size);
+	return BoxVBoxCollision(b1, t1, b2, t2);
 }
 
 std::vector<Entity> CollisionManager::potentialCollisions(Entity e)

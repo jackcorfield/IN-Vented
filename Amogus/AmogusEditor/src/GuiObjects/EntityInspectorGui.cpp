@@ -394,6 +394,12 @@ void CreateBoxColliderGui(BoxCollider* boxCollider)
 				boxCollider->m_size.y = sizeArr[1];
 			}
 		}
+
+		// Offset
+		{
+			glm::vec2 offset = boxCollider->m_offset;
+			if (ImGui::DragFloat2("Offset", glm::value_ptr(offset), 0.5f)) {}
+		}
 	}
 }
 
