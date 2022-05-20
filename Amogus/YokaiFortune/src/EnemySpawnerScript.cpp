@@ -158,7 +158,7 @@ void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
 	newTransform->m_depth = 0.0f;
 
 	// Set up box collider
-	BoxCollider* newCollider = entityManager->AddComponent<BoxCollider>(targetEntity, templateCollider->m_size);
+	BoxCollider* newCollider = entityManager->AddComponent<BoxCollider>(targetEntity, templateCollider->m_size, templateCollider->m_offset);
 }
 
 glm::vec2 SetRandomSpawnPos(const glm::vec2& viewport, const glm::vec2& centrePos)

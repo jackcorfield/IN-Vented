@@ -339,7 +339,13 @@ namespace SceneImporter
 			success = false;
 		}
 
-		BoxCollider* component = g_entityManager->AddComponent<BoxCollider>(entity, size);
+		glm::vec2 offset(0.0f);
+		if (!JSON::ReadVec2(offset, j, "offset"))
+		{
+			g_app->m_debugger->Log("Importing BoxCollider: defaulted offset to (0, 0).", LL_WARNING);
+		}
+
+		BoxCollider* component = g_entityManager->AddComponent<BoxCollider>(entity, size, offset);
 		return success;
 	}
 

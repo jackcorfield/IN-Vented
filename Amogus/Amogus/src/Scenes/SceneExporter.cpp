@@ -279,6 +279,13 @@ namespace SceneExporter
 			success = false;
 		}
 
+		const glm::vec2 offset = boxCollider->m_offset;
+		if (!JSON::WriteVec2(offset, jBoxCollider["offset"]))
+		{
+			g_app->m_debugger->Log("Failed to export BoxCollider: failed to write offset!", LL_ERROR);
+			success = false;
+		}
+
 		return success;
 	}
 
