@@ -27,7 +27,7 @@ bool BoxVBoxCollision(const glm::vec2& pos1, const glm::vec2& size1, const glm::
 
 CollisionManager::CollisionManager()
 {
-	m_spatialHash = new SpatialHash(200);
+	m_spatialHash = new SpatialHash(2000);
 }
 
 CollisionManager::~CollisionManager()
