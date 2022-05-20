@@ -16,6 +16,20 @@ class Grenade :
 
 private:
 
+    struct Projectiles
+    {
+        Entity        name;
+        float           duration;
+        glm::vec2   direction;
+        bool isSpawned;
+        glm::vec2 originPos;
+        float distance;
+        bool hasHitTheFloor;
+    };
+
+    std::vector<Projectiles> m_vecProjectiles;
+
+    Transform tempEnemy;
 
 };
 

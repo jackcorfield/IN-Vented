@@ -3,12 +3,12 @@
 Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
 	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
-	m_baseProjectileSpeed = 1; //Speed of projectiles
-	m_baseProjectileCooldown = 1; //How often weapon attacks
+	m_baseProjectileSpeed = 0.2f; //Speed of projectiles
+	m_baseProjectileCooldown = 3; //How often weapon attacks
 	m_baseProjectileArea = 1; //Size of weapon
 	m_baseProjectileDuration = 4; //How long the projectile stays on the screen
-	m_baseProjectileCount = 3; //How many projectiles
-	m_projectileMax = 15;
+	m_baseProjectileCount = 1; //How many projectiles
+	m_projectileMax = 10;
 
 	m_baseDamageModifier = 1;
 
@@ -24,8 +24,11 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("GrenadeIconSprite", "Weapons/Grenade/grenade.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 	SetSprites(sprite, sprite);
 
-	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+	//AnimatedSprite* aSprite = entityManager->AddComponent<AnimatedSprite>(weapon, TextureLoader::CreateTexture2DFromFile("GrenadeIconSprite", "Weapons/Grenade/GrenadeSpriteSheet.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+	AnimatedSprite* templateASprite = GetComponent<AnimatedSprite>();
 
+	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+	m_vecProjectiles.resize(m_projectileMax);
 
 	for (int i = 0; i < m_projectileMax; i++)
 	{
@@ -37,8 +40,20 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 
 		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
 
-		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
+		AnimatedSprite* newASprite = m_manager->AddComponent<AnimatedSprite>(newProjectile, templateASprite->GetTexture(), templateASprite->getFrameSize(), templateASprite->GetColour(), templateASprite->GetShader());
+		//m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
 		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
+
+		// Set up animations
+		std::map<std::string, Animation> animations = templateASprite->getAnimations();
+		for (auto animationItr = animations.begin(); animationItr != animations.end(); animationItr++)
+		{
+			std::string name = animationItr->first;
+			float frameTime = animationItr->second.frameTime;
+			std::vector<unsigned int> frames = animationItr->second.frames;
+			newASprite->createAnimation(name, frames, frameTime);
+		}
+		newASprite->setAnimation("Throwing");
 
 		glm::vec2 direction(0, 0);
 
@@ -57,11 +72,12 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 		p.duration = m_baseProjectileDuration;
 		p.direction = direction;
 		p.isSpawned = false;
+		p.hasHitTheFloor = false;
 
-		m_vecProjectiles.push_back(p);
+		m_vecProjectiles[i] = p;
 	}
 
-
+	tempEnemy = Transform(glm::vec2(0.0f, 0.0f), glm::vec2(5.0f, 5.0f));
 }
 
 Grenade::~Grenade()
@@ -113,17 +129,25 @@ void Grenade::OnUpdate(float dt)
 
 		if (m_vecProjectiles[i].duration > 0)
 		{
-			if (!m_isMoving)
-				continue;
+			if (!m_isMoving) continue;
 
 			//TEMPORARY
 			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
 
+			if(!(glm::distance(m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position, m_vecProjectiles[i].originPos) >= m_vecProjectiles[i].distance))
+			{
+				m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += ((m_vecProjectiles[i].direction.x * 1000) * m_baseProjectileSpeed) * dt;
+				m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += ((m_vecProjectiles[i].direction.y * 1000) * m_baseProjectileSpeed) * dt;
 
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += ((m_vecProjectiles[i].direction.x * 1000 )* m_baseProjectileSpeed) * dt;
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += ((m_vecProjectiles[i].direction.y * 1000 )* m_baseProjectileSpeed) * dt;
-			//m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += 100 * dt;
-
+			}
+			else
+			{
+				if (!m_vecProjectiles[i].hasHitTheFloor)
+				{
+					m_vecProjectiles[i].hasHitTheFloor = true;
+					m_manager->GetComponent<AnimatedSprite>(m_vecProjectiles[i].name)->setAnimation("Exploding");
+				}
+			}
 			//TEMPORARY	
 
 			m_vecProjectiles[i].duration -= dt;
@@ -132,6 +156,8 @@ void Grenade::OnUpdate(float dt)
 		{
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position = glm::vec2(1000.0f, 1000.0f);
 			m_vecProjectiles[i].isSpawned = false;
+			m_vecProjectiles[i].hasHitTheFloor = false;
+			m_manager->GetComponent<AnimatedSprite>(m_vecProjectiles[i].name)->setAnimation("Throwing");
 			i--;
 		}
 	}
@@ -143,10 +169,10 @@ void Grenade::OnUpdate(float dt)
 
 void Grenade::SpawnProjectile()
 {
-	glm::vec2 offset;
 
-	offset.x = (rand() % 200 - 100) / 2;
-	offset.y = (rand() % 200 - 100) / 2;
+	//std::vector<Entity> closeEnemies = Script::GetNearbyEntities();
+
+
 
 	//MAKE BASE SET
 	//IF MORE ARE NEEDED (EG THE CURRENT ARE STILL IN USE)
@@ -164,29 +190,23 @@ void Grenade::SpawnProjectile()
 
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-	m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + offset;
+	m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition;
 
 	glm::vec2 direction(0, 0);
 
-	
 
-	if (m_isMoving)
-	{
-		direction = currentPosition - m_playerPreviousPosition;
-		
-		if (direction == glm::vec2(0, 0))
-			direction = glm::vec2(1, 0);
-		else
-			direction = glm::normalize(direction);
-	}
+	direction = tempEnemy.m_position - currentPosition;
+
+	if (direction != glm::vec2(0,0))
+		direction = glm::normalize(direction);
+
 
 	
-
-
-
 	//play noise
 
 	newProjectile->duration = m_baseProjectileDuration;
 	newProjectile->direction = direction;
+	newProjectile->originPos = currentPosition;
+	newProjectile->distance = glm::distance(tempEnemy.m_position, currentPosition);
 
 }
