@@ -300,6 +300,20 @@ namespace SceneExporter
 			success = false;
 		}
 
+		const float internalWidth = camera->m_internalWidth;
+		if (!JSON::Write(internalWidth, jCamera["internalViewport"]["width"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write internal viewport width!", LL_ERROR);
+			success = false;
+		}
+
+		const float internalHeight = camera->m_internalHeight;
+		if (!JSON::Write(internalHeight, jCamera["internalViewport"]["height"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write internal viewport height!", LL_ERROR);
+			success = false;
+		}
+
 		const float near = camera->m_near;
 		if (!JSON::Write(near, jCamera["near"]))
 		{

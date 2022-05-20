@@ -24,6 +24,12 @@
     <ClCompile Include="src\PlayerScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\EnemySpawnerScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraFollowScript.cpp">
+          <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\WeaponScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,6 +41,12 @@
     <ClInclude Include="src\PlayerScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\EnemySpawnerScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraFollowScript.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
     <ClInclude Include="src\WeaponScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
