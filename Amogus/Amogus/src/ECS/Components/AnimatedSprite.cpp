@@ -46,7 +46,7 @@ void AnimatedSprite::update(float dt)
 		if (m_time >= m_currentAnimation->frameTime)
 		{
 			m_currentFrame++;
-			m_currentFrame %= m_numFrames;
+			m_currentFrame %= m_currentAnimation->frames.size();
 			m_time = 0;
 		}
 	}

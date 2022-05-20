@@ -8,27 +8,32 @@ class PlayerScript :
 public:
     PlayerScript(EntityManager* entityManager, Entity parentEntityID, float speed);
     ~PlayerScript();
-    void OnAttach();
-    void OnUpdate(float dt);
-    void OnRender(float dt);
-    void OnUnattach();
+
+    virtual void OnAttach() override;
+    virtual void OnUpdate(float dt) override;
+    virtual void OnRender(float dt) override;
+    virtual void OnUnattach() override;
 
 private:
+    void UpdateSpriteAnimation(bool facingLeft, bool moving);
     
-    bool m_keyboardInUse;
-    struct KeyRegister
+    bool m_keyboardInUse; // Prevents dpad input if keyboard is already being used in the frame
+    struct KeyRegister // Stores status of relevant keys
     {
         bool W, A, S, D;
         bool UP, DOWN, LEFT, RIGHT;
-    };
-    
-    KeyRegister m_registeredKeys;
+    } m_registeredKeys;
+    //int m_latestKeyInput;
 
-    bool m_leftStickInUse;
+    bool m_leftStickInUse; // True when left stick has been used in the frame
     glm::vec2 m_leftStickDirection;
+    //int m_latestGameInput;
 
-    Entity m_player;
-    EntityManager* m_manager;
+    bool m_movingLastFrame; // Used to test against current movement status (to set correct animation)
+    bool m_facingLeftLastFrame; // Used to determine whether to flip sprite
+
+    //Entity m_player; If all we are using this for is to check if player exists, it is probably not worth keeping - if player doesn't exist, this script doesn't run
+    //EntityManager* m_manager;
 
     // INITIAL WEAPON
 
@@ -48,14 +53,6 @@ private:
 
     float m_range; //Pick up distance
 
-    bool m_movePlayer;
-
-    int m_latestKeyInput;
-    int m_latestGameInput;
-
-
     void KeyEvent(InputEvent* e);
-
-
 };
 
