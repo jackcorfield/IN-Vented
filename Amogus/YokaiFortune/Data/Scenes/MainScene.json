@@ -129,7 +129,7 @@
             }
         ],
         [
-            {
+		{
                 "animations": [
 					{
                         "frameTime": 0.10000000149011612,
@@ -166,7 +166,14 @@
                 },
                 "type": "animatedSprite"
             },
-            {
+			{
+				"type": "boxCollider",
+				"size": {
+					"x": 50,
+					"y": 60
+				}
+			},
+			{
                 "name": "Enemy",
                 "type": "entityName"
             },
@@ -193,6 +200,15 @@
                 "type": "scriptComponent"
             }
         ],
+		[
+            {
+                "name": "Enemy Collision Handler",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            }
+		],
 		[
 			{
 				"name": "Weapon",

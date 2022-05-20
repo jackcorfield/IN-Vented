@@ -117,6 +117,7 @@ void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
 
 	AnimatedSprite* templateAnimatedSprite = entityManager->GetComponent<AnimatedSprite>(templateEntity);
 	Transform* templateTransform = entityManager->GetComponent<Transform>(templateEntity);
+	BoxCollider* templateCollider = entityManager->GetComponent<BoxCollider>(templateEntity);
 
 	// Set up animated sprite
 	Texture2D texture = templateAnimatedSprite->GetTexture();
@@ -155,6 +156,9 @@ void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
 	newTransform->m_rotate = templateTransform->m_rotate;
 	newTransform->m_size = templateTransform->m_size;
 	newTransform->m_depth = 0.0f;
+
+	// Set up box collider
+	BoxCollider* newCollider = entityManager->AddComponent<BoxCollider>(targetEntity, templateCollider->m_size);
 }
 
 glm::vec2 SetRandomSpawnPos(const glm::vec2& viewport, const glm::vec2& centrePos)

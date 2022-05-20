@@ -16,6 +16,8 @@ public:
 	virtual void OnUnattach() override;
 
 private:
+	void CheckCollisions();
+
 	float m_moveSpeed;
 	Entity m_seekTo;
 

@@ -35,6 +35,8 @@ void EnemyMovementScript::OnUpdate(float dt)
 
 	// Move toward target entity
 	m_transform->m_position += dir * m_moveSpeed * dt;
+
+	CheckCollisions();
 }
 
 void EnemyMovementScript::OnRender(float dt)
@@ -46,6 +48,51 @@ void EnemyMovementScript::OnUnattach()
 glm::vec2 Seek(glm::vec2 pos, glm::vec2 seekTo)
 {
 	return glm::normalize(seekTo - pos);
+}
+
+void EnemyMovementScript::CheckCollisions()
+{
+	std::vector<Entity> allPossibleCollisions = GetNearbyEntities();
+	float size = allPossibleCollisions.size();
+	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+
+	for (Entity possibleCollision : allPossibleCollisions)
+	{
+		// Check that this is an enemy
+		EntityName* name = entityManager->GetComponent<EntityName>(possibleCollision);
+		if (name->m_name != "Enemy") { continue; }
+
+		// Get relevant components
+		BoxCollider* myCollider = GetComponent<BoxCollider>();
+		Transform* myTransform = GetComponent<Transform>();
+
+		BoxCollider* theirCollider = entityManager->GetComponent<BoxCollider>(possibleCollision);
+		Transform* theirTransform = entityManager->GetComponent<Transform>(possibleCollision);
+
+		// Calculate these for convenience
+		float myTop = myTransform->m_position.y;
+		float myBottom = myTransform->m_position.y + myCollider->m_size.y;
+		float myLeft = myTransform->m_position.x;
+		float myRight = myTransform->m_position.x + myCollider->m_size.x;
+
+		float theirTop = theirTransform->m_position.y;
+		float theirBottom = theirTransform->m_position.y + myCollider->m_size.y;
+		float theirLeft = theirTransform->m_position.x;
+		float theirRight = theirTransform->m_position.x + myCollider->m_size.x;
+
+		// Quick check for collision
+		if (myRight < theirLeft || myLeft > theirRight || myBottom < theirTop || myTop > theirBottom)
+		{
+			continue; // No collision
+		}
+
+		// Now that we know there is a collision, calculate depth so we can resolve it
+		float depthX = myRight - theirLeft;
+		float depthY = myBottom - theirTop;
+
+		m_transform->m_position.x -= depthX;
+		m_transform->m_position.y -= depthY;
+	}
 }
 
 Entity FindPlayer()
