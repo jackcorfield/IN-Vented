@@ -134,7 +134,7 @@ public:
 	{
 		std::vector<Entity> ids;
 
-		for (int i = 1; i < m_nextEntityID; i++)
+		for (unsigned int i = 1; i < m_nextEntityID; i++)
 		{
 			if (std::find(m_freeIDs.begin(), m_freeIDs.end(), i) == m_freeIDs.end())
 			{
