@@ -126,6 +126,23 @@ void Shuriken::OnUpdate(float dt)
 
 			//TEMPORARY	
 
+			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
+			for (Entity e : collisions)
+			{
+				EntityName* name = m_manager->GetComponent<EntityName>(e);
+				if (name == NULL)
+					continue;
+
+				if (name->m_name == "Enemy")
+				{
+					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
+					{
+						m_manager->RemoveComponent<ScriptComponent>(e);
+						m_manager->DeleteEntity(e);
+					}
+				}
+			}
+
 			m_vecProjectiles[i].duration -= dt;
 		}
 		else

@@ -77,6 +77,8 @@ bool EnemyMovementScript::CheckPotentialCollision(Entity possibleCollision)
 
 	// Check that this is an enemy
 	EntityName* name = entityManager->GetComponent<EntityName>(possibleCollision);
+	if (!name)
+		return false;
 	if (name->m_name != "Enemy") { return false; }
 
 	// Get relevant components
