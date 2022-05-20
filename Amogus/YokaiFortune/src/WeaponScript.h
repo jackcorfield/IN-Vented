@@ -6,17 +6,18 @@ class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Sprite icon, Sprite sprite, glm::vec2 hitboxSize , int level = 0, bool moving = true, bool autoTarget = false);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 0, bool moving = true, bool autoTarget = false);
     ~WeaponScript();
+    void SetSprites(Sprite* icon, Sprite* sprite);
     void OnAttach();
-    void OnUpdate(float dt);
+    virtual void OnUpdate(float dt);
     void OnRender(float dt);
     void OnUnattach();
 
     void OnLevelUp();
-    void SpawnProjectile();
+    virtual void SpawnProjectile();
 
-private:
+protected:
 
     enum modifier
     {
@@ -33,14 +34,16 @@ private:
         Entity        name;
         float           duration;
         glm::vec2   direction;
+        bool isSpawned;
     };
 
     Entity m_weapon;
     Entity m_player;
     EntityManager* m_manager;
 
-   Sprite m_icon;
-   Sprite m_sprite;
+   Sprite* m_icon;
+   Sprite* m_sprite;
+   Audio* audio;
 
     glm::vec2 m_hitboxSize;
 
@@ -75,6 +78,8 @@ private:
     float m_critMultiplier;
 
     bool m_isMax;
+
+    int m_currentProjectile;
 
     glm::vec2 m_playerPreviousPosition;
 
