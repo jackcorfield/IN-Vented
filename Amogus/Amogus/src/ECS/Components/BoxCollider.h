@@ -5,7 +5,8 @@
 class BoxCollider
 {
 public:
-	BoxCollider(const glm::vec2& size);
+	BoxCollider(const glm::vec2& size, const glm::vec2& offset);
 
 	glm::vec2 m_size;
+	glm::vec2 m_offset;
 };

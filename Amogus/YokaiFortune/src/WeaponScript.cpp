@@ -71,6 +71,7 @@ void WeaponScript::OnAttach()
 
 void WeaponScript::OnRender(float dt)
 {
+	
 }
 
 void WeaponScript::OnUnattach()

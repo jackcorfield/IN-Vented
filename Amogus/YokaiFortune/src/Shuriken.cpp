@@ -38,7 +38,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
 
 		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
-		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size); // Needs a box collider that ignores player?
+		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
 
 		glm::vec2 direction(0, 0);
 
@@ -125,6 +125,23 @@ void Shuriken::OnUpdate(float dt)
 			//m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += 100 * dt;
 
 			//TEMPORARY	
+
+			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
+			for (Entity e : collisions)
+			{
+				EntityName* name = m_manager->GetComponent<EntityName>(e);
+				if (name == NULL)
+					continue;
+
+				if (name->m_name == "Enemy")
+				{
+					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
+					{
+						m_manager->RemoveComponent<ScriptComponent>(e);
+						m_manager->DeleteEntity(e);
+					}
+				}
+			}
 
 			m_vecProjectiles[i].duration -= dt;
 		}
