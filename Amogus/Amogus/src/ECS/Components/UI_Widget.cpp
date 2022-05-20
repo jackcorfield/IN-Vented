@@ -46,7 +46,10 @@ UI_Image::~UI_Image()
 
 UI_Text::UI_Text()
 {
+	m_absoluteSize= glm::vec2(1, 1);
+	m_relativePosition = glm::vec2(0.5, 0.5);
 	m_elementType = ET_Text;
+	m_text = "abcdefghijklmopqrstuvwxyz";
 }
 
 UI_Text::~UI_Text()

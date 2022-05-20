@@ -109,9 +109,10 @@ void Renderer::LoadFont(std::string font)
             Texture2D(texture, face->glyph->bitmap.width, face->glyph->bitmap.rows, std::string(1, c).c_str(), ""),
             glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
             glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-            face->glyph->advance.x
+            (face->glyph->advance.x >> 6)
         };
         m_fontCharacters.insert(std::pair<char, Font_Character>(c, character));
+		std::cout << "Character " << c << " loaded. Size: " << character.m_size.x << ", " << character.m_size.y << ". Bearing: " << character.m_bearing.x << ", " << character.m_bearing.y << ". Advance: " << character.m_advance << std::endl;
     }
 
     FT_Done_Face(face);
@@ -404,12 +405,13 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
 
             Font_Character ch = m_fontCharacters[textElement->m_text[i]];
 
-            float xpos = x_offset + (ch.m_bearing.x * scale);
             float w = ch.m_size.x * scale;
             float h = ch.m_size.y * scale;
+			float xpos = (x_offset + ch.m_bearing.x + w/2) * scale;
+			float y_offset = (ch.m_size.y - ch.m_bearing.y) * scale;
 
             // translate by position
-            model = glm::translate(model, finalPos + glm::vec3(xpos, 0, 0));
+            model = glm::translate(model, (finalPos + glm::vec3(xpos, y_offset, 0)) - glm::vec3(0, h/2, 0));
             model = glm::scale(model, glm::vec3(w, h, 1));
 
             m_uiShader->SetUniform("model", model);
@@ -424,7 +426,7 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
             ch.m_texture.Unbind();
             glBindVertexArray(0);
 
-            x_offset += (ch.m_advance >> 6) * scale;
+			x_offset += ch.m_advance * scale;
         }
 	}
 	break;
