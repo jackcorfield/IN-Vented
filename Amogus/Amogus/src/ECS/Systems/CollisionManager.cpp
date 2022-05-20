@@ -38,8 +38,6 @@ CollisionManager::~CollisionManager()
 
 void CollisionManager::update()
 {
-	m_spatialHash->updateAll();
-	
 	EntityManager* ecs = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 	std::vector<Transform*> transforms = ecs->GetAllComponentsOfType<Transform>();
 	
