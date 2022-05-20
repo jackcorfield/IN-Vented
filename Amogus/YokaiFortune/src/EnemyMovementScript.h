@@ -16,8 +16,14 @@ public:
 	virtual void OnUnattach() override;
 
 private:
+	void CheckCollisions();
+	bool CheckPotentialCollision(Entity possibleCollision); // Simple AABB collision check
+	glm::vec2 GetIntersectionDepth(Entity collidedEntity);
+	void ResolveCollision(glm::vec2 intersection, BoxCollider* theirCollider, Transform* theirTransform);
+
 	float m_moveSpeed;
 	Entity m_seekTo;
 
 	Transform* m_transform;
+	BoxCollider* m_collider;
 };
