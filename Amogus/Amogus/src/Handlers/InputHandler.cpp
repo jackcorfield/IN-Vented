@@ -18,21 +18,51 @@ EventBus* InputHandler::m_mouseClickBus = new EventBus();
 std::vector<InputMapping*> InputHandler::m_mappings = std::vector<InputMapping*>();
 std::vector<ClickedButton> InputHandler::m_clickedButtons = std::vector<ClickedButton>();
 
+bool AABB(float aX, float aY, float aW, float aH, float bX, float bY, float bW, float bH)
+{
+	if (aX < bX + bW &&
+		aX + aW > bX &&
+		aY < bY + bH &&
+		aY + aH > bY)
+		return true;
+
+	return false;
+}
+
+void InputHandler::TransformToFitScreen(glm::vec3& pos, glm::vec3& size)
+{
+	glm::vec4 screenInfo = g_app->GetGameScreenInfo();
+	glm::vec3 tempPos = pos;
+	glm::vec3 tempSize = size;
+
+	tempPos.x -= screenInfo.x;
+	float x_scalar = screenInfo.z / g_app->m_windowParams.windowWidth;
+	tempPos.x *= x_scalar;
+	tempSize.x *= x_scalar;
+
+	tempPos.y -= screenInfo.y;
+	float y_scalar = screenInfo.w / g_app->m_windowParams.windowHeight;
+	tempPos.y *= y_scalar;
+	tempSize.y *= y_scalar;
+
+	pos = tempPos;
+	size = tempSize;
+}
+
 bool InputHandler::ButtonIsSelected(UI_ImageButton* button)
 {
-	glm::vec2 adjustedRelativePos = button->m_relativePosition * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+	glm::vec2 adjustedRelativePos = button->m_relativePosition * glm::vec2((float)g_app->GetGameScreenInfo().z, (float)g_app->m_windowParams.windowHeight);
 	glm::vec3 finalPos = glm::vec3(adjustedRelativePos + button->m_absolutePosition, button->m_zIndex);
 	glm::vec2 adjustedRelativeSize = button->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
 	glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + button->m_absoluteSize, 1);
+
+	TransformToFitScreen(finalPos, finalSize);
 
 	// some values just for more readable code
 	float mouseW = 2;
 	float mouseH = 2;
 
-	if (m_mouseX < finalPos.x + finalSize.x &&
-		m_mouseX + mouseW > finalPos.x &&
-		m_mouseY < finalPos.y + finalSize.y &&
-		m_mouseY + mouseH > finalPos.y)
+	if (AABB(m_mouseX, m_mouseY, mouseW, mouseH, finalPos.x - (finalSize.x / 2), finalPos.y - (finalSize.y / 2), finalSize.x, finalSize.y))
 		return true;
 
 	return false;
@@ -64,8 +94,22 @@ void InputHandler::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 
 void InputHandler::MouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
+	glm::vec4 screenInfo = g_app->GetGameScreenInfo();
+
+	// We only care if we're in the screen
+	if (!AABB(xpos, ypos, 2, 2, screenInfo.x, screenInfo.y, screenInfo.z, screenInfo.w))
+		return;
+
+	// Transform the mouse position to be within the editor screen
 	m_mouseX = xpos;
+	m_mouseX -= screenInfo.x;
+	float x_scalar = screenInfo.z / g_app->m_windowParams.windowWidth;
+	m_mouseX *= x_scalar;
+
 	m_mouseY = ypos;
+	m_mouseY -= screenInfo.y;
+	float y_scalar = screenInfo.w / g_app->m_windowParams.windowHeight;
+	m_mouseY *= y_scalar;
 
 	//std::string msg = std::to_string(m_mouseX) + std::string(", ") + std::to_string(m_mouseY);
 	//g_app->m_debugger->Log(msg, LL_DEBUG);

@@ -41,6 +41,11 @@ void Application::Init()
 		"Engine"
 	};
 
+	m_screenInfo.x = 0;
+	m_screenInfo.y = 0;
+	m_screenInfo.z = m_windowParams.windowWidth;
+	m_screenInfo.w = m_windowParams.windowHeight;
+
 	InitGL();
 
 	m_entityManager = new EntityManager();

@@ -85,6 +85,7 @@ struct ClickedButton
 class InputHandler
 {
 public:
+	static void TransformToFitScreen(glm::vec3& pos, glm::vec3& size);
 	static bool ButtonIsSelected(UI_ImageButton* button);
 	// The GLFW callback for key events.  Sends events to all KeyInput instances
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
