@@ -89,7 +89,6 @@ void Application::Run()
 				PhysicsSystem::Update(Timer->DeltaTime());
 				InputHandler::PollGameControllers();
 				InputHandler::Update(Timer->DeltaTime());
-				CollisionManager::CheckCollision();
 				m_collisionManager->update();
 				onUpdate(Timer->DeltaTime());
 				m_scriptSystem->OnUpdate(Timer->DeltaTime());

@@ -97,4 +97,36 @@ public:
 	~UI_WidgetComponent();
 
 	std::vector<UI_BaseElement*> m_elements;
+
+	UI_BaseElement* GetElement(std::string name)
+	{
+		for (UI_BaseElement* element : m_elements)
+		{
+			if (element->m_name == name)
+				return element;
+		}
+		return nullptr;
+	}
+
+	UI_ImageButton* GetButton(std::string name)
+	{
+		UI_BaseElement* e = GetElement(name);
+		if (e && e->m_elementType == ET_ImageButton)
+		{
+			return (UI_ImageButton*)e;
+		}
+
+		return nullptr;
+	}
+
+	UI_Text* GetText(std::string name)
+	{
+		UI_BaseElement* e = GetElement(name);
+		if (e && e->m_elementType == ET_Text)
+		{
+			return (UI_Text*)e;
+		}
+
+		return nullptr;
+	}
 };
