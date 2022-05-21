@@ -56,7 +56,10 @@ bool InputHandler::ButtonIsSelected(UI_ImageButton* button)
 	glm::vec2 adjustedRelativeSize = button->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
 	glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + button->m_absoluteSize, 1);
 
-	TransformToFitScreen(finalPos, finalSize);
+	if (g_app->m_windowParams.windowWidth != g_app->GetGameScreenInfo().z)
+	{
+		TransformToFitScreen(finalPos, finalSize);
+	}
 
 	// some values just for more readable code
 	float mouseW = 2;
@@ -100,20 +103,24 @@ void InputHandler::MouseCallback(GLFWwindow* window, double xpos, double ypos)
 	if (!AABB(xpos, ypos, 2, 2, screenInfo.x, screenInfo.y, screenInfo.z, screenInfo.w))
 		return;
 
-	// Transform the mouse position to be within the editor screen
-	m_mouseX = xpos;
-	m_mouseX -= screenInfo.x;
-	float x_scalar = screenInfo.z / g_app->m_windowParams.windowWidth;
-	m_mouseX *= x_scalar;
+	if (g_app->m_windowParams.windowWidth != screenInfo.z)
+	{
+		// Transform the mouse position to be within the editor screen
+		m_mouseX = xpos;
+		m_mouseX -= screenInfo.x;
+		float x_scalar = screenInfo.z / g_app->m_windowParams.windowWidth;
+		m_mouseX *= x_scalar;
 
-	m_mouseY = ypos;
-	m_mouseY -= screenInfo.y;
-	float y_scalar = screenInfo.w / g_app->m_windowParams.windowHeight;
-	m_mouseY *= y_scalar;
+		m_mouseY = ypos;
+		m_mouseY -= screenInfo.y;
+		float y_scalar = screenInfo.w / g_app->m_windowParams.windowHeight;
+		m_mouseY *= y_scalar;
+	}
 
 	//std::string msg = std::to_string(m_mouseX) + std::string(", ") + std::to_string(m_mouseY);
 	//g_app->m_debugger->Log(msg, LL_DEBUG);
 
+	if (g_app->IsPaused()) return;
 	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
 	if (activeScene)
 	{
@@ -146,25 +153,28 @@ void InputHandler::MouseCallback(GLFWwindow* window, double xpos, double ypos)
 
 void InputHandler::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
-	if (activeScene)
+	if (!g_app->IsPaused())
 	{
-		std::vector<UI_WidgetComponent*> widgets = activeScene->m_entityManager->GetAllComponentsOfType<UI_WidgetComponent>();
-		if (widgets.size() != 0)
+		Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+		if (activeScene)
 		{
-			for (UI_WidgetComponent* widget : widgets)
+			std::vector<UI_WidgetComponent*> widgets = activeScene->m_entityManager->GetAllComponentsOfType<UI_WidgetComponent>();
+			if (widgets.size() != 0)
 			{
-				for (int i = 0; i < widget->m_elements.size(); i++)
+				for (UI_WidgetComponent* widget : widgets)
 				{
-					if (widget->m_elements[i]->m_elementType != ET_ImageButton) continue;
-					UI_ImageButton* button = (UI_ImageButton*)widget->m_elements[i];
-
-					if (button->m_state == BS_Hover)
+					for (int i = 0; i < widget->m_elements.size(); i++)
 					{
-						button->m_state = BS_Click;
-						g_app->m_debugger->Log("Clicked the button lol", LL_DEBUG);
-						button->m_clickBus->publish(new Event());
-						m_clickedButtons.push_back(ClickedButton(button));
+						if (widget->m_elements[i]->m_elementType != ET_ImageButton) continue;
+						UI_ImageButton* button = (UI_ImageButton*)widget->m_elements[i];
+
+						if (button->m_state == BS_Hover)
+						{
+							button->m_state = BS_Click;
+							g_app->m_debugger->Log("Clicked the button lol", LL_DEBUG);
+							button->m_clickBus->publish(new Event());
+							m_clickedButtons.push_back(ClickedButton(button));
+						}
 					}
 				}
 			}

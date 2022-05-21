@@ -43,7 +43,7 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner);
 
 // Helpers (return true if changed)
 bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::string& fragmentPath, std::string& geometryPath);
-bool CreateTextureGui(std::string& textureName, std::string& filePath, int optionalId = -1);
+bool CreateTextureGui(std::string& textureName, std::string& filePath, int optionalId = -1, std::string optionalTitlePrefix = "");
 
 EntityInspectorGui::EntityInspectorGui() :
 	m_activeEntity(0)
@@ -636,6 +636,26 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 					}
 				}
 
+				if (element->m_elementType == ET_ImageButton)
+				{
+					UI_ImageButton* buttonElement = (UI_ImageButton*)element;
+					Texture2D htexture = buttonElement->m_hoveredTexture;
+					std::string htextureName = htexture.m_name;
+					std::string htextureFilePath = htexture.m_filePath;
+					if (CreateTextureGui(htextureName, htextureFilePath, i, "Hover "))
+					{
+						buttonElement->m_hoveredTexture = TextureLoader::CreateTexture2DFromFile(htextureName, htextureFilePath);
+					}
+;
+					Texture2D ctexture = buttonElement->m_clickedTexture;
+					std::string ctextureName = ctexture.m_name;
+					std::string ctextureFilePath = ctexture.m_filePath;
+					if (CreateTextureGui(ctextureName, ctextureFilePath, i, "Click "))
+					{
+						buttonElement->m_clickedTexture = TextureLoader::CreateTexture2DFromFile(ctextureName, ctextureFilePath);
+					}
+				}
+
 				if (element->m_elementType == ET_Text)
 				{
 					UI_Text* textElement = (UI_Text*)element;
@@ -867,7 +887,7 @@ bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::stri
 	return edited;
 }
 
-bool CreateTextureGui(std::string& textureName, std::string& filePath, int optionalId)
+bool CreateTextureGui(std::string& textureName, std::string& filePath, int optionalId, std::string optionalTitlePrefix)
 {
 	bool edited = false;
 	char temp[MAX_INPUT_LENGTH]; // Use to store input
@@ -876,7 +896,7 @@ bool CreateTextureGui(std::string& textureName, std::string& filePath, int optio
 	// Texture name
 	{
 		strcpy_s(temp, textureName.length() + 1, textureName.c_str());
-		if (ImGui::InputText((std::string("Texture name##") + optionalIdString).c_str(), temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText((optionalTitlePrefix + std::string("Texture name##") + optionalIdString).c_str(), temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			textureName = temp;
 			edited = true;
@@ -886,7 +906,7 @@ bool CreateTextureGui(std::string& textureName, std::string& filePath, int optio
 	// File path
 	{
 		strcpy_s(temp, filePath.length() + 1, filePath.c_str());
-		if (ImGui::InputText((std::string("File path##") + optionalIdString).c_str(), temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText((optionalTitlePrefix + std::string("File path##") + optionalIdString).c_str(), temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			filePath = temp;
 			edited = true;

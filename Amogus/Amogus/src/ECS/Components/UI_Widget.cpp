@@ -53,9 +53,14 @@ UI_Text::~UI_Text()
 
 UI_ImageButton::UI_ImageButton()
 	: m_state(BS_None),
-	m_clickBus(new EventBus())
+	m_clickBus(new EventBus()),
+	m_hoveredTexture(TextureLoader::CreateTexture2DFromFile("Texture", "TestImages/button_hovered.png")),
+	m_clickedTexture(TextureLoader::CreateTexture2DFromFile("Texture", "TestImages/button_clicked.png"))
 {
+	m_texture = TextureLoader::CreateTexture2DFromFile("Texture", "TestImages/button_normal.png");
 	m_elementType = ET_ImageButton;
+	m_absoluteSize = glm::vec2(200, 80);
+	m_relativePosition = glm::vec2(0.5, 0.5);
 }
 
 UI_ImageButton::~UI_ImageButton()

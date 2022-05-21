@@ -74,7 +74,8 @@ public:
 	UI_ImageButton();
 	~UI_ImageButton();
 
-	Texture2D m_texture;
+	Texture2D m_hoveredTexture;
+	Texture2D m_clickedTexture;
 	EventBus* m_clickBus;
 	int m_state;
 };

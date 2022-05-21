@@ -369,12 +369,35 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
 
 		glActiveTexture(GL_TEXTURE0);
 		m_uiShader->SetUniform("image", 0);
-		imageElement->m_texture.Bind();
+		Texture2D* selectedTexture = nullptr;
+
+		if (imageElement->m_elementType == ET_ImageButton)
+		{
+			UI_ImageButton* button = (UI_ImageButton*)imageElement;
+			switch (button->m_state)
+			{
+			case(BS_None):
+				selectedTexture = &button->m_texture;
+				break;
+			case(BS_Hover):
+				selectedTexture = &button->m_hoveredTexture;
+				break;
+			case(BS_Click):
+				selectedTexture = &button->m_clickedTexture;
+				break;
+			}
+		}
+		else
+		{
+			selectedTexture = &imageElement->m_texture;
+		}
+
+		selectedTexture->Bind();
 
 		glBindVertexArray(m_quadVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		imageElement->m_texture.Unbind();
+		selectedTexture->Unbind();
 		glBindVertexArray(0);
 	}
 	break;
