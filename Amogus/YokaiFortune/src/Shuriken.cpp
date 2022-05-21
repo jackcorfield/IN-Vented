@@ -132,12 +132,12 @@ void Shuriken::OnUpdate(float dt)
 					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
 					{
 						//TEMPORARY, REPLACE WITH SPAWNING SCRIPT OR SOMETHING IDK
-						Entity gem = g_app->m_entityManager->CreateEntity();
+						/*Entity gem = g_app->m_entityManager->CreateEntity();
 
 						EnemyMovementScript* eScript = (EnemyMovementScript*)g_app->m_entityManager->GetComponent<ScriptComponent>(e)->GetAttachedScript();
 						
 						g_app->m_entityManager->AddComponent<Transform>(gem, eScript->m_transform->m_position, glm::vec2(1,1));
-						g_app->m_entityManager->AddComponent<Sprite>(gem, TextureLoader::CreateTexture2DFromFile("EXP", "Enemies/Exp/16x16/exp1.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+						g_app->m_entityManager->AddComponent<Sprite>(gem, TextureLoader::CreateTexture2DFromFile("EXP", "Enemies/Exp/16x16/exp1.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));*/
 
 						m_manager->RemoveComponent<ScriptComponent>(e);
 						m_manager->DeleteEntity(e);
