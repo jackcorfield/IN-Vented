@@ -115,7 +115,7 @@ public:
 
 	void onUpdate(float dt) override
 	{
-
+		g_app->m_audioManager->m_system->update();
 	}
 
 	void onRender(float dt) override
