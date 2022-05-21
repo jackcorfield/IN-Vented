@@ -26,7 +26,7 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 
 	SetSprites(icon, sprite);
 
-	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/neonkatana.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+	m_audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/neonkatana.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
 
 	for (int i = 0; i < m_projectileMax; i++)
 	{
@@ -82,7 +82,7 @@ void NeonKatana::OnUpdate(float dt)
 			}
 		}
 
-		g_app->m_audioManager->m_system->playSound(audio->m_sound, audio->m_group, false, &audio->m_channel);
+		g_app->m_audioManager->m_system->playSound(m_audio->m_sound, m_audio->m_group, false, &m_audio->m_channel);
 	}
 
 	if (m_vecProjectiles.size() <= 0)

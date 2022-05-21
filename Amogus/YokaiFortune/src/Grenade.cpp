@@ -27,7 +27,7 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 	//AnimatedSprite* aSprite = entityManager->AddComponent<AnimatedSprite>(weapon, TextureLoader::CreateTexture2DFromFile("GrenadeIconSprite", "Weapons/Grenade/GrenadeSpriteSheet.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 	AnimatedSprite* templateASprite = GetComponent<AnimatedSprite>();
 
-	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+	m_audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
 	m_vecProjectiles.resize(m_projectileMax);
 
 	for (int i = 0; i < m_projectileMax; i++)
@@ -116,7 +116,7 @@ void Grenade::OnUpdate(float dt)
 			}
 		}
 
-		g_app->m_audioManager->m_system->playSound(audio->m_sound, audio->m_group, false, &audio->m_channel);
+		g_app->m_audioManager->m_system->playSound(m_audio->m_sound, m_audio->m_group, false, &m_audio->m_channel);
 	}
 
 	if (m_vecProjectiles.size() <= 0)

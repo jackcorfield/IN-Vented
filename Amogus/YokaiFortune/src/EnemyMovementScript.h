@@ -15,6 +15,8 @@ public:
 	virtual void OnRender(float dt) override;
 	virtual void OnUnattach() override;
 
+	Transform* m_transform;
+
 private:
 	void CheckCollisions();
 	bool CheckPotentialCollision(Entity possibleCollision); // Simple AABB collision check
@@ -22,8 +24,7 @@ private:
 	void ResolveCollision(glm::vec2 intersection, BoxCollider* theirCollider, Transform* theirTransform);
 
 	float m_moveSpeed;
-	Entity m_seekTo;
 
-	Transform* m_transform;
+	Entity m_seekTo;
 	BoxCollider* m_collider;
 };

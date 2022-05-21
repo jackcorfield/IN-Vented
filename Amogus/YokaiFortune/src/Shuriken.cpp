@@ -1,4 +1,5 @@
 #include "Shuriken.h"
+#include "EnemyMovementScript.h"
 
 Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) : 
 	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
@@ -24,7 +25,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("ShurikenIconSprite", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 	SetSprites(sprite, sprite);
 
-	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+	m_audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
 
 
 	for (int i = 0; i < m_projectileMax; i++)
@@ -100,7 +101,7 @@ void Shuriken::OnUpdate(float dt)
 			}
 		}
 
-		g_app->m_audioManager->m_system->playSound(audio->m_sound, audio->m_group, false, &audio->m_channel);
+		g_app->m_audioManager->m_system->playSound(m_audio->m_sound, m_audio->m_group, false, &m_audio->m_channel);
 	}
 
 	if (m_vecProjectiles.size() <= 0)
@@ -116,15 +117,8 @@ void Shuriken::OnUpdate(float dt)
 			if (!m_isMoving)
 				continue;
 
-			//TEMPORARY
-			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
-
-
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += ((m_vecProjectiles[i].direction.x * 1000 )* m_baseProjectileSpeed) * dt;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += ((m_vecProjectiles[i].direction.y * 1000 )* m_baseProjectileSpeed) * dt;
-			//m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += 100 * dt;
-
-			//TEMPORARY	
 
 			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
 			for (Entity e : collisions)
@@ -137,6 +131,14 @@ void Shuriken::OnUpdate(float dt)
 				{
 					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
 					{
+						//TEMPORARY, REPLACE WITH SPAWNING SCRIPT OR SOMETHING IDK
+						Entity gem = g_app->m_entityManager->CreateEntity();
+
+						EnemyMovementScript* eScript = (EnemyMovementScript*)g_app->m_entityManager->GetComponent<ScriptComponent>(e)->GetAttachedScript();
+						
+						g_app->m_entityManager->AddComponent<Transform>(gem, eScript->m_transform->m_position, glm::vec2(1,1));
+						g_app->m_entityManager->AddComponent<Sprite>(gem, TextureLoader::CreateTexture2DFromFile("EXP", "Enemies/Exp/16x16/exp1.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
+
 						m_manager->RemoveComponent<ScriptComponent>(e);
 						m_manager->DeleteEntity(e);
 					}
@@ -153,8 +155,6 @@ void Shuriken::OnUpdate(float dt)
 		}
 	}
 
-	//COLLISION SHOULD BE TAKING PLACE IN CHECK COLLISION FUNCTION : )
-
 	m_playerPreviousPosition = currentPosition;
 }
 
@@ -164,11 +164,6 @@ void Shuriken::SpawnProjectile()
 
 	offset.x = (rand() % 200 - 100) / 2;
 	offset.y = (rand() % 200 - 100) / 2;
-
-	//MAKE BASE SET
-	//IF MORE ARE NEEDED (EG THE CURRENT ARE STILL IN USE)
-	//ADD MORE ENTITIES TO THE LIST
-	//IF NOT, REUSE OLD ENTITIES
 
 	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
 	newProjectile->isSpawned = true;
@@ -185,8 +180,6 @@ void Shuriken::SpawnProjectile()
 
 	glm::vec2 direction(0, 0);
 
-	
-
 	if (m_isMoving)
 	{
 		direction = currentPosition - m_playerPreviousPosition;
@@ -196,12 +189,6 @@ void Shuriken::SpawnProjectile()
 		else
 			direction = glm::normalize(direction);
 	}
-
-	
-
-
-
-	//play noise
 
 	newProjectile->duration = m_baseProjectileDuration;
 	newProjectile->direction = direction;

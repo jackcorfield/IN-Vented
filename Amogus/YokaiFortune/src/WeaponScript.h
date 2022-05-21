@@ -43,7 +43,7 @@ protected:
 
    Sprite* m_icon;
    Sprite* m_sprite;
-   Audio* audio;
+   Audio* m_audio;
 
     glm::vec2 m_hitboxSize;
 
