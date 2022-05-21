@@ -345,7 +345,13 @@ namespace SceneImporter
 			success = false;
 		}
 
-		BoxCollider* component = g_entityManager->AddComponent<BoxCollider>(entity, size);
+		glm::vec2 offset(0.0f);
+		if (!JSON::ReadVec2(offset, j, "offset"))
+		{
+			g_app->m_debugger->Log("Importing BoxCollider: defaulted offset to (0, 0).", LL_WARNING);
+		}
+
+		BoxCollider* component = g_entityManager->AddComponent<BoxCollider>(entity, size, offset);
 		return success;
 	}
 
@@ -355,10 +361,9 @@ namespace SceneImporter
 
 		if (!j.contains("viewport"))
 		{
-			g_app->m_debugger->Log("Failed to import Camera: missing JSON data!", LL_ERROR);
+			g_app->m_debugger->Log("Failed to import Camera: missing JSON data 'viewport'!", LL_ERROR);
 			return false;
 		}
-
 
 		nlohmann::json jViewport = j["viewport"];
 
@@ -376,14 +381,40 @@ namespace SceneImporter
 			success = false;
 		}
 
+		if (!j.contains("internalViewport"))
+		{
+			g_app->m_debugger->Log("Failed to import Camera: missing JSON data 'internalViewport'!", LL_ERROR);
+			return false;
+		}
+
+		nlohmann::json jInternalViewport = j["internalViewport"];
+
+		float internalWidth;
+		if (!JSON::Read(internalWidth, jInternalViewport, "width"))
+		{
+			g_app->m_debugger->Log("Failed to import Camera: failed to read internal viewport width!", LL_ERROR);
+			success = false;
+		}
+
+		float internalHeight;
+		if (!JSON::Read(internalHeight, jInternalViewport, "height"))
+		{
+			g_app->m_debugger->Log("Failed to import Camera: failed to read internal viewport height!", LL_ERROR);
+			success = false;
+		}
+
 		float near, far;
 		if (!JSON::Read(near, j, "near") || !JSON::Read(far, j, "far")) // If near and far are not specified, use defaults
 		{
 			Camera* camera = g_entityManager->AddComponent<Camera>(entity, viewportWidth, viewportHeight, -1.0f, 1.0f, new Framebuffer());
+			camera->m_internalWidth = internalWidth;
+			camera->m_internalHeight = internalHeight;
 		}
 		else
 		{
 			Camera* camera = g_entityManager->AddComponent<Camera>(entity, viewportWidth, viewportHeight, near, far, new Framebuffer());
+			camera->m_internalWidth = internalWidth;
+			camera->m_internalHeight = internalHeight;
 		}
 
 		bool isActive = false;

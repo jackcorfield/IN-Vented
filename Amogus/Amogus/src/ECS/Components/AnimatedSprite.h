@@ -24,6 +24,7 @@ public:
 	
 	bool createAnimation(const std::string& name, std::vector<unsigned int> frames, float frameTime);
 	bool setAnimation(const std::string& name);
+	Animation* getCurrentAnimation() { return m_currentAnimation; }
 	
 	void update(float dt);
 

@@ -34,6 +34,8 @@ bool AnimatedSprite::setAnimation(const std::string& name)
 		return false;
 	m_currentAnimation = &m_animations[name];
 	m_currentFrame = 0;
+
+	return true;
 }
 
 void AnimatedSprite::update(float dt)
@@ -44,7 +46,7 @@ void AnimatedSprite::update(float dt)
 		if (m_time >= m_currentAnimation->frameTime)
 		{
 			m_currentFrame++;
-			m_currentFrame %= m_numFrames;
+			m_currentFrame %= m_currentAnimation->frames.size();
 			m_time = 0;
 		}
 	}

@@ -399,6 +399,12 @@ void CreateBoxColliderGui(BoxCollider* boxCollider)
 				boxCollider->m_size.y = sizeArr[1];
 			}
 		}
+
+		// Offset
+		{
+			glm::vec2 offset = boxCollider->m_offset;
+			if (ImGui::DragFloat2("Offset", glm::value_ptr(offset), 0.5f)) {}
+		}
 	}
 }
 
@@ -414,6 +420,16 @@ void CreateCameraGui(Camera* camera)
 			{
 				camera->m_viewportWidth = viewportArr[0];
 				camera->m_viewportHeight = viewportArr[1];
+			}
+		}
+
+		// Internal viewport width/height
+		{
+			float internalViewportArr[2] = { camera->m_internalWidth, camera->m_internalHeight };
+			if (ImGui::DragFloat2("Internal viewport size", internalViewportArr, 1.0f, 1.0f, 10000.0f))
+			{
+				camera->m_internalWidth = internalViewportArr[0];
+				camera->m_internalHeight = internalViewportArr[1];
 			}
 		}
 

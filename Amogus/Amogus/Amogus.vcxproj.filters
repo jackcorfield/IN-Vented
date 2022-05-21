@@ -30,6 +30,7 @@
     <ClCompile Include="src\ECS\Components\UI_Widget.cpp" />
     <ClCompile Include="src\Core\Debugger.cpp" />
     <ClCompile Include="src\Resources\Script.cpp" />
+    <ClCompile Include="src\Handlers\SpatialHash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\Components\AnimatedSprite.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="dependencies\freetype\include\freetype\tttags.h" />
     <ClInclude Include="dependencies\freetype\include\ft2build.h" />
     <ClInclude Include="src\Core\Debugger.h" />
+    <ClInclude Include="src\Handlers\SpatialHash.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />

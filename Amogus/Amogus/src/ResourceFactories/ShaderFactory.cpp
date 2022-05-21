@@ -26,7 +26,7 @@ namespace ShaderFactory
 		// Check if any shaders failed to compile
 		if (vertexID == INVALID_SHADER_ID || fragmentID == INVALID_SHADER_ID || (!geometryPath.empty() && geometryID == INVALID_SHADER_ID))
 		{
-			g_app->m_debugger->Log("Failed to create shader: failed to compile shader files!", LL_ERROR);
+			g_app->m_debugger->Log("Failed to create shader: failed to compile shader files!", eLogLevel::LL_ERROR);
 			return nullptr;
 		}
 
@@ -62,7 +62,7 @@ namespace ShaderFactory
 		// Check if shader failed to compile
 		if (computeID == 0)
 		{
-			g_app->m_debugger->Log("Failed to create compute shader: failed to compile shader file!", LL_ERROR);
+			g_app->m_debugger->Log("Failed to create compute shader: failed to compile shader file!", eLogLevel::LL_ERROR);
 			return nullptr;
 		}
 
@@ -88,7 +88,7 @@ namespace ShaderFactory
 		{
 			GLchar* infoLog = new GLchar[logLength];
 			glGetShaderInfoLog(shaderID, logLength, &logLength, infoLog);
-			g_app->m_debugger->Log("Failed to create shader: failed to compile shader! Details:" + std::string(infoLog), LL_ERROR);
+			g_app->m_debugger->Log("Failed to create shader: failed to compile shader! Details:" + std::string(infoLog), eLogLevel::LL_ERROR);
 			//std::cerr << "Error: Shader compilation failed: " << infoLog << std::endl;
 			delete[] infoLog;
 		}

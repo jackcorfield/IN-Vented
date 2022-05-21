@@ -24,7 +24,10 @@ Application::Application() :
 	m_renderer(nullptr),
 	m_audioManager(nullptr),
 	m_scriptSystem(nullptr),
+	m_debugger(nullptr),
+	m_collisionManager(nullptr),
 	m_window(nullptr),
+	m_windowParams({}),
 	m_quit(false),
 	m_pauseRuntime(false)
 {	
@@ -53,6 +56,7 @@ void Application::Init()
 	m_audioManager = new AudioManager();
 	m_scriptSystem = new ScriptSystem();
 	m_debugger = new Debugger();
+	m_collisionManager = new CollisionManager();
 
 	m_renderer = new Renderer();
 
@@ -86,6 +90,7 @@ void Application::Run()
 				InputHandler::PollGameControllers();
 				InputHandler::Update(Timer->DeltaTime());
 				CollisionManager::CheckCollision();
+				m_collisionManager->update();
 				onUpdate(Timer->DeltaTime());
 				m_scriptSystem->OnUpdate(Timer->DeltaTime());
 			}
@@ -162,7 +167,7 @@ bool Application::InitGL()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	GLFWmonitor* monitor = m_windowParams.isFullscreen ? glfwGetPrimaryMonitor() : NULL; // If fullscreen enabled, get monitor
 	m_window = glfwCreateWindow(m_windowParams.windowWidth, m_windowParams.windowHeight, m_windowParams.windowTitle, monitor, NULL);
@@ -196,6 +201,8 @@ bool Application::InitGL()
 	glEnable(GL_DEPTH_TEST);
 	if (m_windowParams.MSAASamples > 0)
 		glEnable(GL_MULTISAMPLE);
+
+	return true;
 }
 
 void Application::Quit(InputEvent* e)

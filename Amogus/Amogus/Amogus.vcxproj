@@ -161,6 +161,7 @@
     <ClCompile Include="src\ECS\Components\BoxCollider.cpp" />
     <ClCompile Include="src\ECS\Components\CircleCollider.cpp" />
     <ClCompile Include="src\ECS\Systems\CollisionManager.cpp" />
+    <ClCompile Include="src\Handlers\SpatialHash.cpp" />
     <ClCompile Include="src\Resources\Framebuffer.cpp" />
     <ClCompile Include="src\Handlers\FileHandler.cpp" />
     <ClCompile Include="src\Handlers\InputHandler.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="dependencies\fmod\inc\fmod_errors.h" />
     <ClInclude Include="dependencies\fmod\inc\fmod_output.h" />
     <ClInclude Include="src\ECS\EntityManager.h" />
+    <ClInclude Include="src\Handlers\SpatialHash.h" />
     <ClInclude Include="src\Resources\Framebuffer.h" />
     <ClInclude Include="src\Handlers\FileHandler.h" />
     <ClInclude Include="src\Handlers\EventHandler.h" />

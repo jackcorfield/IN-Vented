@@ -282,6 +282,13 @@ namespace SceneExporter
 			success = false;
 		}
 
+		const glm::vec2 offset = boxCollider->m_offset;
+		if (!JSON::WriteVec2(offset, jBoxCollider["offset"]))
+		{
+			g_app->m_debugger->Log("Failed to export BoxCollider: failed to write offset!", LL_ERROR);
+			success = false;
+		}
+
 		return success;
 	}
 
@@ -300,6 +307,20 @@ namespace SceneExporter
 		if (!JSON::Write(viewportHeight, jCamera["viewport"]["height"]))
 		{
 			g_app->m_debugger->Log("Failed to export Camera: failed to write viewport height!", LL_ERROR);
+			success = false;
+		}
+
+		const float internalWidth = camera->m_internalWidth;
+		if (!JSON::Write(internalWidth, jCamera["internalViewport"]["width"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write internal viewport width!", LL_ERROR);
+			success = false;
+		}
+
+		const float internalHeight = camera->m_internalHeight;
+		if (!JSON::Write(internalHeight, jCamera["internalViewport"]["height"]))
+		{
+			g_app->m_debugger->Log("Failed to export Camera: failed to write internal viewport height!", LL_ERROR);
 			success = false;
 		}
 

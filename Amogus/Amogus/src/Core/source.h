@@ -51,6 +51,7 @@ public:
 	AudioManager*		m_audioManager;
 	ScriptSystem*		m_scriptSystem;
 	Debugger*			m_debugger;
+	CollisionManager*	m_collisionManager;
 
 	virtual void onInit() {};
 	virtual void onUpdate(float dt) {}
