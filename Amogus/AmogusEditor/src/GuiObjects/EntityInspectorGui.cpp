@@ -27,7 +27,7 @@ void DeleteComponent(void* component, std::type_index type, Entity entity, Entit
 /// Add prototypes here for new components (and define below with the others) ///
 // Inspector gui functions
 void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner, std::unique_ptr<IGuiObject>& popupPtr);
-void CreateAudioGui(Audio* audio, Entity owner);
+void CreateAudioGui(Audio* m_audio, Entity owner);
 void CreateBoxColliderGui(BoxCollider* boxCollider);
 void CreateCameraGui(Camera* camera);
 void CreateCircleColliderGui(CircleCollider* circleCollider);
@@ -312,7 +312,7 @@ void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner, std::
 	}
 }
 
-void CreateAudioGui(Audio* audio, Entity owner)
+void CreateAudioGui(Audio* m_audio, Entity owner)
 {
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::CollapsingHeader("Audio", nodeFlags))
@@ -321,7 +321,7 @@ void CreateAudioGui(Audio* audio, Entity owner)
 
 		// File path
 		char temp[MAX_INPUT_LENGTH]; // Use to store input
-		strcpy_s(temp, audio->m_filePath.length() + 1, audio->m_filePath.c_str());
+		strcpy_s(temp, m_audio->m_filePath.length() + 1, m_audio->m_filePath.c_str());
 		std::string filePath;
 		if (ImGui::InputText("File", temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
@@ -330,13 +330,13 @@ void CreateAudioGui(Audio* audio, Entity owner)
 		}
 
 		// Channel group (add more as necessary with any additional channel groups)
-		FMOD::ChannelGroup* newGroup = audio->m_group;
+		FMOD::ChannelGroup* newGroup = m_audio->m_group;
 		{
 			std::string previewName;
 			FMOD::ChannelGroup* groups[2] = { g_app->m_audioManager->m_sfx, g_app->m_audioManager->m_bgm };
 			std::string names[2] = { "sfx", "bgm" };
 
-			if (audio->m_group == g_app->m_audioManager->m_sfx)
+			if (m_audio->m_group == g_app->m_audioManager->m_sfx)
 			{
 				previewName = names[0];
 			}
@@ -349,7 +349,7 @@ void CreateAudioGui(Audio* audio, Entity owner)
 			{
 				for (int i = 0; i < 2; i++)
 				{
-					bool isSelected = audio->m_group == groups[i];
+					bool isSelected = m_audio->m_group == groups[i];
 
 					if (ImGui::Selectable(names[i].c_str(), isSelected))
 					{
@@ -364,7 +364,7 @@ void CreateAudioGui(Audio* audio, Entity owner)
 
 		if (ImGui::Button("Play audio"))
 		{
-			g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+			g_app->m_audioManager->PlayAudio(m_audio->m_sound, m_audio->m_group, m_audio->m_channel);
 		}
 
 		if (edited)

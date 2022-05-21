@@ -15,6 +15,7 @@ m_canLevel(true),
 m_icon(nullptr),
 m_sprite(nullptr)
 {
+	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(player)->GetAttachedScript();
 	m_currentProjectile = 0;
 }
 

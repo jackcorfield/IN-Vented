@@ -77,8 +77,11 @@ public:
 
 #pragma region Weapon Scripts
 
-		
-
+		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
+		if (scriptC)
+		{
+			//scriptC->AttachScript<Grenade>(player, gGrenade);
+		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
 		if (scriptC)
@@ -102,11 +105,6 @@ public:
 		if (scriptC)
 		{
 			//scriptC->AttachScript<HackingDevice>(player, hDevice);
-		}
-		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 
 #pragma endregion

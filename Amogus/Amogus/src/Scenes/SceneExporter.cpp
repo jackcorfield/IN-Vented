@@ -35,7 +35,7 @@ namespace SceneExporter
 
 	/// Add a prototype here for new components (and define it below with the others) ///
 	bool WriteAnimatedSprite(nlohmann::json& jAnimatedSprite, AnimatedSprite* animatedSprite);
-	bool WriteAudio(nlohmann::json& jAudio, Audio* audio);
+	bool WriteAudio(nlohmann::json& jAudio, Audio* m_audio);
 	bool WriteBoxCollider(nlohmann::json& jBoxCollider, BoxCollider* boxCollider);
 	bool WriteCamera(nlohmann::json& jCamera, Camera* camera);
 	bool WriteCircleCollider(nlohmann::json& jCircleCollider, CircleCollider* circleCollider);
@@ -232,18 +232,18 @@ namespace SceneExporter
 		return success;
 	}
 
-	bool WriteAudio(nlohmann::json& jAudio, Audio* audio)
+	bool WriteAudio(nlohmann::json& jAudio, Audio* m_audio)
 	{
 		bool success = true;
 
-		const std::string filePath = audio->m_filePath;
+		const std::string filePath = m_audio->m_filePath;
 		if (!JSON::Write(filePath, jAudio["filePath"]))
 		{
 			g_app->m_debugger->Log("Failed to export Audio: failed to write audio file path!", LL_ERROR);
 			success = false;
 		}
 
-		const FMOD::ChannelGroup* channelGroup = g_app->m_audioManager->GetGroup(audio->m_channel);
+		const FMOD::ChannelGroup* channelGroup = g_app->m_audioManager->GetGroup(m_audio->m_channel);
 		std::string channelGroupString;
 		if (channelGroup == g_app->m_audioManager->m_bgm) // Pointer comparison is the simplest solution without adding some kind of identifier in Audio
 		{

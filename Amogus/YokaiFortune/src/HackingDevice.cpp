@@ -36,7 +36,9 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
+	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
+	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f *(m_baseProjectileArea + PercentageIncrease)));
+
 	m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
 	m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
 
@@ -53,8 +55,10 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 
 	Projectiles p;
 
+	PercentageIncrease = (m_baseProjectileDuration * m_pScript->m_projectileDuration) / 100;
+
 	p.name = newProjectile;
-	p.duration = m_baseProjectileDuration;
+	p.duration = m_baseProjectileDuration + PercentageIncrease;
 	p.direction = direction;
 	p.isSpawned = false;
 
@@ -86,11 +90,13 @@ void HackingDevice::OnUpdate(float dt)
 	if (m_currentCooldown <= 0)
 	{
 		//DO HIT HERE!
+		float percentageReduction = (m_baseProjectileCooldown * m_pScript->m_projectileCooldown) / 100;
+		m_currentCooldown = m_baseProjectileCooldown - percentageReduction;
 	}
 
+	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
 	m_manager->GetComponent<Transform>(m_vecProjectiles[0].name)->m_position = currentPosition;
-	m_manager->GetComponent<Transform>(m_vecProjectiles[0].name)->m_size* m_baseProjectileArea;
-
+	m_manager->GetComponent<Transform>(m_vecProjectiles[0].name)->m_size* (m_baseProjectileArea + PercentageIncrease);
 	m_playerPreviousPosition = currentPosition;
 }
 

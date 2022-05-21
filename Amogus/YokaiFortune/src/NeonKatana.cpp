@@ -26,7 +26,7 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 
 	SetSprites(icon, sprite);
 
-	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/neonkatana.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+	m_audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/neonkatana.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
 
 	for (int i = 0; i < m_projectileMax; i++)
 	{
@@ -36,7 +36,8 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 
 		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
+		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
 
 		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
 		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
@@ -45,8 +46,10 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 
 		Projectiles p;
 
+		PercentageIncrease = (m_baseProjectileDuration * m_pScript->m_projectileDuration) / 100;
+
 		p.name = newProjectile;
-		p.duration = m_baseProjectileDuration;
+		p.duration = m_baseProjectileDuration + PercentageIncrease;
 		p.direction = direction;
 		p.isSpawned = false;
 
@@ -70,19 +73,20 @@ void NeonKatana::OnUpdate(float dt)
 
 	if (m_currentCooldown <= 0)
 	{
-		for (int i = 0; i < m_baseProjectileCount; i++)
+		for (int i = 0; i < m_baseProjectileCount +m_pScript->m_projectileCount; i++)
 		{
 
 			SpawnProjectile(i);
 
 			if (m_currentCooldown <= 0)
 			{
-				m_isMax = false;
-				m_currentCooldown = m_baseProjectileCooldown;
+				m_isMax = false; 
+				float percentageReduction = (m_baseProjectileCooldown * m_pScript->m_projectileCooldown) / 100;
+				m_currentCooldown = m_baseProjectileCooldown - percentageReduction;
 			}
 		}
 
-		g_app->m_audioManager->m_system->playSound(audio->m_sound, audio->m_group, false, &audio->m_channel);
+		g_app->m_audioManager->m_system->playSound(m_audio->m_sound, m_audio->m_group, false, &m_audio->m_channel);
 	}
 
 	if (m_vecProjectiles.size() <= 0)
@@ -98,8 +102,9 @@ void NeonKatana::OnUpdate(float dt)
 			if (!m_isMoving)
 				continue;
 
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += ((m_vecProjectiles[i].direction.x * 1000) * m_baseProjectileSpeed) * dt;
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += ((m_vecProjectiles[i].direction.y * 1000) * m_baseProjectileSpeed) * dt;
+			float PercentageIncrease = (m_baseProjectileSpeed * m_pScript->m_projectileSpeed) / 100;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 
 			m_vecProjectiles[i].duration -= dt;
 		}
@@ -152,9 +157,10 @@ void NeonKatana::SpawnProjectile(int currentPos)
 		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(20, 20*-currentPos);
 	}
 
-	//play noise
 
-	newProjectile->duration = m_baseProjectileDuration;
+	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
+
+	newProjectile->duration = m_baseProjectileDuration + PercentageIncrease;
 	newProjectile->direction = direction;
 
 }
