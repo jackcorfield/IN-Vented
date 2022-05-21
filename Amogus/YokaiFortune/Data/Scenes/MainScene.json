@@ -50,6 +50,17 @@
                 "type": "scriptComponent"
             },
 			{
+				"type": "boxCollider",
+				"size": {
+					"x": 30,
+					"y": 20
+				},
+				"offset": {
+					"x": 0,
+					"y": 22
+				}
+			},
+			{
                 "animations": [
                     {
                         "frameTime": 0.10000000149011612,
