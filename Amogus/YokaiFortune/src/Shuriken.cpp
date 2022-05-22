@@ -24,8 +24,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 	Sprite* sprite = entityManager->AddComponent<Sprite>(weapon, TextureLoader::CreateTexture2DFromFile("ShurikenIconSprite", "Weapons/Shuriken/Shuriken.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 	SetSprites(sprite, sprite);
 
-	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
-
+	m_audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
 
 	for (int i = 0; i < m_projectileMax; i++)
 	{
@@ -35,7 +34,8 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
+		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
 
 		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
 		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
@@ -53,8 +53,10 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 		Projectiles p;
 
+		PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
+
 		p.name = newProjectile;
-		p.duration = m_baseProjectileDuration;
+		p.duration = m_baseProjectileDuration + PercentageIncrease;
 		p.direction = direction;
 		p.isSpawned = false;
 
@@ -88,7 +90,7 @@ void Shuriken::OnUpdate(float dt)
 
 	if (m_currentCooldown <= 0)
 	{
-		for (int i = 0; i < m_baseProjectileCount; i++)
+		for (int i = 0; i < m_baseProjectileCount + m_pScript->m_projectileCount; i++)
 		{
 
 			SpawnProjectile();
@@ -96,11 +98,12 @@ void Shuriken::OnUpdate(float dt)
 			if (m_currentCooldown <= 0)
 			{
 				m_isMax = false;
-				m_currentCooldown = m_baseProjectileCooldown;
+				float percentageReduction = (m_baseProjectileCooldown * m_pScript->m_projectileCooldown) / 100;
+				m_currentCooldown = m_baseProjectileCooldown - percentageReduction;
 			}
 		}
 
-		g_app->m_audioManager->m_system->playSound(audio->m_sound, audio->m_group, false, &audio->m_channel);
+		g_app->m_audioManager->m_system->playSound(m_audio->m_sound, m_audio->m_group, false, &m_audio->m_channel);
 	}
 
 	if (m_vecProjectiles.size() <= 0)
@@ -116,15 +119,9 @@ void Shuriken::OnUpdate(float dt)
 			if (!m_isMoving)
 				continue;
 
-			//TEMPORARY
-			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
-
-
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += ((m_vecProjectiles[i].direction.x * 1000 )* m_baseProjectileSpeed) * dt;
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += ((m_vecProjectiles[i].direction.y * 1000 )* m_baseProjectileSpeed) * dt;
-			//m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += 100 * dt;
-
-			//TEMPORARY	
+			float PercentageIncrease = (m_baseProjectileSpeed * m_pScript->m_projectileSpeed) / 100;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 
 			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
 			for (Entity e : collisions)
@@ -165,11 +162,6 @@ void Shuriken::SpawnProjectile()
 	offset.x = (rand() % 200 - 100) / 2;
 	offset.y = (rand() % 200 - 100) / 2;
 
-	//MAKE BASE SET
-	//IF MORE ARE NEEDED (EG THE CURRENT ARE STILL IN USE)
-	//ADD MORE ENTITIES TO THE LIST
-	//IF NOT, REUSE OLD ENTITIES
-
 	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
 	newProjectile->isSpawned = true;
 
@@ -185,8 +177,6 @@ void Shuriken::SpawnProjectile()
 
 	glm::vec2 direction(0, 0);
 
-	
-
 	if (m_isMoving)
 	{
 		direction = currentPosition - m_playerPreviousPosition;
@@ -197,13 +187,9 @@ void Shuriken::SpawnProjectile()
 			direction = glm::normalize(direction);
 	}
 
-	
+	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
 
-
-
-	//play noise
-
-	newProjectile->duration = m_baseProjectileDuration;
+	newProjectile->duration = m_baseProjectileDuration + PercentageIncrease;
 	newProjectile->direction = direction;
 
 }

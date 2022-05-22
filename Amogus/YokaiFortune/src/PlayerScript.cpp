@@ -5,7 +5,12 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 m_movementSpeed(speed),
 //m_player(parentEntityID),
 m_leftStickDirection(glm::vec2(0,0)),
-m_leftStickInUse(false)
+m_leftStickInUse(false),
+m_projectileSpeed(10), //Speed of projectiles (Percentage increase)
+m_projectileCount(1), //How many projectiles 
+m_projectileCooldown(1), //How often weapon attacks (Percentage of reduction)
+m_projectileArea(10), //Size of weapon (Percentage increase)
+m_projectileDuration(10) //How long the projectile stays on the screen (Percentage increase)
 {
 	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerScript::KeyEvent);
 

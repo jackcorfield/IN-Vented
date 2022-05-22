@@ -1,6 +1,7 @@
 #pragma once
 #include "Resources/Script.h"
 #include "Amogus.h"
+#include "PlayerScript.h"
 
 class WeaponScript :
     public Script
@@ -43,7 +44,8 @@ protected:
 
    Sprite* m_icon;
    Sprite* m_sprite;
-   Audio* audio;
+   Audio* m_audio;
+   PlayerScript* m_pScript;
 
     glm::vec2 m_hitboxSize;
 
