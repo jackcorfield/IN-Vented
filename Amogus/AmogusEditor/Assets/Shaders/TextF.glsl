@@ -12,6 +12,6 @@ uniform vec3 textColor;
 
 void main()
 {   
-	vec4 sampled = vec4(1.0, 1.0, 1.0, texture(image, fInput.texCoords).r);
-    color = vec4(textColor, 1.0) * sampled;
+	vec4 sampled = texture(image, fInput.texCoords);
+    color = vec4(textColor, sampled.r);
 }

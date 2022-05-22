@@ -525,58 +525,7 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 			{
 				if (s_ElementType[i] == selected)
 				{
-					switch (i)
-					{
-					case(ElementType::ET_Image):
-					{
-						UI_Image* newElement = new UI_Image();
-						newElement->m_widget = widget;
-
-						int count = 0;
-						for (UI_BaseElement* e : widget->m_elements)
-						{
-							if (e->m_elementType == ET_Image)
-								count++;
-						}
-
-						newElement->m_name = s_ElementType[ElementType::ET_Image] + std::to_string(count);
-
-						widget->m_elements.push_back(newElement);
-					}
-						break;
-					case(ElementType::ET_ImageButton):
-					{
-						UI_ImageButton* newElement = new UI_ImageButton();
-						newElement->m_widget = widget;
-
-						int count = 0;
-						for (UI_BaseElement* e : widget->m_elements)
-						{
-							if (e->m_elementType == ET_ImageButton)
-								count++;
-						}
-
-						newElement->m_name = s_ElementType[ElementType::ET_ImageButton] + std::to_string(count);
-						widget->m_elements.push_back(newElement);
-					}
-						break;
-					case(ElementType::ET_Text):
-					{
-						UI_Text* newElement = new UI_Text();
-						newElement->m_widget = widget;
-
-						int count = 0;
-						for (UI_BaseElement* e : widget->m_elements)
-						{
-							if (e->m_elementType == ET_Text)
-								count++;
-						}
-
-						newElement->m_name = s_ElementType[ElementType::ET_Text] + std::to_string(count);
-						widget->m_elements.push_back(newElement);
-					}
-						break;
-					}
+					widget->AddElement(i);
 				}
 			}
 		}
@@ -681,6 +630,11 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 					char* buffer = &textElement->m_text[0];
 					ImGui::InputText((std::string("Text##") + sIdx).c_str(), buffer, MAX_INPUT_LENGTH);
 					textElement->m_text = std::string(buffer);
+				}
+
+				if (ImGui::Button((std::string("Delete element##") + sIdx).c_str()))
+				{
+					widget->RemoveElement(element->m_name);
 				}
 			}
 		}

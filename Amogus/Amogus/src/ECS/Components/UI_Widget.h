@@ -96,6 +96,9 @@ public:
 	UI_WidgetComponent();
 	~UI_WidgetComponent();
 
+	UI_BaseElement* AddElement(int type);
+	void RemoveElement(std::string name);
+
 	std::vector<UI_BaseElement*> m_elements;
 
 	UI_BaseElement* GetElement(std::string name)

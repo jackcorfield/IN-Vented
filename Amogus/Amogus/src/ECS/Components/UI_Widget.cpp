@@ -10,6 +10,54 @@ UI_WidgetComponent::~UI_WidgetComponent()
 		delete element;
 }
 
+UI_BaseElement* UI_WidgetComponent::AddElement(int type)
+{
+	UI_BaseElement* newElement;
+
+	switch (type)
+	{
+	case(ElementType::ET_Image):
+		newElement = new UI_Image();
+		break;
+	case(ElementType::ET_ImageButton):
+		newElement = new UI_ImageButton();
+		break;
+	case(ElementType::ET_Text):
+		newElement = new UI_Text();
+		break;
+	default:
+		newElement = new UI_BaseElement();
+		break;
+	}
+
+	newElement->m_widget = this;
+
+	int count = 0;
+	for (UI_BaseElement* e : m_elements)
+	{
+		if (e->m_elementType == type)
+			count++;
+	}
+
+	newElement->m_name = s_ElementType[type] + std::to_string(count);
+
+	m_elements.push_back(newElement);
+	return newElement;
+}
+
+void UI_WidgetComponent::RemoveElement(std::string name)
+{
+	for (int i = 0; i < m_elements.size(); i++)
+	{
+		UI_BaseElement* e = m_elements[i];
+		if (e->m_name == name)
+		{
+			delete e;
+			m_elements.erase(m_elements.begin() + i);
+		}
+	}
+}
+
 UI_BaseElement::UI_BaseElement()
 	: m_absolutePosition(0, 0),
 	m_absoluteSize(200, 200),
