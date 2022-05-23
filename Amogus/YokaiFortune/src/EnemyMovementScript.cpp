@@ -79,7 +79,7 @@ bool EnemyMovementScript::CheckPotentialCollision(Entity possibleCollision)
 	EntityName* name = entityManager->GetComponent<EntityName>(possibleCollision);
 	if (!name)
 		return false;
-	if (name->m_name != "Enemy") { return false; }
+	if (name->m_name != "Enemy" && name->m_name != "Player") { return false; }
 
 	// Get relevant components
 	BoxCollider* theirCollider = entityManager->GetComponent<BoxCollider>(possibleCollision);
@@ -105,7 +105,6 @@ bool EnemyMovementScript::CheckPotentialCollision(Entity possibleCollision)
 	}
 
 	return true;
-	
 }
 
 glm::vec2 EnemyMovementScript::GetIntersectionDepth(Entity collidedEntity)
