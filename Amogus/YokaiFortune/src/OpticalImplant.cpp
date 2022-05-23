@@ -15,3 +15,18 @@ OpticalImplant::OpticalImplant(EntityManager* entityManager, Entity parentEntity
 
 	m_maxLevel = m_levelingInfo.size();
 }
+
+OpticalImplant::~OpticalImplant()
+{}
+
+void OpticalImplant::OnAttach()
+{}
+
+void OpticalImplant::OnUpdate(float dt)
+{}
+
+void OpticalImplant::OnRender(float dt)
+{}
+
+void OpticalImplant::OnUnattach()
+{}

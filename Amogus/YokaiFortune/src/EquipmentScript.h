@@ -4,7 +4,7 @@
 #include "PlayerScript.h"
 
 class EquipmentScript : 
-    Script
+    public Script
 {
 public:
 
