@@ -456,28 +456,138 @@
         "type": "transform"
       }
     ],
-    [
-      {
-        "name": "NeonKatana",
-        "type": "entityName"
-      },
-      {
-        "type": "scriptComponent"
-      },
-      {
-        "depth": 0.0,
-        "pos": {
-          "x": 0.0,
-          "y": -1000.0
+      [
+        {
+          "name": "NeonKatana",
+          "type": "entityName"
         },
-        "rotate": 0.0,
-        "size": {
-          "x": 1.0,
-          "y": 1.0
+        {
+          "type": "scriptComponent"
         },
-        "type": "transform"
-      }
-    ]
+        {
+          "depth": 0.0,
+          "pos": {
+            "x": 0.0,
+            "y": -1000.0
+          },
+          "rotate": 0.0,
+          "size": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "type": "transform"
+        }
+      ],
+      [
+        {
+          "name": "Passport",
+          "type": "entityName"
+        },
+        {
+          "type": "scriptComponent"
+        },
+        {
+          "depth": 0.0,
+          "pos": {
+            "x": 0.0,
+            "y": -1000.0
+          },
+          "rotate": 0.0,
+          "size": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "type": "transform"
+        }
+      ],
+      [
+        {
+          "name": "Ragnite",
+          "type": "entityName"
+        },
+        {
+          "type": "scriptComponent"
+        },
+        {
+          "depth": 0.0,
+          "pos": {
+            "x": 0.0,
+            "y": -1000.0
+          },
+          "rotate": 0.0,
+          "size": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "type": "transform"
+        }
+      ],
+      [
+        {
+          "name": "PowerGlove",
+          "type": "entityName"
+        },
+        {
+          "type": "scriptComponent"
+        },
+        {
+          "depth": 0.0,
+          "pos": {
+            "x": 0.0,
+            "y": -1000.0
+          },
+          "rotate": 0.0,
+          "size": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "type": "transform"
+        }
+      ],
+      [
+        {
+          "name": "PowerGem",
+          "type": "entityName"
+        },
+        {
+          "type": "scriptComponent"
+        },
+        {
+          "depth": 0.0,
+          "pos": {
+            "x": 0.0,
+            "y": -1000.0
+          },
+          "rotate": 0.0,
+          "size": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "type": "transform"
+        }
+      ],
+      [
+        {
+          "name": "OpticalImplant",
+          "type": "entityName"
+        },
+        {
+          "type": "scriptComponent"
+        },
+        {
+          "depth": 0.0,
+          "pos": {
+            "x": 0.0,
+            "y": -1000.0
+          },
+          "rotate": 0.0,
+          "size": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "type": "transform"
+        }
+      ]
   ],
 
   "name": "MainScene"

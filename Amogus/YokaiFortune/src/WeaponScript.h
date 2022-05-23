@@ -1,6 +1,7 @@
 #pragma once
 #include "Resources/Script.h"
 #include "Amogus.h"
+#include "PlayerScript.h"
 
 class WeaponScript :
     public Script
@@ -43,14 +44,14 @@ protected:
 
    Sprite* m_icon;
    Sprite* m_sprite;
-   Audio* audio;
+   Audio* m_audio;
+   PlayerScript* m_pScript;
 
     glm::vec2 m_hitboxSize;
 
     //std::vector<std::pair<Entity, float>> m_vecProjectiles;
 
     std::vector<Projectiles> m_vecProjectiles;
-
 
     bool m_isMoving;
     bool m_isAutoTarget;

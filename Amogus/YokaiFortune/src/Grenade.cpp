@@ -27,7 +27,7 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 	//AnimatedSprite* aSprite = entityManager->AddComponent<AnimatedSprite>(weapon, TextureLoader::CreateTexture2DFromFile("GrenadeIconSprite", "Weapons/Grenade/GrenadeSpriteSheet.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 	AnimatedSprite* templateASprite = GetComponent<AnimatedSprite>();
 
-	audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+	m_audio = entityManager->AddComponent<Audio>(weapon, "sfx/Weapons/shuriken.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
 	m_vecProjectiles.resize(m_projectileMax);
 
 	for (int i = 0; i < m_projectileMax; i++)
@@ -38,7 +38,8 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 
 		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * m_baseProjectileArea, .25f * m_baseProjectileArea));
+		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
 
 		AnimatedSprite* newASprite = m_manager->AddComponent<AnimatedSprite>(newProjectile, templateASprite->GetTexture(), templateASprite->getFrameSize(), templateASprite->GetColour(), templateASprite->GetShader());
 		//m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
@@ -68,8 +69,10 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 
 		Projectiles p;
 
+		PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
+
 		p.name = newProjectile;
-		p.duration = m_baseProjectileDuration;
+		p.duration = m_baseProjectileDuration + PercentageIncrease;
 		p.direction = direction;
 		p.isSpawned = false;
 		p.hasHitTheFloor = false;
@@ -104,7 +107,7 @@ void Grenade::OnUpdate(float dt)
 
 	if (m_currentCooldown <= 0)
 	{
-		for (int i = 0; i < m_baseProjectileCount; i++)
+		for (int i = 0; i < m_baseProjectileCount + m_pScript->m_projectileCount; i++)
 		{
 
 			SpawnProjectile();
@@ -112,11 +115,12 @@ void Grenade::OnUpdate(float dt)
 			if (m_currentCooldown <= 0)
 			{
 				m_isMax = false;
-				m_currentCooldown = m_baseProjectileCooldown;
+				float percentageReduction = (m_baseProjectileCooldown * m_pScript->m_projectileCooldown) / 100;
+				m_currentCooldown = m_baseProjectileCooldown - percentageReduction;
 			}
 		}
 
-		g_app->m_audioManager->m_system->playSound(audio->m_sound, audio->m_group, false, &audio->m_channel);
+		g_app->m_audioManager->m_system->playSound(m_audio->m_sound, m_audio->m_group, false, &m_audio->m_channel);
 	}
 
 	if (m_vecProjectiles.size() <= 0)
@@ -136,8 +140,9 @@ void Grenade::OnUpdate(float dt)
 
 			if(!(glm::distance(m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position, m_vecProjectiles[i].originPos) >= m_vecProjectiles[i].distance))
 			{
-				m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += ((m_vecProjectiles[i].direction.x * 1000) * m_baseProjectileSpeed) * dt;
-				m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += ((m_vecProjectiles[i].direction.y * 1000) * m_baseProjectileSpeed) * dt;
+				float PercentageIncrease = (m_baseProjectileSpeed * m_pScript->m_projectileSpeed) / 100;
+				m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
+				m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 
 			}
 			else
@@ -172,13 +177,6 @@ void Grenade::SpawnProjectile()
 
 	//std::vector<Entity> closeEnemies = Script::GetNearbyEntities();
 
-
-
-	//MAKE BASE SET
-	//IF MORE ARE NEEDED (EG THE CURRENT ARE STILL IN USE)
-	//ADD MORE ENTITIES TO THE LIST
-	//IF NOT, REUSE OLD ENTITIES
-
 	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
 	newProjectile->isSpawned = true;
 
@@ -200,11 +198,9 @@ void Grenade::SpawnProjectile()
 	if (direction != glm::vec2(0,0))
 		direction = glm::normalize(direction);
 
+	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
 
-	
-	//play noise
-
-	newProjectile->duration = m_baseProjectileDuration;
+	newProjectile->duration = m_baseProjectileDuration + PercentageIncrease;
 	newProjectile->direction = direction;
 	newProjectile->originPos = currentPosition;
 	newProjectile->distance = glm::distance(tempEnemy.m_position, currentPosition);

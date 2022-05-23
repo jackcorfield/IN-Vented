@@ -27,7 +27,7 @@ void DeleteComponent(void* component, std::type_index type, Entity entity, Entit
 /// Add prototypes here for new components (and define below with the others) ///
 // Inspector gui functions
 void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner, std::unique_ptr<IGuiObject>& popupPtr);
-void CreateAudioGui(Audio* audio, Entity owner);
+void CreateAudioGui(Audio* m_audio, Entity owner);
 void CreateBoxColliderGui(BoxCollider* boxCollider);
 void CreateCameraGui(Camera* camera);
 void CreateCircleColliderGui(CircleCollider* circleCollider);
@@ -39,10 +39,11 @@ void CreateSpriteGui(Sprite* sprite, Entity owner);
 void CreateTileGui(Tile* tile);
 void CreateTileMapGui(TileMap* tileMap);
 void CreateTransformGui(Transform* transform);
+void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner);
 
 // Helpers (return true if changed)
 bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::string& fragmentPath, std::string& geometryPath);
-bool CreateTextureGui(std::string& textureName, std::string& filePath);
+bool CreateTextureGui(std::string& textureName, std::string& filePath, int optionalId = -1, std::string optionalTitlePrefix = "");
 
 EntityInspectorGui::EntityInspectorGui() :
 	m_activeEntity(0)
@@ -137,6 +138,7 @@ void DrawComponentGui(void* component, std::type_index type, Entity entity, Enti
 	else if (type == typeid(Tile)) { CreateTileGui(reinterpret_cast<Tile*>(component)); }
 	else if (type == typeid(TileMap)) { CreateTileMapGui(reinterpret_cast<TileMap*>(component)); }
 	else if (type == typeid(Transform)) { CreateTransformGui(reinterpret_cast<Transform*>(component)); }
+	else if (type == typeid(UI_WidgetComponent)) { CreateUI_WidgetComponentGui(reinterpret_cast<UI_WidgetComponent*>(component), entity); }
 	else
 	{
 		std::cout << "Error: Invalid component type!" << std::endl;
@@ -164,6 +166,7 @@ void DeleteComponent(void* component, std::type_index type, Entity entity, Entit
 	else if (type == typeid(Tile)) { entityManager->RemoveComponent<Tile>(entity); }
 	else if (type == typeid(TileMap)) { entityManager->RemoveComponent<TileMap>(entity); }
 	else if (type == typeid(Transform)) { entityManager->RemoveComponent<Transform>(entity); }
+	else if (type == typeid(UI_WidgetComponent)) { entityManager->RemoveComponent<UI_WidgetComponent>(entity); }
 	else
 	{
 		std::cout << "Error: Invalid component type!" << std::endl;
@@ -175,7 +178,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 	ImGui::Text("Add component");
 
 	static std::string selected = "";
-	const static std::string names[12] =
+	const static std::string names[13] =
 	{ 
 		"Animated Sprite",
 		"Audio",
@@ -188,7 +191,8 @@ void EntityInspectorGui::CreateAddComponentGui()
 		"Script Component",
 		"Sprite",
 		"Tile Map",
-		"Transform"
+		"Transform",
+		"UI Widget"
 	};
 
 	if (ImGui::BeginCombo("New component type", selected.c_str()))
@@ -223,6 +227,7 @@ void EntityInspectorGui::CreateAddComponentGui()
 		else if (selected == "Sprite") { m_popup = std::make_unique<NewSpriteGui>(m_activeEntity); }
 		else if (selected == "Tile Map") { m_popup = std::make_unique<NewTileMapGui>(m_activeEntity); }
 		else if (selected == "Transform") { entityManager->AddComponent<Transform>(m_activeEntity); }
+		else if (selected == "UI Widget") { entityManager->AddComponent<UI_WidgetComponent>(m_activeEntity); }
 	}
 }
 
@@ -312,7 +317,7 @@ void CreateAnimatedSpriteGui(AnimatedSprite* animatedSprite, Entity owner, std::
 	}
 }
 
-void CreateAudioGui(Audio* audio, Entity owner)
+void CreateAudioGui(Audio* m_audio, Entity owner)
 {
 	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::CollapsingHeader("Audio", nodeFlags))
@@ -321,7 +326,7 @@ void CreateAudioGui(Audio* audio, Entity owner)
 
 		// File path
 		char temp[MAX_INPUT_LENGTH]; // Use to store input
-		strcpy_s(temp, audio->m_filePath.length() + 1, audio->m_filePath.c_str());
+		strcpy_s(temp, m_audio->m_filePath.length() + 1, m_audio->m_filePath.c_str());
 		std::string filePath;
 		if (ImGui::InputText("File", temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
@@ -330,13 +335,13 @@ void CreateAudioGui(Audio* audio, Entity owner)
 		}
 
 		// Channel group (add more as necessary with any additional channel groups)
-		FMOD::ChannelGroup* newGroup = audio->m_group;
+		FMOD::ChannelGroup* newGroup = m_audio->m_group;
 		{
 			std::string previewName;
 			FMOD::ChannelGroup* groups[2] = { g_app->m_audioManager->m_sfx, g_app->m_audioManager->m_bgm };
 			std::string names[2] = { "sfx", "bgm" };
 
-			if (audio->m_group == g_app->m_audioManager->m_sfx)
+			if (m_audio->m_group == g_app->m_audioManager->m_sfx)
 			{
 				previewName = names[0];
 			}
@@ -349,7 +354,7 @@ void CreateAudioGui(Audio* audio, Entity owner)
 			{
 				for (int i = 0; i < 2; i++)
 				{
-					bool isSelected = audio->m_group == groups[i];
+					bool isSelected = m_audio->m_group == groups[i];
 
 					if (ImGui::Selectable(names[i].c_str(), isSelected))
 					{
@@ -364,7 +369,7 @@ void CreateAudioGui(Audio* audio, Entity owner)
 
 		if (ImGui::Button("Play audio"))
 		{
-			g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+			g_app->m_audioManager->PlayAudio(m_audio->m_sound, m_audio->m_group, m_audio->m_channel);
 		}
 
 		if (edited)
@@ -489,6 +494,150 @@ void CreatePhysicsGui(Physics* physics)
 	{
 		// Mass
 		if (ImGui::DragFloat("Mass", &physics->m_mass, 0.1f, 0.0f, 1000.0f)) {}
+	}
+}
+
+void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
+{
+	ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_DefaultOpen;
+	if (ImGui::CollapsingHeader("UI Widget", nodeFlags))
+	{
+		static std::string selected = "";
+		if (ImGui::BeginCombo("New UI Element", selected.c_str()))
+		{
+			for (int i = 0; i < NumElementTypes; i++)
+			{
+				if (i == ET_Base) continue;
+
+				bool isSelected = selected == s_ElementType[i];
+				if (ImGui::Selectable(s_ElementType[i].c_str(), isSelected))
+				{
+					selected = s_ElementType[i];
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		if (ImGui::Button("Create UI Element"))
+		{
+			for (int i = 0; i < NumElementTypes; i++)
+			{
+				if (s_ElementType[i] == selected)
+				{
+					widget->AddElement(i);
+				}
+			}
+		}
+
+		for (int i = 0; i < widget->m_elements.size(); i++)
+		{
+			std::string sIdx = std::to_string(i);
+			UI_BaseElement* element = widget->m_elements[i];
+			if (ImGui::CollapsingHeader(element->m_name.c_str(), nodeFlags))
+			{
+				std::string nameCopy = element->m_name;
+				if (ImGui::InputText("Name##"+i, &nameCopy[0], MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+				{
+					bool used = false;
+					for (UI_BaseElement* e : widget->m_elements)
+					{
+						if (e == element) continue;
+						if (e->m_name == nameCopy)
+						{
+							used = true;
+						}
+					}
+
+					if (!used)
+					{
+						element->m_name = nameCopy;
+					}
+				}
+
+				float abPosArr[2] = { element->m_absolutePosition.x, element->m_absolutePosition.y };
+				if (ImGui::InputFloat2((std::string("Absolute Position##")+sIdx).c_str(), abPosArr))
+				{
+					element->m_absolutePosition = glm::vec2(abPosArr[0], abPosArr[1]);
+				}
+
+				float abSizeArr[2] = { element->m_absoluteSize.x, element->m_absoluteSize.y };
+				if (ImGui::InputFloat2((std::string("Absolute Size##") + sIdx).c_str(), abSizeArr))
+				{
+					element->m_absoluteSize = glm::vec2(abSizeArr[0], abSizeArr[1]);
+				}
+
+				float resPosArr[2] = { element->m_relativePosition.x, element->m_relativePosition.y };
+				if (ImGui::InputFloat2((std::string("Relative Position##") + sIdx).c_str(), resPosArr))
+				{
+					element->m_relativePosition = glm::vec2(resPosArr[0], resPosArr[1]);
+				}
+
+				float resSizeArr[2] = { element->m_relativeSize.x, element->m_relativeSize.y };
+				if (ImGui::InputFloat2((std::string("Relative Size##") + sIdx).c_str(), resSizeArr))
+				{
+					element->m_relativeSize = glm::vec2(resSizeArr[0], resSizeArr[1]);
+				}
+
+				float colourArr[3] = { element->m_colour.r, element->m_colour.g, element->m_colour.b };
+				if (ImGui::ColorPicker3((std::string("Colour##") + sIdx).c_str(), colourArr))
+				{
+					element->m_colour = glm::vec3(colourArr[0], colourArr[1], colourArr[2]);
+				}
+
+				ImGui::Checkbox((std::string("Hidden##") + sIdx).c_str(), &element->m_hidden);
+				ImGui::InputInt((std::string("Z Index##") + sIdx).c_str(), &element->m_zIndex);
+
+				// Texture
+				if (element->m_elementType == ET_Image || element->m_elementType == ET_ImageButton)
+				{
+					UI_Image* imageElement = (UI_Image*)element;
+					Texture2D texture = imageElement->m_texture;
+					std::string textureName = texture.m_name;
+					std::string textureFilePath = texture.m_filePath;
+					if (CreateTextureGui(textureName, textureFilePath, i))
+					{
+						imageElement->m_texture = TextureLoader::CreateTexture2DFromFile(textureName, textureFilePath);
+					}
+				}
+
+				if (element->m_elementType == ET_ImageButton)
+				{
+					UI_ImageButton* buttonElement = (UI_ImageButton*)element;
+					Texture2D htexture = buttonElement->m_hoveredTexture;
+					std::string htextureName = htexture.m_name;
+					std::string htextureFilePath = htexture.m_filePath;
+					if (CreateTextureGui(htextureName, htextureFilePath, i, "Hover "))
+					{
+						buttonElement->m_hoveredTexture = TextureLoader::CreateTexture2DFromFile(htextureName, htextureFilePath);
+					}
+;
+					Texture2D ctexture = buttonElement->m_clickedTexture;
+					std::string ctextureName = ctexture.m_name;
+					std::string ctextureFilePath = ctexture.m_filePath;
+					if (CreateTextureGui(ctextureName, ctextureFilePath, i, "Click "))
+					{
+						buttonElement->m_clickedTexture = TextureLoader::CreateTexture2DFromFile(ctextureName, ctextureFilePath);
+					}
+				}
+
+				if (element->m_elementType == ET_Text)
+				{
+					UI_Text* textElement = (UI_Text*)element;
+
+					ImGui::Checkbox((std::string("Centered##") + sIdx).c_str(), &textElement->m_centered);
+
+					char* buffer = &textElement->m_text[0];
+					ImGui::InputText((std::string("Text##") + sIdx).c_str(), buffer, MAX_INPUT_LENGTH);
+					textElement->m_text = std::string(buffer);
+				}
+
+				if (ImGui::Button((std::string("Delete element##") + sIdx).c_str()))
+				{
+					widget->RemoveElement(element->m_name);
+				}
+			}
+		}
 	}
 }
 
@@ -708,15 +857,16 @@ bool CreateShaderGui(std::string& shaderName, std::string& vertexPath, std::stri
 	return edited;
 }
 
-bool CreateTextureGui(std::string& textureName, std::string& filePath)
+bool CreateTextureGui(std::string& textureName, std::string& filePath, int optionalId, std::string optionalTitlePrefix)
 {
 	bool edited = false;
 	char temp[MAX_INPUT_LENGTH]; // Use to store input
+	std::string optionalIdString = std::to_string(optionalId);
 
 	// Texture name
 	{
 		strcpy_s(temp, textureName.length() + 1, textureName.c_str());
-		if (ImGui::InputText("Texture name##", temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText((optionalTitlePrefix + std::string("Texture name##") + optionalIdString).c_str(), temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			textureName = temp;
 			edited = true;
@@ -726,7 +876,7 @@ bool CreateTextureGui(std::string& textureName, std::string& filePath)
 	// File path
 	{
 		strcpy_s(temp, filePath.length() + 1, filePath.c_str());
-		if (ImGui::InputText("File path##", temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText((optionalTitlePrefix + std::string("File path##") + optionalIdString).c_str(), temp, MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			filePath = temp;
 			edited = true;

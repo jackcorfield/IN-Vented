@@ -21,6 +21,7 @@
 #include <ECS/Components/Tile.h>
 #include <ECS/Components/TileMap.h>
 #include <ECS/Components/Transform.h>
+#include <ECS/Components/UI_Widget.h>
 
 extern Application* g_app;
 
@@ -35,7 +36,7 @@ namespace SceneExporter
 
 	/// Add a prototype here for new components (and define it below with the others) ///
 	bool WriteAnimatedSprite(nlohmann::json& jAnimatedSprite, AnimatedSprite* animatedSprite);
-	bool WriteAudio(nlohmann::json& jAudio, Audio* audio);
+	bool WriteAudio(nlohmann::json& jAudio, Audio* m_audio);
 	bool WriteBoxCollider(nlohmann::json& jBoxCollider, BoxCollider* boxCollider);
 	bool WriteCamera(nlohmann::json& jCamera, Camera* camera);
 	bool WriteCircleCollider(nlohmann::json& jCircleCollider, CircleCollider* circleCollider);
@@ -47,6 +48,7 @@ namespace SceneExporter
 	bool WriteTile(nlohmann::json& jTile, Tile* tile);
 	bool WriteTileMap(nlohmann::json& jTileMap, TileMap* tileMap);
 	bool WriteTransform(nlohmann::json& jTransform, Transform* transform);
+	bool WriteWidget(nlohmann::json& jWidget, UI_WidgetComponent* widget);
 
 	bool ExportActiveSceneToFile(const std::string& filePath)
 	{
@@ -106,6 +108,7 @@ namespace SceneExporter
 		if (!WriteComponentsOfType<Tile>(jEntityArray, "tile", WriteTile)) { success = false; }
 		if (!WriteComponentsOfType<TileMap>(jEntityArray, "tileMap", WriteTileMap)) { success = false; }
 		if (!WriteComponentsOfType<Transform>(jEntityArray, "transform", WriteTransform)) { success = false; }
+		if (!WriteComponentsOfType<UI_WidgetComponent>(jEntityArray, "uiWidget", WriteWidget)) { success = false; }
 
 		return success;
 	}
@@ -232,18 +235,18 @@ namespace SceneExporter
 		return success;
 	}
 
-	bool WriteAudio(nlohmann::json& jAudio, Audio* audio)
+	bool WriteAudio(nlohmann::json& jAudio, Audio* m_audio)
 	{
 		bool success = true;
 
-		const std::string filePath = audio->m_filePath;
+		const std::string filePath = m_audio->m_filePath;
 		if (!JSON::Write(filePath, jAudio["filePath"]))
 		{
 			g_app->m_debugger->Log("Failed to export Audio: failed to write audio file path!", LL_ERROR);
 			success = false;
 		}
 
-		const FMOD::ChannelGroup* channelGroup = g_app->m_audioManager->GetGroup(audio->m_channel);
+		const FMOD::ChannelGroup* channelGroup = g_app->m_audioManager->GetGroup(m_audio->m_channel);
 		std::string channelGroupString;
 		if (channelGroup == g_app->m_audioManager->m_bgm) // Pointer comparison is the simplest solution without adding some kind of identifier in Audio
 		{
@@ -544,6 +547,196 @@ namespace SceneExporter
 			g_app->m_debugger->Log("Failed to export Transform: failed to write depth!", LL_ERROR);
 			success = false;
 		}
+
+		return success;
+	}
+
+	bool WriteWidget(nlohmann::json& jWidget, UI_WidgetComponent* widget)
+	{
+		bool success = true;
+		nlohmann::json elements = nlohmann::json::array();
+
+		for (UI_BaseElement* element : widget->m_elements)
+		{
+			nlohmann::json jElement = nlohmann::json::object();
+
+			const float elementType = element->m_elementType;
+			if (!JSON::Write(elementType, jElement["elementType"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write elementType!", LL_ERROR);
+				success = false;
+			}
+
+			const glm::vec2 abPos = element->m_absolutePosition;
+			if (!JSON::WriteVec2(abPos, jElement["absolutePos"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write absolute pos!", LL_ERROR);
+				success = false;
+			}
+
+			const glm::vec2 relativePos = element->m_relativePosition;
+			if (!JSON::WriteVec2(relativePos, jElement["relativePos"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write relative pos!", LL_ERROR);
+				success = false;
+			}
+
+			const glm::vec2 abSize = element->m_absoluteSize;
+			if (!JSON::WriteVec2(abSize, jElement["absoluteSize"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write absolute size!", LL_ERROR);
+				success = false;
+			}
+
+			const glm::vec2 relativeSize = element->m_relativeSize;
+			if (!JSON::WriteVec2(relativeSize, jElement["relativeSize"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write relative size!", LL_ERROR);
+				success = false;
+			}
+
+			const bool hidden = element->m_hidden;
+			if (!JSON::Write(hidden, jElement["hidden"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write hidden!", LL_ERROR);
+				success = false;
+			}
+
+			const int z_Index = element->m_zIndex;
+			if (!JSON::Write(z_Index, jElement["zIdx"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write z index!", LL_ERROR);
+				success = false;
+			}
+
+			const glm::vec3 colour = element->m_colour;
+			if (!JSON::WriteVec3(colour, jElement["colour"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write colour!", LL_ERROR);
+				success = false;
+			}
+
+			const std::string name = element->m_name;
+			if (!JSON::Write(name, jElement["name"]))
+			{
+				g_app->m_debugger->Log("Failed to export UI Widget: failed to write name!", LL_ERROR);
+				success = false;
+			}
+
+			switch (element->m_elementType)
+			{
+			case(ET_Image):
+			{					
+				nlohmann::json jTexture;
+				UI_Image* image = (UI_Image*)element;
+				const Texture2D texture = image->m_texture;
+
+				const std::string textureName = texture.m_name;
+				if (!JSON::Write(textureName, jTexture["name"]))
+				{
+					g_app->m_debugger->Log("Exporting UI Widget Image: failed to write texture name.", LL_WARNING);
+					success = false;
+				}
+
+				const std::string texturePath = texture.m_filePath;
+				if (!JSON::Write(texturePath, jTexture["filePath"]))
+				{
+					g_app->m_debugger->Log("Failed to export UI Widget Image: failed to write texture file path!", LL_ERROR);
+					success = false;
+				}
+
+				jElement["texture"] = jTexture;
+			}
+			break;
+			case(ET_ImageButton):
+			{
+				nlohmann::json jTexture;
+				UI_ImageButton* button = (UI_ImageButton*)element;
+				const Texture2D texture = button->m_texture;
+
+				const std::string textureName = texture.m_name;
+				if (!JSON::Write(textureName, jTexture["name"]))
+				{
+					g_app->m_debugger->Log("Exporting UI Widget Image Button Normal: failed to write texture name.", LL_WARNING);
+					success = false;
+				}
+
+				const std::string texturePath = texture.m_filePath;
+				if (!JSON::Write(texturePath, jTexture["filePath"]))
+				{
+					g_app->m_debugger->Log("Failed to export UI Widget Image Button Normal: failed to write texture file path!", LL_ERROR);
+					success = false;
+				}
+
+				jElement["texture"] = jTexture;
+				
+				//
+
+				nlohmann::json jHoverTexture;
+				const Texture2D hoverTexture = button->m_hoveredTexture;
+
+				const std::string htextureName = hoverTexture.m_name;
+				if (!JSON::Write(htextureName, jHoverTexture["name"]))
+				{
+					g_app->m_debugger->Log("Exporting UI Widget Image Button Hover: failed to write texture name.", LL_WARNING);
+					success = false;
+				}
+
+				const std::string htexturePath = hoverTexture.m_filePath;
+				if (!JSON::Write(htexturePath, jHoverTexture["filePath"]))
+				{
+					g_app->m_debugger->Log("Failed to export UI Widget Image Button Hover: failed to write texture file path!", LL_ERROR);
+					success = false;
+				}
+
+				jElement["hoverTexture"] = jHoverTexture;
+
+				//
+
+				nlohmann::json jClickTexture;
+				const Texture2D clickTexture = button->m_clickedTexture;
+
+				const std::string ctextureName = clickTexture.m_name;
+				if (!JSON::Write(ctextureName, jClickTexture["name"]))
+				{
+					g_app->m_debugger->Log("Exporting UI Widget Image Button Click: failed to write texture name.", LL_WARNING);
+					success = false;
+				}
+
+				const std::string ctexturePath = clickTexture.m_filePath;
+				if (!JSON::Write(ctexturePath, jClickTexture["filePath"]))
+				{
+					g_app->m_debugger->Log("Failed to export UI Widget Image Button Click: failed to write texture file path!", LL_ERROR);
+					success = false;
+				}
+
+				jElement["clickTexture"] = jClickTexture;
+			}
+			break;
+			case(ET_Text):
+			{
+				UI_Text* textElement = (UI_Text*)element;
+				const std::string text = textElement->m_text;
+				if (!JSON::Write(text, jElement["text"]))
+				{
+					g_app->m_debugger->Log("Failed to export UI Widget: failed to write text!", LL_ERROR);
+					success = false;
+				}
+
+				const bool centered = textElement->m_centered;
+				if (!JSON::Write(centered, jElement["centered"]))
+				{
+					g_app->m_debugger->Log("Failed to export UI Widget: failed to write centered!", LL_ERROR);
+					success = false;
+				}
+			}
+			break;
+			}
+
+			elements.push_back(jElement);
+		}
+
+		jWidget["elements"] = elements;
 
 		return success;
 	}

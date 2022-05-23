@@ -14,6 +14,25 @@ public:
     virtual void OnRender(float dt) override;
     virtual void OnUnattach() override;
 
+    // INITIAL WEAPON
+
+   //Modifiers
+    float m_movementSpeed;
+
+    int m_projectileSpeed; //Speed of projectiles (Percentage increase)
+    int m_projectileCount; //How many projectiles 
+    int m_projectileCooldown; //How often weapon attacks (Percentage of reduction)
+    int m_projectileArea; //Size of weapon (Percentage increase)
+    int m_projectileDuration; //How long the projectile stays on the screen (Percentage increase)
+
+    float m_damageModifier;
+
+    float m_maxHealth;
+    float m_health;
+    float m_regeneration;
+
+    float m_range; //Pick up distance
+
 private:
     void UpdateSpriteAnimation(bool facingLeft, bool moving);
     
@@ -45,23 +64,6 @@ private:
     float m_invulnTime; // Stores length of time player is invulnerable after taking damage (prevents instant death from being hit every frame)
     float m_currentInvulnCooldown; // Counts down to 0 from m_invulnTime after taking damage
     bool m_isDead;
-
-    // Modifiers
-    float m_movementSpeed;
-
-    float m_projectileSpeed; //Speed of projectiles
-    float m_projectileCount; //How many projectiles
-    float m_projectileCooldown; //How often weapon attacks
-    float m_projectileArea; //Size of weapon
-    float m_projectileDuration; //How long the projectile stays on the screen
-
-    float m_damageModifier;
-
-    float m_maxHealth;
-    float m_health;
-    float m_regeneration;
-
-    float m_range; //Pick up distance
 
     void KeyEvent(InputEvent* e);
 };
