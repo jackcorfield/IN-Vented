@@ -13,6 +13,8 @@ void CameraFollowScript::OnAttach()
 
 	m_transform = GetComponent<Transform>();
 	m_camera = GetComponent<Camera>();
+
+	// todo: Make TileLoop here
 }
 
 void CameraFollowScript::OnUpdate(float dt)
@@ -29,9 +31,15 @@ void CameraFollowScript::OnUpdate(float dt)
 	Transform* followTransform = entityManager->GetComponent<Transform>(m_followTarget);
 	if (!followTransform) { return; }
 
+	float oldPos = followTransform->m_position.x;
+
 	// Transform the camera position. We need to add half the viewport size to center it as the position is in the top-left
 	glm::vec2 halfViewportSize(m_camera->m_internalWidth / 2.0f, m_camera->m_internalHeight / 2.0f);
 	m_transform->m_position = -followTransform->m_position + halfViewportSize;
+
+	float newPos = m_transform->m_position.x;
+
+	m_tileMap->ShiftTexture(m_transform->m_position.x);
 }
 
 Entity CameraFollowScript::FindPlayer()

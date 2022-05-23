@@ -151,6 +151,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="src\Grenade.cpp" />
     <ClCompile Include="src\NeonKatana.cpp" />
     <ClCompile Include="src\LaserGun.cpp" />
@@ -162,8 +163,10 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PlayerScript.cpp" />
     <ClCompile Include="src\WeaponScript.cpp" />
+    <ClCompile Include="TileLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="src\Grenade.h" />
     <ClInclude Include="src\NeonKatana.h" />
     <ClInclude Include="src\LaserGun.h" />
@@ -174,6 +177,7 @@
     <ClInclude Include="src\EnemySpawnerScript.h" />
     <ClInclude Include="src\PlayerScript.h" />
     <ClInclude Include="src\WeaponScript.h" />
+    <ClInclude Include="TileLoop.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
