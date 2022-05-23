@@ -438,45 +438,6 @@
                             "name": "Texture"
                         },
                         "zIdx": 0
-                    },
-                    {
-                        "absolutePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "absoluteSize": {
-                            "x": 200.0,
-                            "y": 80.0
-                        },
-                        "clickTexture": {
-                            "filePath": "TestImages/button_clicked.png",
-                            "name": "Texture"
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 2.0,
-                        "hidden": false,
-                        "hoverTexture": {
-                            "filePath": "TestImages/button_hovered.png",
-                            "name": "Texture"
-                        },
-                        "name": "ImageButtonElement0",
-                        "relativePos": {
-                            "x": 0.25,
-                            "y": 0.25
-                        },
-                        "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "texture": {
-                            "filePath": "TestImages/button_normal.png",
-                            "name": "Texture"
-                        },
-                        "zIdx": 0
                     }
                 ],
                 "type": "uiWidget"
