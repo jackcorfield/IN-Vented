@@ -137,6 +137,8 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />
+    <Library Include="dependencies\freetype\lib\freetype.lib" />
+    <Library Include="dependencies\freetype\lib\libfreetype.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dependencies\fmod\inc\fmod.cs" />
