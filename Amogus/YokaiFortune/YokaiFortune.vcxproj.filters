@@ -13,7 +13,6 @@
     <ClCompile Include="src\NeonKatana.cpp" />
     <ClCompile Include="src\Grenade.cpp" />
     <ClCompile Include="TileLoop.cpp" />
-    <ClCompile Include="GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CameraFollowScript.h" />
@@ -27,6 +26,5 @@
     <ClInclude Include="src\NeonKatana.h" />
     <ClInclude Include="src\Grenade.h" />
     <ClInclude Include="TileLoop.h" />
-    <ClInclude Include="GameManager.h" />
   </ItemGroup>
 </Project>

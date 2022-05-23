@@ -35,11 +35,26 @@ void CameraFollowScript::OnUpdate(float dt)
 
 	// Transform the camera position. We need to add half the viewport size to center it as the position is in the top-left
 	glm::vec2 halfViewportSize(m_camera->m_internalWidth / 2.0f, m_camera->m_internalHeight / 2.0f);
-	m_transform->m_position = -followTransform->m_position + halfViewportSize;
+	m_transform->m_position.x = -followTransform->m_position.x + halfViewportSize.x;
 
 	float newPos = m_transform->m_position.x;
 
-	m_tileMap->ShiftTexture(m_transform->m_position.x);
+	// Get background
+	Entity background = 0;
+
+	auto allNameComponents = entityManager->GetAllComponentsOfType<EntityName>();
+	for (EntityName* nameComponent : allNameComponents)
+	{
+		if (nameComponent->m_name == "Background")
+		{
+			background = entityManager->GetEntityFromComponent<EntityName>(nameComponent);
+		}
+	}
+
+	Sprite* sprite = entityManager->GetComponent<Sprite>(background);
+	sprite->GetShader()->Use();
+	sprite->GetShader()->SetUniform("cameraX", followTransform->m_position.x);
+	sprite->GetShader()->Unuse();
 }
 
 Entity CameraFollowScript::FindPlayer()
