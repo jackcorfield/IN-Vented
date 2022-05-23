@@ -555,6 +555,73 @@
                     {
                         "frameTime": 0.10000000149011612,
                         "frames": [
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15
+                        ],
+                        "name": "Run"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 200.0,
+                    "y": 200.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Characters/Homura/spritesheet.png",
+                    "name": "animsheet homura"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "offset": {
+                    "x": 0.0,
+                    "y": 22.0
+                },
+                "size": {
+                    "x": 30.0,
+                    "y": 20.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "Enemy",
+                "type": "entityName"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
+            }
+        ],
+        [
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
                             0,
                             1,
                             2,
