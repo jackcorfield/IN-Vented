@@ -18,4 +18,5 @@ EquipmentScript(entityManager, parentEntityID, player, equipment, level)
 	m_currentLevel = level;
 
 	OnLevelUp();
+	m_pScript->AddEquip(icon);
 }

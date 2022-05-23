@@ -217,7 +217,7 @@ void PlayerScript::AddWeapon(Sprite* icon)
 {
 	if (m_weaponCount < 5)
 	{
-		UI_Image* image = (UI_Image*)m_UIWidget->GetElement(weaponSlotNames[m_weaponCount]);
+		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_weaponCount];
 		image->m_texture = icon->GetTexture();
 		m_weaponCount++;
 	}
@@ -227,7 +227,7 @@ void PlayerScript::AddEquip(Sprite* icon)
 {
 	if (m_equipCount < 10)
 	{
-		UI_Image* image = (UI_Image*)m_UIWidget->GetElement(weaponSlotNames[m_equipCount]);
+		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_equipCount];
 		image->m_texture = icon->GetTexture();
 		m_equipCount++;
 	}

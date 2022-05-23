@@ -40,7 +40,6 @@ public:
 
     std::vector<std::pair<modifier, int>> m_levelingInfo; //set in header of each equipment
 
-protected:
     PlayerScript* m_pScript;
 };
 
