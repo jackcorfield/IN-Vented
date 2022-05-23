@@ -1,0 +1,4 @@
+[16:13:50][DEBUG] Launched Yokai Fortune.
+[16:13:50][DEBUG] Began scene import from: Data/Scenes/MainScene.json
+[16:13:51][ERROR] Failed to create image data: failed to read PNG file at: Assets/Sprites/UI/Health/healthbar.png
+[16:13:51][DEBUG] Completed scene import from: Data/Scenes/MainScene.json
