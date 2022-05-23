@@ -100,7 +100,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Grenade>(player, gGrenade);
+			scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
@@ -112,7 +112,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Shuriken>(player, shuriken);
+			//scriptC->AttachScript<Shuriken>(player, shuriken);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
