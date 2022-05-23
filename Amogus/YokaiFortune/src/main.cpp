@@ -51,6 +51,13 @@ public:
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
 
+		//temp Music as proof of concept
+
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
+		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
+		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+		g_app->m_audioManager->LoopOn(audio->m_sound);
+
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
 		{
