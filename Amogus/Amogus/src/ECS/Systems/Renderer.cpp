@@ -317,6 +317,8 @@ void Renderer::PostProcessScene()
     glBindVertexArray(m_quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
+    DrawUI();
+
     m_renderContext.framebuffer->Unbind();
 }
 
@@ -325,8 +327,6 @@ void Renderer::DrawUI()
     Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
     if (activeScene)
     {
-        m_renderContext.framebuffer->Bind();
-
         std::vector<UI_WidgetComponent*> widgets = activeScene->m_entityManager->GetAllComponentsOfType<UI_WidgetComponent>();
 
         for (UI_WidgetComponent* widget : widgets)
@@ -336,8 +336,6 @@ void Renderer::DrawUI()
 				DrawUI_Element(element);
 			}
         }
-        
-        m_renderContext.framebuffer->Unbind();
     }
 }
 
@@ -490,7 +488,7 @@ void Renderer::Render(float deltaTime)
     m_renderContext.deltaTime = deltaTime;
 
     DrawScene();
-    DrawUI();
+    //DrawUI();
 
     // ImGui call is separate, allowing DrawScene to be terminated early without stopping ImGui from rendering
     g_app->onImGui();
