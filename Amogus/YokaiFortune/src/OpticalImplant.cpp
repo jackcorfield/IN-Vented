@@ -9,11 +9,12 @@ OpticalImplant::OpticalImplant(EntityManager* entityManager, Entity parentEntity
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 
+	m_maxLevel = m_levelingInfo.size();
+
+	m_canLevel = true;
 	m_currentLevel = level;
 
 	OnLevelUp();
-
-	m_maxLevel = m_levelingInfo.size();
 }
 
 OpticalImplant::~OpticalImplant()

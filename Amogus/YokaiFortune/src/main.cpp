@@ -129,7 +129,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(oImplant);
 		if (scriptC)
 		{
-			scriptC->AttachScript<OpticalImplant>(player, oImplant);
+			//scriptC->AttachScript<OpticalImplant>(player, oImplant);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(passport);

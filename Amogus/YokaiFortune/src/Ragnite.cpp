@@ -12,9 +12,10 @@ Ragnite::Ragnite(EntityManager* entityManager, Entity parentEntityID, Entity pla
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 8));
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 8));
 
+	m_maxLevel = m_levelingInfo.size();
+
+	m_canLevel = true;
 	m_currentLevel = level;
 
 	OnLevelUp();
-
-	m_maxLevel = m_levelingInfo.size();
 }

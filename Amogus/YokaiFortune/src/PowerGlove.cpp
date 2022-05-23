@@ -12,9 +12,10 @@ EquipmentScript(entityManager, parentEntityID, player, equipment, level)
 	m_levelingInfo.push_back(std::make_pair(SPEED, 10));
 	m_levelingInfo.push_back(std::make_pair(SPEED, 10));
 
+	m_maxLevel = m_levelingInfo.size();
+
+	m_canLevel = true;
 	m_currentLevel = level;
 
 	OnLevelUp();
-
-	m_maxLevel = m_levelingInfo.size();
 }
