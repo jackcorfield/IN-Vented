@@ -802,6 +802,7 @@ namespace SceneImporter
 				break;
 			}
 
+			newElement->m_widget = widget;
 			widget->m_elements.push_back(newElement);
 		}
 
