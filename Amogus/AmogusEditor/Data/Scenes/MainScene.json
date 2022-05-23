@@ -126,6 +126,427 @@
                     "y": 1.0
                 },
                 "type": "transform"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 15.0,
+                            "y": 15.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "WeaponSlot1\u00000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 50.0,
+                            "y": 15.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "WeaponSlot2\u00001",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 85.0,
+                            "y": 15.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "WeaponSlot3\u00002",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "TestImages/hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 120.0,
+                            "y": 15.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "WeaponSlot4\u00003",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 155.0,
+                            "y": 15.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "WeaponSlot5\u00004",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 15.0,
+                            "y": 50.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "EquipSlot1\u0000t5",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 50.0,
+                            "y": 50.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "EquipSlot2\u0000t6",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 85.0,
+                            "y": 50.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "EquipSlot3\u0000t7",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 120.0,
+                            "y": 50.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "EquipSlot4\u0000t8",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 155.0,
+                            "y": 50.0
+                        },
+                        "absoluteSize": {
+                            "x": 30.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "EquipSlot5\u0000t9",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "hi.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 200.0,
+                            "y": 80.0
+                        },
+                        "clickTexture": {
+                            "filePath": "TestImages/button_clicked.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "TestImages/button_hovered.png",
+                            "name": "Texture"
+                        },
+                        "name": "ImageButtonElement0",
+                        "relativePos": {
+                            "x": 0.25,
+                            "y": 0.25
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "TestImages/button_normal.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
+        ],
+        [
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15
+                        ],
+                        "name": "Run"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 200.0,
+                    "y": 200.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Characters/Homura/spritesheet.png",
+                    "name": "animsheet homura"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "offset": {
+                    "x": 0.0,
+                    "y": 22.0
+                },
+                "size": {
+                    "x": 30.0,
+                    "y": 20.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "Enemy",
+                "type": "entityName"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
             }
         ],
         [

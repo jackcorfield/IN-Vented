@@ -55,6 +55,9 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 
 		m_vecProjectiles.push_back(p);
 	}
+
+
+	m_pScript->AddWeapon(icon);
 }
 
 NeonKatana::~NeonKatana()

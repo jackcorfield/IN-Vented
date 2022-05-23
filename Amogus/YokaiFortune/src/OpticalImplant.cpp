@@ -15,6 +15,8 @@ OpticalImplant::OpticalImplant(EntityManager* entityManager, Entity parentEntity
 	m_currentLevel = level;
 
 	OnLevelUp();
+
+	m_pScript->AddEquip(m_icon);
 }
 
 OpticalImplant::~OpticalImplant()

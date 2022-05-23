@@ -36,6 +36,8 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_registeredKeys.DOWN = false;
 	m_registeredKeys.LEFT = false;
 	m_registeredKeys.RIGHT = false;
+
+	m_UIWidget = entityManager->GetComponent<UI_WidgetComponent>(parentEntityID);
 }
 
 PlayerScript::~PlayerScript()
@@ -224,6 +226,26 @@ void PlayerScript::OnRender(float dt)
 void PlayerScript::OnUnattach()
 {
 
+}
+
+void PlayerScript::AddWeapon(Sprite* icon)
+{
+	if (m_weaponCount < 5)
+	{
+		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_weaponCount];
+		image->m_texture = icon->GetTexture();
+		m_weaponCount++;
+	}
+}
+
+void PlayerScript::AddEquip(Sprite* icon)
+{
+	if (m_equipCount < 10)
+	{
+		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_equipCount];
+		image->m_texture = icon->GetTexture();
+		m_equipCount++;
+	}
 }
 
 void PlayerScript::UpdateSpriteAnimation(bool facingLeft, bool moving)

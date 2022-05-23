@@ -2,6 +2,28 @@
 #include "Resources/Script.h"
 #include "Amogus.h"
 
+#include <vector>
+#include <string>
+
+static const std::vector<std::string> weaponSlotNames
+{
+    "WeaponSlot1",
+    "WeaponSlot2",
+    "WeaponSlot3",
+    "WeaponSlot4",
+    "WeaponSlot5"
+};
+
+const std::vector<std::string> equipSlotNames
+{
+    "EquipSlot1",
+    "EquipSlot2",
+    "EquipSlot3",
+    "EquipSlot4",
+    "EquipSlot5"
+};
+
+
 class PlayerScript :
     public Script
 {
@@ -14,7 +36,15 @@ public:
     virtual void OnRender(float dt) override;
     virtual void OnUnattach() override;
 
+    void AddWeapon(Sprite* icon);
+    void AddEquip(Sprite* icon);
+
     // INITIAL WEAPON
+    
+    UI_WidgetComponent* m_UIWidget;
+
+    int m_weaponCount = 0;
+    int m_equipCount = 5; //needs to be 5 higher than the weapon slots
 
    //Modifiers
     float m_movementSpeed;

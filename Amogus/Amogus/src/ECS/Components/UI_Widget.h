@@ -122,6 +122,17 @@ public:
 		return nullptr;
 	}
 
+	UI_Image* GetImage(std::string name)
+	{
+		UI_BaseElement* e = GetElement(name);
+		if (e && e->m_elementType == ET_Image)
+		{
+			return (UI_Image*)e;
+		}
+
+		return nullptr;
+	}
+
 	UI_Text* GetText(std::string name)
 	{
 		UI_BaseElement* e = GetElement(name);
