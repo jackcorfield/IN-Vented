@@ -15,6 +15,12 @@
 #include "NeonKatana.h"
 #include "Grenade.h"
 
+#include "OpticalImplant.h"
+#include "Passport.h"
+#include "Ragnite.h"
+#include "PowerGlove.h"
+#include "PowerGem.h"
+
 class Runtime : public Application
 {
 public:
@@ -42,11 +48,20 @@ public:
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
+
+		//Weapons
 		Entity shuriken = GetEntityByName("Shuriken");
 		Entity hDevice = GetEntityByName("HackingDevice");
 		Entity lGun = GetEntityByName("LaserGun");
 		Entity nKatana = GetEntityByName("NeonKatana");
 		Entity gGrenade = GetEntityByName("Grenade");
+
+		//Equipment
+		Entity oImplant = GetEntityByName("OpticalImplant");
+		Entity passport = GetEntityByName("Passport");
+		Entity ragnite = GetEntityByName("Ragnite");
+		Entity pGlove = GetEntityByName("PowerGlove");
+		Entity pGem = GetEntityByName("PowerGem");
 
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
@@ -105,6 +120,40 @@ public:
 		if (scriptC)
 		{
 			//scriptC->AttachScript<HackingDevice>(player, hDevice);
+		}
+
+#pragma endregion
+
+#pragma region Equipment Scripts
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(oImplant);
+		if (scriptC)
+		{
+			scriptC->AttachScript<OpticalImplant>(player, oImplant);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(passport);
+		if (scriptC)
+		{
+			//	scriptC->AttachScript<Passport>(player, oImplant);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(ragnite);
+		if (scriptC)
+		{
+			//	scriptC->AttachScript<Ragnite>(player, oImplant);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(pGlove);
+		if (scriptC)
+		{
+			//	scriptC->AttachScript<PowerGlove>(player, oImplant);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(pGem);
+		if (scriptC)
+		{
+			//	scriptC->AttachScript<PowerGem>(player, oImplant);
 		}
 
 #pragma endregion

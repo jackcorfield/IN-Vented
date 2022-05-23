@@ -3,6 +3,7 @@
 class Ragnite :
     public EquipmentScript
 {
-    Ragnite(EntityManager* entityManager, Entity parentEntityID, Entity player, int level = 0);
+public:
+    Ragnite(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity equipment, int level = 0);
 };
 

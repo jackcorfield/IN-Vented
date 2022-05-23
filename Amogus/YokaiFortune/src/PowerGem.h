@@ -3,6 +3,7 @@
 class PowerGem :
     public EquipmentScript
 {
-    PowerGem(EntityManager* entityManager, Entity parentEntityID, Entity player, int level = 0);
+public:
+    PowerGem(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity equipment, int level = 0);
 };
 

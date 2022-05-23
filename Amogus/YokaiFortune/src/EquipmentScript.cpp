@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <random>
 
-EquipmentScript::EquipmentScript(EntityManager* entityManager, Entity parentEntityID, Entity player, int level) :
+EquipmentScript::EquipmentScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity equipment, int level) :
 	Script(entityManager, parentEntityID),
 	m_manager(entityManager),
 	m_equipment(parentEntityID),

@@ -3,6 +3,7 @@
 class Passport :
     public EquipmentScript
 {
-    Passport(EntityManager* entityManager, Entity parentEntityID, Entity player, int level = 0);
+public:
+    Passport(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity equipment, int level = 0);
 };
 

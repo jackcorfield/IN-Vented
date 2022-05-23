@@ -1,7 +1,7 @@
 #include "PowerGlove.h"
 
-PowerGlove::PowerGlove(EntityManager* entityManager, Entity parentEntityID, Entity player, int level):
-EquipmentScript(entityManager, parentEntityID, player, level)
+PowerGlove::PowerGlove(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity equipment, int level):
+EquipmentScript(entityManager, parentEntityID, player, equipment, level)
 {
 	Sprite* icon = entityManager->AddComponent<Sprite>(parentEntityID, TextureLoader::CreateTexture2DFromFile("PowerGloveIcon", "Equipment/PowerGlove.png"), glm::vec3(1.0f, 1.0f, 1.0f), ShaderFactory::CreatePipelineShader("defaultSprite", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl"));
 	SetSprites(icon);

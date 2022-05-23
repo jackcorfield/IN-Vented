@@ -3,11 +3,12 @@
 #include "Amogus.h"
 #include "PlayerScript.h"
 
-class EquipmentScript : Script
+class EquipmentScript : 
+    Script
 {
 public:
 
-    EquipmentScript(EntityManager* entityManager, Entity parentEntityID, Entity player, int level = 0);
+    EquipmentScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity equipment, int level = 0);
     ~EquipmentScript();
 
     void SetSprites(Sprite* icon);
@@ -39,6 +40,7 @@ public:
 
     std::vector<std::pair<modifier, int>> m_levelingInfo; //set in header of each equipment
 
+protected:
     PlayerScript* m_pScript;
 };
 

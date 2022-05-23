@@ -3,6 +3,7 @@
 class PowerGlove :
     public EquipmentScript
 {
-    PowerGlove(EntityManager* entityManager, Entity parentEntityID, Entity player, int level = 0);
+public:
+    PowerGlove(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity equipment, int level = 0);
 };
 
