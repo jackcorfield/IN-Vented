@@ -628,6 +628,8 @@ void ImGuiLayer::DrawSceneView(int textureID)
 		m_renderSize.x = tempSize.x;
 		m_renderSize.y = tempSize.y;
 	}
+
+	g_app->SetGameScreenInfo(ImGui::GetWindowContentRegionMin().x, ImGui::GetWindowContentRegionMin().y, m_renderSize.x, m_renderSize.y);
 	
 	ImGui::Image(ImTextureID(textureID), m_renderSize, ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();

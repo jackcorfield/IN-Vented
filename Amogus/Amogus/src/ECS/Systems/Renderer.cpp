@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #include <iostream>
 #include <Core/source.h>
 
@@ -19,6 +22,7 @@
 #include <ECS/Components/Audio.h>
 #include <ECS/Components/Camera.h>
 #include <ECS/Components/BoxCollider.h>
+#include <ECS/Components/UI_Widget.h>
 
 extern Application* g_app;
 
@@ -27,7 +31,9 @@ void UpdateShaderCameraData(Shader* shader, const glm::mat4& view, const glm::ma
 
 Renderer::Renderer() :
     m_defaultShader(ShaderFactory::CreatePipelineShader("Default", "DefaultSpriteV.glsl", "DefaultSpriteF.glsl")),
-    m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl"))
+    m_postProcessingShader(ShaderFactory::CreatePipelineShader("Post-Processing", "PostProcessingV.glsl", "PostProcessingF.glsl")),
+    m_uiShader(ShaderFactory::CreatePipelineShader("UI", "UIV.glsl", "UIF.glsl")),
+	m_textShader(ShaderFactory::CreatePipelineShader("Text", "TextV.glsl", "TextF.glsl"))
 {
     m_projection = glm::mat4(1.0f);
     InitQuad();
@@ -35,12 +41,83 @@ Renderer::Renderer() :
     m_time = 0;
 
     m_renderContext = { 0.0f, true, NULL, false };
+
+    LoadFont("Fonts/Roboto-Regular.ttf");
 }
 
 Renderer::~Renderer()
 {
     delete m_defaultShader;
     m_defaultShader = nullptr;
+
+    delete m_uiShader;
+    m_uiShader = nullptr;
+
+    delete m_postProcessingShader;
+    m_postProcessingShader = nullptr;
+}
+
+void Renderer::LoadFont(std::string font)
+{
+    FT_Library ft;
+    if (FT_Init_FreeType(&ft))
+    {
+        std::cout << "ERROR INITIALIZING FREETYPE" << std::endl;
+        return;
+    }
+
+    FT_Face face;
+    if (FT_New_Face(ft, font.c_str(), 0, &face))
+    {
+        std::cout << "ERROR LOADING FONT" << std::endl;
+        return;
+    }
+
+    FT_Set_Pixel_Sizes(face, 0, 48);
+
+    // initialize font characters
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    for (unsigned char c = 0; c < 128; c++)
+    {
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+        {
+            std::cout << "Error loading glyph" << std::endl;
+            continue;
+        }
+
+        unsigned int texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RED,
+            face->glyph->bitmap.width,
+            face->glyph->bitmap.rows,
+            0,
+            GL_RED,
+            GL_UNSIGNED_BYTE,
+            face->glyph->bitmap.buffer
+        );
+        // set texture options
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // now store character for later use
+        Font_Character character = {
+            Texture2D(texture, face->glyph->bitmap.width, face->glyph->bitmap.rows, std::string(1, c).c_str(), ""),
+            glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+            glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+            (face->glyph->advance.x >> 6)
+        };
+        m_fontCharacters.insert(std::pair<char, Font_Character>(c, character));
+		//std::cout << "Character " << c << " loaded. Size: " << character.m_size.x << ", " << character.m_size.y << ". Bearing: " << character.m_bearing.x << ", " << character.m_bearing.y << ". Advance: " << character.m_advance << std::endl;
+    }
+
+    FT_Done_Face(face);
+    FT_Done_FreeType(ft);
 }
 
 void Renderer::DrawSprite(Sprite* sprite, Transform* transform)
@@ -240,7 +317,171 @@ void Renderer::PostProcessScene()
     glBindVertexArray(m_quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
-    activeCamera->m_framebuffer->Unbind();
+    m_renderContext.framebuffer->Unbind();
+}
+
+void Renderer::DrawUI()
+{
+    Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+    if (activeScene)
+    {
+        m_renderContext.framebuffer->Bind();
+
+        std::vector<UI_WidgetComponent*> widgets = activeScene->m_entityManager->GetAllComponentsOfType<UI_WidgetComponent>();
+
+        for (UI_WidgetComponent* widget : widgets)
+        {
+			for (UI_BaseElement* element : widget->m_elements)
+			{
+				DrawUI_Element(element);
+			}
+        }
+        
+        m_renderContext.framebuffer->Unbind();
+    }
+}
+
+void Renderer::DrawUI_Element(UI_BaseElement* element)
+{
+	if (element->m_hidden)
+		return;
+
+	switch (element->m_elementType)
+	{
+	case(ElementType::ET_Image):
+	case(ElementType::ET_ImageButton):
+	{
+		UI_Image* imageElement = (UI_Image*)element;
+		// View matrix is flat default
+		// Projection matrix is default left handed ortho
+		// Model is just position and size
+		glm::mat4 view = glm::mat4(1.0f);
+
+		m_uiShader->Use();
+		m_uiShader->SetUniform("view", view);
+		m_uiShader->SetUniform("projection", m_projection);
+
+		glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+		glm::vec3 finalPos = glm::vec3(adjustedRelativePos + element->m_absolutePosition, element->m_zIndex);
+
+		// scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
+		glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+		glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + element->m_absoluteSize, 1);
+
+		glm::mat4 model = glm::mat4(1.0f);
+
+		// translate by position
+		model = glm::translate(model, finalPos);
+		model = glm::scale(model, finalSize);
+
+		m_uiShader->SetUniform("model", model);
+
+		glActiveTexture(GL_TEXTURE0);
+		m_uiShader->SetUniform("image", 0);
+		Texture2D* selectedTexture = nullptr;
+
+		if (imageElement->m_elementType == ET_ImageButton)
+		{
+			UI_ImageButton* button = (UI_ImageButton*)imageElement;
+			switch (button->m_state)
+			{
+			case(BS_None):
+				selectedTexture = &button->m_texture;
+				break;
+			case(BS_Hover):
+				selectedTexture = &button->m_hoveredTexture;
+				break;
+			case(BS_Click):
+				selectedTexture = &button->m_clickedTexture;
+				break;
+			}
+		}
+		else
+		{
+			selectedTexture = &imageElement->m_texture;
+		}
+
+		selectedTexture->Bind();
+
+		glBindVertexArray(m_quadVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		selectedTexture->Unbind();
+		glBindVertexArray(0);
+	}
+	break;
+	case(ElementType::ET_Text):
+	{
+        UI_Text* textElement = (UI_Text*)element;
+        // View matrix is flat default
+        // Projection matrix is default left handed ortho
+        // Model is just position and size
+        glm::mat4 view = glm::mat4(1.0f);
+
+        m_textShader->Use();
+		m_textShader->SetUniform("view", view);
+		m_textShader->SetUniform("projection", m_projection);
+
+        glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+        glm::vec3 finalPos = glm::vec3(adjustedRelativePos + element->m_absolutePosition, element->m_zIndex);
+
+        // scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
+        glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+        glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + element->m_absoluteSize, 1);
+        float scale = finalSize.y;
+
+		if (textElement->m_centered)
+		{
+			int sum = 0;
+			for (int i = 0; i < textElement->m_text.size(); i++)
+			{
+				Font_Character ch = m_fontCharacters[textElement->m_text[i]];
+				sum += (ch.m_advance * scale);
+			}
+			finalPos.x -= (sum / 2);
+		}
+
+        float x_offset = 0;
+
+        for (int i = 0; i < textElement->m_text.size(); i++)
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+
+            Font_Character ch = m_fontCharacters[textElement->m_text[i]];
+
+            float w = ch.m_size.x * scale;
+            float h = ch.m_size.y * scale;
+			float xpos = (x_offset + ch.m_bearing.x + w/2) * scale;
+			float y_offset = (ch.m_size.y - ch.m_bearing.y) * scale;
+
+            // translate by position
+            model = glm::translate(model, (finalPos + glm::vec3(xpos, y_offset, 0)) - glm::vec3(0, h/2, 0));
+            model = glm::scale(model, glm::vec3(w, h, 1));
+
+			m_textShader->SetUniform("model", model);
+
+            glActiveTexture(GL_TEXTURE0);
+			m_textShader->SetUniform("image", 0);
+			m_textShader->SetUniform("textColor", textElement->m_colour);
+            ch.m_texture.Bind();
+
+            glBindVertexArray(m_quadVAO);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+
+            ch.m_texture.Unbind();
+            glBindVertexArray(0);
+
+			x_offset += ch.m_advance * scale;
+        }
+	}
+	break;
+	default:
+	case(ElementType::ET_Base):
+	{
+
+	}
+	break;
+	}
 }
 
 void Renderer::Render(float deltaTime)
@@ -249,6 +490,7 @@ void Renderer::Render(float deltaTime)
     m_renderContext.deltaTime = deltaTime;
 
     DrawScene();
+    DrawUI();
 
     // ImGui call is separate, allowing DrawScene to be terminated early without stopping ImGui from rendering
     g_app->onImGui();
