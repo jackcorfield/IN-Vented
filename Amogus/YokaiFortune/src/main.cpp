@@ -73,8 +73,9 @@ public:
 
 		//temp Music as proof of concept
 		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
-		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
+		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+		
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
 		if (scriptC)

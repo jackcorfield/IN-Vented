@@ -65,6 +65,9 @@ bool InputHandler::ButtonIsSelected(UI_ImageButton* button)
 	float mouseW = 2;
 	float mouseH = 2;
 
+	std::cout << "x: " << m_mouseX << " y: " << m_mouseY << "\n";
+
+
 	if (AABB(m_mouseX, m_mouseY, mouseW, mouseH, finalPos.x - (finalSize.x / 2), finalPos.y - (finalSize.y / 2), finalSize.x, finalSize.y))
 		return true;
 
