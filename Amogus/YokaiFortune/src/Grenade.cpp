@@ -40,6 +40,8 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 
 		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
 		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
+		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f));
+
 
 		AnimatedSprite* newASprite = m_manager->AddComponent<AnimatedSprite>(newProjectile, templateASprite->GetTexture(), templateASprite->getFrameSize(), templateASprite->GetColour(), templateASprite->GetShader());
 		//m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
@@ -143,7 +145,6 @@ void Grenade::OnUpdate(float dt)
 				float PercentageIncrease = (m_baseProjectileSpeed * m_pScript->m_projectileSpeed) / 100;
 				m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 				m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
-
 			}
 			else
 			{
@@ -151,9 +152,27 @@ void Grenade::OnUpdate(float dt)
 				{
 					m_vecProjectiles[i].hasHitTheFloor = true;
 					m_manager->GetComponent<AnimatedSprite>(m_vecProjectiles[i].name)->setAnimation("Exploding");
+					m_vecProjectiles[i].duration += m_baseProjectileDuration;
 				}
 			}
 			//TEMPORARY	
+
+			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
+			for (Entity e : collisions)
+			{
+				EntityName* name = m_manager->GetComponent<EntityName>(e);
+				if (name == NULL)
+					continue;
+
+				if (name->m_name == "Enemy")
+				{
+					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
+					{
+						m_manager->RemoveComponent<ScriptComponent>(e);
+						m_manager->DeleteEntity(e);
+					}
+				}
+			}
 
 			m_vecProjectiles[i].duration -= dt;
 		}
@@ -174,9 +193,6 @@ void Grenade::OnUpdate(float dt)
 
 void Grenade::SpawnProjectile()
 {
-
-	//std::vector<Entity> closeEnemies = Script::GetNearbyEntities();
-
 	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
 	newProjectile->isSpawned = true;
 
@@ -192,8 +208,31 @@ void Grenade::SpawnProjectile()
 
 	glm::vec2 direction(0, 0);
 
+	glm::vec2 closestEnemy, entityPosition;
+	float currentClosestDistance, entityDistance;
+	currentClosestDistance = std::numeric_limits<float>::max();
 
-	direction = tempEnemy.m_position - currentPosition;
+	for (Entity e : m_manager->GetAllActiveEntities())
+	{
+		auto temp = m_manager->GetComponent<EntityName>(e);
+		if (temp && temp->m_name == "Enemy")
+		{
+			
+			entityPosition = m_manager->GetComponent<Transform>(e)->m_position;
+			entityDistance = glm::distance(currentPosition, entityPosition);
+
+			if (entityDistance < currentClosestDistance)
+			{
+				currentClosestDistance = entityDistance;
+				closestEnemy = entityPosition;
+			}
+		}
+
+	}
+
+	
+
+	direction = closestEnemy - currentPosition;
 
 	if (direction != glm::vec2(0,0))
 		direction = glm::normalize(direction);
@@ -203,6 +242,6 @@ void Grenade::SpawnProjectile()
 	newProjectile->duration = m_baseProjectileDuration + PercentageIncrease;
 	newProjectile->direction = direction;
 	newProjectile->originPos = currentPosition;
-	newProjectile->distance = glm::distance(tempEnemy.m_position, currentPosition);
+	newProjectile->distance = currentClosestDistance;
 
 }
