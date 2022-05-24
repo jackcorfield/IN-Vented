@@ -59,19 +59,19 @@
                         "name": "Idle"
                     },
                     {
-						"frameTime": 0.10000000149011612,
-						"frames": [
-						  8,
-						  9,
-						  10,
-						  11,
-						  12,
-						  13,
-						  14,
-						  15
-						],
-						"name": "Run"
-					}
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15
+                        ],
+                        "name": "Run"
+                    }
                 ],
                 "colour": {
                     "x": 1.0,
@@ -93,17 +93,17 @@
                 },
                 "type": "animatedSprite"
             },
-			{
-				"offset": {
-				  "x": 0.0,
-				  "y": 22.0
-				},
-				"size": {
-				  "x": 30.0,
-				  "y": 20.0
-				},
-				"type": "boxCollider"
-			},
+            {
+                "offset": {
+                    "x": 0.0,
+                    "y": 22.0
+                },
+                "size": {
+                    "x": 30.0,
+                    "y": 20.0
+                },
+                "type": "boxCollider"
+            },
             {
                 "name": "Player",
                 "type": "entityName"
@@ -1036,51 +1036,51 @@
             }
         ],
         [
-          {
-              "name": "HealthBar",
-              "type": "entityName"
-          },
-          {
-              "type": "scriptComponent"
-          },
-          {
-              "elements": [
-                  {
-                      "absolutePos": {
-                          "x": 0.0,
-                          "y": 0.0
-                      },
-                      "absoluteSize": {
-                          "x": 1.0,
-                          "y": 8.0
-                      },
-                      "colour": {
-                          "x": 1.0,
-                          "y": 1.0,
-                          "z": 1.0
-                      },
-                      "elementType": 1.0,
-                      "hidden": false,
-                      "name": "HealthBarImage",
-                      "relativePos": {
-                          "x": 0.0,
-                          "y": 0.0
-                      },
-                      "relativeSize": {
-                          "x": 0.0,
-                          "y": 0.0
-                      },
-                      "texture": {
-                          "filePath": "UI/Health/healthbar.png",
-                          "name": "HealthBarTexture"
-                      },
-                      "zIdx": 0
-                  }
-              ],
-              "type": "uiWidget"
-          }
-      ],
-	  [
+            {
+                "name": "HealthBar",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 8.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "HealthBarImage",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "UI/Health/healthbar.png",
+                            "name": "HealthBarTexture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
+        ],
+        [
             {
                 "animations": [
                     {
@@ -1149,7 +1149,84 @@
                 },
                 "type": "transform"
             }
+        ],
+        [
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "GameOver\u0000ent0",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.30000001192092896
+                        },
+                        "relativeSize": {
+                            "x": 0.4000000059604645,
+                            "y": 0.4000000059604645
+                        },
+                        "texture": {
+                            "filePath": "UI/gameover.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Pixel_Buttons/Quit_Pushed.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "UI/Pixel_Buttons/Quit_Pushed.png",
+                            "name": "Texture"
+                        },
+                        "name": "QuitToMenu\u0000Element0",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.800000011920929
+                        },
+                        "relativeSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "texture": {
+                            "filePath": "UI/Pixel_Buttons/Quit_Idle.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
         ]
-  ],
+    ],
     "name": "MainScene"
 }
