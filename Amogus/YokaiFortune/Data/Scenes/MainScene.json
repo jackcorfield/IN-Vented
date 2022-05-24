@@ -1037,7 +1037,52 @@
                 ],
                 "type": "uiWidget"
             }
-        ]
-    ],
+        ],
+        [
+          {
+              "name": "HealthBar",
+              "type": "entityName"
+          },
+          {
+              "type": "scriptComponent"
+          },
+          {
+              "elements": [
+                  {
+                      "absolutePos": {
+                          "x": 0.0,
+                          "y": 0.0
+                      },
+                      "absoluteSize": {
+                          "x": 1.0,
+                          "y": 8.0
+                      },
+                      "colour": {
+                          "x": 1.0,
+                          "y": 1.0,
+                          "z": 1.0
+                      },
+                      "elementType": 1.0,
+                      "hidden": false,
+                      "name": "HealthBarImage",
+                      "relativePos": {
+                          "x": 0.0,
+                          "y": 0.0
+                      },
+                      "relativeSize": {
+                          "x": 0.0,
+                          "y": 0.0
+                      },
+                      "texture": {
+                          "filePath": "UI/Health/healthbar.png",
+                          "name": "HealthBarTexture"
+                      },
+                      "zIdx": 0
+                  }
+              ],
+              "type": "uiWidget"
+          }
+      ]
+  ],
     "name": "MainScene"
 }
