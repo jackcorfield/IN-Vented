@@ -17,16 +17,24 @@ void TimerScript::OnAttach()
 void TimerScript::OnUpdate(float dt)
 {
 	m_seconds += dt;
+	UI_Text* text = (UI_Text*)GetComponent<UI_WidgetComponent>()->m_elements[0];
 
-	if (m_seconds > 59)
+	int minutes = ((int)m_seconds) / 60;
+	int secondsToDisplay = ((int)m_seconds) % 60;
+
+	std::string displayMinutes = std::to_string(minutes);
+	if (minutes < 10)
 	{
-		m_minutes += 1;
-		m_seconds = 0;
+		displayMinutes = std::string("0") + displayMinutes;
 	}
 
-	UI_Text* temp = (UI_Text*)GetComponent<UI_WidgetComponent>()->m_elements[0];
+	std::string displaySeconds = std::to_string(secondsToDisplay);
+	if (secondsToDisplay < 10)
+	{
+		displaySeconds = std::string("0") + displaySeconds;
+	}
 
-	temp->m_text = std::to_string((int)m_minutes) + ":" + std::to_string((int)m_seconds);
+	text->m_text = displayMinutes + ":" + displaySeconds;
 }
 
 void TimerScript::OnRender(float dt)
