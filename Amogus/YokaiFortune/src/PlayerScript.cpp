@@ -24,9 +24,9 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_projectileArea(10),
 	m_projectileDuration(10),
 	m_damageModifier(1.0f),
-	m_maxHealth(10.0f),
+	m_maxHealth(36.0f),
 	m_health(m_maxHealth),
-	m_regeneration(0.0f),
+	m_regeneration(1.0f),
 	m_range(50.0f)
 {
 	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerScript::KeyEvent);
@@ -138,6 +138,12 @@ void PlayerScript::OnUpdate(float dt)
 	if (m_currentInvulnCooldown > 0.0f)
 	{
 		m_currentInvulnCooldown -= dt;
+	}
+
+	m_health += m_regeneration * dt;
+	if (m_health > m_maxHealth)
+	{
+		m_health = m_maxHealth;
 	}
 
 	// Use to check if these properties change this frame
