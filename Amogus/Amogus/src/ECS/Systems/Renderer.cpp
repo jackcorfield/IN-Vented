@@ -358,12 +358,25 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
 		m_uiShader->Use();
 		m_uiShader->SetUniform("view", view);
 		m_uiShader->SetUniform("projection", m_projection);
+		
+		float windowWidth = 0;
+		float windowHeight = 0;
+		if (g_app->m_windowParams.windowWidth != g_app->GetGameScreenInfo().z)
+		{
+			windowWidth = g_app->GetGameScreenInfo().z;
+			windowHeight = g_app->GetGameScreenInfo().w;
+		}
+		else
+		{
+			windowWidth = g_app->m_windowParams.windowWidth;
+			windowHeight = g_app->m_windowParams.windowHeight;
+		}
 
-		glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+		glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2(windowWidth, windowHeight);
 		glm::vec3 finalPos = glm::vec3(adjustedRelativePos + element->m_absolutePosition, element->m_zIndex);
 
 		// scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
-		glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+		glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2(windowWidth, windowHeight);
 		glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + element->m_absoluteSize, 1);
 
 		glm::mat4 model = glm::mat4(1.0f);
@@ -420,11 +433,24 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
 		m_textShader->SetUniform("view", view);
 		m_textShader->SetUniform("projection", m_projection);
 
-        glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+		float windowWidth = 0;
+		float windowHeight = 0;
+		if (g_app->m_windowParams.windowWidth != g_app->GetGameScreenInfo().z)
+		{
+			windowWidth = g_app->GetGameScreenInfo().z;
+			windowHeight = g_app->GetGameScreenInfo().w;
+		}
+		else
+		{
+			windowWidth = g_app->m_windowParams.windowWidth;
+			windowHeight = g_app->m_windowParams.windowHeight;
+		}
+
+        glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2(windowWidth, windowHeight);
         glm::vec3 finalPos = glm::vec3(adjustedRelativePos + element->m_absolutePosition, element->m_zIndex);
 
         // scaled from 0.0 to 1.0, gives us our pixel position relative to screen size
-        glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
+        glm::vec2 adjustedRelativeSize = element->m_relativeSize * glm::vec2(windowWidth, windowHeight);
         glm::vec3 finalSize = glm::vec3(adjustedRelativeSize + element->m_absoluteSize, 1);
         float scale = finalSize.y;
 

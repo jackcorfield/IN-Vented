@@ -338,4 +338,6 @@ imgui.ini
 
 # Custom ignores
 !fmod.dll
+!freetype.dll
 Amogus/AmogusEditor/DebugLog.txt
+Amogus/YokaiFortune/DebugLog.txt

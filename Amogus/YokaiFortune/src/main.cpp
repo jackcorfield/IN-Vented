@@ -108,7 +108,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Grenade>(player, gGrenade);
+			scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
@@ -120,7 +120,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Shuriken>(player, shuriken);
+			//scriptC->AttachScript<Shuriken>(player, shuriken);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
@@ -142,31 +142,31 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(oImplant);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<OpticalImplant>(player, oImplant);
+			scriptC->AttachScript<OpticalImplant>(player, oImplant);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(passport);
 		if (scriptC)
 		{
-			//	scriptC->AttachScript<Passport>(player, oImplant);
+				//scriptC->AttachScript<Passport>(player, passport);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(ragnite);
 		if (scriptC)
 		{
-			//	scriptC->AttachScript<Ragnite>(player, oImplant);
+				//scriptC->AttachScript<Ragnite>(player, ragnite);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(pGlove);
 		if (scriptC)
 		{
-			//	scriptC->AttachScript<PowerGlove>(player, oImplant);
+			//scriptC->AttachScript<PowerGlove>(player, pGlove);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(pGem);
 		if (scriptC)
 		{
-			//	scriptC->AttachScript<PowerGem>(player, oImplant);
+				//scriptC->AttachScript<PowerGem>(player, pGem);
 		}
 
 #pragma endregion

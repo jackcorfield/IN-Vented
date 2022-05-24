@@ -208,7 +208,7 @@ void ImGuiLayer::DrawMenuBar()
 			}
 
 			ImGui::Separator();
-			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export and Run"))
+			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export and Run from Build"))
 			{
 				if (m_sceneLoaded)
 					SaveScene();
@@ -217,6 +217,63 @@ void ImGuiLayer::DrawMenuBar()
 					SaveGame();
 					std::string command = "YokaiFortune.exe -game " + game.Name;
 					system(command.c_str());
+				}
+				else
+					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
+			}
+
+			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export and Run from VS"))
+			{
+				if (m_sceneLoaded)
+					SaveScene();
+				if (m_gameLoaded)
+				{
+					SaveGame();
+					std::string buildType;
+#ifdef _DEBUG
+					buildType = "Debug";
+#else
+					buildType = "Release";
+#endif
+					std::string command = ".\\..\\x64\\" + buildType + "\\YokaiFortune.exe - game " + game.Name;
+					system(command.c_str());
+				}
+				else
+					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
+			}
+
+			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export Game Data from VS to Runtime"))
+			{
+				if (m_sceneLoaded)
+					SaveScene();
+				if (m_gameLoaded)
+				{
+					SaveGame();
+					system("xcopy .\\Assets .\\..\\YokaiFortune\\Assets /I /E");
+					system("xcopy .\\Data .\\..\\YokaiFortune\\Data /I /E");
+					system("xcopy .\\Fonts .\\..\\YokaiFortune\\Fonts /I /E");
+				}
+				else
+					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
+			}
+
+			if (ImGui::MenuItem(ICON_FA_FILE_EXPORT"	Export Game Data from VS to Build"))
+			{
+				if (m_sceneLoaded)
+					SaveScene();
+				if (m_gameLoaded)
+				{
+					SaveGame();
+
+					std::string buildType;
+#ifdef _DEBUG
+					buildType = "Debug";
+#else
+					buildType = "Release";
+#endif
+					system(std::string("xcopy .\\Assets .\\..\\x64\\" + buildType + "\\Assets / I / E").c_str());
+					system(std::string("xcopy .\\Data .\\..\\x64\\" + buildType + "\\Data / I / E").c_str());
+					system(std::string("xcopy .\\Fonts .\\..\\x64\\" + buildType + "\\Fonts / I / E").c_str());
 				}
 				else
 					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
@@ -344,12 +401,21 @@ void ImGuiLayer::DrawNewEntityMenu()
 void ImGuiLayer::DrawProfiler()
 {
 	ImGui::Begin("Profiler");
-	static float arr[] = { 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f };
-	ImGui::PlotLines("Curve", arr, IM_ARRAYSIZE(arr), 0, "", 0, 30, ImVec2(ImGui::GetWindowWidth() - 100, 30));
+
+	static std::vector<float> arr = {};
+	static float max = -FLT_MAX;
+	float nextVal = 1.0f / ImGui::GetIO().DeltaTime;
+	if (nextVal > max)
+		max = nextVal;
+
+	arr.push_back(nextVal);
+	if (arr.size() > 32)
+	{
+		arr.erase(arr.begin());
+	}
+	ImGui::PlotLines("Curve", arr.data(), arr.size(), 0, "", 0, max, ImVec2(ImGui::GetWindowWidth() - 100, 30));
 
 	ImGui::End();
-
-	
 }
 
 void ImGuiLayer::DrawConsole()

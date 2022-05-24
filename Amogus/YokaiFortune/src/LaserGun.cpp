@@ -56,6 +56,7 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 		m_vecProjectiles.push_back(p);
 	}
 
+	m_pScript->AddWeapon(icon);
 }
 
 LaserGun::~LaserGun()
@@ -122,7 +123,6 @@ void LaserGun::OnUpdate(float dt)
 			i--;
 		}
 	}
-
 
 	m_playerPreviousPosition = currentPosition;
 }
