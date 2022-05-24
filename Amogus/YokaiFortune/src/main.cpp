@@ -23,6 +23,8 @@
 #include "PowerGlove.h"
 #include "PowerGem.h"
 
+#include "StartMenuButton.h"
+
 class Runtime : public Application
 {
 public:
@@ -67,15 +69,25 @@ public:
 		Entity pGlove = GetEntityByName("PowerGlove");
 		Entity pGem = GetEntityByName("PowerGem");
 
+		//Start UI
+		Entity sMenu = GetEntityByName("StartMenu");
+
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
 
 		//temp Music as proof of concept
 		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
-		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
+		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+		
 
-		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
+		if (scriptC)
+		{
+			scriptC->AttachScript<StartMenuButton>();
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
 		{
 			scriptC->AttachScript<PlayerScript>(100.0f);
@@ -116,7 +128,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Grenade>(player, gGrenade);
+			//scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
@@ -128,7 +140,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Shuriken>(player, shuriken);
+			scriptC->AttachScript<Shuriken>(player, shuriken);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
@@ -150,7 +162,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(oImplant);
 		if (scriptC)
 		{
-			scriptC->AttachScript<OpticalImplant>(player, oImplant);
+			//scriptC->AttachScript<OpticalImplant>(player, oImplant);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(passport);
