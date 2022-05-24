@@ -68,6 +68,7 @@ public:
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
+		Entity xpManager = GetEntityByName("XpManager");
 		Entity timer = GetEntityByName("Timer");
 		Entity healthBar = GetEntityByName("HealthBar");
 
@@ -94,6 +95,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<PlayerScript>(100.0f);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(xpManager);
+		if (scriptC)
+		{
+			scriptC->AttachScript<XpManager>(player, 100, 10);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
@@ -131,7 +138,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Grenade>(player, gGrenade);
+			//scriptC->AttachScript<Grenade>(player, gGrenade, xpManager);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);

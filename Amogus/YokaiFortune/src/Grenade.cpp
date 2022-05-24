@@ -140,9 +140,6 @@ void Grenade::OnUpdate(float dt)
 		{
 			if (!m_isMoving) continue;
 
-			//TEMPORARY
-			//will need to be replaced with a more dynamic system, such as moving the same direction as the player is facing, diagonal shooting etc
-
 			if(!(glm::distance(m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position, m_vecProjectiles[i].originPos) >= m_vecProjectiles[i].distance))
 			{
 				float PercentageIncrease = (m_baseProjectileSpeed * m_pScript->m_projectileSpeed) / 100;
@@ -155,10 +152,10 @@ void Grenade::OnUpdate(float dt)
 				{
 					m_vecProjectiles[i].hasHitTheFloor = true;
 					m_manager->GetComponent<AnimatedSprite>(m_vecProjectiles[i].name)->setAnimation("Exploding");
+					
 					m_vecProjectiles[i].duration += m_baseProjectileDuration;
 				}
 			}
-			//TEMPORARY	
 
 			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
 			for (Entity e : collisions)
@@ -171,6 +168,7 @@ void Grenade::OnUpdate(float dt)
 				{
 					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
 					{
+						m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
 						m_manager->RemoveComponent<ScriptComponent>(e);
 						m_manager->DeleteEntity(e);
 					}
@@ -240,7 +238,7 @@ void Grenade::SpawnProjectile()
 	if (direction != glm::vec2(0,0))
 		direction = glm::normalize(direction);
 
-	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
+	float PercentageIncrease = (m_baseProjectileDuration * m_pScript->m_projectileDuration) / 100;
 
 	newProjectile->duration = m_baseProjectileDuration + PercentageIncrease;
 	newProjectile->direction = direction;

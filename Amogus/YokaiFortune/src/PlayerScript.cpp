@@ -26,6 +26,7 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_damageModifier(1.0f),
 	m_maxHealth(36.0f),
 	m_health(m_maxHealth),
+	m_playerXP(0),
 	m_regeneration(1.0f),
 	m_range(50.0f)
 {
@@ -51,6 +52,11 @@ void PlayerScript::OnAttach()
 {
 	m_transform = GetComponent<Transform>();
 	m_collider = GetComponent<BoxCollider>();
+}
+
+void PlayerScript::AddXP(int XPVal)
+{
+	m_playerXP += XPVal;
 }
 
 void PlayerScript::KeyEvent(InputEvent* e)

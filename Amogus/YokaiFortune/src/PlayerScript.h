@@ -39,6 +39,8 @@ public:
     void AddWeapon(Sprite* icon);
     void AddEquip(Sprite* icon);
 
+    void AddXP(int XPVal);
+
     // INITIAL WEAPON
     
     UI_WidgetComponent* m_UIWidget;
@@ -66,6 +68,8 @@ public:
 private:
     void UpdateSpriteAnimation(bool facingLeft, bool moving);
     
+    int m_playerXP;
+
     // Enemy collision functions
     void CheckCollisions();
     bool CheckPotentialCollision(Entity possibleCollision); // Simple AABB collision check
