@@ -24,8 +24,9 @@ void StartMenuButton::OnAttach()
 void StartMenuButton::OnUpdate(float dt)
 {
 	if (button->m_state == ButtonState::BS_Click)
-		GotoScene("MainScene");
-	
+	{
+		loadMainScene = true;
+	}
 }
 
 void StartMenuButton::OnRender(float dt)

@@ -16,5 +16,7 @@ public:
 
 	UI_WidgetComponent* m_UIWidget;
 	UI_ImageButton* button;
+
+	bool loadMainScene = false;
 };
 
