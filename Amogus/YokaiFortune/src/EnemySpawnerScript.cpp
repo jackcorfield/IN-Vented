@@ -189,9 +189,11 @@ void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
 	}
 
 	// Set up transform
+	Entity cameraEntity = entityManager->GetEntityFromComponent<Camera>(camera);
+	Transform* cameraTransform = entityManager->GetComponent<Transform>(cameraEntity);
 	Transform* playerTransform = entityManager->GetComponent<Transform>(m_spawnAround);
 	Transform* newTransform = entityManager->AddComponent<Transform>(targetEntity);
-	newTransform->m_position = SetRandomSpawnPos(viewportSize, playerTransform->m_position);
+	newTransform->m_position = SetRandomSpawnPos(viewportSize, cameraTransform->m_position);
 	newTransform->m_rotate = templateTransform->m_rotate;
 	newTransform->m_size = templateTransform->m_size;
 	newTransform->m_depth = 0.0f;
@@ -210,7 +212,7 @@ glm::vec2 SetRandomSpawnPos(const glm::vec2& viewport, const glm::vec2& centrePo
 	float verticalOffset = viewport.y / 2.0f + constantOffsetFromEdge;
 
 	// Random offset away from edge
-	float awayOffset = rand() % 2;
+	float awayOffset = rand() % 30;
 
 	// Random offset along edge
 	float offsetAlongEdge;
