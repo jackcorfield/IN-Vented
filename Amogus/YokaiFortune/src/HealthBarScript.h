@@ -17,6 +17,6 @@ public:
 
 private:
 	Entity m_trackedPlayer; // Player entity to display health of
-	const int m_maxImageWidth = 20.0f;
+	const int m_maxImageWidth = 50.0f;
 };
 
