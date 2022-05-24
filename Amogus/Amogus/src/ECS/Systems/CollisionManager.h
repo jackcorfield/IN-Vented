@@ -2,6 +2,9 @@
 #include <glm/glm.hpp>
 #include <Handlers/SpatialHash.h>
 
+class BoxCollider;
+class Transform;
+
 class CollisionManager
 {
 public:
@@ -12,6 +15,8 @@ public:
 
 	bool checkCollision(Entity a, Entity b);
 	std::vector<Entity> potentialCollisions(Entity e);
+
+	bool BoxVBoxCollision(const BoxCollider* collider1, const Transform* transform1, const BoxCollider* collider2, const Transform* transform2);
 	
 private:
 	SpatialHash* m_spatialHash;
