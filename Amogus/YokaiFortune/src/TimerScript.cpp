@@ -32,7 +32,7 @@ void TimerScript::OnUpdate(float dt)
 		displaySeconds = std::string("0") + displaySeconds;
 	}
 
-	text->m_text = std::to_string((int)m_minutes) + ":" + std::to_string((int)m_seconds);
+	text->m_text = displayMinutes + ":" + displaySeconds;
 }
 
 void TimerScript::OnRender(float dt)
