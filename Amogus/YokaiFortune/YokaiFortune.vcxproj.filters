@@ -19,6 +19,8 @@
     <ClCompile Include="src\Ragnite.cpp" />
     <ClCompile Include="src\EquipmentScript.cpp" />
     <ClCompile Include="src\StartMenuButton.cpp" />
+    <ClCompile Include="src\TimerScript.cpp" />
+    <ClCompile Include="src\HealthBarScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CameraFollowScript.h" />
@@ -38,5 +40,7 @@
     <ClInclude Include="src\Ragnite.h" />
     <ClInclude Include="src\EquipmentScript.h" />
     <ClInclude Include="src\StartMenuButton.h" />
+    <ClInclude Include="src\TimerScript.h" />
+    <ClInclude Include="src\HealthBarScript.h" />
   </ItemGroup>
 </Project>

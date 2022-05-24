@@ -5,9 +5,11 @@
 #include "CameraFollowScript.h"
 #include "EnemyMovementScript.h"
 #include "EnemySpawnerScript.h"
+#include "TimerScript.h"
 
 #include "PlayerScript.h"
 #include "WeaponScript.h"
+#include "HealthBarScript.h"
 
 #include "Shuriken.h"
 #include "HackingDevice.h"
@@ -50,6 +52,8 @@ public:
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
+		Entity timer = GetEntityByName("Timer");
+		Entity healthBar = GetEntityByName("HealthBar");
 
 		//Weapons
 		Entity shuriken = GetEntityByName("Shuriken");
@@ -105,6 +109,18 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<CameraFollowScript>(player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(timer);
+		if (scriptC)
+		{
+			scriptC->AttachScript<TimerScript>(timer);
+    }
+     
+		scriptC = entityManager->GetComponent<ScriptComponent>(healthBar);
+		if (scriptC)
+		{
+			scriptC->AttachScript<HealthBarScript>(player);
 		}
 
 #pragma region Weapon Scripts
