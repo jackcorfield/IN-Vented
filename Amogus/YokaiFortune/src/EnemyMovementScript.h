@@ -15,12 +15,15 @@ public:
 	virtual void OnRender(float dt) override;
 	virtual void OnUnattach() override;
 
+	void SetDirection(const glm::vec2& direction) { m_moveDir = direction; }
+
 private:
 	void CheckCollisions();
 	bool CheckPotentialCollision(Entity possibleCollision); // Simple AABB collision check
 	glm::vec2 GetIntersectionDepth(Entity collidedEntity);
 	void ResolveCollision(glm::vec2 intersection, BoxCollider* theirCollider, Transform* theirTransform);
 
+	glm::vec2 m_moveDir;
 	float m_moveSpeed;
 	Entity m_seekTo;
 

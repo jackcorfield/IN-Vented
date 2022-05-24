@@ -10,6 +10,7 @@ EnemyMovementScript::EnemyMovementScript(EntityManager* entityManager, Entity pa
 	Script(entityManager, parentEntityID),
 	m_moveSpeed(moveSpeed),
 	m_seekTo(playerEntityID),
+	m_moveDir(0.0f),
 	m_transform(nullptr),
 	m_collider(nullptr)
 {}
@@ -33,10 +34,10 @@ void EnemyMovementScript::OnUpdate(float dt)
 
 	// Calculate direction toward target entity
 	Transform* seekToTransform = g_app->m_sceneManager->GetActiveScene()->m_entityManager->GetComponent<Transform>(m_seekTo);
-	glm::vec2 dir = Seek(m_transform->m_position, seekToTransform->m_position); // Think about maybe only creating a new dir a few times per second, rather than every frame. Done right, this could be a big optimisation
+	//glm::vec2 dir = Seek(m_transform->m_position, seekToTransform->m_position); // Think about maybe only creating a new dir a few times per second, rather than every frame. Done right, this could be a big optimisation
 
 	// Move toward target entity
-	m_transform->m_position += dir * m_moveSpeed * dt;
+	m_transform->m_position += m_moveDir * m_moveSpeed * dt;
 
 	// Test nearby entities for collision and resolve any that have occurred
 	CheckCollisions();
