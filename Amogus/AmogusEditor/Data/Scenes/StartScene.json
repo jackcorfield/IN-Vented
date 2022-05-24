@@ -134,11 +134,11 @@
                             "y": -64.0
                         },
                         "absoluteSize": {
-                            "x": 256.0,
-                            "y": 100.0
+                            "x": 126.0,
+                            "y": 126.0
                         },
                         "clickTexture": {
-                            "filePath": "UI/BtnNext.png",
+                            "filePath": "UI/Pixel_Buttons/Play_Pushed.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -149,7 +149,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "UI/BtnNext.png",
+                            "filePath": "UI/Pixel_Buttons/Play_Pushed.png",
                             "name": "Texture"
                         },
                         "name": "StartButton\u0000lement0",
@@ -162,39 +162,10 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "UI/BtnNext.png",
+                            "filePath": "UI/Pixel_Buttons/Play_Idle.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
-                    },
-                    {
-                        "absolutePos": {
-                            "x": -256.0,
-                            "y": -80.0
-                        },
-                        "absoluteSize": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "centered": true,
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 3.0,
-                        "hidden": false,
-                        "name": "StartText\u0000t0",
-                        "relativePos": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "text": "Start",
-                        "zIdx": 1
                     }
                 ],
                 "type": "uiWidget"
