@@ -484,13 +484,13 @@
                     "vertexFilePath": "TileRepeatV.glsl"
                 },
                 "texture": {
-                    "filePath": "placeholdertile.png",
+                    "filePath": "Maps/background.png",
                     "name": "Background"
                 },
                 "type": "sprite"
             },
 			{
-                "depth": 0.0,
+                "depth": 0.1,
                 "pos": {
                     "x": 0.0,
                     "y": 0.0

@@ -8,6 +8,8 @@ out VOutput
     vec2 texCoords;
 } vOutput;
 
+uniform sampler2D image;
+
 uniform mat4 view;
 uniform mat4 model;
 uniform mat4 projection;
@@ -15,11 +17,11 @@ uniform mat4 projection;
 uniform float depth;
 uniform float cameraX;
 
-const int viewSpaceWidth = 1280;
+const int tileWidth = 1280 / 2; // Window width divided by 2
 
 void main()
 {
-	float xDiff = cameraX / viewSpaceWidth;
+	float xDiff = cameraX / tileWidth;
 	
     vOutput.texCoords = texCoords;
 	vOutput.texCoords.x += xDiff;
