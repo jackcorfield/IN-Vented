@@ -22,7 +22,6 @@ void HealthBarScript::OnUpdate(float dt)
 	Transform* playerTransform = entityManager->GetComponent<Transform>(m_trackedPlayer);
 	ScriptComponent* playerScriptComponent = entityManager->GetComponent<ScriptComponent>(m_trackedPlayer);
 	PlayerScript* playerScript = reinterpret_cast<PlayerScript*>(playerScriptComponent->GetAttachedScript());
-	Sprite* healthBarSprite = GetComponent<Sprite>();
 
 	// Calculate size
 	float currentHealth = playerScript->m_health;
@@ -43,11 +42,13 @@ void HealthBarScript::OnUpdate(float dt)
 	float red = 1.0f + percentageHealth * (0.0f - 1.0f); // Higher when health percentage is lower
 	float green = 0.0f + percentageHealth * (1.0f - 0.0f); // Higher when health percentage is higher
 	glm::vec3 healthBarColour(red, green, 0.0f);
-	healthBarSprite->GetColour();
+	
+	UI_BaseElement* sprite = uiWidget->GetElement("HealthBarImage");
 
-	// Set new size and position in uiWidget
-	uiWidget->GetElement("HealthBarImage")->m_relativePosition = healthBarPosition;
-	uiWidget->GetElement("HealthBarImage")->m_absoluteSize = glm::vec2(percentageHealth * m_maxImageWidth, prevSize.y);
+	// Set new size, position and colour in uiWidget
+	sprite->m_relativePosition = healthBarPosition;
+	sprite->m_absoluteSize = glm::vec2(percentageHealth * m_maxImageWidth, prevSize.y);
+	sprite->m_colour = healthBarColour;
 }
 
 void HealthBarScript::OnRender(float dt)
