@@ -13,6 +13,14 @@ void CameraFollowScript::OnAttach()
 
 	m_transform = GetComponent<Transform>();
 	m_camera = GetComponent<Camera>();
+
+	// Initially centre camera on follow target. Following this, only the x value is tracked
+	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+	Transform* followTransform = entityManager->GetComponent<Transform>(m_followTarget);
+	if (!followTransform) { return; }
+
+	glm::vec2 halfViewportSize(m_camera->m_internalWidth / 2.0f, m_camera->m_internalHeight / 2.0f);
+	m_transform->m_position = -followTransform->m_position + halfViewportSize;
 }
 
 void CameraFollowScript::OnUpdate(float dt)
@@ -31,7 +39,26 @@ void CameraFollowScript::OnUpdate(float dt)
 
 	// Transform the camera position. We need to add half the viewport size to center it as the position is in the top-left
 	glm::vec2 halfViewportSize(m_camera->m_internalWidth / 2.0f, m_camera->m_internalHeight / 2.0f);
-	m_transform->m_position = -followTransform->m_position + halfViewportSize;
+	m_transform->m_position.x = -followTransform->m_position.x + halfViewportSize.x;
+
+	// Get background
+	Entity background = 0;
+	{
+		auto allNameComponents = entityManager->GetAllComponentsOfType<EntityName>();
+		for (EntityName* nameComponent : allNameComponents)
+		{
+			if (nameComponent->m_name == "Background")
+			{
+				background = entityManager->GetEntityFromComponent<EntityName>(nameComponent);
+			}
+		}
+	}
+
+	// Set camera position shader uniform
+	Shader* spriteShader = entityManager->GetComponent<Sprite>(background)->GetShader();
+	spriteShader->Use();
+	spriteShader->SetUniform("cameraX", followTransform->m_position.x);
+	spriteShader->Unuse();
 }
 
 Entity CameraFollowScript::FindPlayer()
