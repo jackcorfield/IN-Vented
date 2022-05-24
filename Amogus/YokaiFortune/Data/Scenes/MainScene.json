@@ -1152,6 +1152,13 @@
         ],
         [
             {
+                "name": "GameOverScreen",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
                 "elements": [
                     {
                         "absolutePos": {

@@ -24,6 +24,7 @@
 #include "PowerGem.h"
 
 #include "StartMenuButton.h"
+#include "QuitButtonScript.h"
 
 class Runtime : public Application
 {
@@ -86,10 +87,15 @@ public:
 		Entity pGlove = GetEntityByName("PowerGlove");
 		Entity pGem = GetEntityByName("PowerGem");
 
+		//UI
+		Entity gOver = GetEntityByName("GameOverScreen");
+
 		//temp Music as proof of concept
 		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
 		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+
+		
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
@@ -119,6 +125,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<CameraFollowScript>(player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(gOver);
+		if (scriptC)
+		{
+			scriptC->AttachScript<QuitButtonScript>();
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(timer);
