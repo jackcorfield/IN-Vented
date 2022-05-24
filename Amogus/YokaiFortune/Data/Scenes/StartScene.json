@@ -37,12 +37,12 @@
                 "elements": [
                     {
                         "absolutePos": {
-                            "x": 300.0,
-                            "y": 100.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "absoluteSize": {
-                            "x": 768.0,
-                            "y": 576.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -53,12 +53,12 @@
                         "hidden": false,
                         "name": "FarBackground",
                         "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 0.5,
+                            "y": 0.5
                         },
                         "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1.0,
+                            "y": 1.0
                         },
                         "texture": {
                             "filePath": "StartMenu/far-buildings.png",
@@ -68,12 +68,12 @@
                     },
                     {
                         "absolutePos": {
-                            "x": 300.0,
-                            "y": 100.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "absoluteSize": {
-                            "x": 768.0,
-                            "y": 576.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "colour": {
                             "x": 0.9824561476707458,
@@ -84,12 +84,12 @@
                         "hidden": false,
                         "name": "Background\u0000t1",
                         "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 0.5,
+                            "y": 0.5
                         },
                         "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1.0,
+                            "y": 1.0
                         },
                         "texture": {
                             "filePath": "StartMenu/back-buildings.png",
@@ -99,12 +99,12 @@
                     },
                     {
                         "absolutePos": {
-                            "x": 300.0,
-                            "y": 100.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "absoluteSize": {
-                            "x": 768.0,
-                            "y": 576.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -115,12 +115,12 @@
                         "hidden": false,
                         "name": "Foreground\u0000t2",
                         "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 0.5,
+                            "y": 0.5
                         },
                         "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1.0,
+                            "y": 1.0
                         },
                         "texture": {
                             "filePath": "StartMenu/foreground.png",
@@ -130,12 +130,12 @@
                     },
                     {
                         "absolutePos": {
-                            "x": 250.0,
-                            "y": 275.0
+                            "x": -220.0,
+                            "y": -64.0
                         },
                         "absoluteSize": {
-                            "x": 200.0,
-                            "y": 80.0
+                            "x": 256.0,
+                            "y": 100.0
                         },
                         "clickTexture": {
                             "filePath": "UI/BtnNext.png",
@@ -154,8 +154,8 @@
                         },
                         "name": "StartButton\u0000lement0",
                         "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1.0,
+                            "y": 1.0
                         },
                         "relativeSize": {
                             "x": 0.0,
@@ -169,8 +169,8 @@
                     },
                     {
                         "absolutePos": {
-                            "x": 245.0,
-                            "y": 290.0
+                            "x": -256.0,
+                            "y": -80.0
                         },
                         "absoluteSize": {
                             "x": 1.0,
@@ -186,15 +186,15 @@
                         "hidden": false,
                         "name": "StartText\u0000t0",
                         "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1.0,
+                            "y": 1.0
                         },
                         "relativeSize": {
                             "x": 0.0,
                             "y": 0.0
                         },
                         "text": "Start",
-                        "zIdx": -1
+                        "zIdx": 1
                     }
                 ],
                 "type": "uiWidget"

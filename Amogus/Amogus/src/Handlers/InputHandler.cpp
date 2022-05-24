@@ -51,6 +51,8 @@ void InputHandler::TransformToFitScreen(glm::vec3& pos, glm::vec3& size)
 
 bool InputHandler::ButtonIsSelected(UI_ImageButton* button)
 {
+	if (button->m_hidden) return false;
+
 	glm::vec2 adjustedRelativePos = button->m_relativePosition * glm::vec2((float)g_app->GetGameScreenInfo().z, (float)g_app->m_windowParams.windowHeight);
 	glm::vec3 finalPos = glm::vec3(adjustedRelativePos + button->m_absolutePosition, button->m_zIndex);
 	glm::vec2 adjustedRelativeSize = button->m_relativeSize * glm::vec2((float)g_app->m_windowParams.windowWidth, (float)g_app->m_windowParams.windowHeight);
@@ -64,9 +66,6 @@ bool InputHandler::ButtonIsSelected(UI_ImageButton* button)
 	// some values just for more readable code
 	float mouseW = 2;
 	float mouseH = 2;
-
-	std::cout << "x: " << m_mouseX << " y: " << m_mouseY << "\n";
-
 
 	if (AABB(m_mouseX, m_mouseY, mouseW, mouseH, finalPos.x - (finalSize.x / 2), finalPos.y - (finalSize.y / 2), finalSize.x, finalSize.y))
 		return true;
@@ -118,6 +117,11 @@ void InputHandler::MouseCallback(GLFWwindow* window, double xpos, double ypos)
 		m_mouseY -= screenInfo.y;
 		float y_scalar = screenInfo.w / g_app->m_windowParams.windowHeight;
 		m_mouseY *= y_scalar;
+	}
+	else
+	{
+		m_mouseX = xpos;
+		m_mouseY = ypos;
 	}
 
 	//std::string msg = std::to_string(m_mouseX) + std::string(", ") + std::to_string(m_mouseY);
