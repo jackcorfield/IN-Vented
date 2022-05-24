@@ -25,7 +25,6 @@ private:
 
 	glm::vec2 m_moveDir;
 	float m_moveSpeed;
-	Entity m_seekTo;
 
 	Transform* m_transform;
 	BoxCollider* m_collider;

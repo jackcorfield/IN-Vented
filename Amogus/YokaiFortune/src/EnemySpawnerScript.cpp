@@ -82,7 +82,6 @@ void EnemySpawnerScript::CalculateDir(Entity entity, EntityManager* entityManage
 	ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
 	if (!scriptC) { return; }
 	EnemyMovementScript* script = reinterpret_cast<EnemyMovementScript*>(scriptC->GetAttachedScript());
-	if (!script) { return; }
 
 	Transform* enemyTransform = entityManager->GetComponent<Transform>(entity);
 
