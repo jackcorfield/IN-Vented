@@ -42,7 +42,7 @@ Renderer::Renderer() :
 
     m_renderContext = { 0.0f, true, NULL, false };
 
-    LoadFont("Fonts/Roboto-Regular.ttf");
+    LoadFont("Fonts/Orbitron-Regular.ttf");
 }
 
 Renderer::~Renderer()
