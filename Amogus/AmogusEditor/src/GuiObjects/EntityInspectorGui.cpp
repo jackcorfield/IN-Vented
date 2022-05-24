@@ -537,7 +537,7 @@ void CreateUI_WidgetComponentGui(UI_WidgetComponent* widget, Entity owner)
 			if (ImGui::CollapsingHeader(element->m_name.c_str(), nodeFlags))
 			{
 				std::string nameCopy = element->m_name;
-				if (ImGui::InputText("Name##"+i, &nameCopy[0], MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
+				if (ImGui::InputText((std::string("Name##") + sIdx).c_str(), &nameCopy[0], MAX_INPUT_LENGTH, ImGuiInputTextFlags_EnterReturnsTrue))
 				{
 					bool used = false;
 					for (UI_BaseElement* e : widget->m_elements)

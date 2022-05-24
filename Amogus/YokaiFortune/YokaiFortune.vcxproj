@@ -151,6 +151,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\HealthBarScript.cpp" />
     <ClCompile Include="src\Passport.cpp" />
     <ClCompile Include="src\Ragnite.cpp" />
     <ClCompile Include="src\PowerGlove.cpp" />
@@ -169,8 +170,11 @@
     <ClCompile Include="src\PlayerScript.cpp" />
     <ClCompile Include="src\WeaponScript.cpp" />
     <ClCompile Include="src\XpManagerScript.cpp" />
+    <ClCompile Include="src\StartMenuButton.cpp" />
+    <ClCompile Include="src\TimerScript.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\HealthBarScript.h" />
     <ClInclude Include="src\Passport.h" />
     <ClInclude Include="src\Ragnite.h" />
     <ClInclude Include="src\PowerGlove.h" />
@@ -188,6 +192,8 @@
     <ClInclude Include="src\PlayerScript.h" />
     <ClInclude Include="src\WeaponScript.h" />
     <ClInclude Include="src\XpManagerScript.h" />
+    <ClInclude Include="src\StartMenuButton.h" />
+    <ClInclude Include="src\TimerScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

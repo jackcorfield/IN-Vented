@@ -1,5 +1,9 @@
 #include "PlayerScript.h"
 
+// While it seems wrong to hard set viewport values, these are integral to gameplay anyway and should be constant
+#define MAX_Y 180.0f
+#define MIN_Y -180.0f
+
 PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, float speed) :
 	Script(entityManager, parentEntityID),
 	m_transform(nullptr),
@@ -15,16 +19,16 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_isDead(false),
 	m_movementSpeed(speed),
 	m_projectileSpeed(10),
-	m_projectileCount(1),
+	m_projectileCount(0),
 	m_projectileCooldown(1),
 	m_projectileArea(10),
 	m_projectileDuration(10),
 	m_damageModifier(1.0f),
-	m_maxHealth(10.0f),
+	m_maxHealth(36.0f),
 	m_health(m_maxHealth),
-	m_regeneration(0.0f),
-	m_range(50.0f),
-	m_playerXP(0)
+	m_playerXP(0),
+	m_regeneration(1.0f),
+	m_range(50.0f)
 {
 	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerScript::KeyEvent);
 
@@ -142,6 +146,12 @@ void PlayerScript::OnUpdate(float dt)
 		m_currentInvulnCooldown -= dt;
 	}
 
+	m_health += m_regeneration * dt;
+	if (m_health > m_maxHealth)
+	{
+		m_health = m_maxHealth;
+	}
+
 	// Use to check if these properties change this frame
 	bool moving = false;
 	bool facingLeft = m_facingLeftLastFrame;
@@ -216,6 +226,15 @@ void PlayerScript::OnUpdate(float dt)
 		}
 	}
 
+	if (m_transform->m_position.y > MAX_Y)
+	{
+		m_transform->m_position.y = MAX_Y;
+	}
+	else if (m_transform->m_position.y < MIN_Y)
+	{
+		m_transform->m_position.y = MIN_Y;
+	}
+
 	UpdateSpriteAnimation(facingLeft, moving);
 
 	CheckCollisions();
@@ -258,33 +277,19 @@ void PlayerScript::UpdateSpriteAnimation(bool facingLeft, bool moving)
 {
 	AnimatedSprite* animatedSprite = GetComponent<AnimatedSprite>();
 
-	// If changed direction, change running sprite. Turning means we are moving anyway so no need to check
-	if (facingLeft && !m_facingLeftLastFrame)
+	bool changedDirection = facingLeft != m_facingLeftLastFrame;
+	if (changedDirection) // If changed direction, reverse size
 	{
-		animatedSprite->setAnimation("RunLeft");
-	}
-	else if (!facingLeft && m_facingLeftLastFrame)
-	{
-		animatedSprite->setAnimation("RunRight");
+		m_transform->m_size.x = -m_transform->m_size.x;
 	}
 
-	// If newly moving, start running
-	if (moving && !m_movingLastFrame)
+	if (moving && !m_movingLastFrame) // If newly moving, start running
 	{
-		// Choose animation based on direction
-		if (facingLeft)
-		{
-			animatedSprite->setAnimation("RunLeft");
-		}
-		else
-		{
-			animatedSprite->setAnimation("RunRight");
-		}
+		animatedSprite->setAnimation("Run");
 
 	}
 	else if (!moving && m_movingLastFrame) // If newly idle, start idle animation
 	{
-		facingLeft = false; // Default direction is right
 		animatedSprite->setAnimation("Idle");
 	}
 
