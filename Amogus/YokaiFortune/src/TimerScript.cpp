@@ -26,7 +26,7 @@ void TimerScript::OnUpdate(float dt)
 		displayMinutes = std::string("0") + displayMinutes;
 	}
 
-	std::string displaySeconds = std::to_string((int)m_seconds);
+	std::string displaySeconds = std::to_string(((int)m_seconds)%60);
 	if (m_seconds < 10)
 	{
 		displaySeconds = std::string("0") + displaySeconds;
