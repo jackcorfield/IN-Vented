@@ -5,6 +5,7 @@
 #include "Resources/Script.h"
 
 #include "../Amogus.h"
+#include "../TileLoop.h"
 
 class CameraFollowScript :
 	public Script
@@ -22,4 +23,6 @@ private:
 	Entity m_followTarget; // Player entity to follow
 	Camera* m_camera; // Store camera component to access internal viewport
 	Transform* m_transform; // Store transform to modify position
+
+	TileLoop* m_tileMap; // Handles Tile Backing for Player Movement
 };
