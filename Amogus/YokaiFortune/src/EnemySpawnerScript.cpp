@@ -26,7 +26,7 @@ void EnemySpawnerScript::OnAttach()
 	auto allNames = entityManager->GetAllComponentsOfType<EntityName>();
 	for (EntityName* name : allNames)
 	{
-		if (name->m_name == "Enemy")
+		if (name->m_name == "EnemyTemplate")
 		{
 			Entity entity = entityManager->GetEntityFromComponent<EntityName>(name);
 			m_templates.emplace_back(entity);
