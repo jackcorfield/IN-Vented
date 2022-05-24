@@ -8,9 +8,8 @@ in VOutput
 out vec4 color;
 
 uniform sampler2D image;
-uniform vec3 tint;
 
 void main()
-{
-    color = texture(image, fInput.texCoords) * vec4(tint, 1.0);
+{    
+    color = texture(image, fInput.texCoords);
 }
