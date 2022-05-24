@@ -53,8 +53,6 @@ void WeaponScript::OnLevelUp()
 		return;
 	}
 
-	m_currentLevel++;
-
 	switch (m_levelingInfo[m_currentLevel].first)
 	{
 	case SPEED:
@@ -77,7 +75,9 @@ void WeaponScript::OnLevelUp()
 		break;
 	}
 
+	m_currentLevel++;
 	m_pScript->UpdateLevel(m_elementNum, m_currentLevel);
+
 }
 
 void WeaponScript::OnAttach()

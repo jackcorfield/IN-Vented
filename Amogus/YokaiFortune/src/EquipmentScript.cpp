@@ -7,7 +7,8 @@ EquipmentScript::EquipmentScript(EntityManager* entityManager, Entity parentEnti
 	m_manager(entityManager),
 	m_equipment(parentEntityID),
 	m_player(player),
-	m_icon(nullptr)
+	m_icon(nullptr),
+	m_canLevel(true)
 {
 	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(player)->GetAttachedScript();
 }
@@ -48,8 +49,6 @@ void EquipmentScript::OnLevelUp()
 		return;
 	}
 
-	m_currentLevel++;
-
 	switch (m_levelingInfo[m_currentLevel].first)
 	{
 	case SPEED:
@@ -69,5 +68,6 @@ void EquipmentScript::OnLevelUp()
 		break;
 	}
 
-	m_pScript->UpdateLevel(m_elementNum, m_currentLevel);
+	m_currentLevel++;
+	m_pScript->UpdateLevel(m_elementNum-1, m_currentLevel);
 }

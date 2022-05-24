@@ -45,6 +45,7 @@ protected:
     EntityManager* m_manager;
 
     int m_elementNum;
+    bool m_firstLevel;
 
    Sprite* m_icon;
    Sprite* m_sprite;

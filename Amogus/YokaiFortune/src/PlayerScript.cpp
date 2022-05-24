@@ -407,7 +407,12 @@ glm::vec2 PlayerScript::GetIntersectionDepth(Entity collidedEntity)
 
 void PlayerScript::UpdateLevel(int elementNum, int num)
 {
-	UI_Text* text = (UI_Text*) m_UIWidget->m_elements[elementNum + 10];
+	UI_Text* text;
+	if(elementNum == 10)
+		text = (UI_Text*)m_UIWidget->m_elements[19];
+	else
+		text = (UI_Text*) m_UIWidget->m_elements[elementNum + 10];
+
 	text->m_text = std::to_string(num);
 }
 
