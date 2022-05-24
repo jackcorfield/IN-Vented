@@ -358,6 +358,7 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
 		m_uiShader->Use();
 		m_uiShader->SetUniform("view", view);
 		m_uiShader->SetUniform("projection", m_projection);
+		m_uiShader->SetUniform("tint", imageElement->m_colour);
 		
 		float windowWidth = 0;
 		float windowHeight = 0;
