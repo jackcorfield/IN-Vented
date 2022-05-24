@@ -44,6 +44,7 @@ protected:
     Entity e_xpManager;
     EntityManager* m_manager;
 
+    int m_elementNum;
 
    Sprite* m_icon;
    Sprite* m_sprite;

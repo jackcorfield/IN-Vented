@@ -63,7 +63,7 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 	p.isSpawned = false;
 
 	m_vecProjectiles.push_back(p);
-	m_pScript->AddWeapon(icon);
+	m_elementNum = m_pScript->AddWeapon(icon, level);
 }
 
 HackingDevice::~HackingDevice()

@@ -84,8 +84,7 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 
 	tempEnemy = Transform(glm::vec2(0.0f, 0.0f), glm::vec2(5.0f, 5.0f));
 
-
-	m_pScript->AddWeapon(sprite);
+	m_elementNum = m_pScript->AddWeapon(sprite, level);
 }
 
 Grenade::~Grenade()

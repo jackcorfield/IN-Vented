@@ -384,9 +384,9 @@
                             "y": 60.0
                         },
                         "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
                         },
                         "elementType": 1.0,
                         "hidden": false,
@@ -434,6 +434,296 @@
                             "filePath": "hi.png",
                             "name": "Texture"
                         },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 25.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot1T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 58.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.011695921421051025,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot2T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 91.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot3T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 124.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot4T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 157.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot5T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 25.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot1T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 58.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot2T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 91.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot3T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 124.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot4T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 157.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot5T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
                         "zIdx": 0
                     }
                 ],

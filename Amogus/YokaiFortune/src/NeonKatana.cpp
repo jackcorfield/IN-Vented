@@ -57,7 +57,7 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 	}
 
 
-	m_pScript->AddWeapon(icon);
+	m_elementNum = m_pScript->AddWeapon(icon, level);
 }
 
 NeonKatana::~NeonKatana()

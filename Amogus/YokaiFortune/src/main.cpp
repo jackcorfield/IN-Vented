@@ -138,13 +138,13 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Grenade>(player, gGrenade, xpManager);
+			scriptC->AttachScript<Grenade>(player, gGrenade, xpManager);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<NeonKatana>(player, nKatana);
+			scriptC->AttachScript<NeonKatana>(player, nKatana);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
@@ -156,13 +156,13 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<LaserGun>(player, lGun);
+			scriptC->AttachScript<LaserGun>(player, lGun);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<HackingDevice>(player, hDevice);
+			scriptC->AttachScript<HackingDevice>(player, hDevice);
 		}
 
 #pragma endregion

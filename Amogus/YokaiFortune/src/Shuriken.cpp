@@ -63,8 +63,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 		m_vecProjectiles.push_back(p);
 	}
 
-	m_pScript->AddWeapon(entityManager->GetComponent<Sprite>(weapon));
-
+	m_elementNum = m_pScript->AddWeapon(sprite, level);
 }
 
 Shuriken::~Shuriken()

@@ -18,5 +18,5 @@ Passport::Passport(EntityManager* entityManager, Entity parentEntityID, Entity p
 	m_currentLevel = level;
 
 	OnLevelUp();
-	m_pScript->AddEquip(icon);
+	m_elementNum = m_pScript->AddEquip(icon, level);
 }

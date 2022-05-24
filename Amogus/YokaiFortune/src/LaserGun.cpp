@@ -56,7 +56,7 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 		m_vecProjectiles.push_back(p);
 	}
 
-	m_pScript->AddWeapon(icon);
+	m_elementNum = m_pScript->AddWeapon(icon, level);
 }
 
 LaserGun::~LaserGun()
