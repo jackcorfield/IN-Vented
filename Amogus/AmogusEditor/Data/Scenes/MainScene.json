@@ -997,7 +997,7 @@
         ],
         [
             {
-                "name": "New GameObject",
+                "name": "Timer",
                 "type": "entityName"
             },
             {
@@ -1021,7 +1021,7 @@
                         "hidden": false,
                         "name": "TextElement0",
                         "relativePos": {
-                            "x": 0.5,
+                            "x": 0.25,
                             "y": 0.10000000149011612
                         },
                         "relativeSize": {

@@ -18,6 +18,7 @@
     <ClCompile Include="src\PowerGlove.cpp" />
     <ClCompile Include="src\Ragnite.cpp" />
     <ClCompile Include="src\EquipmentScript.cpp" />
+    <ClCompile Include="src\TimerScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CameraFollowScript.h" />
@@ -36,5 +37,6 @@
     <ClInclude Include="src\PowerGlove.h" />
     <ClInclude Include="src\Ragnite.h" />
     <ClInclude Include="src\EquipmentScript.h" />
+    <ClInclude Include="src\TimerScript.h" />
   </ItemGroup>
 </Project>
