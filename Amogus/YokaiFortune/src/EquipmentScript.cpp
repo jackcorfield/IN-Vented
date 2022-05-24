@@ -53,19 +53,21 @@ void EquipmentScript::OnLevelUp()
 	switch (m_levelingInfo[m_currentLevel].first)
 	{
 	case SPEED:
-		m_pScript->m_projectileSpeed += m_levelingInfo[m_currentLevel].second;
+		m_pScript->m_projectileSpeed += (m_pScript->m_projectileSpeed * m_levelingInfo[m_currentLevel].second) / 100;
 		break;
 	case	COOLDOWN:
-		m_pScript->m_projectileCooldown += m_levelingInfo[m_currentLevel].second;
+		m_pScript->m_projectileCooldown += (m_pScript->m_projectileCooldown * m_levelingInfo[m_currentLevel].second) / 100;
 		break;
 	case AREA:
-		m_pScript->m_projectileArea += m_levelingInfo[m_currentLevel].second;
+		m_pScript->m_projectileArea += (m_pScript->m_projectileCooldown * m_levelingInfo[m_currentLevel].second) / 100;
 		break;
 	case	DURATION:
-		m_pScript->m_projectileDuration += m_levelingInfo[m_currentLevel].second;
+		m_pScript->m_projectileDuration += (m_pScript->m_projectileCooldown * m_levelingInfo[m_currentLevel].second) / 100;
 		break;
 	case	COUNT:
 		m_pScript->m_projectileCount += m_levelingInfo[m_currentLevel].second;
 		break;
 	}
+
+	m_pScript->UpdateLevel(m_elementNum, m_currentLevel);
 }

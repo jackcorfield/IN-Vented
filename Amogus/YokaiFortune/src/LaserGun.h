@@ -4,7 +4,7 @@ class LaserGun :
     public WeaponScript
 {
 public:
-    LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 0, bool moving = true, bool autoTarget = false);
+    LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 1, bool moving = true, bool autoTarget = false);
     ~LaserGun();
 
     void OnAttach();

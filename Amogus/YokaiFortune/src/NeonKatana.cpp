@@ -3,6 +3,17 @@
 NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
 	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
+
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10)); 
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+
+	m_maxLevel = m_levelingInfo.size();
+
 	m_baseProjectileSpeed = 1; //Speed of projectiles
 	m_baseProjectileCooldown = 1; //How often weapon attacks
 	m_baseProjectileArea = 1; //Size of weapon
