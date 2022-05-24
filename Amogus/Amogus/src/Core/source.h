@@ -59,6 +59,9 @@ public:
 	virtual void onImGui() {}
 	virtual void onQuit() {}
 
+	glm::vec4 GetGameScreenInfo() { return m_screenInfo; }
+	void SetGameScreenInfo(float x, float y, float w, float h) { m_screenInfo.x = x; m_screenInfo.y = y; m_screenInfo.z = w; m_screenInfo.w = h; }
+
 protected:
 
 	bool ImportScene(const char* sceneName, bool setActive = false);
@@ -66,6 +69,8 @@ protected:
 	Renderer* m_renderer;
 
 private:
+	glm::vec4 m_screenInfo;
+
 	bool InitGL();
 	void Quit(InputEvent* e);
 	void TerminateOpenGL();

@@ -78,11 +78,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Dependencies\include;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\include;$(ProjectDir)src;$(ProjectDir)dependencies;$(ProjectDir)dependencies\freetype\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Dependencies\include;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\include;$(ProjectDir)src;$(ProjectDir)dependencies;$(ProjectDir)dependencies\freetype\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,19 +116,20 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;FT2_BUILD_LIBRARY;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\fmod\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\fmod\inc;$(ProjectDir)dependencies\freetype\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\fmod\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\fmod\lib\x64;$(ProjectDir)dependencies\freetype\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;freetype.lib;libfreetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d  "$(ProjectDir)dependencies\fmod\lib\x64\fmod.dll" "$(TargetDir)"</Command>
+      <Command>xcopy /y /d  "$(ProjectDir)dependencies\freetype\lib\freetype.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,12 +151,14 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d  "$(ProjectDir)dependencies\fmod\lib\x64\fmod.dll" "$(TargetDir)"</Command>
+	  <Command>xcopy /y /d  "$(ProjectDir)dependencies\freetype\lib\freetype.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Debugger.cpp" />
     <ClCompile Include="src\ECS\Components\AnimatedSprite.cpp" />
     <ClCompile Include="src\ECS\Components\Audio.cpp" />
+    <ClCompile Include="src\ECS\Components\UI_Widget.cpp" />
     <ClCompile Include="src\ECS\Systems\AudioManager.cpp" />
     <ClCompile Include="src\ECS\Components\BoxCollider.cpp" />
     <ClCompile Include="src\ECS\Components\CircleCollider.cpp" />
@@ -185,9 +188,64 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Amogus.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\config\ftconfig.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\config\ftheader.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\config\ftmodule.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\config\ftoption.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\config\ftstdlib.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\config\integer-types.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\config\mac-support.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\config\public-macros.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\freetype.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftadvanc.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftbbox.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftbdf.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftbitmap.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftbzip2.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftcache.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftchapters.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftcid.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftcolor.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftdriver.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\fterrdef.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\fterrors.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftfntfmt.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftgasp.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftglyph.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftgxval.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftgzip.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftimage.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftincrem.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftlcdfil.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftlist.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftlogging.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftlzw.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftmm.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftmodapi.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftmoderr.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftotval.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftoutln.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftparams.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftpfr.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftrender.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftsizes.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftsnames.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftstroke.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftsynth.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftsystem.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\fttrigon.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\fttypes.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ftwinfnt.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\otsvg.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\t1tables.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\ttnameid.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\tttables.h" />
+    <ClInclude Include="dependencies\freetype\include\freetype\tttags.h" />
+    <ClInclude Include="dependencies\freetype\include\ft2build.h" />
     <ClInclude Include="src\Core\Debugger.h" />
     <ClInclude Include="src\ECS\Components\AnimatedSprite.h" />
     <ClInclude Include="src\ECS\Components\Audio.h" />
+    <ClInclude Include="src\ECS\Components\UI_Widget.h" />
     <ClInclude Include="src\ECS\Systems\AudioManager.h" />
     <ClInclude Include="src\ECS\Components\BoxCollider.h" />
     <ClInclude Include="src\ECS\Components\Camera.h" />
@@ -239,6 +297,8 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\fmod\lib\x64\fmod_vc.lib" />
+    <Library Include="dependencies\freetype\lib\freetype.lib" />
+    <Library Include="dependencies\freetype\lib\libfreetype.lib" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\Dependencies.vcxproj">

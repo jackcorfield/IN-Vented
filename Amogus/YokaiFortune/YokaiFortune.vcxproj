@@ -151,6 +151,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Passport.cpp" />
+    <ClCompile Include="src\Ragnite.cpp" />
+    <ClCompile Include="src\PowerGlove.cpp" />
+    <ClCompile Include="src\PowerGem.cpp" />
+    <ClCompile Include="src\OpticalImplant.cpp" />
+    <ClCompile Include="src\EquipmentScript.cpp" />
     <ClCompile Include="src\Grenade.cpp" />
     <ClCompile Include="src\NeonKatana.cpp" />
     <ClCompile Include="src\LaserGun.cpp" />
@@ -165,6 +171,12 @@
     <ClCompile Include="TileLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Passport.h" />
+    <ClInclude Include="src\Ragnite.h" />
+    <ClInclude Include="src\PowerGlove.h" />
+    <ClInclude Include="src\PowerGem.h" />
+    <ClInclude Include="src\OpticalImplant.h" />
+    <ClInclude Include="src\EquipmentScript.h" />
     <ClInclude Include="src\Grenade.h" />
     <ClInclude Include="src\NeonKatana.h" />
     <ClInclude Include="src\LaserGun.h" />

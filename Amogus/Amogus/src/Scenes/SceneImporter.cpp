@@ -24,6 +24,7 @@
 #include <ECS/Components/Tile.h>
 #include <ECS/Components/TileMap.h>
 #include <ECS/Components/Transform.h>
+#include <ECS/Components/UI_Widget.h>
 
 
 extern Application* g_app;
@@ -49,6 +50,7 @@ namespace SceneImporter
 	bool CreateTile(const nlohmann::json& j, Entity entity, std::vector<Entity>& allTiles);
 	bool CreateTileMap(const nlohmann::json& j, Entity entity, const std::vector<Entity>& tiles);
 	bool CreateTransform(const nlohmann::json& j, Entity entity);
+	bool CreateWidget(const nlohmann::json& j, Entity entity);
 
 	// Helpers
 	bool ReadShader(const nlohmann::json& jShader, Shader** readTo);
@@ -229,6 +231,10 @@ namespace SceneImporter
 			else if (componentType == "transform")
 			{
 				if (!CreateTransform(jComponent, entity)) { success = false; }
+			}
+			else if (componentType == "uiWidget")
+			{
+				if (!CreateWidget(jComponent, entity)) { success = false; }
 			}
 		}
 
@@ -606,6 +612,199 @@ namespace SceneImporter
 		}
 
 		Transform* component = g_entityManager->AddComponent<Transform>(entity, pos, size, rotate, depth);
+
+		return success;
+	}
+
+	bool CreateWidget(const nlohmann::json& j, Entity entity)
+	{
+		bool success = true;
+
+		UI_WidgetComponent* widget = g_entityManager->AddComponent<UI_WidgetComponent>(entity);
+		nlohmann::json elements = j["elements"];
+
+		for (nlohmann::json element : elements)
+		{
+			int elementType(0);
+			if (!JSON::Read(elementType, element, "elementType"))
+			{
+				g_app->m_debugger->Log("Importing Widget: failed to read type", LL_WARNING);
+			}
+
+			UI_BaseElement* newElement = nullptr;
+			switch (elementType)
+			{
+			case(ET_Image):
+				newElement = (UI_BaseElement*)new UI_Image();
+				break;
+			case(ET_ImageButton):
+				newElement = (UI_BaseElement*)new UI_ImageButton();
+				break;
+			case(ET_Text):
+				newElement = (UI_BaseElement*)new UI_Text();
+				break;
+			}
+
+			if (newElement == nullptr)
+				g_app->m_debugger->Log("Importing Widget: failed to identify type", LL_WARNING);
+
+			newElement->m_elementType = elementType;
+
+			glm::vec2 abPos;
+			if (!JSON::ReadVec2(abPos, element, "absolutePos"))
+			{
+				g_app->m_debugger->Log("Importing widget: failed to read ab pos", LL_WARNING);
+			}
+			newElement->m_absolutePosition = abPos;
+
+			glm::vec2 relPos;
+			if (!JSON::ReadVec2(relPos, element, "relativePos"))
+			{
+				g_app->m_debugger->Log("Importing widget: failed to read rel pos", LL_WARNING);
+			}
+			newElement->m_relativePosition = relPos;
+
+			glm::vec2 abSize;
+			if (!JSON::ReadVec2(abSize, element, "absoluteSize"))
+			{
+				g_app->m_debugger->Log("Importing widget: failed to read ab size", LL_WARNING);
+			}
+			newElement->m_absoluteSize = abSize;
+
+			glm::vec2 relSize;
+			if (!JSON::ReadVec2(relSize, element, "relativeSize"))
+			{
+				g_app->m_debugger->Log("Importing widget: failed to read rel size", LL_WARNING);
+			}
+			newElement->m_relativeSize = relSize;
+
+			bool hidden;
+			if (!JSON::Read(hidden, element, "hidden"))
+			{
+				g_app->m_debugger->Log("Importing Widget: failed to read hidden", LL_WARNING);
+			}
+			newElement->m_hidden = hidden;
+
+			int zIdx;
+			if (!JSON::Read(zIdx, element, "zIdx"))
+			{
+				g_app->m_debugger->Log("Importing Widget: failed to read zIdx", LL_WARNING);
+			}
+			newElement->m_zIndex = zIdx;
+
+			glm::vec3 colour;
+			if (!JSON::ReadVec3(colour, element, "colour"))
+			{
+				g_app->m_debugger->Log("Importing widget: failed to read colour", LL_WARNING);
+			}
+			newElement->m_colour = colour;
+
+			std::string name;
+			if (!JSON::Read(name, element, "name"))
+			{
+				g_app->m_debugger->Log("Importing Widget: failed to read name", LL_WARNING);
+			}
+			newElement->m_name = name;
+
+			switch (elementType)
+			{
+			case(ET_Image):
+			{
+				UI_Image* image = (UI_Image*)newElement;
+
+				std::string textureName;
+				if (!JSON::Read(textureName, element["texture"], "name"))
+				{
+					g_app->m_debugger->Log("Importing texture: failed to read texture name.", LL_WARNING);
+				}
+
+				std::string texturePath;
+				if (!JSON::Read(texturePath, element["texture"], "filePath"))
+				{
+					g_app->m_debugger->Log("Failed to import texture: failed to read texture file path!", LL_ERROR);
+					success = false; // Cannot render a sprite without a texture
+				}
+
+				image->m_texture = TextureLoader::CreateTexture2DFromFile(textureName, texturePath);
+			}
+				break;
+			case(ET_ImageButton):
+			{
+				UI_ImageButton* button = (UI_ImageButton*)newElement;
+
+				std::string textureName;
+				if (!JSON::Read(textureName, element["texture"], "name"))
+				{
+					g_app->m_debugger->Log("Importing texture: failed to read texture name.", LL_WARNING);
+				}
+
+				std::string texturePath;
+				if (!JSON::Read(texturePath, element["texture"], "filePath"))
+				{
+					g_app->m_debugger->Log("Failed to import texture: failed to read texture file path!", LL_ERROR);
+					success = false; // Cannot render a sprite without a texture
+				}
+
+				button->m_texture = TextureLoader::CreateTexture2DFromFile(textureName, texturePath);
+
+				//
+
+				std::string htextureName;
+				if (!JSON::Read(htextureName, element["hoverTexture"], "name"))
+				{
+					g_app->m_debugger->Log("Importing texture: failed to read hover texture name.", LL_WARNING);
+				}
+
+				std::string htexturePath;
+				if (!JSON::Read(htexturePath, element["hoverTexture"], "filePath"))
+				{
+					g_app->m_debugger->Log("Failed to import texture: failed to read hover texture file path!", LL_ERROR);
+					success = false; // Cannot render a sprite without a texture
+				}
+
+				button->m_hoveredTexture = TextureLoader::CreateTexture2DFromFile(htextureName, htexturePath);
+
+				//
+
+				std::string ctextureName;
+				if (!JSON::Read(ctextureName, element["clickTexture"], "name"))
+				{
+					g_app->m_debugger->Log("Importing texture: failed to read click texture name.", LL_WARNING);
+				}
+
+				std::string ctexturePath;
+				if (!JSON::Read(ctexturePath, element["clickTexture"], "filePath"))
+				{
+					g_app->m_debugger->Log("Failed to import texture: failed to read click texture file path!", LL_ERROR);
+					success = false; // Cannot render a sprite without a texture
+				}
+
+				button->m_clickedTexture = TextureLoader::CreateTexture2DFromFile(ctextureName, ctexturePath);
+			}
+				break;
+			case(ET_Text):
+			{
+				UI_Text* textElement = (UI_Text*)newElement;
+				std::string text;
+				if (!JSON::Read(text, element, "text"))
+				{
+					g_app->m_debugger->Log("Importing Widget: failed to read text", LL_WARNING);
+				}
+				textElement->m_text = text;
+
+				bool centered;
+				if (!JSON::Read(centered, element, "centered"))
+				{
+					g_app->m_debugger->Log("Importing Widget: failed to read centered", LL_WARNING);
+				}
+				textElement->m_centered = centered;
+			}
+				break;
+			}
+
+			newElement->m_widget = widget;
+			widget->m_elements.push_back(newElement);
+		}
 
 		return success;
 	}

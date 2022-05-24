@@ -15,6 +15,12 @@
 #include "NeonKatana.h"
 #include "Grenade.h"
 
+#include "OpticalImplant.h"
+#include "Passport.h"
+#include "Ragnite.h"
+#include "PowerGlove.h"
+#include "PowerGem.h"
+
 class Runtime : public Application
 {
 public:
@@ -42,14 +48,28 @@ public:
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
+
+		//Weapons
 		Entity shuriken = GetEntityByName("Shuriken");
 		Entity hDevice = GetEntityByName("HackingDevice");
 		Entity lGun = GetEntityByName("LaserGun");
 		Entity nKatana = GetEntityByName("NeonKatana");
 		Entity gGrenade = GetEntityByName("Grenade");
 
+		//Equipment
+		Entity oImplant = GetEntityByName("OpticalImplant");
+		Entity passport = GetEntityByName("Passport");
+		Entity ragnite = GetEntityByName("Ragnite");
+		Entity pGlove = GetEntityByName("PowerGlove");
+		Entity pGem = GetEntityByName("PowerGem");
+
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
+
+		//temp Music as proof of concept
+		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
+		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+		g_app->m_audioManager->LoopOn(audio->m_sound);
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
@@ -80,7 +100,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Grenade>(player, gGrenade);
+			scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
@@ -92,7 +112,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Shuriken>(player, shuriken);
+			//scriptC->AttachScript<Shuriken>(player, shuriken);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
@@ -105,6 +125,40 @@ public:
 		if (scriptC)
 		{
 			//scriptC->AttachScript<HackingDevice>(player, hDevice);
+		}
+
+#pragma endregion
+
+#pragma region Equipment Scripts
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(oImplant);
+		if (scriptC)
+		{
+			scriptC->AttachScript<OpticalImplant>(player, oImplant);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(passport);
+		if (scriptC)
+		{
+				//scriptC->AttachScript<Passport>(player, passport);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(ragnite);
+		if (scriptC)
+		{
+				//scriptC->AttachScript<Ragnite>(player, ragnite);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(pGlove);
+		if (scriptC)
+		{
+			//scriptC->AttachScript<PowerGlove>(player, pGlove);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(pGem);
+		if (scriptC)
+		{
+				//scriptC->AttachScript<PowerGem>(player, pGem);
 		}
 
 #pragma endregion

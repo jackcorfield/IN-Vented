@@ -2,6 +2,28 @@
 #include "Resources/Script.h"
 #include "Amogus.h"
 
+#include <vector>
+#include <string>
+
+static const std::vector<std::string> weaponSlotNames
+{
+    "WeaponSlot1",
+    "WeaponSlot2",
+    "WeaponSlot3",
+    "WeaponSlot4",
+    "WeaponSlot5"
+};
+
+const std::vector<std::string> equipSlotNames
+{
+    "EquipSlot1",
+    "EquipSlot2",
+    "EquipSlot3",
+    "EquipSlot4",
+    "EquipSlot5"
+};
+
+
 class PlayerScript :
     public Script
 {
@@ -14,7 +36,15 @@ public:
     virtual void OnRender(float dt) override;
     virtual void OnUnattach() override;
 
+    void AddWeapon(Sprite* icon);
+    void AddEquip(Sprite* icon);
+
     // INITIAL WEAPON
+    
+    UI_WidgetComponent* m_UIWidget;
+
+    int m_weaponCount = 0;
+    int m_equipCount = 5; //needs to be 5 higher than the weapon slots
 
    //Modifiers
     float m_movementSpeed;
@@ -27,6 +57,7 @@ public:
 
     float m_damageModifier;
 
+    float m_maxHealth;
     float m_health;
     float m_regeneration;
 
@@ -34,6 +65,16 @@ public:
 
 private:
     void UpdateSpriteAnimation(bool facingLeft, bool moving);
+    
+    // Enemy collision functions
+    void CheckCollisions();
+    bool CheckPotentialCollision(Entity possibleCollision); // Simple AABB collision check
+    glm::vec2 GetIntersectionDepth(Entity collidedEntity);
+    void ResolveCollision(glm::vec2 intersection, BoxCollider* theirCollider, Transform* theirTransform);
+
+    // Stores player components for quick access
+    Transform* m_transform;
+    BoxCollider* m_collider;
     
     bool m_keyboardInUse; // Prevents dpad input if keyboard is already being used in the frame
     struct KeyRegister // Stores status of relevant keys
@@ -50,8 +91,9 @@ private:
     bool m_movingLastFrame; // Used to test against current movement status (to set correct animation)
     bool m_facingLeftLastFrame; // Used to determine whether to flip sprite
 
-    //Entity m_player; If all we are using this for is to check if player exists, it is probably not worth keeping - if player doesn't exist, this script doesn't run
-    //EntityManager* m_manager;
+    float m_invulnTime; // Stores length of time player is invulnerable after taking damage (prevents instant death from being hit every frame)
+    float m_currentInvulnCooldown; // Counts down to 0 from m_invulnTime after taking damage
+    bool m_isDead;
 
     void KeyEvent(InputEvent* e);
 };

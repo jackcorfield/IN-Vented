@@ -12,7 +12,12 @@
     <ClCompile Include="src\LaserGun.cpp" />
     <ClCompile Include="src\NeonKatana.cpp" />
     <ClCompile Include="src\Grenade.cpp" />
-    <ClCompile Include="TileLoop.cpp" />
+    <ClCompile Include="src\OpticalImplant.cpp" />
+    <ClCompile Include="src\Passport.cpp" />
+    <ClCompile Include="src\PowerGem.cpp" />
+    <ClCompile Include="src\PowerGlove.cpp" />
+    <ClCompile Include="src\Ragnite.cpp" />
+    <ClCompile Include="src\EquipmentScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CameraFollowScript.h" />
@@ -25,6 +30,11 @@
     <ClInclude Include="src\LaserGun.h" />
     <ClInclude Include="src\NeonKatana.h" />
     <ClInclude Include="src\Grenade.h" />
-    <ClInclude Include="TileLoop.h" />
+    <ClInclude Include="src\OpticalImplant.h" />
+    <ClInclude Include="src\Passport.h" />
+    <ClInclude Include="src\PowerGem.h" />
+    <ClInclude Include="src\PowerGlove.h" />
+    <ClInclude Include="src\Ragnite.h" />
+    <ClInclude Include="src\EquipmentScript.h" />
   </ItemGroup>
 </Project>

@@ -53,7 +53,6 @@ protected:
 
     std::vector<Projectiles> m_vecProjectiles;
 
-
     bool m_isMoving;
     bool m_isAutoTarget;
 
