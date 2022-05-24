@@ -138,7 +138,8 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Grenade>(player, gGrenade, xpManager);
+			//scriptC->AttachScript<Grenade>(player, gGrenade, xpManager);
+			scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
