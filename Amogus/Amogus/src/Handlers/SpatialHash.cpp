@@ -39,11 +39,11 @@ bool SpatialHash::insert(Entity entity)
 	{
 		for (int y = min.y; y <= max.y; y++)
 		{
-			m_map[glm::vec2(x, y)].contents.push_back(entity);
+			m_map[glm::vec2(x, y)].contents.push_back({ entity, transform, boxCollider, transform->m_position });
 		}
 	}
 
-	m_allEntities.push_back({ entity, transform->m_position });
+	m_allEntities.push_back({ entity, transform, boxCollider, transform->m_position });
 
 	return true;
 }
@@ -64,6 +64,7 @@ bool SpatialHash::remove(Entity entity)
 	if (transform == nullptr || boxCollider == nullptr)
 	{
 		forceRemove(entity);
+		return true;
 	}		
 	
 	glm::vec2 min = hash(transform->m_position - boxCollider->m_size / 2.0f);
@@ -73,8 +74,8 @@ bool SpatialHash::remove(Entity entity)
 	{
 		for (int y = min.y; y <= max.y; y++)
 		{
-			std::vector<Entity>& contents = m_map[glm::vec2(x, y)].contents;
-			auto iter = std::find(contents.begin(), contents.end(), entity);
+			std::vector<Entry>& contents = m_map[glm::vec2(x, y)].contents;
+			auto iter = std::find_if(contents.begin(), contents.end(), [&](Entry& e) { return e.entityID == entity; });
 			if (iter != contents.end())
 				contents.erase(iter);
 		}
@@ -89,7 +90,7 @@ void SpatialHash::forceRemove(Entity entity)
 	{
 		if (pair.second.contents.size() == 0)
 			continue;
-		auto it = std::find(pair.second.contents.begin(), pair.second.contents.end(), entity);
+		auto it = std::find_if(pair.second.contents.begin(), pair.second.contents.end(), [&](Entry& e) { return e.entityID == entity; });
 		if (it != pair.second.contents.end())
 			pair.second.contents.erase(it);
 	}
@@ -101,25 +102,22 @@ void SpatialHash::forceRemove(Entity entity)
 
 void SpatialHash::updateCell(const glm::vec2& cellid)
 {
-	std::vector<Entity> cellEntities = m_map[cellid].contents;
+	std::vector<Entry> cellEntities = m_map[cellid].contents;
 	
 	EntityManager* ecs = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 	
-	for (Entity entity : cellEntities)
+	for (Entry& entity : cellEntities)
 	{
-		Transform* t = ecs->GetComponent<Transform>(entity);
-		auto it = std::find_if(m_allEntities.begin(), m_allEntities.end(), [&](Entry e) { return e.entityID == entity; });
-
-		if (t == nullptr)
+		if (entity.entityTransform == NULL)
 		{
-			forceRemove(entity);
+			forceRemove(entity.entityID);
 			continue;
 		}
 		
-		if (it->entryPosition != t->m_position)
+		if (entity.entryPosition != entity.entityTransform->m_position)
 		{
-			remove(entity);
-			insert(entity);
+			remove(entity.entityID);
+			insert(entity.entityID);
 		}
 	}
 }
@@ -129,13 +127,7 @@ void SpatialHash::updateAll()
 	EntityManager* ecs = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 	for (Entry e : m_allEntities)
 	{
-		Transform* t = ecs->GetComponent<Transform>(e.entityID);
-		if (t == NULL)
-		{
-			forceRemove(e.entityID);
-			continue;
-		}
-		if (t->m_position != e.entryPosition)
+		if (e.entityTransform->m_position != e.entryPosition)
 		{
 			remove(e.entityID);
 			insert(e.entityID);
@@ -167,19 +159,19 @@ std::vector<Entity> SpatialHash::broadCollisionCheck(Entity entity)
 	{
 		for (int y = min.y; y <= max.y; y++)
 		{
-			std::vector<Entity>& contents = m_map[glm::vec2(x, y)].contents;
+			std::vector<Entry>& contents = m_map[glm::vec2(x, y)].contents;
 			
-			for (Entity e : contents)
+			for (Entry e : contents)
 			{
-				if (e == entity)
+				if (e.entityID == entity)
 					continue;
 
-				if (ecs->GetComponent<Transform>(e) == NULL || ecs->GetComponent<BoxCollider>(e) == NULL)
+				if (e.entityTransform == NULL || e.entityBoxCollider == NULL)
 				{
-					forceRemove(e);
+					forceRemove(e.entityID);
 					continue;
 				}
-				entities.push_back(e);
+				entities.push_back(e.entityID);
 			}
 		}
 	}
