@@ -401,12 +401,21 @@ void ImGuiLayer::DrawNewEntityMenu()
 void ImGuiLayer::DrawProfiler()
 {
 	ImGui::Begin("Profiler");
-	static float arr[] = { 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f, 16.0f, 20.0f, 10.0f, 12.0f, 14.0f, 11.0f, 19.0f };
-	ImGui::PlotLines("Curve", arr, IM_ARRAYSIZE(arr), 0, "", 0, 30, ImVec2(ImGui::GetWindowWidth() - 100, 30));
+
+	static std::vector<float> arr = {};
+	static float max = -FLT_MAX;
+	float nextVal = 1.0f / ImGui::GetIO().DeltaTime;
+	if (nextVal > max)
+		max = nextVal;
+
+	arr.push_back(nextVal);
+	if (arr.size() > 32)
+	{
+		arr.erase(arr.begin());
+	}
+	ImGui::PlotLines("Curve", arr.data(), arr.size(), 0, "", 0, max, ImVec2(ImGui::GetWindowWidth() - 100, 30));
 
 	ImGui::End();
-
-	
 }
 
 void ImGuiLayer::DrawConsole()
