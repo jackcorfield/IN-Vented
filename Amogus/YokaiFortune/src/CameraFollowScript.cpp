@@ -37,21 +37,20 @@ void CameraFollowScript::OnUpdate(float dt)
 	Transform* followTransform = entityManager->GetComponent<Transform>(m_followTarget);
 	if (!followTransform) { return; }
 
-	float oldPos = followTransform->m_position.x;
-
 	// Transform the camera position. We need to add half the viewport size to center it as the position is in the top-left
 	glm::vec2 halfViewportSize(m_camera->m_internalWidth / 2.0f, m_camera->m_internalHeight / 2.0f);
 	m_transform->m_position.x = -followTransform->m_position.x + halfViewportSize.x;
 
 	// Get background
 	Entity background = 0;
-
-	auto allNameComponents = entityManager->GetAllComponentsOfType<EntityName>();
-	for (EntityName* nameComponent : allNameComponents)
 	{
-		if (nameComponent->m_name == "Background")
+		auto allNameComponents = entityManager->GetAllComponentsOfType<EntityName>();
+		for (EntityName* nameComponent : allNameComponents)
 		{
-			background = entityManager->GetEntityFromComponent<EntityName>(nameComponent);
+			if (nameComponent->m_name == "Background")
+			{
+				background = entityManager->GetEntityFromComponent<EntityName>(nameComponent);
+			}
 		}
 	}
 
