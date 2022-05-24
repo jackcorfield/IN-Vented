@@ -2,6 +2,7 @@
 #include "Resources/Script.h"
 #include "Amogus.h"
 #include "PlayerScript.h"
+#include "XpManagerScript.h"
 
 class WeaponScript :
     public Script
@@ -40,12 +41,15 @@ protected:
 
     Entity m_weapon;
     Entity m_player;
+    Entity e_xpManager;
     EntityManager* m_manager;
+
 
    Sprite* m_icon;
    Sprite* m_sprite;
    Audio* m_audio;
    PlayerScript* m_pScript;
+   XpManager* m_xpManager;
 
     glm::vec2 m_hitboxSize;
 

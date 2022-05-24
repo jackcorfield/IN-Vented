@@ -23,7 +23,8 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_maxHealth(10.0f),
 	m_health(m_maxHealth),
 	m_regeneration(0.0f),
-	m_range(50.0f)
+	m_range(50.0f),
+	m_playerXP(0)
 {
 	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerScript::KeyEvent);
 
@@ -47,6 +48,11 @@ void PlayerScript::OnAttach()
 {
 	m_transform = GetComponent<Transform>();
 	m_collider = GetComponent<BoxCollider>();
+}
+
+void PlayerScript::AddXP(int XPVal)
+{
+	m_playerXP += XPVal;
 }
 
 void PlayerScript::KeyEvent(InputEvent* e)

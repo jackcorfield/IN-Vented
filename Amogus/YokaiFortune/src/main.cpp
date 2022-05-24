@@ -48,6 +48,7 @@ public:
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
+		Entity xpManager = GetEntityByName("XpManager");
 
 		//Weapons
 		Entity shuriken = GetEntityByName("Shuriken");
@@ -77,6 +78,12 @@ public:
 			scriptC->AttachScript<PlayerScript>(100.0f);
 		}
 
+		scriptC = entityManager->GetComponent<ScriptComponent>(xpManager);
+		if (scriptC)
+		{
+			scriptC->AttachScript<XpManager>(player, 100, 10);
+		}
+
 		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
 		if (scriptC)
 		{
@@ -100,7 +107,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Grenade>(player, gGrenade);
+			//scriptC->AttachScript<Grenade>(player, gGrenade, xpManager);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
@@ -112,7 +119,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Shuriken>(player, shuriken);
+			scriptC->AttachScript<Shuriken>(player, shuriken);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);

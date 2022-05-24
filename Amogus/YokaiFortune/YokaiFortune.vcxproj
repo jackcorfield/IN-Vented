@@ -168,6 +168,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PlayerScript.cpp" />
     <ClCompile Include="src\WeaponScript.cpp" />
+    <ClCompile Include="src\XpManagerScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Passport.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="src\EnemySpawnerScript.h" />
     <ClInclude Include="src\PlayerScript.h" />
     <ClInclude Include="src\WeaponScript.h" />
+    <ClInclude Include="src\XpManagerScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

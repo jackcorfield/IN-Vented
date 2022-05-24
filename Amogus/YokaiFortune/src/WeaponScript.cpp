@@ -17,6 +17,18 @@ m_sprite(nullptr)
 {
 	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(player)->GetAttachedScript();
 	m_currentProjectile = 0;
+	
+	for (Entity e : entityManager->GetAllActiveEntities())
+	{
+		EntityName* name = entityManager->GetComponent<EntityName>(e);
+
+		if (name && name->m_name == "XpManager")
+		{
+			e_xpManager = e;
+			m_xpManager = (XpManager*)m_manager->GetComponent<ScriptComponent>(e_xpManager)->GetAttachedScript();
+			break;
+		}
+	}
 }
 
 WeaponScript::~WeaponScript()

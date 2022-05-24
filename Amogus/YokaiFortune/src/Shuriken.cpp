@@ -135,6 +135,8 @@ void Shuriken::OnUpdate(float dt)
 				{
 					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
 					{
+						m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
+						m_vecProjectiles[i].duration = 0;
 						m_manager->RemoveComponent<ScriptComponent>(e);
 						m_manager->DeleteEntity(e);
 					}
