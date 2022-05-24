@@ -5,6 +5,7 @@
 #include "CameraFollowScript.h"
 #include "EnemyMovementScript.h"
 #include "EnemySpawnerScript.h"
+#include "TimerScript.h"
 
 #include "PlayerScript.h"
 #include "WeaponScript.h"
@@ -48,6 +49,8 @@ public:
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
+		Entity timer = GetEntityByName("Timer");
+
 
 		//Weapons
 		Entity shuriken = GetEntityByName("Shuriken");
@@ -93,6 +96,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<CameraFollowScript>(player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(timer);
+		if (scriptC)
+		{
+			scriptC->AttachScript<TimerScript>(timer);
 		}
 
 #pragma region Weapon Scripts

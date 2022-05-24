@@ -5,7 +5,9 @@
 class TimerScript :
     public Script
 {
-    TimerScript(EntityManager* entityManager, Entity parentEntityID);
+public:
+
+    TimerScript(EntityManager* entityManager, Entity parentEntityID, Entity Timer);
     ~TimerScript();
 
      void OnAttach() override;
@@ -13,7 +15,7 @@ class TimerScript :
      void OnRender(float dt) override;
      void OnUnattach() override;
 
-     int m_seconds = 0;
-     int m_minutes = 0;
+     float m_seconds = 0,f;
+     float m_minutes = 0.f;
 };
 
