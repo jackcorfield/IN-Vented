@@ -17,6 +17,18 @@ m_sprite(nullptr)
 {
 	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(player)->GetAttachedScript();
 	m_currentProjectile = 0;
+	
+	for (Entity e : entityManager->GetAllActiveEntities())
+	{
+		EntityName* name = entityManager->GetComponent<EntityName>(e);
+
+		if (name && name->m_name == "XpManager")
+		{
+			e_xpManager = e;
+			m_xpManager = (XpManager*)m_manager->GetComponent<ScriptComponent>(e_xpManager)->GetAttachedScript();
+			break;
+		}
+	}
 }
 
 WeaponScript::~WeaponScript()
@@ -41,21 +53,19 @@ void WeaponScript::OnLevelUp()
 		return;
 	}
 
-	m_currentLevel++;
-
 	switch (m_levelingInfo[m_currentLevel].first)
 	{
 	case SPEED:
-		m_baseProjectileSpeed += m_levelingInfo[m_currentLevel].second;
+		m_baseProjectileSpeed += (m_baseProjectileSpeed * m_levelingInfo[m_currentLevel].second) / 100;
 		break;
 	case	COOLDOWN:
-		m_baseProjectileCooldown += m_levelingInfo[m_currentLevel].second;
+		m_baseProjectileCooldown += (m_baseProjectileCooldown * m_levelingInfo[m_currentLevel].second) / 100;
 		break;
 	case AREA:
-		m_baseProjectileArea += m_levelingInfo[m_currentLevel].second;
+		m_baseProjectileArea += (m_baseProjectileArea * m_levelingInfo[m_currentLevel].second) / 100;
 		break;
 	case	DURATION:
-		m_baseProjectileDuration += m_levelingInfo[m_currentLevel].second;
+		m_baseProjectileDuration += (m_baseProjectileDuration * m_levelingInfo[m_currentLevel].second) / 100;
 		break;
 	case	COUNT:
 		m_baseProjectileCount += m_levelingInfo[m_currentLevel].second;
@@ -64,6 +74,10 @@ void WeaponScript::OnLevelUp()
 		m_baseDamageModifier += m_levelingInfo[m_currentLevel].second;
 		break;
 	}
+
+	m_currentLevel++;
+	m_pScript->UpdateLevel(m_elementNum, m_currentLevel);
+
 }
 
 void WeaponScript::OnAttach()

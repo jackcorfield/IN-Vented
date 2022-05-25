@@ -33,6 +33,8 @@ public:
 
     Sprite* m_icon;//set in header of each equipment
 
+    int m_elementNum;
+
     int m_maxLevel; //set in header of each equipment
     int m_currentLevel;
 

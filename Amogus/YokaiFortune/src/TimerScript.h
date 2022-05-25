@@ -15,7 +15,6 @@ public:
      void OnRender(float dt) override;
      void OnUnattach() override;
 
-     float m_seconds = 0,f;
-     float m_minutes = 0.f;
+     float m_seconds = 0.0f;
 };
 

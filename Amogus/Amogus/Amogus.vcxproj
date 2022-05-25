@@ -152,7 +152,8 @@ xcopy /y /d  "$(ProjectDir)dependencies\freetype\lib\freetype.dll" "$(TargetDir)
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d  "$(ProjectDir)dependencies\fmod\lib\x64\fmod.dll" "$(TargetDir)"</Command>
-      <Command>xcopy /y /d  "$(ProjectDir)dependencies\freetype\lib\freetype.dll" "$(TargetDir)"</Command>
+      <Command>xcopy /y /d  "$(ProjectDir)dependencies\fmod\lib\x64\fmod.dll" "$(TargetDir)"
+xcopy /y /d  "$(ProjectDir)dependencies\freetype\lib\freetype.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

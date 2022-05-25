@@ -2,12 +2,13 @@
 #include "Resources/Script.h"
 #include "Amogus.h"
 #include "PlayerScript.h"
+#include "XpManagerScript.h"
 
 class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 0, bool moving = true, bool autoTarget = false);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 1, bool moving = true, bool autoTarget = false);
     ~WeaponScript();
     void SetSprites(Sprite* icon, Sprite* sprite);
     void OnAttach();
@@ -40,12 +41,17 @@ protected:
 
     Entity m_weapon;
     Entity m_player;
+    Entity e_xpManager;
     EntityManager* m_manager;
+
+    int m_elementNum;
+    bool m_firstLevel;
 
    Sprite* m_icon;
    Sprite* m_sprite;
    Audio* m_audio;
    PlayerScript* m_pScript;
+   XpManager* m_xpManager;
 
     glm::vec2 m_hitboxSize;
 

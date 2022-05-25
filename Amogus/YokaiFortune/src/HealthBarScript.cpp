@@ -3,7 +3,7 @@
 #include "PlayerScript.h"
 
 #define GAME_VIEWPORT_HEIGHT 180.0f
-#define Y_OFFSET 0.045f
+#define Y_OFFSET 0.08f
 
 HealthBarScript::HealthBarScript(EntityManager* entityManager, Entity parentEntityID, Entity playerEntityID) :
 	Script(entityManager, parentEntityID),
@@ -33,10 +33,10 @@ void HealthBarScript::OnUpdate(float dt)
 	// Calculate position
 	float min = -GAME_VIEWPORT_HEIGHT;
 	float max = GAME_VIEWPORT_HEIGHT;
-	float percentageY = (playerTransform->m_position.y - min) / (max - min) / 2.0f;
+	float percentageY = (playerTransform->m_position.y - min) / (max - min);
 	float relativeYPos = percentageY + Y_OFFSET;
 
-	glm::vec2 healthBarPosition = glm::vec2(0.25f, relativeYPos);
+	glm::vec2 healthBarPosition = glm::vec2(0.5f, relativeYPos);
 
 	// Calculate colour
 	float red = 1.0f + percentageHealth * (0.0f - 1.0f); // Higher when health percentage is lower

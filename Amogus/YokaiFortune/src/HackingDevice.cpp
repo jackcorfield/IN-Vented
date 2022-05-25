@@ -3,6 +3,17 @@
 HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
 	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
+
+	m_levelingInfo.push_back(std::make_pair(AREA, 40));
+	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
+	m_levelingInfo.push_back(std::make_pair(AREA, 20));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 3));
+	m_levelingInfo.push_back(std::make_pair(AREA, 20));
+	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 20));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 3));
+
+	m_maxLevel = m_levelingInfo.size();
+
 	m_baseProjectileSpeed = 10; //Speed of projectiles
 
 	 //SHOULD BE USED AS THE HITBOX COOLDOWN
@@ -63,7 +74,7 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 	p.isSpawned = false;
 
 	m_vecProjectiles.push_back(p);
-	m_pScript->AddWeapon(icon);
+	m_elementNum = m_pScript->AddWeapon(icon, level);
 }
 
 HackingDevice::~HackingDevice()

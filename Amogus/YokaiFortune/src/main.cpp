@@ -62,12 +62,13 @@ public:
 		auto allEntities = entityManager->GetAllActiveEntities();
 
 		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
-		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .2f);
 
 		Entity player = GetEntityByName("Player");
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
+		Entity xpManager = GetEntityByName("XpManager");
 		Entity timer = GetEntityByName("Timer");
 		Entity healthBar = GetEntityByName("HealthBar");
 
@@ -86,6 +87,8 @@ public:
 		Entity pGem = GetEntityByName("PowerGem");
 
 		//temp Music as proof of concept
+
+
 		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
 		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
@@ -94,6 +97,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<PlayerScript>(100.0f);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(xpManager);
+		if (scriptC)
+		{
+			scriptC->AttachScript<XpManager>(player, 100, 10);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
@@ -131,7 +140,8 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Grenade>(player, gGrenade);
+			//scriptC->AttachScript<Grenade>(player, gGrenade, xpManager);
+			scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
@@ -165,31 +175,31 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(oImplant);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<OpticalImplant>(player, oImplant);
+			scriptC->AttachScript<OpticalImplant>(player, oImplant);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(passport);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Passport>(player, passport);
+			scriptC->AttachScript<Passport>(player, passport);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(ragnite);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Ragnite>(player, ragnite);
+			scriptC->AttachScript<Ragnite>(player, ragnite);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(pGlove);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<PowerGlove>(player, pGlove);
+			scriptC->AttachScript<PowerGlove>(player, pGlove);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(pGem);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<PowerGem>(player, pGem);
+			scriptC->AttachScript<PowerGem>(player, pGem);
 		}
 
 #pragma endregion

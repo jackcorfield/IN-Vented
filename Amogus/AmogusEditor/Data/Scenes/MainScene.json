@@ -59,19 +59,19 @@
                         "name": "Idle"
                     },
                     {
-						"frameTime": 0.10000000149011612,
-						"frames": [
-						  8,
-						  9,
-						  10,
-						  11,
-						  12,
-						  13,
-						  14,
-						  15
-						],
-						"name": "Run"
-					}
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15
+                        ],
+                        "name": "Run"
+                    }
                 ],
                 "colour": {
                     "x": 1.0,
@@ -93,17 +93,17 @@
                 },
                 "type": "animatedSprite"
             },
-			{
-				"offset": {
-				  "x": 0.0,
-				  "y": 22.0
-				},
-				"size": {
-				  "x": 30.0,
-				  "y": 20.0
-				},
-				"type": "boxCollider"
-			},
+            {
+                "offset": {
+                    "x": 0.0,
+                    "y": 22.0
+                },
+                "size": {
+                    "x": 30.0,
+                    "y": 20.0
+                },
+                "type": "boxCollider"
+            },
             {
                 "name": "Player",
                 "type": "entityName"
@@ -128,12 +128,12 @@
                 "elements": [
                     {
                         "absolutePos": {
-                            "x": 15.0,
-                            "y": 15.0
-                        },
-                        "absoluteSize": {
                             "x": 30.0,
                             "y": 30.0
+                        },
+                        "absoluteSize": {
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -152,19 +152,19 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 50.0,
-                            "y": 15.0
+                            "x": 95.0,
+                            "y": 30.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -183,19 +183,19 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 85.0,
-                            "y": 15.0
+                            "x": 160.0,
+                            "y": 30.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -214,19 +214,19 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "TestImages/hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 120.0,
-                            "y": 15.0
+                            "x": 225.0,
+                            "y": 30.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -245,19 +245,19 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 155.0,
-                            "y": 15.0
+                            "x": 290.0,
+                            "y": 30.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -276,19 +276,19 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 15.0,
-                            "y": 50.0
+                            "x": 30.0,
+                            "y": 100.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -307,19 +307,19 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 50.0,
-                            "y": 50.0
+                            "x": 95.0,
+                            "y": 100.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -338,19 +338,19 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 85.0,
-                            "y": 50.0
+                            "x": 160.0,
+                            "y": 100.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -369,24 +369,24 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 120.0,
-                            "y": 50.0
+                            "x": 225.0,
+                            "y": 100.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
                         },
                         "elementType": 1.0,
                         "hidden": false,
@@ -400,19 +400,19 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": 155.0,
-                            "y": 50.0
+                            "x": 290.0,
+                            "y": 100.0
                         },
                         "absoluteSize": {
-                            "x": 30.0,
-                            "y": 30.0
+                            "x": 60.0,
+                            "y": 60.0
                         },
                         "colour": {
                             "x": 1.0,
@@ -431,9 +431,299 @@
                             "y": 0.0
                         },
                         "texture": {
-                            "filePath": "hi.png",
+                            "filePath": "UI/transparent.png",
                             "name": "Texture"
                         },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 25.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot1T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 58.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.011695921421051025,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot2T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 91.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot3T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 124.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot4T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 157.0,
+                            "y": 25.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "WeaponSlot5T",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 25.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot1T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 58.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot2T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 91.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot3T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 124.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot4T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 157.0,
+                            "y": 60.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.20000000298023224
+                        },
+                        "centered": true,
+                        "colour": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "EquipSlot5T\u0000",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "",
                         "zIdx": 0
                     }
                 ],
@@ -1036,50 +1326,120 @@
             }
         ],
         [
-          {
-              "name": "HealthBar",
-              "type": "entityName"
-          },
-          {
-              "type": "scriptComponent"
-          },
-          {
-              "elements": [
-                  {
-                      "absolutePos": {
-                          "x": 0.0,
-                          "y": 0.0
-                      },
-                      "absoluteSize": {
-                          "x": 1.0,
-                          "y": 8.0
-                      },
-                      "colour": {
-                          "x": 1.0,
-                          "y": 1.0,
-                          "z": 1.0
-                      },
-                      "elementType": 1.0,
-                      "hidden": false,
-                      "name": "HealthBarImage",
-                      "relativePos": {
-                          "x": 0.0,
-                          "y": 0.0
-                      },
-                      "relativeSize": {
-                          "x": 0.0,
-                          "y": 0.0
-                      },
-                      "texture": {
-                          "filePath": "UI/Health/healthbar.png",
-                          "name": "HealthBarTexture"
-                      },
-                      "zIdx": 0
-                  }
-              ],
-              "type": "uiWidget"
-          }
-      ]
-  ],
+            {
+                "name": "HealthBar",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 8.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "HealthBarImage",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "UI/Health/healthbar.png",
+                            "name": "HealthBarTexture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
+        ],
+        [
+            {
+                "animations": [
+                    {
+                        "frameTime": 1.0,
+                        "frames": [
+                            1
+                        ],
+                        "name": "Large"
+                    },
+                    {
+                        "frameTime": 1.0,
+                        "frames": [
+                            0
+                        ],
+                        "name": "Small"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 32.0,
+                    "y": 32.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "DefaultSprite",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Xp/Xp-Sprite.png",
+                    "name": "Xp Orb"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "offset": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "XpManager",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "type": "transform"
+            }
+        ]
+    ],
     "name": "MainScene"
 }
