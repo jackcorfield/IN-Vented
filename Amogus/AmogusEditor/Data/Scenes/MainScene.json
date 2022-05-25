@@ -1554,6 +1554,77 @@
                 ],
                 "type": "uiWidget"
             }
+        ],
+        [
+            {
+                "name": "KillCount",
+                "type": "entityName"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "Skull\u0000lement0",
+                        "relativePos": {
+                            "x": 0.67,
+                            "y": 0.150000000149011612
+                        },
+                        "relativeSize": {
+                            "x": 0.05999999865889549,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/skull.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "centered": false,
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "killText",
+                        "relativePos": {
+                            "x": 0.3499999940395355,
+                            "y": 0.10000000149011612
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "0",
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
         ]
     ],
     "name": "MainScene"

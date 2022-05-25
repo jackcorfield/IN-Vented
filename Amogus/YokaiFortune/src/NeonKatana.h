@@ -4,7 +4,7 @@ class NeonKatana :
     public WeaponScript
 {
 public:
-    NeonKatana(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 1, bool moving = true, bool autoTarget = false);
+    NeonKatana(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, Entity m_killCounter, int level = 1, bool moving = true, bool autoTarget = false);
     ~NeonKatana();
 
     void OnAttach();

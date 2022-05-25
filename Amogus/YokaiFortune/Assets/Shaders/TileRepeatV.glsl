@@ -15,7 +15,7 @@ uniform mat4 projection;
 uniform float depth;
 uniform float cameraX;
 
-const int viewSpaceWidth = 1280 / 2; // Window width divided by 2
+const int viewSpaceWidth = 1280 / 2;
 
 void main()
 {
