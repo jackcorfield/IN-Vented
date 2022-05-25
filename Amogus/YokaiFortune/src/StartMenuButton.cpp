@@ -7,8 +7,17 @@ StartMenuButton::StartMenuButton(EntityManager* entityManager, Entity parentEnti
 
 	for (UI_BaseElement* element : m_UIWidget->m_elements)
 	{
-		if (element->m_elementType == ElementType::ET_ImageButton)
-			button = (UI_ImageButton*)element;
+
+		if (!m_startButton)
+		{
+			if (element->m_elementType == ElementType::ET_ImageButton)
+				m_startButton = (UI_ImageButton*)element;
+		}
+		else
+		{
+			if (element->m_elementType == ElementType::ET_ImageButton)
+				m_quitButton = (UI_ImageButton*)element;
+		}
 	}
 
 }
@@ -23,9 +32,14 @@ void StartMenuButton::OnAttach()
 
 void StartMenuButton::OnUpdate(float dt)
 {
-	if (button->m_state == ButtonState::BS_Click)
+	if (m_startButton->m_state == ButtonState::BS_Click)
 	{
 		loadMainScene = true;
+	}
+
+	if (m_quitButton->m_state == ButtonState::BS_Click)
+	{
+		g_app->Quit();
 	}
 }
 
