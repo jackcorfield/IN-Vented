@@ -856,13 +856,13 @@
                 },
                 "rotate": 0.0,
                 "size": {
-                    "x": 0.3,
-                    "y": 0.3
+                    "x": 0.30000001192092896,
+                    "y": 0.30000001192092896
                 },
                 "type": "transform"
             }
         ],
-		[
+        [
             {
                 "animations": [
                     {
@@ -927,7 +927,202 @@
                 "type": "transform"
             }
         ],
-		[
+        [
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "name": "Run"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 48.0,
+                    "y": 48.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Enemies/SmallMonster/spritesheet.png",
+                    "name": "animsheet smallmonster"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "offset": {
+                    "x": -1.0,
+                    "y": 20.0
+                },
+                "size": {
+                    "x": 10.0,
+                    "y": 13.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "EnemyTemplate",
+                "type": "entityName"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 0.5,
+                    "y": 0.5
+                },
+                "type": "transform"
+            }
+        ],
+        [
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "name": "Run"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 32.0,
+                    "y": 32.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Enemies/Mudguard/spritesheet.png",
+                    "name": "animsheet mudguard"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "offset": {
+                    "x": 0.0,
+                    "y": 10.0
+                },
+                "size": {
+                    "x": 24.0,
+                    "y": 16.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "EnemyTemplate",
+                "type": "entityName"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 0.30000001192092896,
+                    "y": 0.30000001192092896
+                },
+                "type": "transform"
+            }
+        ],
+        [
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "name": "Run"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 100.0,
+                    "y": 100.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Enemies/Bat/spritesheet.png",
+                    "name": "animsheet bat"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "offset": {
+                    "x": 0.0,
+                    "y": 5.0
+                },
+                "size": {
+                    "x": 16.0,
+                    "y": 18.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "EnemyTemplate",
+                "type": "entityName"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 0.5,
+                    "y": 0.5
+                },
+                "type": "transform"
+            }
+        ],
+        [
             {
                 "animations": [
                     {
@@ -1143,6 +1338,99 @@
             }
         ],
         [
+            {
+              "animations": [
+                {
+                  "frameTime": 0.1,
+                  "frames": [
+                    1,
+                    2,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20,
+                    21,
+                    22,
+                    23,
+                    24,
+                    25,
+                    26,
+                    27,
+                    28,
+                    29,
+                    30,
+                    31,
+                    32,
+                    33,
+                    34,
+                    35,
+                    36,
+                    37,
+                    38,
+                    39,
+                    40,
+                    41,
+                    42,
+                    43,
+                    44,
+                    45,
+                    46,
+                    47,
+                    48,
+                    49,
+                    50,
+                    51,
+                    52,
+                    53,
+                    54,
+                    55,
+                    56,
+                    57,
+                    58,
+                    59,
+                    60,
+                    61,
+                    62,
+                    63
+                  ],
+                  "name": "Hacking"
+                }
+              ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 100.0,
+                    "y": 100.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "DefaultSprite",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Weapons/HackingDevice/hackingAnimation.png",
+                    "name": "hackingdevice"
+                },
+                "type": "animatedSprite"
+            },
             {
                 "name": "HackingDevice",
                 "type": "entityName"
@@ -1445,33 +1733,19 @@
         [
             {
                 "animations": [
-					{
-                        "frameTime": 1.0,
-                        "frames": [
-                            3
-                        ],
-                        "name": "Red"
-                    },
-					{
-                        "frameTime": 1.0,
-                        "frames": [
-                            2
-                        ],
-                        "name": "Blue"
-                    },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             1
                         ],
-                        "name": "Yellow"
+                        "name": "Large"
                     },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             0
                         ],
-                        "name": "Green"
+                        "name": "Small"
                     }
                 ],
                 "colour": {
@@ -1666,8 +1940,8 @@
                         "hidden": false,
                         "name": "Skull\u0000lement0",
                         "relativePos": {
-                            "x": 0.67,
-                            "y": 0.150000000149011612
+                            "x": 0.6700000166893005,
+                            "y": 0.15000000596046448
                         },
                         "relativeSize": {
                             "x": 0.05999999865889549,
@@ -1706,82 +1980,6 @@
                             "y": 0.0
                         },
                         "text": "0",
-                        "zIdx": 0
-                    }
-                ],
-                "type": "uiWidget"
-            }
-        ],
-        [
-            {
-                "name": "XpBar",
-                "type": "entityName"
-            },
-            {
-                "type": "scriptComponent"
-            },
-            {
-                "elements": [
-                    {
-                        "absolutePos": {
-                            "x": 0,
-                            "y": 0
-                        },
-                        "absoluteSize": {
-                            "x": 1.0,
-                            "y": 32.0
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 1.0,
-                        "hidden": false,
-                        "name": "XpBackground",
-                        "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "relativeSize": {
-                            "x": 0,
-                            "y": 0
-                        },
-                        "texture": {
-                            "filePath": "UI/Health/healthbar.png",
-                            "name": "XpBGTexture"
-                        },
-                        "zIdx": 0
-                    },
-					{
-                        "absolutePos": {
-                            "x": 0,
-                            "y": 0
-                        },
-                        "absoluteSize": {
-                            "x": 1.0,
-                            "y": 30.0
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 1.0,
-                        "hidden": false,
-                        "name": "XpCurrent",
-                        "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "relativeSize": {
-                            "x": 0,
-                            "y": 0
-                        },
-                        "texture": {
-                            "filePath": "UI/Health/healthbar.png",
-                            "name": "XpTexture"
-                        },
                         "zIdx": 0
                     }
                 ],

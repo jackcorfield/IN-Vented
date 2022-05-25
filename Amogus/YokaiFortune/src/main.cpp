@@ -184,7 +184,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Shuriken>(player, kCount, kCount);
+			//scriptC->AttachScript<Shuriken>(player, kCount, kCount);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
@@ -196,7 +196,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<HackingDevice>(player, kCount, kCount);
+			scriptC->AttachScript<HackingDevice>(player, kCount, kCount);
 		}
 
 #pragma endregion
