@@ -167,23 +167,7 @@ void Grenade::OnUpdate(float dt)
 				}
 			}
 
-			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
-			for (Entity e : collisions)
-			{
-				EntityName* name = m_manager->GetComponent<EntityName>(e);
-				if (name == NULL)
-					continue;
-
-				if (name->m_name == "Enemy")
-				{
-					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
-					{
-						m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
-						m_manager->RemoveComponent<ScriptComponent>(e);
-						m_manager->DeleteEntity(e);
-					}
-				}
-			}
+			CheckWeaponCollision(m_vecProjectiles[i].name, true);
 
 			m_vecProjectiles[i].duration -= dt;
 		}
