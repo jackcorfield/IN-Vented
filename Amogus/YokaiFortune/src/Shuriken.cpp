@@ -14,7 +14,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 	m_maxLevel = m_levelingInfo.size();
 
 
-	m_baseProjectileSpeed = 1; //Speed of projectiles
+	m_baseProjectileSpeed = 0.5; //Speed of projectiles
 	m_baseProjectileCooldown = 1; //How often weapon attacks
 	m_baseProjectileArea = 0.7f; //Size of weapon
 	m_baseProjectileDuration = 4; //How long the projectile stays on the screen
@@ -94,6 +94,16 @@ void Shuriken::OnAttach()
 
 void Shuriken::OnRender(float dt)
 {
+	Transform* transform;
+	for (Projectiles proj : m_vecProjectiles)
+	{
+		if (proj.isSpawned)
+		{
+			transform = m_manager->GetComponent<Transform>(proj.name);
+			transform->m_rotate += dt * 360;
+		}
+	}
+
 }
 
 void Shuriken::OnUnattach()
