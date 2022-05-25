@@ -15,6 +15,8 @@ public:
 	virtual void OnRender(float dt) override;
 	virtual void OnUnattach() override;
 
+	unsigned int m_enemiesAlive; // The number of enemies currently alive.
+
 private:
 	void CalculateAllDirections();
 	void CalculateDir(Entity entity, EntityManager* entityManager, const glm::vec2& playerPos);
@@ -31,7 +33,7 @@ private:
 	Entity m_spawnAround; // Player entity that enemies spawn around
 
 	float m_totalTimeElapsed; // Total time elapsed since game start
-	unsigned int m_enemiesAlive; // The number of enemies currently alive.
+	
 
 	float m_timeElapsedSinceLastWave; // Time elapsed since last wave of enemies was spawned
 	const unsigned int m_maxEnemiesAlive; // Hard cap on enemies alive at one time. Once this is reached, new enemies will despawn old enemies

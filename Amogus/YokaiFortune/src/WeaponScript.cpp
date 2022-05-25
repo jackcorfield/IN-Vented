@@ -99,8 +99,12 @@ bool WeaponScript::CheckWeaponCollision(Entity weaponID, bool areaOfEffect)
 				m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
 
 				//Handle Enemy Killing
-				m_manager->RemoveComponent<ScriptComponent>(e);
-				m_manager->DeleteEntity(e);
+			//	m_manager->RemoveComponent<ScriptComponent>(e);
+			//	m_manager->DeleteEntity(e);
+
+				m_manager->GetComponent<Transform>(e)->m_position = glm::vec2(-9999999, -9999999);
+				m_eScript = (EnemySpawnerScript*)m_manager->GetComponent<ScriptComponent>(e)->GetAttachedScript();
+				m_eScript->m_enemiesAlive--;
 				m_killCount++;
 				m_manager->GetComponent<UI_WidgetComponent>(m_killCounter)->GetText("killText")->m_text = std::to_string(m_killCount);
 
