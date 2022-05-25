@@ -10,6 +10,7 @@
 #include "PlayerScript.h"
 #include "WeaponScript.h"
 #include "HealthBarScript.h"
+#include "XpBarScript.h"
 
 #include "Shuriken.h"
 #include "HackingDevice.h"
@@ -82,6 +83,7 @@ public:
 
 		//UI
 		Entity gOver = GetEntityByName("GameOverScreen");
+		Entity kCount = GetEntityByName("KillCount");
 
 		Entity player = GetEntityByName("Player");
 		Entity enemy = GetEntityByName("Enemy");
@@ -90,6 +92,7 @@ public:
 		Entity xpManager = GetEntityByName("XpManager");
 		Entity timer = GetEntityByName("Timer");
 		Entity healthBar = GetEntityByName("HealthBar");
+		Entity xpBar = GetEntityByName("XpBar");
 
 		//Weapons
 		Entity shuriken = GetEntityByName("Shuriken");
@@ -158,36 +161,42 @@ public:
 			scriptC->AttachScript<HealthBarScript>(player);
 		}
 
+		scriptC = entityManager->GetComponent<ScriptComponent>(xpBar);
+		if (scriptC)
+		{
+			scriptC->AttachScript<XpBarScript>(player);
+		}
+
 #pragma region Weapon Scripts
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Grenade>(player, gGrenade);
+			//scriptC->AttachScript<Grenade>(player, gGrenade, kCount);
 		}
 		// need to be ordered in draw order
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<NeonKatana>(player, nKatana);
+			//scriptC->AttachScript<NeonKatana>(player, kCount, kCount);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Shuriken>(player, shuriken);
+			scriptC->AttachScript<Shuriken>(player, kCount, kCount);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<LaserGun>(player, lGun);
+			//scriptC->AttachScript<LaserGun>(player, kCount, kCount);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<HackingDevice>(player, hDevice);
+			//scriptC->AttachScript<HackingDevice>(player, kCount, kCount);
 		}
 
 #pragma endregion

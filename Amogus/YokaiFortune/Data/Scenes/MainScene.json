@@ -803,14 +803,12 @@
                     {
                         "frameTime": 0.10000000149011612,
                         "frames": [
-                            8,
-                            9,
-                            10,
-                            11,
-                            12,
-                            13,
-                            14,
-                            15
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
                         ],
                         "name": "Run"
                     }
@@ -821,8 +819,8 @@
                     "z": 1.0
                 },
                 "frameSize": {
-                    "x": 200.0,
-                    "y": 200.0
+                    "x": 32.0,
+                    "y": 32.0
                 },
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
@@ -830,24 +828,24 @@
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "Characters/Homura/spritesheet.png",
-                    "name": "animsheet homura"
+                    "filePath": "Enemies/Mudguard/spritesheet.png",
+                    "name": "animsheet mudguard"
                 },
                 "type": "animatedSprite"
             },
             {
                 "offset": {
                     "x": 0.0,
-                    "y": 22.0
+                    "y": 10.0
                 },
                 "size": {
-                    "x": 30.0,
-                    "y": 20.0
+                    "x": 24.0,
+                    "y": 16.0
                 },
                 "type": "boxCollider"
             },
             {
-                "name": "Enemy",
+                "name": "EnemyTemplate",
                 "type": "entityName"
             },
             {
@@ -858,13 +856,13 @@
                 },
                 "rotate": 0.0,
                 "size": {
-                    "x": 1.0,
-                    "y": 1.0
+                    "x": 0.3,
+                    "y": 0.3
                 },
                 "type": "transform"
             }
         ],
-        [
+		[
             {
                 "animations": [
                     {
@@ -875,9 +873,7 @@
                             2,
                             3,
                             4,
-                            5,
-                            6,
-                            7
+                            5
                         ],
                         "name": "Run"
                     }
@@ -888,8 +884,8 @@
                     "z": 1.0
                 },
                 "frameSize": {
-                    "x": 200.0,
-                    "y": 200.0
+                    "x": 100.0,
+                    "y": 100.0
                 },
                 "shader": {
                     "fragmentFilePath": "DefaultSpriteF.glsl",
@@ -897,13 +893,24 @@
                     "vertexFilePath": "DefaultSpriteV.glsl"
                 },
                 "texture": {
-                    "filePath": "Characters/Homura/Run.png",
-                    "name": "animsheet homura"
+                    "filePath": "Enemies/Bat/spritesheet.png",
+                    "name": "animsheet bat"
                 },
                 "type": "animatedSprite"
             },
             {
-                "name": "Enemy",
+                "offset": {
+                    "x": 0.0,
+                    "y": 5.0
+                },
+                "size": {
+                    "x": 16.0,
+                    "y": 18.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "EnemyTemplate",
                 "type": "entityName"
             },
             {
@@ -914,8 +921,73 @@
                 },
                 "rotate": 0.0,
                 "size": {
+                    "x": 0.5,
+                    "y": 0.5
+                },
+                "type": "transform"
+            }
+        ],
+		[
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "name": "Run"
+                    }
+                ],
+                "colour": {
                     "x": 1.0,
-                    "y": 1.0
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 48.0,
+                    "y": 48.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Enemies/SmallMonster/spritesheet.png",
+                    "name": "animsheet smallmonster"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "offset": {
+                    "x": -1.0,
+                    "y": 20.0
+                },
+                "size": {
+                    "x": 10.0,
+                    "y": 13.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "EnemyTemplate",
+                "type": "entityName"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 0.5,
+                    "y": 0.5
                 },
                 "type": "transform"
             }
@@ -1373,19 +1445,33 @@
         [
             {
                 "animations": [
+					{
+                        "frameTime": 1.0,
+                        "frames": [
+                            3
+                        ],
+                        "name": "Red"
+                    },
+					{
+                        "frameTime": 1.0,
+                        "frames": [
+                            2
+                        ],
+                        "name": "Blue"
+                    },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             1
                         ],
-                        "name": "Large"
+                        "name": "Yellow"
                     },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             0
                         ],
-                        "name": "Small"
+                        "name": "Green"
                     }
                 ],
                 "colour": {
@@ -1548,6 +1634,153 @@
                         "texture": {
                             "filePath": "UI/Options_Menu/ui_options_quit_button.png",
                             "name": "Texture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
+        ],
+        [
+            {
+                "name": "KillCount",
+                "type": "entityName"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "Skull\u0000lement0",
+                        "relativePos": {
+                            "x": 0.67,
+                            "y": 0.150000000149011612
+                        },
+                        "relativeSize": {
+                            "x": 0.05999999865889549,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/skull.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "centered": false,
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 3.0,
+                        "hidden": false,
+                        "name": "killText",
+                        "relativePos": {
+                            "x": 0.3499999940395355,
+                            "y": 0.10000000149011612
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "text": "0",
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
+        ],
+        [
+            {
+                "name": "XpBar",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 32.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "XpBackground",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "texture": {
+                            "filePath": "UI/Health/healthbar.png",
+                            "name": "XpBGTexture"
+                        },
+                        "zIdx": 0
+                    },
+					{
+                        "absolutePos": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "XpCurrent",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "texture": {
+                            "filePath": "UI/Health/healthbar.png",
+                            "name": "XpTexture"
                         },
                         "zIdx": 0
                     }

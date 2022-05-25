@@ -42,6 +42,8 @@ public:
     void UpdateLevel(int elementNum, int num);
 
     void AddXP(int XPVal);
+    const int GetXP() const { return m_playerXP; }
+    const int GetXPToLevelUp() const { return m_levelUpXP; }
 
     // INITIAL WEAPON
     
@@ -73,6 +75,7 @@ private:
     void UpdateSpriteAnimation(bool facingLeft, bool moving);
     
     int m_playerXP;
+    int m_levelUpXP;
 
     UI_WidgetComponent* m_GameOver;
 
