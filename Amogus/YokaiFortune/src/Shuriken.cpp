@@ -134,24 +134,9 @@ void Shuriken::OnUpdate(float dt)
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 
-			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
-			for (Entity e : collisions)
-			{
-				EntityName* name = m_manager->GetComponent<EntityName>(e);
-				if (name == NULL)
-					continue;
-
-				if (name->m_name == "Enemy")
-				{
-					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
-					{
-						m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
-						m_vecProjectiles[i].duration = 0;
-						m_manager->RemoveComponent<ScriptComponent>(e);
-						m_manager->DeleteEntity(e);
-					}
-				}
-			}
+			//Check collions
+			if(CheckWeaponCollision(m_vecProjectiles[i].name))
+				m_vecProjectiles[i].duration = 0;
 
 			m_vecProjectiles[i].duration -= dt;
 		}
