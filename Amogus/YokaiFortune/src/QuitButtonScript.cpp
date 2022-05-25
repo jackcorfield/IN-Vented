@@ -25,7 +25,7 @@ void QuitButtonScript::OnUpdate(float dt)
 {
 	if (button->m_state == ButtonState::BS_Click)
 	{
-		GotoScene("StartScene");
+		g_app->Quit();
 	}
 }
 
