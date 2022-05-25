@@ -235,7 +235,7 @@ void ImGuiLayer::DrawMenuBar()
 #else
 					buildType = "Release";
 #endif
-					std::string command = ".\\..\\x64\\" + buildType + "\\YokaiFortune.exe - game " + game.Name;
+					std::string command = ".\\..\\x64\\" + buildType + "\\YokaiFortune.exe -game " + game.Name;
 					system(command.c_str());
 				}
 				else
@@ -249,9 +249,9 @@ void ImGuiLayer::DrawMenuBar()
 				if (m_gameLoaded)
 				{
 					SaveGame();
-					system("xcopy .\\Assets .\\..\\YokaiFortune\\Assets /I /E");
-					system("xcopy .\\Data .\\..\\YokaiFortune\\Data /I /E");
-					system("xcopy .\\Fonts .\\..\\YokaiFortune\\Fonts /I /E");
+					system("xcopy .\\Assets .\\..\\YokaiFortune\\Assets /I /E /Y");
+					system("xcopy .\\Data .\\..\\YokaiFortune\\Data /I /E /Y");
+					system("xcopy .\\Fonts .\\..\\YokaiFortune\\Fonts /I /E /Y");
 				}
 				else
 					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
@@ -271,9 +271,9 @@ void ImGuiLayer::DrawMenuBar()
 #else
 					buildType = "Release";
 #endif
-					system(std::string("xcopy .\\Assets .\\..\\x64\\" + buildType + "\\Assets / I / E").c_str());
-					system(std::string("xcopy .\\Data .\\..\\x64\\" + buildType + "\\Data / I / E").c_str());
-					system(std::string("xcopy .\\Fonts .\\..\\x64\\" + buildType + "\\Fonts / I / E").c_str());
+					system(std::string("xcopy .\\Assets .\\..\\x64\\" + buildType + "\\Assets /I /E /Y").c_str());
+					system(std::string("xcopy .\\Data .\\..\\x64\\" + buildType + "\\Data /I /E /Y").c_str());
+					system(std::string("xcopy .\\Fonts .\\..\\x64\\" + buildType + "\\Fonts /I /E /Y").c_str());
 				}
 				else
 					m_popup = std::make_unique<ErrorDialogGui>("No game loaded");
