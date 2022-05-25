@@ -780,7 +780,7 @@
                 "type": "boxCollider"
             },
             {
-                "name": "Enemy",
+                "name": "EnemyTemplate",
                 "type": "entityName"
             },
             {

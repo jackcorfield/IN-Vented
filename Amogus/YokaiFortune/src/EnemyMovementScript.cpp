@@ -4,6 +4,7 @@ EnemyMovementScript::EnemyMovementScript(EntityManager* entityManager, Entity pa
 	Script(entityManager, parentEntityID),
 	m_moveDir(0.0f),
 	m_moveSpeed(moveSpeed),
+	m_facingLeft(false),
 	m_transform(nullptr),
 	m_collider(nullptr)
 {}
@@ -30,6 +31,27 @@ void EnemyMovementScript::OnRender(float dt)
 
 void EnemyMovementScript::OnUnattach()
 {}
+
+void EnemyMovementScript::SetDirection(const glm::vec2& direction)
+{
+	m_moveDir = direction;
+
+	// Update sprite direction based on move direction
+	bool facingLeft = m_moveDir.x < 0;
+	UpdateSpriteAnimation(facingLeft);
+}
+
+void EnemyMovementScript::UpdateSpriteAnimation(bool facingLeft)
+{
+	bool changedDirection = facingLeft != m_facingLeft;
+	if (changedDirection) // If changed direction, reverse size
+	{
+		m_transform->m_size.x = -m_transform->m_size.x;
+	}
+
+	// Update member based on current frame
+	m_facingLeft = facingLeft;
+}
 
 void EnemyMovementScript::CheckCollisions()
 {
