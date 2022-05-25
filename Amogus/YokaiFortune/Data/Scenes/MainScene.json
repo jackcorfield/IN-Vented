@@ -1491,7 +1491,7 @@
                             "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "UI/Pixel_Buttons/Quit_Pushed.png",
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button_press.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -1502,7 +1502,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "UI/Pixel_Buttons/Quit_Pushed.png",
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button_press.png",
                             "name": "Texture"
                         },
                         "name": "QuitToMenu\u0000Element0",
@@ -1515,7 +1515,7 @@
                             "y": 0.20000000298023224
                         },
                         "texture": {
-                            "filePath": "UI/Pixel_Buttons/Quit_Idle.png",
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
