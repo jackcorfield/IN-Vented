@@ -1,6 +1,6 @@
-[01:48:02][DEBUG] Launched Yokai Fortune.
-[01:48:02][DEBUG] Began scene import from: Data/Scenes/StartScene.json
-[01:48:02][DEBUG] Completed scene import from: Data/Scenes/StartScene.json
-[01:48:02][DEBUG] Began scene import from: Data/Scenes/MainScene.json
-[01:48:02][DEBUG] Completed scene import from: Data/Scenes/MainScene.json
-[01:48:03][DEBUG] Clicked the button lol
+[22:51:55][DEBUG] Launched Yokai Fortune.
+[22:51:55][DEBUG] Began scene import from: Data/Scenes/StartScene.json
+[22:51:55][DEBUG] Completed scene import from: Data/Scenes/StartScene.json
+[22:51:55][DEBUG] Began scene import from: Data/Scenes/MainScene.json
+[22:51:55][DEBUG] Completed scene import from: Data/Scenes/MainScene.json
+[22:51:56][DEBUG] Clicked the button lol

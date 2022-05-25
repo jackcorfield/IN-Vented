@@ -3,6 +3,17 @@
 Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
 	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
+
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(AREA, 30));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(AREA, 20)); 
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(AREA, 20));
+
+	m_maxLevel = m_levelingInfo.size();
+
 	m_baseProjectileSpeed = 0.2f; //Speed of projectiles
 	m_baseProjectileCooldown = 3; //How often weapon attacks
 	m_baseProjectileArea = 1; //Size of weapon
@@ -84,8 +95,7 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 
 	tempEnemy = Transform(glm::vec2(0.0f, 0.0f), glm::vec2(5.0f, 5.0f));
 
-
-	m_pScript->AddWeapon(sprite);
+	m_elementNum = m_pScript->AddWeapon(sprite, level);
 }
 
 Grenade::~Grenade()

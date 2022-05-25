@@ -253,24 +253,36 @@ void PlayerScript::OnUnattach()
 
 }
 
-void PlayerScript::AddWeapon(Sprite* icon)
+int PlayerScript::AddWeapon(Sprite* icon, int level)
 {
 	if (m_weaponCount < 5)
 	{
 		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_weaponCount];
 		image->m_texture = icon->GetTexture();
+
+		UpdateLevel(m_weaponCount, level);
 		m_weaponCount++;
 	}
+	else
+		return NULL;
+
+	return m_weaponCount;
 }
 
-void PlayerScript::AddEquip(Sprite* icon)
+int PlayerScript::AddEquip(Sprite* icon, int level)
 {
 	if (m_equipCount < 10)
 	{
 		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_equipCount];
 		image->m_texture = icon->GetTexture();
+
+		UpdateLevel(m_equipCount, level);
 		m_equipCount++;
 	}
+	else
+		return NULL;
+
+	return m_equipCount;
 }
 
 void PlayerScript::UpdateSpriteAnimation(bool facingLeft, bool moving)
@@ -391,6 +403,17 @@ glm::vec2 PlayerScript::GetIntersectionDepth(Entity collidedEntity)
 	}
 
 	return depth;
+}
+
+void PlayerScript::UpdateLevel(int elementNum, int num)
+{
+	UI_Text* text;
+	if(elementNum == 10)
+		text = (UI_Text*)m_UIWidget->m_elements[19];
+	else
+		text = (UI_Text*) m_UIWidget->m_elements[elementNum + 10];
+
+	text->m_text = std::to_string(num);
 }
 
 void PlayerScript::ResolveCollision(glm::vec2 intersection, BoxCollider* theirCollider, Transform* theirTransform)
