@@ -10,6 +10,7 @@
 #include "PlayerScript.h"
 #include "WeaponScript.h"
 #include "HealthBarScript.h"
+#include "XpBarScript.h"
 
 #include "Shuriken.h"
 #include "HackingDevice.h"
@@ -85,6 +86,7 @@ public:
 		Entity xpManager = GetEntityByName("XpManager");
 		Entity timer = GetEntityByName("Timer");
 		Entity healthBar = GetEntityByName("HealthBar");
+		Entity xpBar = GetEntityByName("XpBar");
 
 		//Weapons
 		Entity shuriken = GetEntityByName("Shuriken");
@@ -156,6 +158,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<HealthBarScript>(player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(xpBar);
+		if (scriptC)
+		{
+			scriptC->AttachScript<XpBarScript>(player);
 		}
 
 #pragma region Weapon Scripts
