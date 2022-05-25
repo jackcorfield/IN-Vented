@@ -24,6 +24,7 @@
 #include "PowerGem.h"
 
 #include "StartMenuButton.h"
+#include "QuitButtonScript.h"
 
 class Runtime : public Application
 {
@@ -36,6 +37,8 @@ public:
 		m_argv = argv;
 	}
 
+	Audio* audio;
+
 	void onInit() override
 	{
 		srand(std::time(nullptr));
@@ -45,9 +48,17 @@ public:
 		processCommandLine();
 		
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
-		
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, 1.f);
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, 1.f);
+
 		//Start UI
 		Entity sMenu = GetEntityByName("StartMenu");
+
+		audio = entityManager->AddComponent<Audio>(sMenu, "bgm/05.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
+		g_app->m_audioManager->LoopOn(audio->m_sound);
+		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+
+		
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
 		if (scriptC)
@@ -58,11 +69,13 @@ public:
 
 	void loadMainScene()
 	{
+		g_app->m_audioManager->StopAudio(audio->m_channel);
+
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 		auto allEntities = entityManager->GetAllActiveEntities();
 
-		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
-		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .2f);
+		//UI
+		Entity gOver = GetEntityByName("GameOverScreen");
 
 		Entity player = GetEntityByName("Player");
 		Entity enemy = GetEntityByName("Enemy");
@@ -86,6 +99,7 @@ public:
 		Entity pGlove = GetEntityByName("PowerGlove");
 		Entity pGem = GetEntityByName("PowerGem");
 
+
 		//temp Music as proof of concept
 
 
@@ -93,10 +107,12 @@ public:
 		g_app->m_audioManager->LoopOn(audio->m_sound);
 		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
 
-		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
+		
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);	
+		scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
 		{
-			scriptC->AttachScript<PlayerScript>(100.0f);
+			scriptC->AttachScript<PlayerScript>(gOver, 100.0f);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(xpManager);
@@ -121,6 +137,12 @@ public:
 		if (scriptC)
 		{
 			scriptC->AttachScript<CameraFollowScript>(player);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(gOver);
+		if (scriptC)
+		{
+			scriptC->AttachScript<QuitButtonScript>();
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(timer);

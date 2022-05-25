@@ -28,7 +28,7 @@ class PlayerScript :
     public Script
 {
 public:
-    PlayerScript(EntityManager* entityManager, Entity parentEntityID, float speed);
+    PlayerScript(EntityManager* entityManager, Entity parentEntityID, Entity GameOver, float speed);
     ~PlayerScript();
 
     virtual void OnAttach() override;
@@ -71,6 +71,8 @@ private:
     void UpdateSpriteAnimation(bool facingLeft, bool moving);
     
     int m_playerXP;
+
+    UI_WidgetComponent* m_GameOver;
 
     // Enemy collision functions
     void CheckCollisions();
