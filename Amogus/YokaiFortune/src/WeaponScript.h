@@ -93,5 +93,7 @@ protected:
     glm::vec2 m_playerPreviousPosition;
 
     std::vector<std::pair<modifier, int>> m_levelingInfo; // WILL NEED TO BE SET UP FOR EACH WEAPON
+
+    glm::vec2 m_originalTransformSize, m_originalBoxSize, m_originalBoxOffset;
 };
 
