@@ -1445,19 +1445,33 @@
         [
             {
                 "animations": [
+					{
+                        "frameTime": 1.0,
+                        "frames": [
+                            3
+                        ],
+                        "name": "Red"
+                    },
+					{
+                        "frameTime": 1.0,
+                        "frames": [
+                            2
+                        ],
+                        "name": "Blue"
+                    },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             1
                         ],
-                        "name": "Large"
+                        "name": "Yellow"
                     },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             0
                         ],
-                        "name": "Small"
+                        "name": "Green"
                     }
                 ],
                 "colour": {

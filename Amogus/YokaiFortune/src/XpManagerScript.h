@@ -28,6 +28,7 @@ public:
 private:
 	int m_maxOrbs;
 	int m_poolingSize;
+    int m_maximumPoolable;
     Entity m_player;
 
     EntityManager* m_manager;
