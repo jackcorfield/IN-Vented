@@ -1,7 +1,7 @@
 #include "NeonKatana.h"
 
-NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
-	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
+NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, Entity m_killCounter, int level, bool moving, bool autoTarget) :
+	WeaponScript(entityManager, parentEntityID, player, weapon, m_killCounter, level, moving, autoTarget)
 {
 
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));

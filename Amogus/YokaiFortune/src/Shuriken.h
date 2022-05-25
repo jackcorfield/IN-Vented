@@ -5,7 +5,7 @@ class Shuriken :
 	public WeaponScript
 {
     public:
-	Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 1, bool moving = true, bool autoTarget = false);
+	Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, Entity m_killCounter, int level = 1, bool moving = true, bool autoTarget = false);
     ~Shuriken();
 
     void OnAttach();
@@ -15,7 +15,7 @@ class Shuriken :
     void SpawnProjectile();
 
 private:
-
+    glm::vec2 m_previousDirection;
 
 };
 
