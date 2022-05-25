@@ -236,6 +236,383 @@
                             "name": "Texture"
                         },
                         "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 200.0,
+                            "y": 80.0
+                        },
+                        "clickTexture": {
+                            "filePath": "TestImages/button_clicked.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "TestImages/button_hovered.png",
+                            "name": "Texture"
+                        },
+                        "name": "OptionsButton\u0000ment2",
+                        "relativePos": {
+                            "x": 0.20000000298023224,
+                            "y": 0.5
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "TestImages/button_normal.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
+        ],
+        [
+            {
+                "name": "OptionsMenu",
+                "type": "entityName"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "Background\u0000t0",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.3499999940395355
+                        },
+                        "relativeSize": {
+                            "x": 0.3499999940395355,
+                            "y": 1.0
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_background.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "Slider1\u0000ment1",
+                        "relativePos": {
+                            "x": 0.4970000088214874,
+                            "y": 0.25
+                        },
+                        "relativeSize": {
+                            "x": 0.30000001192092896,
+                            "y": 0.30000001192092896
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_audio_slider_bg.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "Slider2\u0000ment2",
+                        "relativePos": {
+                            "x": 0.4970000088214874,
+                            "y": 0.44999998807907104
+                        },
+                        "relativeSize": {
+                            "x": 0.30000001192092896,
+                            "y": 0.30000001192092896
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_audio_slider_bg.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "bgm1\u0000ButtonElement0",
+                        "relativePos": {
+                            "x": 0.4000000059604645,
+                            "y": 0.25
+                        },
+                        "relativeSize": {
+                            "x": 0.05000000074505806,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_up_button_press.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_up_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "bgm2\u0000ButtonElement1",
+                        "relativePos": {
+                            "x": 0.6000000238418579,
+                            "y": 0.25
+                        },
+                        "relativeSize": {
+                            "x": 0.05000000074505806,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_up_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "sfx1\u0000ButtonElement2",
+                        "relativePos": {
+                            "x": 0.4000000059604645,
+                            "y": 0.44999998807907104
+                        },
+                        "relativeSize": {
+                            "x": 0.05000000074505806,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_up_button_press.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_up_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "sfx2\u0000ButtonElement3",
+                        "relativePos": {
+                            "x": 0.6000000238418579,
+                            "y": 0.44999998807907104
+                        },
+                        "relativeSize": {
+                            "x": 0.05000000074505806,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_vol_up_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "TestImages/button_clicked.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "TestImages/button_hovered.png",
+                            "name": "Texture"
+                        },
+                        "name": "Close\u0000uttonElement4",
+                        "relativePos": {
+                            "x": 0.44999998807907104,
+                            "y": 0.10999999940395355
+                        },
+                        "relativeSize": {
+                            "x": 0.10000000149011612,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_close_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_mute_button_press.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_mute_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "Mute\u0000ButtonElement5",
+                        "relativePos": {
+                            "x": 0.550000011920929,
+                            "y": 0.10999999940395355
+                        },
+                        "relativeSize": {
+                            "x": 0.10000000149011612,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_mute_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
                     }
                 ],
                 "type": "uiWidget"

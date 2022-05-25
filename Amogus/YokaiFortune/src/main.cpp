@@ -53,6 +53,7 @@ public:
 
 		//Start UI
 		Entity sMenu = GetEntityByName("StartMenu");
+		Entity oMenu = GetEntityByName("OptionsMenu");
 
 		audio = entityManager->AddComponent<Audio>(sMenu, "bgm/05.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
@@ -63,7 +64,7 @@ public:
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
 		if (scriptC)
 		{
-			scriptC->AttachScript<StartMenuButton>();
+			scriptC->AttachScript<StartMenuButton>(oMenu);
 		}
 	}
 

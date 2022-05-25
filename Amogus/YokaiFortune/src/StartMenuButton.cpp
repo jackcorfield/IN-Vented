@@ -22,7 +22,7 @@ StartMenuButton::StartMenuButton(EntityManager* entityManager, Entity parentEnti
 		else if (!m_optionsButton)
 		{
 			if (element->m_elementType == ElementType::ET_ImageButton)
-				m_quitButton = (UI_ImageButton*)element;
+				m_optionsButton = (UI_ImageButton*)element;
 		}
 	}
 

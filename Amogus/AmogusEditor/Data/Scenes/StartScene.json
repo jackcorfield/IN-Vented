@@ -236,6 +236,45 @@
                             "name": "Texture"
                         },
                         "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 200.0,
+                            "y": 80.0
+                        },
+                        "clickTexture": {
+                            "filePath": "TestImages/button_clicked.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "TestImages/button_hovered.png",
+                            "name": "Texture"
+                        },
+                        "name": "OptionsButton\u0000ment2",
+                        "relativePos": {
+                            "x": 0.20000000298023224,
+                            "y": 0.5
+                        },
+                        "relativeSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "texture": {
+                            "filePath": "TestImages/button_normal.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
                     }
                 ],
                 "type": "uiWidget"
@@ -295,7 +334,7 @@
                         },
                         "elementType": 1.0,
                         "hidden": false,
-                        "name": "Slider1\u0000ment1",
+                        "name": "Sliderbg1\u0000nt1",
                         "relativePos": {
                             "x": 0.4970000088214874,
                             "y": 0.25
@@ -326,7 +365,7 @@
                         },
                         "elementType": 1.0,
                         "hidden": false,
-                        "name": "Slider2\u0000ment2",
+                        "name": "Sliderbg2\u0000nt2",
                         "relativePos": {
                             "x": 0.4970000088214874,
                             "y": 0.44999998807907104
@@ -362,7 +401,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_vol_down_button.png",
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
                             "name": "Texture"
                         },
                         "name": "bgm1\u0000ButtonElement0",
@@ -429,7 +468,7 @@
                             "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_pressed.png",
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -440,7 +479,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_pressed.png",
+                            "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
                             "name": "Texture"
                         },
                         "name": "sfx1\u0000ButtonElement2",
@@ -468,7 +507,7 @@
                             "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_vol_up_button_pressed.png",
+                            "filePath": "UI/Options_Menu/ui_options_vol_up_button_press.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -479,7 +518,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_vol_up_button_pressed.png",
+                            "filePath": "UI/Options_Menu/ui_options_vol_up_button_press.png",
                             "name": "Texture"
                         },
                         "name": "sfx2\u0000ButtonElement3",
