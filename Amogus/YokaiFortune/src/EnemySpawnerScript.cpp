@@ -160,9 +160,21 @@ void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
 
 	// Set up animated sprite
 	Texture2D texture = templateAnimatedSprite->GetTexture();
-	glm::vec3 colour = templateAnimatedSprite->GetColour();
 	Shader* shader = templateAnimatedSprite->GetShader();
 	glm::vec2 frameSize = templateAnimatedSprite->getFrameSize();
+
+	// Randomise colour
+	int maxRandom = 255;
+	int minRandom = 150;
+	int r = (rand() % (maxRandom - minRandom)) + minRandom;
+	int g = (rand() % (maxRandom - minRandom)) + minRandom;
+	int b = (rand() % (maxRandom - minRandom)) + minRandom;
+
+	float oneDiv255 = 1.0f / 255.0f;
+	float rF = oneDiv255 * float(r);
+	float gF = oneDiv255 * float(g);
+	float bF = oneDiv255 * float(b);
+	glm::vec3 colour(rF, gF, bF);
 
 	AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(targetEntity, texture, frameSize, colour, shader);
 
