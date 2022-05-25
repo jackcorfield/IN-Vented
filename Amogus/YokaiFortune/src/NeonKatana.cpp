@@ -48,10 +48,15 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
+
+		m_originalTransformSize = glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease));
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), m_originalTransformSize);
 
 		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
-		m_manager->AddComponent<BoxCollider>(newProjectile, glm::vec2(16), glm::vec2(0.0f)); // Needs a box collider that ignores player?
+
+		m_originalBoxSize = glm::vec2(60, 70);
+		m_originalBoxOffset = glm::vec2(0.0f, 25.0f);
+		m_manager->AddComponent<BoxCollider>(newProjectile, m_originalBoxSize, m_originalBoxOffset);
 
 		glm::vec2 direction(0, 0);
 
@@ -115,9 +120,18 @@ void NeonKatana::OnUpdate(float dt)
 			if (!m_isMoving)
 				continue;
 
-			float PercentageIncrease = (m_baseProjectileSpeed * m_pScript->m_projectileSpeed) / 100;
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
-			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
+			float PercentageSpeedIncrease = (m_baseProjectileSpeed * m_pScript->m_projectileSpeed) / 100;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageSpeedIncrease) * dt;
+			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageSpeedIncrease) * dt;
+
+			float PercentageAreaIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
+
+			Transform* transform = m_manager->GetComponent<Transform>(m_vecProjectiles[i].name);
+			transform->m_size = m_originalTransformSize * (m_baseProjectileArea + PercentageAreaIncrease);
+
+			BoxCollider* boxCollider = m_manager->GetComponent<BoxCollider>(m_vecProjectiles[i].name);
+			boxCollider->m_size = m_originalBoxSize * (m_baseProjectileArea + PercentageAreaIncrease);
+			boxCollider->m_offset = m_originalBoxOffset * ((m_baseProjectileArea + PercentageAreaIncrease) / 2.0f);
 
 			CheckWeaponCollision(m_vecProjectiles[i].name, true);
 
@@ -171,9 +185,7 @@ void NeonKatana::SpawnProjectile(int currentPos)
 		m_manager->GetComponent<Transform>(newProjectile->name)->m_size.x = m_manager->GetComponent<Transform>(newProjectile->name)->m_size.x * -1;
 	}
 
-
-	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
-
+	float PercentageIncrease = (m_baseProjectileDuration * m_pScript->m_projectileDuration) / 100;
 	newProjectile->duration = m_baseProjectileDuration + PercentageIncrease;
 
 }
