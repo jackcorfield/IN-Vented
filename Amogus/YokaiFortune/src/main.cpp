@@ -71,7 +71,6 @@ public:
 	void loadMainScene()
 	{
 		g_app->m_audioManager->StopAudio(audio->m_channel);
-
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 		auto allEntities = entityManager->GetAllActiveEntities();
 

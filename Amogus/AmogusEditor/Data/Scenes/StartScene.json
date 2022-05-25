@@ -546,7 +546,7 @@
                             "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "TestImages/button_clicked.png",
+                            "filePath": "UI/Options_Menu/ui_options_close_button_press.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -557,7 +557,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "TestImages/button_hovered.png",
+                            "filePath": "UI/Options_Menu/ui_options_close_button_press.png",
                             "name": "Texture"
                         },
                         "name": "Close\u0000uttonElement4",
