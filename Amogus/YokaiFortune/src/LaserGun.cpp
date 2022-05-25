@@ -125,6 +125,9 @@ void LaserGun::OnUpdate(float dt)
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 
+			if (CheckWeaponCollision(m_vecProjectiles[i].name))
+				m_vecProjectiles[i].duration = 0;
+
 			m_vecProjectiles[i].duration -= dt;
 		}
 		else
