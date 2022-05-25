@@ -151,6 +151,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\QuitButtonScript.cpp" />
     <ClCompile Include="src\HealthBarScript.cpp" />
     <ClCompile Include="src\Passport.cpp" />
     <ClCompile Include="src\Ragnite.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="src\TimerScript.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\QuitButtonScript.h" />
     <ClInclude Include="src\HealthBarScript.h" />
     <ClInclude Include="src\Passport.h" />
     <ClInclude Include="src\Ragnite.h" />

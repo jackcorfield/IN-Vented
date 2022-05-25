@@ -3,9 +3,20 @@
 Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) : 
 	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
-	m_baseProjectileSpeed = 1; //Speed of projectiles
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+
+	m_maxLevel = m_levelingInfo.size();
+
+
+	m_baseProjectileSpeed = 0.5; //Speed of projectiles
 	m_baseProjectileCooldown = 1; //How often weapon attacks
-	m_baseProjectileArea = 1; //Size of weapon
+	m_baseProjectileArea = 0.7f; //Size of weapon
 	m_baseProjectileDuration = 4; //How long the projectile stays on the screen
 	m_baseProjectileCount = 3; //How many projectiles
 	m_projectileMax = 15;
@@ -16,6 +27,8 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 	m_critMultiplier = 1;
 
 	m_wait = 0.1;
+
+	m_previousDirection = glm::vec2(1, 0);
 
 	m_playerPreviousPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
@@ -35,10 +48,15 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
+
+		m_originalTransformSize = glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease));
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), m_originalTransformSize);
 
 		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
-		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
+
+		m_originalBoxSize = transform->m_size;
+		m_originalBoxOffset = glm::vec2(0.0f);
+		m_manager->AddComponent<BoxCollider>(newProjectile, m_originalBoxSize, m_originalBoxOffset);
 
 		glm::vec2 direction(0, 0);
 
@@ -63,8 +81,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 		m_vecProjectiles.push_back(p);
 	}
 
-	m_pScript->AddWeapon(entityManager->GetComponent<Sprite>(weapon));
-
+	m_elementNum = m_pScript->AddWeapon(sprite, level);
 }
 
 Shuriken::~Shuriken()
@@ -77,6 +94,16 @@ void Shuriken::OnAttach()
 
 void Shuriken::OnRender(float dt)
 {
+	Transform* transform;
+	for (Projectiles proj : m_vecProjectiles)
+	{
+		if (proj.isSpawned)
+		{
+			transform = m_manager->GetComponent<Transform>(proj.name);
+			transform->m_rotate += dt * 360;
+		}
+	}
+
 }
 
 void Shuriken::OnUnattach()
@@ -124,24 +151,18 @@ void Shuriken::OnUpdate(float dt)
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 
-			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
-			for (Entity e : collisions)
-			{
-				EntityName* name = m_manager->GetComponent<EntityName>(e);
-				if (name == NULL)
-					continue;
+			float PercentageAreaIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
 
-				if (name->m_name == "Enemy")
-				{
-					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
-					{
-						m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
-						m_vecProjectiles[i].duration = 0;
-						m_manager->RemoveComponent<ScriptComponent>(e);
-						m_manager->DeleteEntity(e);
-					}
-				}
-			}
+			Transform* transform = m_manager->GetComponent<Transform>(m_vecProjectiles[i].name);
+			transform->m_size = m_originalTransformSize * (m_baseProjectileArea + PercentageAreaIncrease);
+
+			BoxCollider* boxCollider = m_manager->GetComponent<BoxCollider>(m_vecProjectiles[i].name);
+			boxCollider->m_size = m_originalBoxSize * (m_baseProjectileArea + PercentageAreaIncrease);
+			boxCollider->m_offset = m_originalBoxOffset * ((m_baseProjectileArea + PercentageAreaIncrease) / 2.0f);
+
+			//Check collions
+			if(CheckWeaponCollision(m_vecProjectiles[i].name))
+				m_vecProjectiles[i].duration = 0;
 
 			m_vecProjectiles[i].duration -= dt;
 		}
@@ -167,6 +188,7 @@ void Shuriken::SpawnProjectile()
 
 	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
 	newProjectile->isSpawned = true;
+	
 
 	m_currentProjectile++;
 	if (m_currentProjectile >= m_vecProjectiles.size() - 1)
@@ -185,9 +207,13 @@ void Shuriken::SpawnProjectile()
 		direction = currentPosition - m_playerPreviousPosition;
 		
 		if (direction == glm::vec2(0, 0))
-			direction = glm::vec2(1, 0);
+			direction = m_previousDirection;
 		else
+		{
 			direction = glm::normalize(direction);
+			m_previousDirection = direction;
+		}
+			
 	}
 
 	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;

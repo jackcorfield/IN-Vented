@@ -3,9 +3,20 @@
 LaserGun::LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
 WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
+
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(SPEED, 50));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 20));
+
+	m_maxLevel = m_levelingInfo.size();
+
 	m_baseProjectileSpeed = .1f; //Speed of projectiles
 	m_baseProjectileCooldown = 3; //How often weapon attacks
-	m_baseProjectileArea = .4f; //Size of weapon
+	m_baseProjectileArea = 0.4f; //Size of weapon
 	m_baseProjectileDuration = 2; //How long the projectile stays on the screen
 	m_baseProjectileCount = 4; //How many projectiles
 	m_projectileMax = 20;
@@ -37,10 +48,15 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
+		
+		m_originalTransformSize = glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease));
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), m_originalTransformSize);
 
 		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); 
-		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
+
+		m_originalBoxSize = transform->m_size;
+		m_originalBoxOffset = glm::vec2(0.0f);
+		m_manager->AddComponent<BoxCollider>(newProjectile, m_originalBoxSize, m_originalBoxOffset);
 
 		glm::vec2 direction(0, 0);
 
@@ -56,7 +72,7 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 		m_vecProjectiles.push_back(p);
 	}
 
-	m_pScript->AddWeapon(icon);
+	m_elementNum = m_pScript->AddWeapon(icon, level);
 }
 
 LaserGun::~LaserGun()
@@ -113,6 +129,18 @@ void LaserGun::OnUpdate(float dt)
 			float PercentageIncrease = (m_baseProjectileSpeed * m_pScript->m_projectileSpeed) / 100;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
+
+			float PercentageAreaIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
+
+			Transform* transform = m_manager->GetComponent<Transform>(m_vecProjectiles[i].name);
+			transform->m_size = m_originalTransformSize * (m_baseProjectileArea + PercentageAreaIncrease);
+
+			BoxCollider* boxCollider = m_manager->GetComponent<BoxCollider>(m_vecProjectiles[i].name);
+			boxCollider->m_size = m_originalBoxSize * (m_baseProjectileArea + PercentageAreaIncrease);
+			boxCollider->m_offset = m_originalBoxOffset * ((m_baseProjectileArea + PercentageAreaIncrease) / 2.0f);
+
+			if (CheckWeaponCollision(m_vecProjectiles[i].name))
+				m_vecProjectiles[i].duration = 0;
 
 			m_vecProjectiles[i].duration -= dt;
 		}

@@ -15,7 +15,8 @@ public:
 	void OnUnattach() override;
 
 	UI_WidgetComponent* m_UIWidget;
-	UI_ImageButton* button;
+	UI_ImageButton* m_startButton;
+	UI_ImageButton* m_quitButton;
 
 	bool loadMainScene = false;
 };

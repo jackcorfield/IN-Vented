@@ -4,7 +4,7 @@
 #define MAX_Y 180.0f
 #define MIN_Y -180.0f
 
-PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, float speed) :
+PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, Entity GameOver, float speed) :
 	Script(entityManager, parentEntityID),
 	m_transform(nullptr),
 	m_collider(nullptr),
@@ -41,8 +41,10 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_registeredKeys.DOWN = false;
 	m_registeredKeys.LEFT = false;
 	m_registeredKeys.RIGHT = false;
-
+	
 	m_UIWidget = entityManager->GetComponent<UI_WidgetComponent>(parentEntityID);
+	m_GameOver = entityManager->GetComponent<UI_WidgetComponent>(GameOver);
+	
 }
 
 PlayerScript::~PlayerScript()
@@ -139,7 +141,15 @@ void PlayerScript::KeyEvent(InputEvent* e)
 
 void PlayerScript::OnUpdate(float dt)
 {
-	if (m_isDead) { return; }
+	if (m_isDead) 
+	{ 
+		for (UI_BaseElement* element : m_GameOver->m_elements)
+		{
+			element->m_hidden = false;
+		}
+
+		return;
+	}
 
 	if (m_currentInvulnCooldown > 0.0f)
 	{
@@ -253,24 +263,36 @@ void PlayerScript::OnUnattach()
 
 }
 
-void PlayerScript::AddWeapon(Sprite* icon)
+int PlayerScript::AddWeapon(Sprite* icon, int level)
 {
 	if (m_weaponCount < 5)
 	{
 		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_weaponCount];
 		image->m_texture = icon->GetTexture();
+
+		UpdateLevel(m_weaponCount, level);
 		m_weaponCount++;
 	}
+	else
+		return NULL;
+
+	return m_weaponCount;
 }
 
-void PlayerScript::AddEquip(Sprite* icon)
+int PlayerScript::AddEquip(Sprite* icon, int level)
 {
 	if (m_equipCount < 10)
 	{
 		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_equipCount];
 		image->m_texture = icon->GetTexture();
+
+		UpdateLevel(m_equipCount, level);
 		m_equipCount++;
 	}
+	else
+		return NULL;
+
+	return m_equipCount;
 }
 
 void PlayerScript::UpdateSpriteAnimation(bool facingLeft, bool moving)
@@ -393,6 +415,17 @@ glm::vec2 PlayerScript::GetIntersectionDepth(Entity collidedEntity)
 	return depth;
 }
 
+void PlayerScript::UpdateLevel(int elementNum, int num)
+{
+	UI_Text* text;
+	if(elementNum == 10)
+		text = (UI_Text*)m_UIWidget->m_elements[19];
+	else
+		text = (UI_Text*) m_UIWidget->m_elements[elementNum + 10];
+
+	text->m_text = std::to_string(num);
+}
+
 void PlayerScript::ResolveCollision(glm::vec2 intersection, BoxCollider* theirCollider, Transform* theirTransform)
 {
 	glm::vec2 theirHalfSize = theirCollider->m_size / 2.0f;
@@ -429,6 +462,9 @@ void PlayerScript::ResolveCollision(glm::vec2 intersection, BoxCollider* theirCo
 		m_health -= 1.0f; // Placeholder number
 		if (m_health <= 0.0f)
 		{
+			Audio* audio = AddComponent<Audio>("sfx/death.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+			g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+
 			m_isDead = true;
 		}
 		m_currentInvulnCooldown = m_invulnTime;

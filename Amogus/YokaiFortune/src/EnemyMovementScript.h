@@ -15,9 +15,11 @@ public:
 	virtual void OnRender(float dt) override;
 	virtual void OnUnattach() override;
 
-	void SetDirection(const glm::vec2& direction) { m_moveDir = direction; }
+	void SetDirection(const glm::vec2& direction);
 
 private:
+	void UpdateSpriteAnimation(bool facingLeft);
+
 	void CheckCollisions();
 	bool CheckPotentialCollision(Entity possibleCollision); // Simple AABB collision check
 	glm::vec2 GetIntersectionDepth(Entity collidedEntity);
@@ -25,6 +27,7 @@ private:
 
 	glm::vec2 m_moveDir;
 	float m_moveSpeed;
+	bool m_facingLeft; // Used to determine whether to flip sprite
 
 	Transform* m_transform;
 	BoxCollider* m_collider;

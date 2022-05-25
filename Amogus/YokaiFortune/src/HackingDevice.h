@@ -5,7 +5,7 @@
 class HackingDevice : public WeaponScript
 {
 public:
-    HackingDevice(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 0, bool moving = false, bool autoTarget = false);
+    HackingDevice(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 1, bool moving = false, bool autoTarget = false);
     ~HackingDevice();
 
     void OnAttach();
@@ -15,6 +15,7 @@ public:
     void SpawnProjectile();
 
 private:
+    
 
 
 };

@@ -26,7 +26,7 @@ void EnemySpawnerScript::OnAttach()
 	auto allNames = entityManager->GetAllComponentsOfType<EntityName>();
 	for (EntityName* name : allNames)
 	{
-		if (name->m_name == "Enemy")
+		if (name->m_name == "EnemyTemplate")
 		{
 			Entity entity = entityManager->GetEntityFromComponent<EntityName>(name);
 			m_templates.emplace_back(entity);
@@ -109,7 +109,7 @@ void EnemySpawnerScript::SpawnEnemy()
 	int selectedTemplate = 0;
 	if (m_templates.size() > 1)
 	{
-		int maxRandom = m_templates.size() - 1;
+		int maxRandom = m_templates.size();
 		selectedTemplate = rand() % maxRandom;
 	}
 
@@ -160,9 +160,21 @@ void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
 
 	// Set up animated sprite
 	Texture2D texture = templateAnimatedSprite->GetTexture();
-	glm::vec3 colour = templateAnimatedSprite->GetColour();
 	Shader* shader = templateAnimatedSprite->GetShader();
 	glm::vec2 frameSize = templateAnimatedSprite->getFrameSize();
+
+	// Randomise colour
+	int maxRandom = 255;
+	int minRandom = 150;
+	int r = (rand() % (maxRandom - minRandom)) + minRandom;
+	int g = (rand() % (maxRandom - minRandom)) + minRandom;
+	int b = (rand() % (maxRandom - minRandom)) + minRandom;
+
+	float oneDiv255 = 1.0f / 255.0f;
+	float rF = oneDiv255 * float(r);
+	float gF = oneDiv255 * float(g);
+	float bF = oneDiv255 * float(b);
+	glm::vec3 colour(rF, gF, bF);
 
 	AnimatedSprite* newAnimatedSprite = entityManager->AddComponent<AnimatedSprite>(targetEntity, texture, frameSize, colour, shader);
 
@@ -189,9 +201,11 @@ void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
 	}
 
 	// Set up transform
+	Entity cameraEntity = entityManager->GetEntityFromComponent<Camera>(camera);
+	Transform* cameraTransform = entityManager->GetComponent<Transform>(cameraEntity);
 	Transform* playerTransform = entityManager->GetComponent<Transform>(m_spawnAround);
 	Transform* newTransform = entityManager->AddComponent<Transform>(targetEntity);
-	newTransform->m_position = SetRandomSpawnPos(viewportSize, playerTransform->m_position);
+	newTransform->m_position = SetRandomSpawnPos(viewportSize, cameraTransform->m_position);
 	newTransform->m_rotate = templateTransform->m_rotate;
 	newTransform->m_size = templateTransform->m_size;
 	newTransform->m_depth = 0.0f;
@@ -210,7 +224,7 @@ glm::vec2 SetRandomSpawnPos(const glm::vec2& viewport, const glm::vec2& centrePo
 	float verticalOffset = viewport.y / 2.0f + constantOffsetFromEdge;
 
 	// Random offset away from edge
-	float awayOffset = rand() % 2;
+	float awayOffset = rand() % 30;
 
 	// Random offset along edge
 	float offsetAlongEdge;

@@ -22,7 +22,7 @@ protected:
 	template <typename T, class ...ARGS>
 	T* AddComponent(ARGS&&... params)
 	{
-		m_entityManager->AddComponent<T>(m_entityID, std::forward<ARGS>(params));
+		return m_entityManager->AddComponent<T>(m_entityID, std::forward<ARGS>(params)...);
 	}
 
 	template <typename T>

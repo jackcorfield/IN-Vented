@@ -8,7 +8,7 @@ class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 0, bool moving = true, bool autoTarget = false);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 1, bool moving = true, bool autoTarget = false);
     ~WeaponScript();
     void SetSprites(Sprite* icon, Sprite* sprite);
     void OnAttach();
@@ -39,11 +39,15 @@ protected:
         bool isSpawned;
     };
 
+    bool CheckWeaponCollision(Entity weaponID, bool areaOfEffect = false);
+
     Entity m_weapon;
     Entity m_player;
     Entity e_xpManager;
     EntityManager* m_manager;
 
+    int m_elementNum;
+    bool m_firstLevel;
 
    Sprite* m_icon;
    Sprite* m_sprite;
@@ -89,5 +93,7 @@ protected:
     glm::vec2 m_playerPreviousPosition;
 
     std::vector<std::pair<modifier, int>> m_levelingInfo; // WILL NEED TO BE SET UP FOR EACH WEAPON
+
+    glm::vec2 m_originalTransformSize, m_originalBoxSize, m_originalBoxOffset;
 };
 

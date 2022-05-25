@@ -5,7 +5,7 @@ class Grenade :
 	public WeaponScript
 {
     public:
-        Grenade(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 0, bool moving = true, bool autoTarget = false);
+        Grenade(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 1, bool moving = true, bool autoTarget = false);
     ~Grenade();
 
     void OnAttach();
