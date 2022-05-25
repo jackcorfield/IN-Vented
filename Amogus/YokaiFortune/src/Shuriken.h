@@ -15,7 +15,7 @@ class Shuriken :
     void SpawnProjectile();
 
 private:
-
+    glm::vec2 m_previousDirection;
 
 };
 

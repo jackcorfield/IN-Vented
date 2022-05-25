@@ -28,6 +28,8 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 	m_wait = 0.1;
 
+	m_previousDirection = glm::vec2(1, 0);
+
 	m_playerPreviousPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 	std::srand(time(NULL));
@@ -176,6 +178,7 @@ void Shuriken::SpawnProjectile()
 
 	Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
 	newProjectile->isSpawned = true;
+	
 
 	m_currentProjectile++;
 	if (m_currentProjectile >= m_vecProjectiles.size() - 1)
@@ -194,9 +197,13 @@ void Shuriken::SpawnProjectile()
 		direction = currentPosition - m_playerPreviousPosition;
 		
 		if (direction == glm::vec2(0, 0))
-			direction = glm::vec2(1, 0);
+			direction = m_previousDirection;
 		else
+		{
 			direction = glm::normalize(direction);
+			m_previousDirection = direction;
+		}
+			
 	}
 
 	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
