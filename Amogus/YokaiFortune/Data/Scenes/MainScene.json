@@ -446,6 +446,73 @@
                     {
                         "frameTime": 0.10000000149011612,
                         "frames": [
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15
+                        ],
+                        "name": "Run"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 200.0,
+                    "y": 200.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "default",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Characters/Homura/spritesheet.png",
+                    "name": "animsheet homura"
+                },
+                "type": "animatedSprite"
+            },
+            {
+                "offset": {
+                    "x": 0.0,
+                    "y": 22.0
+                },
+                "size": {
+                    "x": 30.0,
+                    "y": 20.0
+                },
+                "type": "boxCollider"
+            },
+            {
+                "name": "EnemyTemplate",
+                "type": "entityName"
+            },
+            {
+                "depth": 0.0,
+                "pos": {
+                    "x": 0.0,
+                    "y": -1000.0
+                },
+                "rotate": 0.0,
+                "size": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "type": "transform"
+            }
+        ],
+		[
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
                             0,
                             1,
                             2,
@@ -479,11 +546,11 @@
             {
                 "offset": {
                     "x": 0.0,
-                    "y": 22.0
+                    "y": 10.0
                 },
                 "size": {
-                    "x": 30.0,
-                    "y": 20.0
+                    "x": 24.0,
+                    "y": 16.0
                 },
                 "type": "boxCollider"
             },
@@ -544,76 +611,11 @@
             {
                 "offset": {
                     "x": 0.0,
-                    "y": 22.0
+                    "y": 5.0
                 },
                 "size": {
-                    "x": 30.0,
-                    "y": 20.0
-                },
-                "type": "boxCollider"
-            },
-            {
-                "name": "EnemyTemplate",
-                "type": "entityName"
-            },
-            {
-                "depth": 0.0,
-                "pos": {
-                    "x": 0.0,
-                    "y": -1000.0
-                },
-                "rotate": 0.0,
-                "size": {
-                    "x": 0.5,
-                    "y": 0.5
-                },
-                "type": "transform"
-            }
-        ],
-		[
-            {
-                "animations": [
-                    {
-                        "frameTime": 0.10000000149011612,
-                        "frames": [
-                            0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ],
-                        "name": "Run"
-                    }
-                ],
-                "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "frameSize": {
-                    "x": 48.0,
-                    "y": 48.0
-                },
-                "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
-                },
-                "texture": {
-                    "filePath": "Enemies/Zapper/spritesheet.png",
-                    "name": "animsheet zapper"
-                },
-                "type": "animatedSprite"
-            },
-            {
-                "offset": {
-                    "x": 0.0,
-                    "y": 22.0
-                },
-                "size": {
-                    "x": 30.0,
-                    "y": 20.0
+                    "x": 16.0,
+                    "y": 18.0
                 },
                 "type": "boxCollider"
             },
@@ -673,12 +675,12 @@
             },
             {
                 "offset": {
-                    "x": 0.0,
-                    "y": 22.0
+                    "x": -1.0,
+                    "y": 20.0
                 },
                 "size": {
-                    "x": 30.0,
-                    "y": 20.0
+                    "x": 10.0,
+                    "y": 13.0
                 },
                 "type": "boxCollider"
             },
