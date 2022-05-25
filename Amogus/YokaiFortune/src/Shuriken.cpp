@@ -112,6 +112,12 @@ void Shuriken::OnUnattach()
 
 void Shuriken::OnUpdate(float dt)
 {
+	if (m_pScript->m_isDead)
+	{
+		m_manager->DeleteEntity(m_weapon);
+	}
+
+
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 	m_currentCooldown -= dt;

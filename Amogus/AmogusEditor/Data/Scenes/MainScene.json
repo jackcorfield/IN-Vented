@@ -1476,7 +1476,7 @@
                             "y": 0.8999999761581421
                         },
                         "texture": {
-                            "filePath": "UI/Options_Menu/ui_options_background.png",
+                            "filePath": "UI/Options_Menu/ui_game_over_background.png",
                             "name": "Texture"
                         },
                         "zIdx": 0

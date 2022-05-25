@@ -7,7 +7,9 @@ EnemyMovementScript::EnemyMovementScript(EntityManager* entityManager, Entity pa
 	m_facingLeft(false),
 	m_transform(nullptr),
 	m_collider(nullptr)
-{}
+{
+	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(playerEntityID)->GetAttachedScript();
+}
 
 void EnemyMovementScript::OnAttach()
 {
@@ -19,6 +21,9 @@ void EnemyMovementScript::OnAttach()
 
 void EnemyMovementScript::OnUpdate(float dt)
 {	
+	if (m_pScript->m_isDead)
+		return;
+
 	// Move in set direction
 	m_transform->m_position += m_moveDir * m_moveSpeed * dt;
 

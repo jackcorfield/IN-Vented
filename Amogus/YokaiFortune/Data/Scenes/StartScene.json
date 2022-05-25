@@ -243,11 +243,11 @@
                             "y": 0.0
                         },
                         "absoluteSize": {
-                            "x": 200.0,
-                            "y": 80.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "TestImages/button_clicked.png",
+                            "filePath": "UI/Options_Menu/ui_options_button_press.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -258,20 +258,20 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "TestImages/button_hovered.png",
+                            "filePath": "UI/Options_Menu/ui_options_button_press.png",
                             "name": "Texture"
                         },
                         "name": "OptionsButton\u0000ment2",
                         "relativePos": {
-                            "x": 0.20000000298023224,
-                            "y": 0.5
+                            "x": 0.03999999910593033,
+                            "y": 0.05999999865889549
                         },
                         "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 0.05999999865889549,
+                            "y": 0.10000000149011612
                         },
                         "texture": {
-                            "filePath": "TestImages/button_normal.png",
+                            "filePath": "UI/Options_Menu/ui_options_button.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
@@ -305,7 +305,7 @@
                             "z": 1.0
                         },
                         "elementType": 1.0,
-                        "hidden": false,
+                        "hidden": true,
                         "name": "Background\u0000t0",
                         "relativePos": {
                             "x": 0.5,
@@ -316,7 +316,7 @@
                             "y": 1.0
                         },
                         "texture": {
-                            "filePath": "UI/Options_Menu/ui_options_background.png",
+                            "filePath": "UI/Options_Menu/ui_game_over_background.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
@@ -336,7 +336,7 @@
                             "z": 1.0
                         },
                         "elementType": 1.0,
-                        "hidden": false,
+                        "hidden": true,
                         "name": "Sliderbg1\u0000nt1",
                         "relativePos": {
                             "x": 0.4970000088214874,
@@ -367,7 +367,7 @@
                             "z": 1.0
                         },
                         "elementType": 1.0,
-                        "hidden": false,
+                        "hidden": true,
                         "name": "Sliderbg2\u0000nt2",
                         "relativePos": {
                             "x": 0.4970000088214874,
@@ -402,7 +402,7 @@
                             "z": 1.0
                         },
                         "elementType": 2.0,
-                        "hidden": false,
+                        "hidden": true,
                         "hoverTexture": {
                             "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
                             "name": "Texture"
@@ -441,7 +441,7 @@
                             "z": 1.0
                         },
                         "elementType": 2.0,
-                        "hidden": false,
+                        "hidden": true,
                         "hoverTexture": {
                             "filePath": "UI/Options_Menu/ui_options_vol_up_button_press.png",
                             "name": "Texture"
@@ -480,7 +480,7 @@
                             "z": 1.0
                         },
                         "elementType": 2.0,
-                        "hidden": false,
+                        "hidden": true,
                         "hoverTexture": {
                             "filePath": "UI/Options_Menu/ui_options_vol_down_button_press.png",
                             "name": "Texture"
@@ -519,7 +519,7 @@
                             "z": 1.0
                         },
                         "elementType": 2.0,
-                        "hidden": false,
+                        "hidden": true,
                         "hoverTexture": {
                             "filePath": "UI/Options_Menu/ui_options_vol_up_button_press.png",
                             "name": "Texture"
@@ -558,7 +558,7 @@
                             "z": 1.0
                         },
                         "elementType": 2.0,
-                        "hidden": false,
+                        "hidden": true,
                         "hoverTexture": {
                             "filePath": "UI/Options_Menu/ui_options_close_button_press.png",
                             "name": "Texture"
@@ -597,7 +597,7 @@
                             "z": 1.0
                         },
                         "elementType": 2.0,
-                        "hidden": false,
+                        "hidden": true,
                         "hoverTexture": {
                             "filePath": "UI/Options_Menu/ui_options_mute_button_press.png",
                             "name": "Texture"

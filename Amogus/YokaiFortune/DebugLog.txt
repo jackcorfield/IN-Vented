@@ -1,6 +1,9 @@
-[18:43:32][DEBUG] Launched Yokai Fortune.
-[18:43:32][DEBUG] Began scene import from: Data/Scenes/StartScene.json
-[18:43:33][DEBUG] Completed scene import from: Data/Scenes/StartScene.json
-[18:43:33][DEBUG] Began scene import from: Data/Scenes/MainScene.json
-[18:43:33][DEBUG] Completed scene import from: Data/Scenes/MainScene.json
-[18:43:35][DEBUG] Clicked the button lol
+[20:15:14][DEBUG] Launched Yokai Fortune.
+[20:15:14][DEBUG] Began scene import from: Data/Scenes/StartScene.json
+[20:15:14][ERROR] Failed to create image data: failed to read PNG file at: Assets/Sprites/UI/Options_Menu/ui_options_button_press.png
+[20:15:14][ERROR] Failed to create image data: failed to read PNG file at: Assets/Sprites/UI/Options_Menu/ui_options_button_press.png
+[20:15:15][DEBUG] Completed scene import from: Data/Scenes/StartScene.json
+[20:15:15][DEBUG] Began scene import from: Data/Scenes/MainScene.json
+[20:15:16][DEBUG] Completed scene import from: Data/Scenes/MainScene.json
+[20:15:18][DEBUG] Clicked the button lol
+[20:15:37][DEBUG] Clicked the button lol
