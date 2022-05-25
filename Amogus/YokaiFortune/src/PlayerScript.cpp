@@ -27,6 +27,7 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_maxHealth(36.0f),
 	m_health(m_maxHealth),
 	m_playerXP(0),
+	m_levelUpXP(500),
 	m_regeneration(1.0f),
 	m_range(50.0f)
 {
@@ -59,6 +60,13 @@ void PlayerScript::OnAttach()
 void PlayerScript::AddXP(int XPVal)
 {
 	m_playerXP += XPVal;
+
+	// Level up?
+	if (m_playerXP >= m_levelUpXP)
+	{
+		m_playerXP = m_playerXP - m_levelUpXP;
+		m_levelUpXP *= 2;
+	}
 }
 
 void PlayerScript::KeyEvent(InputEvent* e)
