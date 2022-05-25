@@ -149,7 +149,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(timer);
 		if (scriptC)
 		{
-			scriptC->AttachScript<TimerScript>(timer);
+			scriptC->AttachScript<TimerScript>(timer, player);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(healthBar);
