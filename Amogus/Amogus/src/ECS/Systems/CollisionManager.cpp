@@ -7,7 +7,7 @@
 
 extern Application* g_app;
 
-bool BoxVBoxCollision(const BoxCollider* collider1, const Transform* transform1, const BoxCollider* collider2, const Transform* transform2)
+bool CollisionManager::BoxVBoxCollision(const BoxCollider* collider1, const Transform* transform1, const BoxCollider* collider2, const Transform* transform2)
 {
 	glm::vec2 pos1 = transform1->m_position + collider1->m_offset;
 	glm::vec2 pos2 = transform2->m_position + collider2->m_offset;
@@ -20,17 +20,15 @@ bool BoxVBoxCollision(const BoxCollider* collider1, const Transform* transform1,
 	glm::vec2 topLeftB = glm::vec2(pos2.x - halfSize2.x, pos2.y - halfSize2.y);
 	glm::vec2 bottomRightB = glm::vec2(pos2.x + halfSize2.x, pos2.y + halfSize2.y);
 
-	if (topLeftA.x < bottomRightB.x &&
+	return (topLeftA.x < bottomRightB.x &&
 		bottomRightA.x > topLeftB.x &&
 		topLeftA.y < bottomRightB.y &&
-		bottomRightA.y > topLeftB.y)
-		return true;
-	return false;
+		bottomRightA.y > topLeftB.y);
 }
 
 CollisionManager::CollisionManager()
 {
-	m_spatialHash = new SpatialHash(400);
+	m_spatialHash = new SpatialHash(100);
 }
 
 CollisionManager::~CollisionManager()
@@ -61,10 +59,6 @@ void CollisionManager::update()
 
 bool CollisionManager::checkCollision(Entity a, Entity b)
 {
-	std::vector<Entity> potentialCollisions = m_spatialHash->broadCollisionCheck(a);
-	if (std::find(potentialCollisions.begin(), potentialCollisions.end(), b) == potentialCollisions.end())
-		return false;
-
 	EntityManager* ecs = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 
 	Transform* t1 = ecs->GetComponent<Transform>(a);

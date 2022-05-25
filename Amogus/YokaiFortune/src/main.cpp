@@ -5,9 +5,11 @@
 #include "CameraFollowScript.h"
 #include "EnemyMovementScript.h"
 #include "EnemySpawnerScript.h"
+#include "TimerScript.h"
 
 #include "PlayerScript.h"
 #include "WeaponScript.h"
+#include "HealthBarScript.h"
 
 #include "Shuriken.h"
 #include "HackingDevice.h"
@@ -20,6 +22,8 @@
 #include "Ragnite.h"
 #include "PowerGlove.h"
 #include "PowerGem.h"
+
+#include "StartMenuButton.h"
 
 class Runtime : public Application
 {
@@ -39,15 +43,34 @@ public:
 		g_app->m_debugger->Log("Launched Yokai Fortune.", LL_DEBUG);
 
 		processCommandLine();
+		
+		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+		
+		//Start UI
+		Entity sMenu = GetEntityByName("StartMenu");
 
-		// Give entities called "Enemy" the enemy script
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
+		if (scriptC)
+		{
+			scriptC->AttachScript<StartMenuButton>();
+		}
+	}
+
+	void loadMainScene()
+	{
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 		auto allEntities = entityManager->GetAllActiveEntities();
-		
+
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
+		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .2f);
+
 		Entity player = GetEntityByName("Player");
 		Entity enemy = GetEntityByName("Enemy");
 		Entity enemySpawner = GetEntityByName("Enemy Spawner");
 		Entity camera = GetEntityByName("Camera");
+		Entity xpManager = GetEntityByName("XpManager");
+		Entity timer = GetEntityByName("Timer");
+		Entity healthBar = GetEntityByName("HealthBar");
 
 		//Weapons
 		Entity shuriken = GetEntityByName("Shuriken");
@@ -63,18 +86,23 @@ public:
 		Entity pGlove = GetEntityByName("PowerGlove");
 		Entity pGem = GetEntityByName("PowerGem");
 
-		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_sfx, .05f);
-		g_app->m_audioManager->SetVolume(g_app->m_audioManager->m_bgm, .05f);
-
 		//temp Music as proof of concept
+
+
 		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
-		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
+		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
 
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
 		{
 			scriptC->AttachScript<PlayerScript>(100.0f);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(xpManager);
+		if (scriptC)
+		{
+			scriptC->AttachScript<XpManager>(player, 100, 10);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
@@ -95,11 +123,24 @@ public:
 			scriptC->AttachScript<CameraFollowScript>(player);
 		}
 
+		scriptC = entityManager->GetComponent<ScriptComponent>(timer);
+		if (scriptC)
+		{
+			scriptC->AttachScript<TimerScript>(timer);
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(healthBar);
+		if (scriptC)
+		{
+			scriptC->AttachScript<HealthBarScript>(player);
+		}
+
 #pragma region Weapon Scripts
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
 		if (scriptC)
 		{
+			//scriptC->AttachScript<Grenade>(player, gGrenade, xpManager);
 			scriptC->AttachScript<Grenade>(player, gGrenade);
 		}
 		// need to be ordered in draw order
@@ -112,7 +153,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<Shuriken>(player, shuriken);
+			scriptC->AttachScript<Shuriken>(player, shuriken);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
@@ -140,34 +181,45 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(passport);
 		if (scriptC)
 		{
-				//scriptC->AttachScript<Passport>(player, passport);
+			scriptC->AttachScript<Passport>(player, passport);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(ragnite);
 		if (scriptC)
 		{
-				//scriptC->AttachScript<Ragnite>(player, ragnite);
+			scriptC->AttachScript<Ragnite>(player, ragnite);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(pGlove);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<PowerGlove>(player, pGlove);
+			scriptC->AttachScript<PowerGlove>(player, pGlove);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(pGem);
 		if (scriptC)
 		{
-				//scriptC->AttachScript<PowerGem>(player, pGem);
+			scriptC->AttachScript<PowerGem>(player, pGem);
 		}
 
 #pragma endregion
-
 	}
 
 	void onUpdate(float dt) override
 	{
 		g_app->m_audioManager->m_system->update();
+
+		Entity sMenu = GetEntityByName("StartMenu");
+		if (sMenu != 0)
+		{
+			StartMenuButton* menuButton = (StartMenuButton*)g_app->m_sceneManager->GetActiveScene()->m_entityManager->GetComponent<ScriptComponent>(sMenu)->GetAttachedScript();
+			if (menuButton->loadMainScene)
+			{
+				menuButton->loadMainScene = false;
+				g_app->m_sceneManager->SetActiveScene("MainScene");
+				loadMainScene();
+			}
+		}
 	}
 
 	void onRender(float dt) override

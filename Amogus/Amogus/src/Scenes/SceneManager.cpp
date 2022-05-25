@@ -65,7 +65,15 @@ bool SceneManager::WriteActiveSceneToFile(const std::string& filePath)
 
 void SceneManager::SetActiveScene(const std::string& name)
 {
+	if (m_activeScene != nullptr)
+	{
+		g_app->m_scriptSystem->OnUnattach();
+	}
 	m_activeScene = m_sceneMap[name];	
+	if (m_activeScene != nullptr)
+	{
+		g_app->m_scriptSystem->OnAttach();
+	}
 }
 
 Scene* SceneManager::GetActiveScene() const

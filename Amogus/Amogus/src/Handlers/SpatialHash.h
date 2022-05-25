@@ -7,6 +7,9 @@
 
 #include <ECS/EntityManager.h>
 
+class Transform;
+class BoxCollider;
+
 class SpatialHash
 {
 public:
@@ -27,18 +30,19 @@ public:
 private:
 	unsigned int m_cellSize;
 
-	struct Cell
-	{
-		std::vector<Entity> contents;
-	};
-
-	std::unordered_map<glm::vec2, Cell> m_map;
-
 	struct Entry
 	{
 		Entity entityID;
+		Transform* entityTransform;
+		BoxCollider* entityBoxCollider;
 		glm::vec2 entryPosition;
 	};
+	
+	struct Cell
+	{
+		std::vector<Entry> contents;
+	};
 
+	std::unordered_map<glm::vec2, Cell> m_map;
 	std::vector<Entry> m_allEntities;
 };

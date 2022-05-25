@@ -1,0 +1,246 @@
+{
+    "clearColour": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "entities": [
+        [
+            {
+                "far": 1.0,
+                "internalViewport": {
+                    "height": 360.0,
+                    "width": 640.0
+                },
+                "isActive": true,
+                "near": -1.0,
+                "type": "camera",
+                "viewport": {
+                    "height": 720.0,
+                    "width": 1280.0
+                }
+            },
+            {
+                "name": "Scene Camera",
+                "type": "entityName"
+            }
+        ],
+        [
+            {
+                "name": "StartMenu",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "FarBackground",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "relativeSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "texture": {
+                            "filePath": "StartMenu/far-buildings.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 0.9824561476707458,
+                            "y": 0.764132559299469,
+                            "z": 0.764132559299469
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "Background\u0000t1",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "relativeSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "texture": {
+                            "filePath": "StartMenu/back-buildings.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "Foreground\u0000t2",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "relativeSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "texture": {
+                            "filePath": "StartMenu/foreground.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "MenuBGround\u0000n",
+                        "relativePos": {
+                            "x": 0.2199999988079071,
+                            "y": 0.8500000238418579
+                        },
+                        "relativeSize": {
+                            "x": 0.4000000059604645,
+                            "y": 0.4000000059604645
+                        },
+                        "texture": {
+                            "filePath": "UI/ui_menu_background.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Start_Menu/ui_menu_start_button_press.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "UI/Start_Menu/ui_menu_start_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "StartButton\u0000lement0",
+                        "relativePos": {
+                            "x": 0.14000000059604645,
+                            "y": 0.800000011920929
+                        },
+                        "relativeSize": {
+                            "x": 0.17000000178813934,
+                            "y": 0.18000000715255737
+                        },
+                        "texture": {
+                            "filePath": "UI/Start_Menu/ui_menu_start_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button_press.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": false,
+                        "hoverTexture": {
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "QuitButton\u0000Element1",
+                        "relativePos": {
+                            "x": 0.30000001192092896,
+                            "y": 0.8999999761581421
+                        },
+                        "relativeSize": {
+                            "x": 0.17000000178813934,
+                            "y": 0.18000000715255737
+                        },
+                        "texture": {
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
+        ]
+    ],
+    "name": "StartScene"
+}

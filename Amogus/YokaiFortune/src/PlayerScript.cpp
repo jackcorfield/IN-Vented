@@ -19,14 +19,15 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_isDead(false),
 	m_movementSpeed(speed),
 	m_projectileSpeed(10),
-	m_projectileCount(1),
+	m_projectileCount(0),
 	m_projectileCooldown(1),
 	m_projectileArea(10),
 	m_projectileDuration(10),
 	m_damageModifier(1.0f),
-	m_maxHealth(10.0f),
+	m_maxHealth(36.0f),
 	m_health(m_maxHealth),
-	m_regeneration(0.0f),
+	m_playerXP(0),
+	m_regeneration(1.0f),
 	m_range(50.0f)
 {
 	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerScript::KeyEvent);
@@ -51,6 +52,11 @@ void PlayerScript::OnAttach()
 {
 	m_transform = GetComponent<Transform>();
 	m_collider = GetComponent<BoxCollider>();
+}
+
+void PlayerScript::AddXP(int XPVal)
+{
+	m_playerXP += XPVal;
 }
 
 void PlayerScript::KeyEvent(InputEvent* e)
@@ -138,6 +144,12 @@ void PlayerScript::OnUpdate(float dt)
 	if (m_currentInvulnCooldown > 0.0f)
 	{
 		m_currentInvulnCooldown -= dt;
+	}
+
+	m_health += m_regeneration * dt;
+	if (m_health > m_maxHealth)
+	{
+		m_health = m_maxHealth;
 	}
 
 	// Use to check if these properties change this frame
@@ -241,24 +253,36 @@ void PlayerScript::OnUnattach()
 
 }
 
-void PlayerScript::AddWeapon(Sprite* icon)
+int PlayerScript::AddWeapon(Sprite* icon, int level)
 {
 	if (m_weaponCount < 5)
 	{
 		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_weaponCount];
 		image->m_texture = icon->GetTexture();
+
+		UpdateLevel(m_weaponCount, level);
 		m_weaponCount++;
 	}
+	else
+		return NULL;
+
+	return m_weaponCount;
 }
 
-void PlayerScript::AddEquip(Sprite* icon)
+int PlayerScript::AddEquip(Sprite* icon, int level)
 {
 	if (m_equipCount < 10)
 	{
 		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_equipCount];
 		image->m_texture = icon->GetTexture();
+
+		UpdateLevel(m_equipCount, level);
 		m_equipCount++;
 	}
+	else
+		return NULL;
+
+	return m_equipCount;
 }
 
 void PlayerScript::UpdateSpriteAnimation(bool facingLeft, bool moving)
@@ -379,6 +403,17 @@ glm::vec2 PlayerScript::GetIntersectionDepth(Entity collidedEntity)
 	}
 
 	return depth;
+}
+
+void PlayerScript::UpdateLevel(int elementNum, int num)
+{
+	UI_Text* text;
+	if(elementNum == 10)
+		text = (UI_Text*)m_UIWidget->m_elements[19];
+	else
+		text = (UI_Text*) m_UIWidget->m_elements[elementNum + 10];
+
+	text->m_text = std::to_string(num);
 }
 
 void PlayerScript::ResolveCollision(glm::vec2 intersection, BoxCollider* theirCollider, Transform* theirTransform)

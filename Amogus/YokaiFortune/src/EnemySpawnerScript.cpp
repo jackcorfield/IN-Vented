@@ -11,7 +11,9 @@ EnemySpawnerScript::EnemySpawnerScript(EntityManager* entityManager, Entity pare
 	m_timeElapsedSinceLastWave(0.0f),
 	m_enemiesAlive(0),
 	m_maxEnemiesAlive(500),
-	m_timeBetweenWaveSpawns(60.0f)
+	m_timeBetweenWaveSpawns(60.0f),
+	m_timeBetweenSeeks(0.5f),
+	m_timeElapsedSinceLastSeek(m_timeBetweenSeeks)
 {}
 
 void EnemySpawnerScript::OnAttach()
@@ -39,11 +41,18 @@ void EnemySpawnerScript::OnUpdate(float dt)
 {
 	m_totalTimeElapsed += dt;
 	m_timeElapsedSinceLastWave += dt;
+	m_timeElapsedSinceLastSeek += dt;
 
 	if (m_timeElapsedSinceLastWave >= m_timeBetweenWaveSpawns)
 	{
 		SpawnWave();
 		m_timeElapsedSinceLastWave = 0.0f;
+	}
+
+	if (m_timeElapsedSinceLastSeek >= m_timeBetweenSeeks)
+	{
+		CalculateAllDirections();
+		m_timeElapsedSinceLastSeek = 0.0f;
 	}
 
 	// If there is no target entity, try to find one. If there is still no target, return
@@ -57,12 +66,42 @@ void EnemySpawnerScript::OnRender(float dt)
 void EnemySpawnerScript::OnUnattach()
 {}
 
+void EnemySpawnerScript::CalculateAllDirections()
+{
+	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+	glm::vec2 playerPos = entityManager->GetComponent<Transform>(m_spawnAround)->m_position;
+
+	for (Entity enemy : m_enemyEntities)
+	{
+		CalculateDir(enemy, entityManager, playerPos);
+	}
+}
+
+void EnemySpawnerScript::CalculateDir(Entity entity, EntityManager* entityManager, const glm::vec2& playerPos)
+{
+	ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(entity);
+	if (!scriptC) { return; }
+	EnemyMovementScript* script = reinterpret_cast<EnemyMovementScript*>(scriptC->GetAttachedScript());
+
+	Transform* enemyTransform = entityManager->GetComponent<Transform>(entity);
+
+	glm::vec2 newDir = Seek(enemyTransform->m_position, playerPos);
+	script->SetDirection(newDir);
+}
+
+glm::vec2 EnemySpawnerScript::Seek(glm::vec2 pos, glm::vec2 seekTo)
+{
+	return glm::normalize(seekTo - pos);
+}
+
 void EnemySpawnerScript::SpawnWave()
 {
 	for (int i = 0; i < 100; i++)
 	{
 		SpawnEnemy();
 	}
+
+	CalculateAllDirections();
 }
 
 void EnemySpawnerScript::SpawnEnemy()

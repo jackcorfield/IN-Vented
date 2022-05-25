@@ -42,7 +42,7 @@ Renderer::Renderer() :
 
     m_renderContext = { 0.0f, true, NULL, false };
 
-    LoadFont("Fonts/Roboto-Regular.ttf");
+    LoadFont("Fonts/Orbitron-Regular.ttf");
 }
 
 Renderer::~Renderer()
@@ -358,19 +358,13 @@ void Renderer::DrawUI_Element(UI_BaseElement* element)
 		m_uiShader->Use();
 		m_uiShader->SetUniform("view", view);
 		m_uiShader->SetUniform("projection", m_projection);
+		m_uiShader->SetUniform("tint", imageElement->m_colour);
 		
-		float windowWidth = 0;
-		float windowHeight = 0;
-		if (g_app->m_windowParams.windowWidth != g_app->GetGameScreenInfo().z)
-		{
-			windowWidth = g_app->GetGameScreenInfo().z;
-			windowHeight = g_app->GetGameScreenInfo().w;
-		}
-		else
-		{
-			windowWidth = g_app->m_windowParams.windowWidth;
-			windowHeight = g_app->m_windowParams.windowHeight;
-		}
+		float windowWidth = g_app->m_windowParams.windowWidth;;
+		float windowHeight = g_app->m_windowParams.windowHeight;
+
+        glm::mat4 projection = glm::orthoLH(0.0f, windowWidth, windowHeight, 0.0f, 0.0f, 64.0f);
+        m_uiShader->SetUniform("projection", projection);
 
 		glm::vec2 adjustedRelativePos = element->m_relativePosition * glm::vec2(windowWidth, windowHeight);
 		glm::vec3 finalPos = glm::vec3(adjustedRelativePos + element->m_absolutePosition, element->m_zIndex);
