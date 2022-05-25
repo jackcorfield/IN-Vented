@@ -26,6 +26,7 @@
 
 #include "StartMenuButton.h"
 #include "QuitButtonScript.h"
+#include "OptionsMenu.h"
 
 class Runtime : public Application
 {
@@ -54,22 +55,27 @@ public:
 
 		//Start UI
 		Entity sMenu = GetEntityByName("StartMenu");
+		Entity oMenu = GetEntityByName("OptionsMenu");
 
 		audio = entityManager->AddComponent<Audio>(sMenu, "bgm/05.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
 		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
-
-		
-
-		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(oMenu);
 		if (scriptC)
 		{
-			scriptC->AttachScript<StartMenuButton>();
+			scriptC->AttachScript<OptionsMenu>();
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
+		if (scriptC)
+		{
+			scriptC->AttachScript<StartMenuButton>(oMenu);
 		}
 	}
 
 	void loadMainScene()
 	{
+		g_app->m_audioManager->RemoveAudio(audio->m_sound);
 		g_app->m_audioManager->StopAudio(audio->m_channel);
 
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
@@ -102,15 +108,10 @@ public:
 		Entity pGlove = GetEntityByName("PowerGlove");
 		Entity pGem = GetEntityByName("PowerGem");
 
-
-		//temp Music as proof of concept
-
-
-		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
+		audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
 		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
 
-		
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);	
 		scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
@@ -151,7 +152,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(timer);
 		if (scriptC)
 		{
-			scriptC->AttachScript<TimerScript>(timer);
+			scriptC->AttachScript<TimerScript>(timer, player);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(healthBar);

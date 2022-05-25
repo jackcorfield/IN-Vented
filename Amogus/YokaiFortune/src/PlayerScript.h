@@ -69,6 +69,8 @@ public:
 
     float m_range; //Pick up distance
 
+    bool m_isDead;
+
 private:
     void UpdateSpriteAnimation(bool facingLeft, bool moving);
     
@@ -104,7 +106,6 @@ private:
 
     float m_invulnTime; // Stores length of time player is invulnerable after taking damage (prevents instant death from being hit every frame)
     float m_currentInvulnCooldown; // Counts down to 0 from m_invulnTime after taking damage
-    bool m_isDead;
 
     void KeyEvent(InputEvent* e);
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Resources/Script.h"
-
+#include "PlayerScript.h"
 #include "../Amogus.h"
 
 class EnemyMovementScript :
@@ -31,4 +31,6 @@ private:
 
 	Transform* m_transform;
 	BoxCollider* m_collider;
+
+	PlayerScript* m_pScript;
 };

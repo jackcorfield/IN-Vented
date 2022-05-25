@@ -130,7 +130,6 @@ void WeaponScript::OnUnattach()
 
 void WeaponScript::OnUpdate(float dt)
 {
-	
 }
 
 void WeaponScript::SpawnProjectile()

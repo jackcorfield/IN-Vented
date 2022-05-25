@@ -6,7 +6,7 @@ class StartMenuButton :
 	public Script
 {
 public:
-	StartMenuButton(EntityManager* entityManager, Entity parentEntityID);
+	StartMenuButton(EntityManager* entityManager, Entity parentEntityID, Entity optionsMenu);
 	~StartMenuButton();
 
 	void OnAttach() override;
@@ -15,8 +15,11 @@ public:
 	void OnUnattach() override;
 
 	UI_WidgetComponent* m_UIWidget;
+	UI_WidgetComponent* m_optionsMenu;
+
 	UI_ImageButton* m_startButton;
 	UI_ImageButton* m_quitButton;
+	UI_ImageButton* m_optionsButton;
 
 	bool loadMainScene = false;
 };

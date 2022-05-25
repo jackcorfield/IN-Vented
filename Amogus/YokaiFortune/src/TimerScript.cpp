@@ -1,9 +1,9 @@
 #include "TimerScript.h"
 
-TimerScript::TimerScript(EntityManager* entityManager, Entity parentEntityID, Entity Timer) :
+TimerScript::TimerScript(EntityManager* entityManager, Entity parentEntityID, Entity Timer, Entity playerID) :
 	Script(entityManager, parentEntityID)
 {
-
+	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(playerID)->GetAttachedScript();
 }
 
 TimerScript::~TimerScript()
@@ -16,6 +16,9 @@ void TimerScript::OnAttach()
 
 void TimerScript::OnUpdate(float dt)
 {
+	if (m_pScript->m_isDead)
+		return;
+
 	m_seconds += dt;
 	UI_Text* text = (UI_Text*)GetComponent<UI_WidgetComponent>()->m_elements[0];
 
