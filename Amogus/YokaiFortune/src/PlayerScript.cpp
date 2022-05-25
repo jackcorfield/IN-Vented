@@ -4,7 +4,7 @@
 #define MAX_Y 180.0f
 #define MIN_Y -180.0f
 
-PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, float speed) :
+PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, Entity GameOver, float speed) :
 	Script(entityManager, parentEntityID),
 	m_transform(nullptr),
 	m_collider(nullptr),
@@ -41,8 +41,10 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 	m_registeredKeys.DOWN = false;
 	m_registeredKeys.LEFT = false;
 	m_registeredKeys.RIGHT = false;
-
+	
 	m_UIWidget = entityManager->GetComponent<UI_WidgetComponent>(parentEntityID);
+	m_GameOver = entityManager->GetComponent<UI_WidgetComponent>(GameOver);
+	
 }
 
 PlayerScript::~PlayerScript()
@@ -139,7 +141,15 @@ void PlayerScript::KeyEvent(InputEvent* e)
 
 void PlayerScript::OnUpdate(float dt)
 {
-	if (m_isDead) { return; }
+	if (m_isDead) 
+	{ 
+		for (UI_BaseElement* element : m_GameOver->m_elements)
+		{
+			element->m_hidden = false;
+		}
+
+		return;
+	}
 
 	if (m_currentInvulnCooldown > 0.0f)
 	{
@@ -452,6 +462,9 @@ void PlayerScript::ResolveCollision(glm::vec2 intersection, BoxCollider* theirCo
 		m_health -= 1.0f; // Placeholder number
 		if (m_health <= 0.0f)
 		{
+			Audio* audio = AddComponent<Audio>("sfx/death.wav", g_app->m_audioManager->m_system, g_app->m_audioManager->m_sfx);
+			g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
+
 			m_isDead = true;
 		}
 		m_currentInvulnCooldown = m_invulnTime;

@@ -1465,7 +1465,7 @@
                     "z": 1.0
                   },
                   "elementType": 1.0,
-                  "hidden": false,
+                  "hidden": true,
                   "name": "Menu",
                   "relativePos": {
                     "x": 0.5,
@@ -1496,7 +1496,7 @@
                     "z": 1.0
                   },
                   "elementType": 1.0,
-                  "hidden": false,
+                  "hidden": true,
                   "name": "GameOver\u0000ent0",
                   "relativePos": {
                     "x": 0.5,
@@ -1531,7 +1531,7 @@
                     "z": 1.0
                   },
                   "elementType": 2.0,
-                  "hidden": false,
+                  "hidden": true,
                   "hoverTexture": {
                     "filePath": "UI/Options_Menu/ui_options_quit_button_press.png",
                     "name": "Texture"
