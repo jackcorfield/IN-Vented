@@ -4,12 +4,12 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 	WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
 
-	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
 	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 30));
 	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20)); 
-	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20));
 
 	m_maxLevel = m_levelingInfo.size();
@@ -50,13 +50,17 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
-		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f));
+
+		m_originalTransformSize = glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease));
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), m_originalTransformSize);
 
 
 		AnimatedSprite* newASprite = m_manager->AddComponent<AnimatedSprite>(newProjectile, templateASprite->GetTexture(), templateASprite->getFrameSize(), templateASprite->GetColour(), templateASprite->GetShader());
 		//m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
-		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
+
+		m_originalBoxSize = glm::vec2(15);
+		m_originalBoxOffset = glm::vec2(0.0f);
+		m_manager->AddComponent<BoxCollider>(newProjectile, m_originalBoxSize, m_originalBoxOffset);
 
 		// Set up animations
 		std::map<std::string, Animation> animations = templateASprite->getAnimations();
@@ -162,28 +166,21 @@ void Grenade::OnUpdate(float dt)
 				{
 					m_vecProjectiles[i].hasHitTheFloor = true;
 					m_manager->GetComponent<AnimatedSprite>(m_vecProjectiles[i].name)->setAnimation("Exploding");
+
+					float PercentageAreaIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
+
+					Transform* transform = m_manager->GetComponent<Transform>(m_vecProjectiles[i].name);
+					transform->m_size = m_originalTransformSize * (m_baseProjectileArea + PercentageAreaIncrease);
+
+					BoxCollider* boxCollider = m_manager->GetComponent<BoxCollider>(m_vecProjectiles[i].name);
+					boxCollider->m_size = m_originalBoxSize * (m_baseProjectileArea + PercentageAreaIncrease);
+					boxCollider->m_offset = m_originalBoxOffset * ((m_baseProjectileArea + PercentageAreaIncrease) / 2.0f);
 					
 					m_vecProjectiles[i].duration += m_baseProjectileDuration;
 				}
 			}
 
-			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
-			for (Entity e : collisions)
-			{
-				EntityName* name = m_manager->GetComponent<EntityName>(e);
-				if (name == NULL)
-					continue;
-
-				if (name->m_name == "Enemy")
-				{
-					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
-					{
-						m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
-						m_manager->RemoveComponent<ScriptComponent>(e);
-						m_manager->DeleteEntity(e);
-					}
-				}
-			}
+			CheckWeaponCollision(m_vecProjectiles[i].name, true);
 
 			m_vecProjectiles[i].duration -= dt;
 		}
@@ -193,6 +190,13 @@ void Grenade::OnUpdate(float dt)
 			m_vecProjectiles[i].isSpawned = false;
 			m_vecProjectiles[i].hasHitTheFloor = false;
 			m_manager->GetComponent<AnimatedSprite>(m_vecProjectiles[i].name)->setAnimation("Throwing");
+
+			Transform* transform = m_manager->GetComponent<Transform>(m_vecProjectiles[i].name);
+			transform->m_size = m_originalTransformSize;
+
+			BoxCollider* boxCollider = m_manager->GetComponent<BoxCollider>(m_vecProjectiles[i].name);
+			boxCollider->m_size = m_originalBoxSize;
+			boxCollider->m_offset = m_originalBoxOffset;
 			i--;
 		}
 	}

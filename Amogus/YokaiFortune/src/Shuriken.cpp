@@ -16,7 +16,7 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 	m_baseProjectileSpeed = 1; //Speed of projectiles
 	m_baseProjectileCooldown = 1; //How often weapon attacks
-	m_baseProjectileArea = 0.4; //Size of weapon
+	m_baseProjectileArea = 0.7f; //Size of weapon
 	m_baseProjectileDuration = 4; //How long the projectile stays on the screen
 	m_baseProjectileCount = 3; //How many projectiles
 	m_projectileMax = 15;
@@ -46,10 +46,15 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 		glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 		float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
-		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
+
+		m_originalTransformSize = glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease));
+		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), m_originalTransformSize);
 
 		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
-		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
+
+		m_originalBoxSize = transform->m_size;
+		m_originalBoxOffset = glm::vec2(0.0f);
+		m_manager->AddComponent<BoxCollider>(newProjectile, m_originalBoxSize, m_originalBoxOffset);
 
 		glm::vec2 direction(0, 0);
 
@@ -134,24 +139,18 @@ void Shuriken::OnUpdate(float dt)
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 
-			auto collisions = g_app->m_collisionManager->potentialCollisions(m_vecProjectiles[i].name);
-			for (Entity e : collisions)
-			{
-				EntityName* name = m_manager->GetComponent<EntityName>(e);
-				if (name == NULL)
-					continue;
+			float PercentageAreaIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
 
-				if (name->m_name == "Enemy")
-				{
-					if (g_app->m_collisionManager->checkCollision(m_vecProjectiles[i].name, e))
-					{
-						m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
-						m_vecProjectiles[i].duration = 0;
-						m_manager->RemoveComponent<ScriptComponent>(e);
-						m_manager->DeleteEntity(e);
-					}
-				}
-			}
+			Transform* transform = m_manager->GetComponent<Transform>(m_vecProjectiles[i].name);
+			transform->m_size = m_originalTransformSize * (m_baseProjectileArea + PercentageAreaIncrease);
+
+			BoxCollider* boxCollider = m_manager->GetComponent<BoxCollider>(m_vecProjectiles[i].name);
+			boxCollider->m_size = m_originalBoxSize * (m_baseProjectileArea + PercentageAreaIncrease);
+			boxCollider->m_offset = m_originalBoxOffset * ((m_baseProjectileArea + PercentageAreaIncrease) / 2.0f);
+
+			//Check collions
+			if(CheckWeaponCollision(m_vecProjectiles[i].name))
+				m_vecProjectiles[i].duration = 0;
 
 			m_vecProjectiles[i].duration -= dt;
 		}

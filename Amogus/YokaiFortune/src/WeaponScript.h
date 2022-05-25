@@ -39,6 +39,8 @@ protected:
         bool isSpawned;
     };
 
+    bool CheckWeaponCollision(Entity weaponID, bool areaOfEffect = false);
+
     Entity m_weapon;
     Entity m_player;
     Entity e_xpManager;
@@ -91,5 +93,7 @@ protected:
     glm::vec2 m_playerPreviousPosition;
 
     std::vector<std::pair<modifier, int>> m_levelingInfo; // WILL NEED TO BE SET UP FOR EACH WEAPON
+
+    glm::vec2 m_originalTransformSize, m_originalBoxSize, m_originalBoxOffset;
 };
 
