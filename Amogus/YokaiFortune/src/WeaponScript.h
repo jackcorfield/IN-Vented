@@ -8,7 +8,7 @@ class WeaponScript :
     public Script
 {
 public:
-    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level = 1, bool moving = true, bool autoTarget = false);
+    WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, Entity killCounter, int level = 1, bool moving = true, bool autoTarget = false);
     ~WeaponScript();
     void SetSprites(Sprite* icon, Sprite* sprite);
     void OnAttach();
@@ -44,8 +44,10 @@ protected:
     Entity m_weapon;
     Entity m_player;
     Entity e_xpManager;
+    Entity m_killCounter;
     EntityManager* m_manager;
 
+    int m_killCount;
     int m_elementNum;
     bool m_firstLevel;
 

@@ -3,7 +3,7 @@
 #include <random>
 
 
-WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon,  int level, bool moving, bool autoTarget) :
+WeaponScript::WeaponScript(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, Entity killCounter,  int level, bool moving, bool autoTarget) :
 Script(entityManager, parentEntityID),
 m_manager(entityManager),
 m_weapon(parentEntityID),
@@ -11,10 +11,12 @@ m_player(player),
 m_currentLevel(level),
 m_isMoving(moving),
 m_isAutoTarget(autoTarget),
+m_killCounter(killCounter),
 m_canLevel(true),
 m_icon(nullptr),
 m_sprite(nullptr)
 {
+	m_killCount = 0;
 	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(player)->GetAttachedScript();
 	m_currentProjectile = 0;
 	
@@ -99,7 +101,9 @@ bool WeaponScript::CheckWeaponCollision(Entity weaponID, bool areaOfEffect)
 				//Handle Enemy Killing
 				m_manager->RemoveComponent<ScriptComponent>(e);
 				m_manager->DeleteEntity(e);
-				
+				m_killCount++;
+				m_manager->GetComponent<UI_WidgetComponent>(m_killCounter)->GetText("killText")->m_text = std::to_string(m_killCount);
+
 				if (!areaOfEffect)
 					return true;
 
