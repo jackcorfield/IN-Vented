@@ -3,9 +3,20 @@
 LaserGun::LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, int level, bool moving, bool autoTarget) :
 WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoTarget)
 {
+
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(SPEED, 50));
+	m_levelingInfo.push_back(std::make_pair(DAMAGE, 20));
+
+	m_maxLevel = m_levelingInfo.size();
+
 	m_baseProjectileSpeed = .1f; //Speed of projectiles
 	m_baseProjectileCooldown = 3; //How often weapon attacks
-	m_baseProjectileArea = .4f; //Size of weapon
+	m_baseProjectileArea = .2f; //Size of weapon
 	m_baseProjectileDuration = 2; //How long the projectile stays on the screen
 	m_baseProjectileCount = 4; //How many projectiles
 	m_projectileMax = 20;
@@ -56,7 +67,7 @@ WeaponScript(entityManager, parentEntityID, player, weapon, level, moving, autoT
 		m_vecProjectiles.push_back(p);
 	}
 
-	m_pScript->AddWeapon(icon);
+	m_elementNum = m_pScript->AddWeapon(icon, level);
 }
 
 LaserGun::~LaserGun()

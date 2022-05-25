@@ -17,6 +17,6 @@ Ragnite::Ragnite(EntityManager* entityManager, Entity parentEntityID, Entity pla
 	m_canLevel = true;
 	m_currentLevel = level;
 
+	m_elementNum = m_pScript->AddEquip(icon, level);
 	OnLevelUp();
-	m_pScript->AddEquip(icon);
 }

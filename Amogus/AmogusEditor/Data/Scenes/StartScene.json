@@ -130,15 +130,46 @@
                     },
                     {
                         "absolutePos": {
-                            "x": -220.0,
-                            "y": -64.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "absoluteSize": {
-                            "x": 256.0,
-                            "y": 100.0
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "MenuBGround\u0000n",
+                        "relativePos": {
+                            "x": 0.2199999988079071,
+                            "y": 0.8500000238418579
+                        },
+                        "relativeSize": {
+                            "x": 0.4000000059604645,
+                            "y": 0.4000000059604645
+                        },
+                        "texture": {
+                            "filePath": "UI/ui_menu_background.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "UI/BtnNext.png",
+                            "filePath": "UI/Start_Menu/ui_menu_start_button_press.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -149,52 +180,62 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "UI/BtnNext.png",
+                            "filePath": "UI/Start_Menu/ui_menu_start_button_press.png",
                             "name": "Texture"
                         },
                         "name": "StartButton\u0000lement0",
                         "relativePos": {
-                            "x": 1.0,
-                            "y": 1.0
+                            "x": 0.14000000059604645,
+                            "y": 0.800000011920929
                         },
                         "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 0.17000000178813934,
+                            "y": 0.18000000715255737
                         },
                         "texture": {
-                            "filePath": "UI/BtnNext.png",
+                            "filePath": "UI/Start_Menu/ui_menu_start_button.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
                     },
                     {
                         "absolutePos": {
-                            "x": -256.0,
-                            "y": -80.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "absoluteSize": {
-                            "x": 1.0,
-                            "y": 1.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
-                        "centered": true,
+                        "clickTexture": {
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button_press.png",
+                            "name": "Texture"
+                        },
                         "colour": {
                             "x": 1.0,
                             "y": 1.0,
                             "z": 1.0
                         },
-                        "elementType": 3.0,
+                        "elementType": 2.0,
                         "hidden": false,
-                        "name": "StartText\u0000t0",
+                        "hoverTexture": {
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "QuitButton\u0000Element1",
                         "relativePos": {
-                            "x": 1.0,
-                            "y": 1.0
+                            "x": 0.30000001192092896,
+                            "y": 0.8999999761581421
                         },
                         "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 0.17000000178813934,
+                            "y": 0.18000000715255737
                         },
-                        "text": "Start",
-                        "zIdx": 1
+                        "texture": {
+                            "filePath": "UI/Start_Menu/ui_menu_quit_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
                     }
                 ],
                 "type": "uiWidget"
