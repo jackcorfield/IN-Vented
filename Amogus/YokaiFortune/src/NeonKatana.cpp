@@ -51,7 +51,7 @@ NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Enti
 		m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f * m_baseProjectileArea + PercentageIncrease));
 
 		m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
-		m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
+		m_manager->AddComponent<BoxCollider>(newProjectile, glm::vec2(16), glm::vec2(0.0f)); // Needs a box collider that ignores player?
 
 		glm::vec2 direction(0, 0);
 
@@ -119,6 +119,8 @@ void NeonKatana::OnUpdate(float dt)
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.x += (m_vecProjectiles[i].direction.x * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 			m_manager->GetComponent<Transform>(m_vecProjectiles[i].name)->m_position.y += (m_vecProjectiles[i].direction.y * 1000) * (m_baseProjectileSpeed + PercentageIncrease) * dt;
 
+			CheckWeaponCollision(m_vecProjectiles[i].name, true);
+
 			m_vecProjectiles[i].duration -= dt;
 		}
 		else
@@ -154,26 +156,24 @@ void NeonKatana::SpawnProjectile(int currentPos)
 
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
-	glm::vec2 direction(0, 0);
-
 	//set sprite to one direction
 
 	if (currentPos % 2 == 0)
 	{
 		//even -> right
 		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(-20, -20* currentPos);
-		//flip sprite
+		
 	}
 	else
 	{
 		//odd -> left
 		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(20, 20*-currentPos);
+		m_manager->GetComponent<Transform>(newProjectile->name)->m_size.x = m_manager->GetComponent<Transform>(newProjectile->name)->m_size.x * -1;
 	}
 
 
 	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileDuration) / 100;
 
 	newProjectile->duration = m_baseProjectileDuration + PercentageIncrease;
-	newProjectile->direction = direction;
 
 }
