@@ -286,6 +286,9 @@
                 "type": "entityName"
             },
             {
+                "type": "scriptComponent"
+            },
+            {
                 "elements": [
                     {
                         "absolutePos": {
@@ -334,7 +337,7 @@
                         },
                         "elementType": 1.0,
                         "hidden": false,
-                        "name": "Slider1\u0000ment1",
+                        "name": "Sliderbg1\u0000nt1",
                         "relativePos": {
                             "x": 0.4970000088214874,
                             "y": 0.25
@@ -365,7 +368,7 @@
                         },
                         "elementType": 1.0,
                         "hidden": false,
-                        "name": "Slider2\u0000ment2",
+                        "name": "Sliderbg2\u0000nt2",
                         "relativePos": {
                             "x": 0.4970000088214874,
                             "y": 0.44999998807907104
@@ -546,7 +549,7 @@
                             "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "TestImages/button_clicked.png",
+                            "filePath": "UI/Options_Menu/ui_options_close_button_press.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -557,7 +560,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "TestImages/button_hovered.png",
+                            "filePath": "UI/Options_Menu/ui_options_close_button_press.png",
                             "name": "Texture"
                         },
                         "name": "Close\u0000uttonElement4",

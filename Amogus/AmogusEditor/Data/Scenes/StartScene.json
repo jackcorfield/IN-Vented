@@ -286,6 +286,9 @@
                 "type": "entityName"
             },
             {
+                "type": "scriptComponent"
+            },
+            {
                 "elements": [
                     {
                         "absolutePos": {

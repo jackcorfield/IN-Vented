@@ -25,6 +25,7 @@
 
 #include "StartMenuButton.h"
 #include "QuitButtonScript.h"
+#include "OptionsMenu.h"
 
 class Runtime : public Application
 {
@@ -58,7 +59,13 @@ public:
 		audio = entityManager->AddComponent<Audio>(sMenu, "bgm/05.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
 		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
-		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(oMenu);
+		if (scriptC)
+		{
+			scriptC->AttachScript<OptionsMenu>();
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
 		if (scriptC)
 		{
 			scriptC->AttachScript<StartMenuButton>(oMenu);
