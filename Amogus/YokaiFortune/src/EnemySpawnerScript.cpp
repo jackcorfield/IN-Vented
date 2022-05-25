@@ -109,7 +109,7 @@ void EnemySpawnerScript::SpawnEnemy()
 	int selectedTemplate = 0;
 	if (m_templates.size() > 1)
 	{
-		int maxRandom = m_templates.size() - 1;
+		int maxRandom = m_templates.size();
 		selectedTemplate = rand() % maxRandom;
 	}
 
