@@ -48,10 +48,15 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
-	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease), .25f *(m_baseProjectileArea + PercentageIncrease)));
+
+	m_originalTransformSize = glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease));
+	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), m_originalTransformSize);
 
 	m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
-	m_manager->AddComponent<BoxCollider>(newProjectile, transform->m_size, glm::vec2(0.0f)); // Needs a box collider that ignores player?
+
+	m_originalBoxSize = glm::vec2(60, 70);
+	m_originalBoxOffset = glm::vec2(0.0f, 25.0f);
+	m_manager->AddComponent<BoxCollider>(newProjectile, m_originalBoxSize, m_originalBoxOffset); // Needs a box collider that ignores player?
 
 	glm::vec2 direction(0, 0);
 
@@ -102,58 +107,29 @@ void HackingDevice::OnUpdate(float dt)
 	if (m_currentCooldown <= 0)
 	{
 		//DO HIT HERE!
+		CheckWeaponCollision(m_vecProjectiles[0].name, true);
+
 		float percentageReduction = (m_baseProjectileCooldown * m_pScript->m_projectileCooldown) / 100;
 		m_currentCooldown = m_baseProjectileCooldown - percentageReduction;
 	}
 
 	float PercentageIncrease = (m_baseProjectileArea * m_pScript->m_projectileArea) / 100;
-	m_manager->GetComponent<Transform>(m_vecProjectiles[0].name)->m_position = currentPosition;
-	m_manager->GetComponent<Transform>(m_vecProjectiles[0].name)->m_size* (m_baseProjectileArea + PercentageIncrease);
+
+	Transform* transform = m_manager->GetComponent<Transform>(m_vecProjectiles[0].name);
+	transform->m_position = currentPosition;
+	transform->m_size = m_originalTransformSize * (m_baseProjectileArea + PercentageIncrease);
+	
+	BoxCollider* boxCollider = m_manager->GetComponent<BoxCollider>(m_vecProjectiles[0].name);
+	boxCollider->m_size = m_originalBoxSize* (m_baseProjectileArea + PercentageIncrease);
+	boxCollider->m_offset = m_originalBoxOffset* ((m_baseProjectileArea + PercentageIncrease)/2.0f);
+
+	std::cout << PercentageIncrease << std::endl;
+	
+
 	m_playerPreviousPosition = currentPosition;
 }
 
 void HackingDevice::SpawnProjectile()
 {
-	//glm::vec2 offset;
-
-	//offset.x = (rand() % 200 - 100) / 2;
-	//offset.y = (rand() % 200 - 100) / 2;
-
-	////MAKE BASE SET
-	////IF MORE ARE NEEDED (EG THE CURRENT ARE STILL IN USE)
-	////ADD MORE ENTITIES TO THE LIST
-	////IF NOT, REUSE OLD ENTITIES
-
-	//Projectiles* newProjectile = &m_vecProjectiles[m_currentProjectile];
-	//newProjectile->isSpawned = true;
-
-	//m_currentProjectile++;
-	//if (m_currentProjectile >= m_vecProjectiles.size() - 1)
-	//	m_currentProjectile = 0;
-
-	//Transform* transform = GetComponent<Transform>();
-
-	//glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
-
-	//m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + offset;
-
-	//glm::vec2 direction(0, 0);
-
-
-
-	//if (m_isMoving)
-	//{
-	//	direction = currentPosition - m_playerPreviousPosition;
-
-	//	if (direction == glm::vec2(0, 0))
-	//		direction = glm::vec2(1, 0);
-	//	else
-	//		direction = glm::normalize(direction);
-	//}
-
-	////play noise
-
-	//newProjectile->duration = m_baseProjectileDuration;
-	//newProjectile->direction = direction;
-
+	
 }

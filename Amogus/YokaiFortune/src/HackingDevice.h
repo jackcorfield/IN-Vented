@@ -15,6 +15,7 @@ public:
     void SpawnProjectile();
 
 private:
+    glm::vec2 m_originalTransformSize, m_originalBoxSize, m_originalBoxOffset;
 
 
 };
