@@ -80,6 +80,37 @@ void WeaponScript::OnLevelUp()
 
 }
 
+bool WeaponScript::CheckWeaponCollision(Entity weaponID, bool areaOfEffect)
+{
+	bool collisionDetected = false;
+	auto collisions = g_app->m_collisionManager->potentialCollisions(weaponID);
+	for (Entity e : collisions)
+	{
+		EntityName* name = m_manager->GetComponent<EntityName>(e);
+		if (name == NULL)
+			continue;
+
+		if (name->m_name == "Enemy")
+		{
+			if (g_app->m_collisionManager->checkCollision(weaponID, e))
+			{
+				m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
+
+				//Handle Enemy Killing
+				m_manager->RemoveComponent<ScriptComponent>(e);
+				m_manager->DeleteEntity(e);
+				
+				if (!areaOfEffect)
+					return true;
+
+				collisionDetected = true;
+			}
+		}
+	}
+
+	return collisionDetected;
+}
+
 void WeaponScript::OnAttach()
 {
 }

@@ -39,6 +39,8 @@ protected:
         bool isSpawned;
     };
 
+    bool CheckWeaponCollision(Entity weaponID, bool areaOfEffect = false);
+
     Entity m_weapon;
     Entity m_player;
     Entity e_xpManager;
