@@ -1449,109 +1449,109 @@
                 "type": "scriptComponent"
             },
             {
-              "elements": [
-                {
-                  "absolutePos": {
-                    "x": 0.0,
-                    "y": 0.0
-                  },
-                  "absoluteSize": {
-                    "x": 0.0,
-                    "y": 0.0
-                  },
-                  "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                  },
-                  "elementType": 1.0,
-                  "hidden": true,
-                  "name": "Menu",
-                  "relativePos": {
-                    "x": 0.5,
-                    "y": 0.5
-                  },
-                  "relativeSize": {
-                    "x": 0.8999999761581421,
-                    "y": 0.8999999761581421
-                  },
-                  "texture": {
-                    "filePath": "UI/Options_Menu/ui_weapons_equiptment_grid.png",
-                    "name": "Texture"
-                  },
-                  "zIdx": 0
-                },
-                {
-                  "absolutePos": {
-                    "x": 0.0,
-                    "y": 0.0
-                  },
-                  "absoluteSize": {
-                    "x": 0.0,
-                    "y": 0.0
-                  },
-                  "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                  },
-                  "elementType": 1.0,
-                  "hidden": true,
-                  "name": "GameOver\u0000ent0",
-                  "relativePos": {
-                    "x": 0.5,
-                    "y": 0.4000000059604645
-                  },
-                  "relativeSize": {
-                    "x": 0.20000000298023224,
-                    "y": 0.20000000298023224
-                  },
-                  "texture": {
-                    "filePath": "UI/gameover.png",
-                    "name": "Texture"
-                  },
-                  "zIdx": 0
-                },
-                {
-                  "absolutePos": {
-                    "x": 0.0,
-                    "y": 0.0
-                  },
-                  "absoluteSize": {
-                    "x": 0.0,
-                    "y": 0.0
-                  },
-                  "clickTexture": {
-                    "filePath": "UI/Options_Menu/ui_options_quit_button_press.png",
-                    "name": "Texture"
-                  },
-                  "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                  },
-                  "elementType": 2.0,
-                  "hidden": true,
-                  "hoverTexture": {
-                    "filePath": "UI/Options_Menu/ui_options_quit_button_press.png",
-                    "name": "Texture"
-                  },
-                  "name": "QuitToMenu\u0000Element0",
-                  "relativePos": {
-                    "x": 0.5,
-                    "y": 0.699999988079071
-                  },
-                  "relativeSize": {
-                    "x": 0.20000000298023224,
-                    "y": 0.20000000298023224
-                  },
-                  "texture": {
-                    "filePath": "UI/Options_Menu/ui_options_quit_button.png",
-                    "name": "Texture"
-                  },
-                  "zIdx": 0
-                }
-              ],
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": true,
+                        "name": "Menu",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.5
+                        },
+                        "relativeSize": {
+                            "x": 0.30000001192092896,
+                            "y": 0.8999999761581421
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_background.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": true,
+                        "name": "GameOver\u0000ent0",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.4000000059604645
+                        },
+                        "relativeSize": {
+                            "x": 0.20000000298023224,
+                            "y": 0.6000000238418579
+                        },
+                        "texture": {
+                            "filePath": "UI/ui_game_over.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_quit_button_press.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": true,
+                        "hoverTexture": {
+                            "filePath": "UI/Options_Menu/ui_options_quit_button_press.png",
+                            "name": "Texture"
+                        },
+                        "name": "QuitToMenu\u0000Element0",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.7300000190734863
+                        },
+                        "relativeSize": {
+                            "x": 0.10000000149011612,
+                            "y": 0.10000000149011612
+                        },
+                        "texture": {
+                            "filePath": "UI/Options_Menu/ui_options_quit_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
                 "type": "uiWidget"
             }
         ]
