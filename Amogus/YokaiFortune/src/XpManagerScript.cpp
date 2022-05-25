@@ -37,7 +37,7 @@ XpManager::XpManager(EntityManager* entityManager, Entity parentEntityID, Entity
 			std::vector<unsigned int> frames = animationItr->second.frames;
 			newASprite->createAnimation(name, frames, frameTime);
 		}
-		newASprite->setAnimation("Small");
+		newASprite->setAnimation("Green");
 
 		Orb o;
 
@@ -46,6 +46,8 @@ XpManager::XpManager(EntityManager* entityManager, Entity parentEntityID, Entity
 		o.xpVal = 100;
 
 		m_orbs[i] = o;
+
+		m_maximumPoolable = 100;
 
 	}
 
@@ -113,10 +115,15 @@ void XpManager::SpawnOrb(glm::vec2 position, int XpVal, bool isRecurse)
 		{
 			orb.isSpawned = true;
 			orb.xpVal = XpVal;
-			if (XpVal > 500)
-				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Large");
-			else
-				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Small");
+			
+			if (XpVal < 500)
+				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Green");
+			else if (XpVal <= 2000)
+				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Yellow");
+			else if (XpVal <= 4000)
+				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Blue");
+			else if(XpVal <= 8000)
+				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Red");
 
 			m_manager->GetComponent<Transform>(orb.id)->m_position = position;
 
@@ -136,7 +143,7 @@ void XpManager::SpawnOrb(glm::vec2 position, int XpVal, bool isRecurse)
 		for (Orb& orb : m_orbs)
 		{
 				
-			if (orb.isSpawned)
+			if (orb.isSpawned && orb.xpVal <= m_maximumPoolable)
 			{
 				pooledXP += orb.xpVal;
 				noPooledOrbs++;
@@ -152,6 +159,9 @@ void XpManager::SpawnOrb(glm::vec2 position, int XpVal, bool isRecurse)
 				break;
 
 		}
+
+		if (noPooledOrbs < m_poolingSize)
+			m_maximumPoolable = pooledXP;
 
 		SpawnOrb(newOrbPos, pooledXP);
 	}
