@@ -1,6 +1,6 @@
 #include "LevelingScreen.h"
 
-LevelingScreen::LevelingScreen(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity kCount, std::vector<Entity> entities):// Entity startWeapon , std::vector<Entity*> weapons, std::vector<Entity*> equipment) :
+LevelingScreen::LevelingScreen(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity kCount, std::vector<Entity> entities):
 	Script(entityManager, parentEntityID),
 	m_leveling(parentEntityID),
 	m_player(player),
@@ -39,6 +39,8 @@ LevelingScreen::LevelingScreen(EntityManager* entityManager, Entity parentEntity
 		m_items.push_back(temp);
 	}
 
+	m_items[2].active = true;
+
 	SetUpButtons();
 }
 
@@ -52,6 +54,24 @@ void LevelingScreen::OnAttach()
 
 void LevelingScreen::OnUpdate(float dt)
 {
+
+	for (int i = 0; i < m_items.size(); i++)
+	{
+		if (m_items[i].maxLevel)
+			m_items.erase(m_items.begin()+i, m_items.begin() + i+1);
+	}
+
+	if (m_UIWidget->m_elements[0]->m_hidden)
+		return;
+
+	if (m_items.size() == 0)
+	{
+		for (UI_BaseElement* elements : m_UIWidget->m_elements)
+			elements->m_hidden = true;
+
+		return; // do some other stuff
+	}
+
 	if (button1->m_state != ButtonState::BS_Click)
 		button1Click = false;
 
@@ -59,10 +79,45 @@ void LevelingScreen::OnUpdate(float dt)
 	{
 		button1Click = true;
 
-		if (m_items[m_itemNum].active == false)
-			AddItem(&m_items[m_itemNum]);
+		if (m_items[button1Num].active == false)
+			AddItem(&m_items[button1Num]);
 		else
-			LevelItem(&m_items[m_itemNum]);
+			LevelItem(&m_items[button1Num]);
+
+		for (UI_BaseElement* element : m_UIWidget->m_elements)
+			element->m_hidden = true;
+	}
+
+	if (button2->m_state != ButtonState::BS_Click)
+		button1Click = false;
+
+	if (button2->m_state == ButtonState::BS_Click && button2Click == false)
+	{
+		button2Click = true;
+
+		if (m_items[button2Num].active == false)
+			AddItem(&m_items[button2Num]);
+		else
+			LevelItem(&m_items[button2Num]);
+
+		for (UI_BaseElement* element : m_UIWidget->m_elements)
+			element->m_hidden = true;
+	}
+
+	if (button3->m_state != ButtonState::BS_Click)
+		button3Click = false;
+
+	if (button3->m_state == ButtonState::BS_Click && button3Click == false)
+	{
+		button3Click = true;
+
+		if (m_items[button3Num].active == false)
+			AddItem(&m_items[button3Num]);
+		else
+			LevelItem(&m_items[button3Num]);
+
+		for (UI_BaseElement* element : m_UIWidget->m_elements)
+			element->m_hidden = true;
 	}
 }
 
@@ -192,16 +247,70 @@ void LevelingScreen::LevelItem(ItemData* item)
 
 void LevelingScreen::SetUpButtons()
 {
+	for (UI_BaseElement* element : m_UIWidget->m_elements)
+		element->m_hidden = false;
+
+	srand((unsigned)time(NULL));
+
+	int random1;
+	int random2;
+	int random3;
+
+	if (m_items.size() >= 3)
+	{
+		random1 = 0 + (rand() % m_items.size());
+		random2 = 0 + (rand() % m_items.size());
+		random3 = 0 + (rand() % m_items.size());
+	}
+	if (m_items.size() == 2)
+	{
+		random1 = 0;
+		random2 = 1;
+
+
+	}
+	if (m_items.size() == 1)
+	{
+		random1 = 0;
+	}
+
 	std::vector<UI_BaseElement*> elements = m_UIWidget->m_elements;
+	UI_Image* image1 = (UI_Image*)elements[3];//image
+	if (m_items.size() >= 1)
+	{
+		image1->m_texture = m_items[random1].sprite->GetTexture();
+		button1Num = random1;
+	}
+	else
+	{
+		button1->m_hidden = true;
+		image1->m_hidden = true;
+	}
 
-	UI_Image* image1 = (UI_Image* )elements[3];//image
-	image1->m_texture = m_items[0].sprite->GetTexture();
-
-	button2 = (UI_ImageButton*)elements[1];//button
 	UI_Image* image2 = (UI_Image*)elements[4];//image
-	image2->m_texture = m_items[2].sprite->GetTexture();
+	if (m_items.size() >= 2)
+	{
+		button2 = (UI_ImageButton*)elements[1];//button
+		image2->m_texture = m_items[random2].sprite->GetTexture();
+		button2Num = random2;
+	}
+	else
+	{
+		button2->m_hidden = true;
+		image2->m_hidden = true;
+	}
 
-	button3 = (UI_ImageButton*)elements[2];//button
 	UI_Image* image3 = (UI_Image*)elements[5];//image
-	image3->m_texture = m_items[7].sprite->GetTexture();
+	if (m_items.size() >= 3)
+	{
+		button3 = (UI_ImageButton*)elements[2];//button
+		image3->m_texture = m_items[random3].sprite->GetTexture();
+		button3Num = random3;
+	}
+	else
+	{
+		button3->m_hidden = true;
+		image3->m_hidden = true;
+	}
+
 }

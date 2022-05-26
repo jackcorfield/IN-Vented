@@ -45,6 +45,7 @@ bool EquipmentScript::OnLevelUp()
 
 	if (m_currentLevel >= m_maxLevel)
 	{
+		m_canLevel = false;
 		return true;
 	}
 

@@ -68,6 +68,10 @@ public:
 	UI_ImageButton* button2;
 	UI_ImageButton* button3;
 
+	int button1Num;
+	int button2Num;
+	int button3Num;
+
 	Entity m_leveling;
 	Entity m_player;
 	Entity m_killCounter;
