@@ -16,11 +16,9 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 
 	m_baseProjectileSpeed = 10; //Speed of projectiles
 
-	 //SHOULD BE USED AS THE HITBOX COOLDOWN
-	m_baseProjectileCooldown = 1; //How often weapon attacks
-	 //SHOULD BE USED AS THE HITBOX COOLDOWN
+	m_baseProjectileCooldown = 2; //How often weapon attacks
 
-	m_baseProjectileArea = 2; //Size of weapon
+	m_baseProjectileArea = 1.4; //Size of weapon
 	m_baseProjectileDuration = 0; //How long the projectile stays on the screen
 	m_baseProjectileCount = 1; //How many projectiles
 	m_projectileMax = 1;
