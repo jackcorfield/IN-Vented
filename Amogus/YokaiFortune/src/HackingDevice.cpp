@@ -7,20 +7,18 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 	m_levelingInfo.push_back(std::make_pair(AREA, 40));
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 3));
+	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20));
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 20));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 3));
+	m_levelingInfo.push_back(std::make_pair(AREA, 20));
 
 	m_maxLevel = m_levelingInfo.size();
 
 	m_baseProjectileSpeed = 10; //Speed of projectiles
 
-	 //SHOULD BE USED AS THE HITBOX COOLDOWN
-	m_baseProjectileCooldown = 1; //How often weapon attacks
-	 //SHOULD BE USED AS THE HITBOX COOLDOWN
+	m_baseProjectileCooldown = 2; //How often weapon attacks
 
-	m_baseProjectileArea = 2; //Size of weapon
+	m_baseProjectileArea = 1.4; //Size of weapon
 	m_baseProjectileDuration = 0; //How long the projectile stays on the screen
 	m_baseProjectileCount = 1; //How many projectiles
 	m_projectileMax = 1;

@@ -5,18 +5,18 @@ LaserGun::LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity p
 {
 
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 	m_levelingInfo.push_back(std::make_pair(AREA, 10));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 	m_levelingInfo.push_back(std::make_pair(SPEED, 50));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 20));
+	m_levelingInfo.push_back(std::make_pair(AREA, 20));
 
 	m_maxLevel = m_levelingInfo.size();
 
 	m_baseProjectileSpeed = .1f; //Speed of projectiles
 	m_baseProjectileCooldown = 3; //How often weapon attacks
-	m_baseProjectileArea = 0.4f; //Size of weapon
+	m_baseProjectileArea = 0.6f; //Size of weapon
 	m_baseProjectileDuration = 2; //How long the projectile stays on the screen
 	m_baseProjectileCount = 4; //How many projectiles
 	m_projectileMax = 20;
