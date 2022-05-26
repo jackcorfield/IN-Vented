@@ -27,7 +27,6 @@ protected:
         COOLDOWN,
         AREA,
         DURATION,
-        COUNT,
         COUNT
     };
 
