@@ -16,7 +16,8 @@ public:
     void OnUpdate(float dt);
     void OnRender(float dt);
     void OnUnattach();
-    void OnLevelUp();
+
+    bool OnLevelUp();
 
     enum modifier
     {
