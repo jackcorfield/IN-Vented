@@ -2,6 +2,7 @@
 // While it seems wrong to hard set viewport values, these are integral to gameplay anyway and should be constant
 #define MAX_Y 180.0f
 #define MIN_Y -180.0f
+#define PADDING 50.0f // To prevent sudden disappearance at edges (due to depth >= 1.0f)
 
 PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, Entity GameOver, float speed) :
 	Script(entityManager, parentEntityID),
@@ -230,7 +231,7 @@ void PlayerScript::OnUpdate(float dt)
 		m_registeredKeys.LEFT = false;
 		moving = true;
 		facingLeft = true;
-	}
+	} 
 
 	//Joystick Control
 	if (m_leftStickInUse)
@@ -254,6 +255,10 @@ void PlayerScript::OnUpdate(float dt)
 	{
 		m_transform->m_position.y = MIN_Y;
 	}
+
+	float min = MIN_Y - PADDING;
+	float max = MAX_Y + PADDING;
+	m_transform->m_depth = -((m_transform->m_position.y - min) / (max - min)); // Depth is percentage between 0 and 1 of y compared to screen height
 
 	UpdateSpriteAnimation(facingLeft, moving);
 

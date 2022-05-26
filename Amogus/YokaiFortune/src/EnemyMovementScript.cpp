@@ -1,7 +1,12 @@
 #include "EnemyMovementScript.h"
 
+#define MAX_Y 180.0f
+#define MIN_Y -180.0f
+#define PADDING 50.0f // To prevent sudden disappearance at edges (due to depth >= 1.0f)
+
 EnemyMovementScript::EnemyMovementScript(EntityManager* entityManager, Entity parentEntityID, float moveSpeed, Entity playerEntityID) :
 	Script(entityManager, parentEntityID),
+	m_isDead(false),
 	m_moveDir(0.0f),
 	m_moveSpeed(moveSpeed),
 	m_facingLeft(false),
@@ -20,12 +25,17 @@ void EnemyMovementScript::OnAttach()
 }
 
 void EnemyMovementScript::OnUpdate(float dt)
-{	
+{
+	if (m_isDead) { return; }
 	if (m_pScript->m_isDead)
 		return;
-
+    
 	// Move in set direction
 	m_transform->m_position += m_moveDir * m_moveSpeed * dt;
+
+	float min = MIN_Y - PADDING;
+	float max = MAX_Y + PADDING;
+	m_transform->m_depth = -((m_transform->m_position.y - min) / (max - min)); // Depth is negative of percentage between 0 and 1 of y compared to screen height
 
 	// Test nearby entities for collision and resolve any that have occurred
 	CheckCollisions();

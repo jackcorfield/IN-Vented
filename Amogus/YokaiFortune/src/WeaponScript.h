@@ -2,6 +2,7 @@
 #include "Resources/Script.h"
 #include "Amogus.h"
 #include "PlayerScript.h"
+#include "EnemySpawnerScript.h"
 #include "XpManagerScript.h"
 
 class WeaponScript :
@@ -55,6 +56,7 @@ protected:
    Sprite* m_sprite;
    Audio* m_audio;
    PlayerScript* m_pScript;
+   EnemySpawnerScript* m_eScript;
    XpManager* m_xpManager;
 
     glm::vec2 m_hitboxSize;

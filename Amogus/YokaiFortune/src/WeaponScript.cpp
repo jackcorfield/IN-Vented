@@ -24,12 +24,20 @@ m_sprite(nullptr)
 	{
 		EntityName* name = entityManager->GetComponent<EntityName>(e);
 
-		if (name && name->m_name == "XpManager")
+		if (name)
 		{
-			e_xpManager = e;
-			m_xpManager = (XpManager*)m_manager->GetComponent<ScriptComponent>(e_xpManager)->GetAttachedScript();
-			break;
+			if (name->m_name == "XpManager")
+			{
+				e_xpManager = e;
+				m_xpManager = (XpManager*)m_manager->GetComponent<ScriptComponent>(e_xpManager)->GetAttachedScript();
+				continue;
+			}
+			else if (name->m_name == "Enemy Spawner")
+			{
+				m_eScript = (EnemySpawnerScript*)m_manager->GetComponent<ScriptComponent>(e)->GetAttachedScript();
+			}
 		}
+		
 	}
 }
 
@@ -99,8 +107,11 @@ bool WeaponScript::CheckWeaponCollision(Entity weaponID, bool areaOfEffect)
 				m_xpManager->SpawnOrb(m_manager->GetComponent<Transform>(e)->m_position, 100);
 
 				//Handle Enemy Killing
-				m_manager->RemoveComponent<ScriptComponent>(e);
-				m_manager->DeleteEntity(e);
+			//	m_manager->RemoveComponent<ScriptComponent>(e);
+			//	m_manager->DeleteEntity(e);
+				//m_manager->GetComponent<Transform>(e)->m_position = glm::vec2(-9999999, -9999999);
+				//m_eScript = (EnemySpawnerScript*)m_manager->GetComponent<ScriptComponent>(e)->GetAttachedScript();
+				m_eScript->KillEnemy(e);
 				m_killCount++;
 				m_manager->GetComponent<UI_WidgetComponent>(m_killCounter)->GetText("killText")->m_text = std::to_string(m_killCount);
 

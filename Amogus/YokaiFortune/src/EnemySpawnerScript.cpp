@@ -11,7 +11,7 @@ EnemySpawnerScript::EnemySpawnerScript(EntityManager* entityManager, Entity pare
 	m_timeElapsedSinceLastWave(0.0f),
 	m_enemiesAlive(0),
 	m_maxEnemiesAlive(500),
-	m_timeBetweenWaveSpawns(60.0f),
+	m_timeBetweenWaveSpawns(45.0f),
 	m_timeBetweenSeeks(0.5f),
 	m_timeElapsedSinceLastSeek(m_timeBetweenSeeks)
 {}
@@ -65,6 +65,28 @@ void EnemySpawnerScript::OnRender(float dt)
 
 void EnemySpawnerScript::OnUnattach()
 {}
+
+void EnemySpawnerScript::KillEnemy(Entity enemy)
+{
+	bool isAlreadyDead = (std::find(m_deadEnemies.begin(), m_deadEnemies.end(), enemy) != m_deadEnemies.end());
+	if (isAlreadyDead) { return; }
+
+	// Update internal records
+	m_enemyEntities.erase(std::find(m_enemyEntities.begin(), m_enemyEntities.end(), enemy));
+	m_deadEnemies.emplace_back(enemy);
+
+	// Make enemy functionally dead
+	EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
+
+	entityManager->GetComponent<Transform>(enemy)->m_position.y = 999999.0f; // Place it out of the way so it isn't targeted by weapons
+	entityManager->RemoveComponent<AnimatedSprite>(enemy); // This will be replaced anyway
+
+	ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
+	if (!scriptC) { return; }
+	EnemyMovementScript* script = reinterpret_cast<EnemyMovementScript*>(scriptC->GetAttachedScript());
+
+	script->m_isDead = true;
+}
 
 void EnemySpawnerScript::CalculateAllDirections()
 {
@@ -120,7 +142,23 @@ void EnemySpawnerScript::SpawnEnemy()
 	AnimatedSprite* templateAnimatedSprite = entityManager->GetComponent<AnimatedSprite>(templateEntity);
 	Transform* templateTransform = entityManager->GetComponent<Transform>(templateEntity);
 
-	if (m_enemiesAlive < m_maxEnemiesAlive)
+	// Prioritise using dead enemies that are already created
+	if (m_deadEnemies.size() != 0)
+	{
+		Entity replacedEntity = m_deadEnemies[0];
+
+		CloneEnemy(templateEntity, replacedEntity);
+
+		m_deadEnemies.erase(m_deadEnemies.begin());
+		m_enemyEntities.emplace_back(replacedEntity);
+
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(replacedEntity);
+		if (!scriptC) { return; }
+		EnemyMovementScript* script = reinterpret_cast<EnemyMovementScript*>(scriptC->GetAttachedScript());
+
+		script->m_isDead = false;
+	}
+	else if (m_enemiesAlive < m_maxEnemiesAlive) // Otherwise, if we have space for new enemy entities, create them
 	{
 		Entity newEntity = entityManager->CreateEntity();
 
@@ -136,7 +174,7 @@ void EnemySpawnerScript::SpawnEnemy()
 		m_enemyEntities.emplace_back(newEntity);
 		m_enemiesAlive++;
 	}
-	else
+	else // If there are no dead enemies to use and no space for new entities, replace the oldest entity
 	{
 		Entity replacedEntity = m_enemyEntities[0]; // Replace the oldest entity
 
@@ -203,9 +241,21 @@ void EnemySpawnerScript::CloneEnemy(Entity templateEntity, Entity targetEntity)
 	// Set up transform
 	Entity cameraEntity = entityManager->GetEntityFromComponent<Camera>(camera);
 	Transform* cameraTransform = entityManager->GetComponent<Transform>(cameraEntity);
+
 	Transform* playerTransform = entityManager->GetComponent<Transform>(m_spawnAround);
-	Transform* newTransform = entityManager->AddComponent<Transform>(targetEntity);
-	newTransform->m_position = SetRandomSpawnPos(viewportSize, cameraTransform->m_position);
+
+	Transform* newTransform;
+	if (!entityManager->HasComponent<Transform>(targetEntity))
+	{
+		newTransform = entityManager->AddComponent<Transform>(targetEntity);
+	}
+	else
+	{
+		newTransform = entityManager->GetComponent<Transform>(targetEntity);
+	}
+
+	glm::vec2 centrePos(playerTransform->m_position.x, 0.0f);
+	newTransform->m_position = SetRandomSpawnPos(viewportSize, centrePos);
 	newTransform->m_rotate = templateTransform->m_rotate;
 	newTransform->m_size = templateTransform->m_size;
 	newTransform->m_depth = 0.0f;
