@@ -1788,6 +1788,82 @@
                 ],
                 "type": "uiWidget"
             }
+        ],
+		[
+            {
+                "name": "XpBar",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 32.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "XpBackground",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "texture": {
+                            "filePath": "UI/Health/healthbar.png",
+                            "name": "XpBGTexture"
+                        },
+                        "zIdx": 0
+                    },
+					{
+                        "absolutePos": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "absoluteSize": {
+                            "x": 1.0,
+                            "y": 30.0
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 1.0,
+                        "hidden": false,
+                        "name": "XpCurrent",
+                        "relativePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "relativeSize": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "texture": {
+                            "filePath": "UI/Health/healthbar.png",
+                            "name": "XpTexture"
+                        },
+                        "zIdx": 0
+                    }
+                ],
+                "type": "uiWidget"
+            }
         ]
     ],
     "name": "MainScene"
