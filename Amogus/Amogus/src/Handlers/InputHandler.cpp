@@ -159,25 +159,28 @@ void InputHandler::MouseCallback(GLFWwindow* window, double xpos, double ypos)
 
 void InputHandler::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-	Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
-	if (activeScene)
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
-		std::vector<UI_WidgetComponent*> widgets = activeScene->m_entityManager->GetAllComponentsOfType<UI_WidgetComponent>();
-		if (widgets.size() != 0)
+		Scene* activeScene = g_app->m_sceneManager->GetActiveScene();
+		if (activeScene)
 		{
-			for (UI_WidgetComponent* widget : widgets)
+			std::vector<UI_WidgetComponent*> widgets = activeScene->m_entityManager->GetAllComponentsOfType<UI_WidgetComponent>();
+			if (widgets.size() != 0)
 			{
-				for (int i = 0; i < widget->m_elements.size(); i++)
+				for (UI_WidgetComponent* widget : widgets)
 				{
-					if (widget->m_elements[i]->m_elementType != ET_ImageButton) continue;
-					UI_ImageButton* button = (UI_ImageButton*)widget->m_elements[i];
-
-					if (button->m_state == BS_Hover)
+					for (int i = 0; i < widget->m_elements.size(); i++)
 					{
-						button->m_state = BS_Click;
-						g_app->m_debugger->Log("Clicked the button lol", LL_DEBUG);
-						button->m_clickBus->publish(new Event());
-						m_clickedButtons.push_back(ClickedButton(button));
+						if (widget->m_elements[i]->m_elementType != ET_ImageButton) continue;
+						UI_ImageButton* button = (UI_ImageButton*)widget->m_elements[i];
+
+						if (button->m_state == BS_Hover)
+						{
+							button->m_state = BS_Click;
+							g_app->m_debugger->Log("Clicked the button lol", LL_DEBUG);
+							button->m_clickBus->publish(new Event());
+							m_clickedButtons.push_back(ClickedButton(button));
+						}
 					}
 				}
 			}
