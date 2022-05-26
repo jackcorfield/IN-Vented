@@ -797,201 +797,6 @@
                 "type": "transform"
             }
         ],
-		[
-            {
-                "animations": [
-                    {
-                        "frameTime": 0.10000000149011612,
-                        "frames": [
-                            0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ],
-                        "name": "Run"
-                    }
-                ],
-                "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "frameSize": {
-                    "x": 32.0,
-                    "y": 32.0
-                },
-                "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
-                },
-                "texture": {
-                    "filePath": "Enemies/Mudguard/spritesheet.png",
-                    "name": "animsheet mudguard"
-                },
-                "type": "animatedSprite"
-            },
-            {
-                "offset": {
-                    "x": 0.0,
-                    "y": 10.0
-                },
-                "size": {
-                    "x": 24.0,
-                    "y": 16.0
-                },
-                "type": "boxCollider"
-            },
-            {
-                "name": "EnemyTemplate",
-                "type": "entityName"
-            },
-            {
-                "depth": 0.0,
-                "pos": {
-                    "x": 0.0,
-                    "y": -1000.0
-                },
-                "rotate": 0.0,
-                "size": {
-                    "x": 0.3,
-                    "y": 0.3
-                },
-                "type": "transform"
-            }
-        ],
-		[
-            {
-                "animations": [
-                    {
-                        "frameTime": 0.10000000149011612,
-                        "frames": [
-                            0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ],
-                        "name": "Run"
-                    }
-                ],
-                "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "frameSize": {
-                    "x": 100.0,
-                    "y": 100.0
-                },
-                "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
-                },
-                "texture": {
-                    "filePath": "Enemies/Bat/spritesheet.png",
-                    "name": "animsheet bat"
-                },
-                "type": "animatedSprite"
-            },
-            {
-                "offset": {
-                    "x": 0.0,
-                    "y": 5.0
-                },
-                "size": {
-                    "x": 16.0,
-                    "y": 18.0
-                },
-                "type": "boxCollider"
-            },
-            {
-                "name": "EnemyTemplate",
-                "type": "entityName"
-            },
-            {
-                "depth": 0.0,
-                "pos": {
-                    "x": 0.0,
-                    "y": -1000.0
-                },
-                "rotate": 0.0,
-                "size": {
-                    "x": 0.5,
-                    "y": 0.5
-                },
-                "type": "transform"
-            }
-        ],
-		[
-            {
-                "animations": [
-                    {
-                        "frameTime": 0.10000000149011612,
-                        "frames": [
-                            0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ],
-                        "name": "Run"
-                    }
-                ],
-                "colour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "frameSize": {
-                    "x": 48.0,
-                    "y": 48.0
-                },
-                "shader": {
-                    "fragmentFilePath": "DefaultSpriteF.glsl",
-                    "name": "default",
-                    "vertexFilePath": "DefaultSpriteV.glsl"
-                },
-                "texture": {
-                    "filePath": "Enemies/SmallMonster/spritesheet.png",
-                    "name": "animsheet smallmonster"
-                },
-                "type": "animatedSprite"
-            },
-            {
-                "offset": {
-                    "x": -1.0,
-                    "y": 20.0
-                },
-                "size": {
-                    "x": 10.0,
-                    "y": 13.0
-                },
-                "type": "boxCollider"
-            },
-            {
-                "name": "EnemyTemplate",
-                "type": "entityName"
-            },
-            {
-                "depth": 0.0,
-                "pos": {
-                    "x": 0.0,
-                    "y": -1000.0
-                },
-                "rotate": 0.0,
-                "size": {
-                    "x": 0.5,
-                    "y": 0.5
-                },
-                "type": "transform"
-            }
-        ],
         [
             {
                 "animations": [
@@ -1731,19 +1536,33 @@
         [
             {
                 "animations": [
+					{
+                        "frameTime": 1.0,
+                        "frames": [
+                            3
+                        ],
+                        "name": "Red"
+                    },
+					{
+                        "frameTime": 1.0,
+                        "frames": [
+                            2
+                        ],
+                        "name": "Blue"
+                    },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             1
                         ],
-                        "name": "Large"
+                        "name": "Yellow"
                     },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             0
                         ],
-                        "name": "Small"
+                        "name": "Green"
                     }
                 ],
                 "colour": {
@@ -2013,7 +1832,7 @@
                             "z": 1.0
                         },
                         "elementType": 2.0,
-                        "hidden": false,
+                        "hidden": true,
                         "hoverTexture": {
                             "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
                             "name": "Texture"
@@ -2052,7 +1871,7 @@
                             "z": 1.0
                         },
                         "elementType": 2.0,
-                        "hidden": false,
+                        "hidden": true,
                         "hoverTexture": {
                             "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
                             "name": "Texture"
@@ -2072,138 +1891,138 @@
                         },
                         "zIdx": 0
                     },
-                    {
-                        "absolutePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "absoluteSize": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "clickTexture": {
-                            "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
-                            "name": "Texture"
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 2.0,
-                        "hidden": false,
-                        "hoverTexture": {
-                            "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
-                            "name": "Texture"
-                        },
-                        "name": "Option3\u0000tonElement2",
-                        "relativePos": {
-                            "x": 0.6499999761581421,
-                            "y": 0.699999988079071
-                        },
-                        "relativeSize": {
-                            "x": 0.10000000149011612,
-                            "y": 0.4000000059604645
-                        },
-                        "texture": {
-                            "filePath": "UI/Level_Up/ui_levelup_button.png",
-                            "name": "Texture"
-                        },
-                        "zIdx": 0
+                  {
+                    "absolutePos": {
+                      "x": 0.0,
+                      "y": 0.0
                     },
-                    {
-                        "absolutePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "absoluteSize": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 1.0,
-                        "hidden": false,
-                        "name": "OptImg1\u0000ment0",
-                        "relativePos": {
-                            "x": 0.3499999940395355,
-                            "y": 0.699999988079071
-                        },
-                        "relativeSize": {
-                            "x": 0.10000000149011612,
-                            "y": 0.20000000298023224
-                        },
-                        "texture": {
-                            "filePath": "UI/transparent.png",
-                            "name": "Texture"
-                        },
-                        "zIdx": 0
+                    "absoluteSize": {
+                      "x": 0.0,
+                      "y": 0.0
                     },
-                    {
-                        "absolutePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "absoluteSize": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 1.0,
-                        "hidden": false,
-                        "name": "OptImg2\u0000ment1",
-                        "relativePos": {
-                            "x": 0.5,
-                            "y": 0.699999988079071
-                        },
-                        "relativeSize": {
-                            "x": 0.10000000149011612,
-                            "y": 0.20000000298023224
-                        },
-                        "texture": {
-                            "filePath": "UI/transparent.png",
-                            "name": "Texture"
-                        },
-                        "zIdx": 0
+                    "clickTexture": {
+                      "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
+                      "name": "Texture"
                     },
-                    {
-                        "absolutePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "absoluteSize": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 1.0,
-                        "hidden": false,
-                        "name": "OptImg3\u0000ment2",
-                        "relativePos": {
-                            "x": 0.6499999761581421,
-                            "y": 0.699999988079071
-                        },
-                        "relativeSize": {
-                            "x": 0.10000000149011612,
-                            "y": 0.20000000298023224
-                        },
-                        "texture": {
-                            "filePath": "UI/transparent.png",
-                            "name": "Texture"
-                        },
-                        "zIdx": 0
-                    }
+                    "colour": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "elementType": 2.0,
+                    "hidden": true,
+                    "hoverTexture": {
+                      "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
+                      "name": "Texture"
+                    },
+                    "name": "Option3\u0000tonElement2",
+                    "relativePos": {
+                      "x": 0.6499999761581421,
+                      "y": 0.699999988079071
+                    },
+                    "relativeSize": {
+                      "x": 0.10000000149011612,
+                      "y": 0.4000000059604645
+                    },
+                    "texture": {
+                      "filePath": "UI/Level_Up/ui_levelup_button.png",
+                      "name": "Texture"
+                    },
+                    "zIdx": 0
+                  },
+                  {
+                    "absolutePos": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "absoluteSize": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "colour": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "elementType": 1.0,
+                    "hidden": true,
+                    "name": "OptImg1\u0000ment0",
+                    "relativePos": {
+                      "x": 0.3499999940395355,
+                      "y": 0.699999988079071
+                    },
+                    "relativeSize": {
+                      "x": 0.10000000149011612,
+                      "y": 0.20000000298023224
+                    },
+                    "texture": {
+                      "filePath": "UI/transparent.png",
+                      "name": "Texture"
+                    },
+                    "zIdx": 0
+                  },
+                  {
+                    "absolutePos": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "absoluteSize": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "colour": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "elementType": 1.0,
+                    "hidden": true,
+                    "name": "OptImg2\u0000ment1",
+                    "relativePos": {
+                      "x": 0.5,
+                      "y": 0.699999988079071
+                    },
+                    "relativeSize": {
+                      "x": 0.10000000149011612,
+                      "y": 0.20000000298023224
+                    },
+                    "texture": {
+                      "filePath": "UI/transparent.png",
+                      "name": "Texture"
+                    },
+                    "zIdx": 0
+                  },
+                  {
+                    "absolutePos": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "absoluteSize": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "colour": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "elementType": 1.0,
+                    "hidden": true,
+                    "name": "OptImg3\u0000ment2",
+                    "relativePos": {
+                      "x": 0.6499999761581421,
+                      "y": 0.699999988079071
+                    },
+                    "relativeSize": {
+                      "x": 0.10000000149011612,
+                      "y": 0.20000000298023224
+                    },
+                    "texture": {
+                      "filePath": "UI/transparent.png",
+                      "name": "Texture"
+                    },
+                    "zIdx": 0
+                  }
                 ],
                 "type": "uiWidget"
             }

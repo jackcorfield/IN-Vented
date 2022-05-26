@@ -8,6 +8,8 @@ LevelingScreen::LevelingScreen(EntityManager* entityManager, Entity parentEntity
 	m_Entities(entities),
 	m_entityManager(entityManager)
 {
+
+
 	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(player)->GetAttachedScript();
 
 	m_UIWidget = entityManager->GetComponent<UI_WidgetComponent>(parentEntityID);
@@ -42,8 +44,6 @@ LevelingScreen::LevelingScreen(EntityManager* entityManager, Entity parentEntity
 	}
 
 	m_items[2].active = true;
-
-	SetUpButtons();
 }
 
 LevelingScreen::~LevelingScreen()
