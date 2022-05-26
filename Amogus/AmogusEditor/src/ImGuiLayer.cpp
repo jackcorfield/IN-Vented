@@ -356,7 +356,7 @@ void ImGuiLayer::DrawMenuBar()
 		}
 
 		m_menuBarSize = ImGui::GetWindowSize();
-		DrawPlayPauseStopButton();
+		//DrawPlayPauseStopButton(); // Disabled due to unreadiness for use
 
 		ImGui::EndMainMenuBar();
 	}
