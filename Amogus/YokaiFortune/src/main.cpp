@@ -26,6 +26,8 @@
 
 #include "StartMenuButton.h"
 #include "QuitButtonScript.h"
+#include "OptionsMenu.h"
+#include "LevelingScreen.h"
 
 class Runtime : public Application
 {
@@ -54,28 +56,34 @@ public:
 
 		//Start UI
 		Entity sMenu = GetEntityByName("StartMenu");
+		Entity oMenu = GetEntityByName("OptionsMenu");
 
 		audio = entityManager->AddComponent<Audio>(sMenu, "bgm/05.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
 		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
-
-		
-
-		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
+		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(oMenu);
 		if (scriptC)
 		{
-			scriptC->AttachScript<StartMenuButton>();
+			scriptC->AttachScript<OptionsMenu>();
+		}
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(sMenu);
+		if (scriptC)
+		{
+			scriptC->AttachScript<StartMenuButton>(oMenu);
 		}
 	}
 
 	void loadMainScene()
 	{
+		g_app->m_audioManager->RemoveAudio(audio->m_sound);
 		g_app->m_audioManager->StopAudio(audio->m_channel);
 
 		EntityManager* entityManager = g_app->m_sceneManager->GetActiveScene()->m_entityManager;
 		auto allEntities = entityManager->GetAllActiveEntities();
 
 		//UI
+		Entity leveling = GetEntityByName("LevelingUI");
 		Entity gOver = GetEntityByName("GameOverScreen");
 		Entity kCount = GetEntityByName("KillCount");
 
@@ -102,26 +110,14 @@ public:
 		Entity pGlove = GetEntityByName("PowerGlove");
 		Entity pGem = GetEntityByName("PowerGem");
 
-
-		//temp Music as proof of concept
-
-
-		Audio* audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
+		audio = entityManager->AddComponent<Audio>(player, "bgm/02.mp3", g_app->m_audioManager->m_system, g_app->m_audioManager->m_bgm);
 		g_app->m_audioManager->LoopOn(audio->m_sound);
 		g_app->m_audioManager->PlayAudio(audio->m_sound, audio->m_group, audio->m_channel);
 
-		
 		ScriptComponent* scriptC = entityManager->GetComponent<ScriptComponent>(player);	
-		scriptC = entityManager->GetComponent<ScriptComponent>(player);
 		if (scriptC)
 		{
 			scriptC->AttachScript<PlayerScript>(gOver, 100.0f);
-		}
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(xpManager);
-		if (scriptC)
-		{
-			scriptC->AttachScript<XpManager>(player, 100, 10);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(enemy);
@@ -151,7 +147,7 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(timer);
 		if (scriptC)
 		{
-			scriptC->AttachScript<TimerScript>(timer);
+			scriptC->AttachScript<TimerScript>(timer, player);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(healthBar);
@@ -160,79 +156,32 @@ public:
 			scriptC->AttachScript<HealthBarScript>(player);
 		}
 
+
+		scriptC = entityManager->GetComponent<ScriptComponent>(xpManager);
+		if (scriptC)
+		{
+			scriptC->AttachScript<XpManager>(player, 100, 10);
+		}
+
 		scriptC = entityManager->GetComponent<ScriptComponent>(xpBar);
 		if (scriptC)
 		{
 			scriptC->AttachScript<XpBarScript>(player);
 		}
 
-#pragma region Weapon Scripts
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<Grenade>(player, gGrenade, kCount);
-		}
-		// need to be ordered in draw order
-		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<NeonKatana>(player, kCount, kCount);
-		}
-
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-		//	scriptC->AttachScript<Shuriken>(player, kCount, kCount);
+			scriptC->AttachScript<Shuriken>(player, kCount, kCount);
 		}
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
+	
+		scriptC = entityManager->GetComponent<ScriptComponent>(leveling);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<LaserGun>(player, kCount, kCount);
+			std::vector<Entity> m_weapons = { nKatana, lGun, shuriken, gGrenade, hDevice, oImplant, passport, pGem, pGlove, ragnite};
+			scriptC->AttachScript<LevelingScreen>(player, kCount, m_weapons);
 		}
 
-		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
-		if (scriptC)
-		{
-			scriptC->AttachScript<HackingDevice>(player, kCount, kCount);
-		}
-
-#pragma endregion
-
-#pragma region Equipment Scripts
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(oImplant);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<OpticalImplant>(player, oImplant);
-		}
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(passport);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<Passport>(player, passport);
-		}
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(ragnite);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<Ragnite>(player, ragnite);
-		}
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(pGlove);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<PowerGlove>(player, pGlove);
-		}
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(pGem);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<PowerGem>(player, pGem);
-		}
-
-#pragma endregion
 	}
 
 	void onUpdate(float dt) override
@@ -260,6 +209,11 @@ public:
 	void onImGui() override
 	{
 		
+	}
+
+	void AddGrenade()
+	{
+
 	}
 
 private:

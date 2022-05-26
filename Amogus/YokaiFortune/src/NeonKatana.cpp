@@ -3,23 +3,22 @@
 NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, Entity m_killCounter, int level, bool moving, bool autoTarget) :
 	WeaponScript(entityManager, parentEntityID, player, weapon, m_killCounter, level, moving, autoTarget)
 {
-
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 5));
 	m_levelingInfo.push_back(std::make_pair(AREA, 10));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
-	m_levelingInfo.push_back(std::make_pair(AREA, 10)); 
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 5));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 
 	m_maxLevel = m_levelingInfo.size();
 
 	m_baseProjectileSpeed = 1; //Speed of projectiles
-	m_baseProjectileCooldown = 1; //How often weapon attacks
-	m_baseProjectileArea = 1; //Size of weapon
+	m_baseProjectileCooldown = 1.5; //How often weapon attacks
+	m_baseProjectileArea = .7; //Size of weapon
 	m_baseProjectileDuration = .1f; //How long the projectile stays on the screen
-	m_baseProjectileCount = 3; //How many projectiles
-	m_projectileMax = 25;
+	m_baseProjectileCount = 2; //How many projectiles
+	m_projectileMax = 20;
 
 	m_baseDamageModifier = 1;
 
@@ -85,6 +84,12 @@ void NeonKatana::OnAttach()
 
 void NeonKatana::OnUpdate(float dt)
 {
+	if (m_pScript->m_isDead)
+	{
+		m_manager->DeleteEntity(m_weapon);
+	}
+
+
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 	m_currentCooldown -= dt;
@@ -175,13 +180,13 @@ void NeonKatana::SpawnProjectile(int currentPos)
 	if (currentPos % 2 == 0)
 	{
 		//even -> right
-		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(-20, -20* currentPos);
+		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(-22, -22* currentPos);
 		
 	}
 	else
 	{
 		//odd -> left
-		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(20, 20*-currentPos);
+		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(22, 22*-currentPos);
 		m_manager->GetComponent<Transform>(newProjectile->name)->m_size.x = m_manager->GetComponent<Transform>(newProjectile->name)->m_size.x * -1;
 	}
 

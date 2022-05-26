@@ -52,15 +52,15 @@ void WeaponScript::SetSprites(Sprite* icon, Sprite* sprite)
 	m_hitboxSize = glm::vec2(m_sprite->GetTexture().m_width, m_sprite->GetTexture().m_height);
 }
 
-void WeaponScript::OnLevelUp()
+bool WeaponScript::OnLevelUp()
 {
 	if (!m_canLevel)
-		return;
+		return true;
 
 	if (m_currentLevel >= m_maxLevel)
 	{
 		m_canLevel = false;
-		return;
+		return true;
 	}
 
 	switch (m_levelingInfo[m_currentLevel].first)
@@ -86,8 +86,8 @@ void WeaponScript::OnLevelUp()
 	}
 
 	m_currentLevel++;
-	m_pScript->UpdateLevel(m_elementNum, m_currentLevel);
-
+	m_pScript->UpdateLevel(m_elementNum -1, m_currentLevel+1);
+	return false;
 }
 
 bool WeaponScript::CheckWeaponCollision(Entity weaponID, bool areaOfEffect)
@@ -141,7 +141,6 @@ void WeaponScript::OnUnattach()
 
 void WeaponScript::OnUpdate(float dt)
 {
-	
 }
 
 void WeaponScript::SpawnProjectile()

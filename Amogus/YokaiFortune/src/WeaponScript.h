@@ -17,7 +17,7 @@ public:
     void OnRender(float dt);
     void OnUnattach();
 
-    void OnLevelUp();
+    bool OnLevelUp();
     virtual void SpawnProjectile();
 
 protected:

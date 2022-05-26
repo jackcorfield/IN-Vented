@@ -4,10 +4,10 @@ Shuriken::Shuriken(EntityManager* entityManager, Entity parentEntityID, Entity p
 	WeaponScript(entityManager, parentEntityID, player, weapon, m_killCounter, level, moving, autoTarget)
 {
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 
@@ -112,6 +112,12 @@ void Shuriken::OnUnattach()
 
 void Shuriken::OnUpdate(float dt)
 {
+	if (m_pScript->m_isDead)
+	{
+		m_manager->DeleteEntity(m_weapon);
+	}
+
+
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 	m_currentCooldown -= dt;

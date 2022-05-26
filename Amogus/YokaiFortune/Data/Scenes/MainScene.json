@@ -856,13 +856,13 @@
                 },
                 "rotate": 0.0,
                 "size": {
-                    "x": 0.3,
-                    "y": 0.3
+                    "x": 0.30000001192092896,
+                    "y": 0.30000001192092896
                 },
                 "type": "transform"
             }
         ],
-		[
+        [
             {
                 "animations": [
                     {
@@ -927,7 +927,7 @@
                 "type": "transform"
             }
         ],
-		[
+        [
             {
                 "animations": [
                     {
@@ -1143,6 +1143,97 @@
             }
         ],
         [
+            {
+                "animations": [
+                    {
+                        "frameTime": 0.10000000149011612,
+                        "frames": [
+                            0,
+                            1,
+                            2,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19,
+                            20,
+                            21,
+                            22,
+                            23,
+                            24,
+                            25,
+                            26,
+                            27,
+                            28,
+                            29,
+                            30,
+                            31,
+                            32,
+                            33,
+                            34,
+                            35,
+                            36,
+                            37,
+                            38,
+                            39,
+                            40,
+                            41,
+                            42,
+                            43,
+                            44,
+                            45,
+                            46,
+                            47,
+                            48,
+                            49,
+                            50,
+                            51,
+                            52,
+                            53,
+                            54,
+                            55,
+                            56,
+                            57,
+                            58,
+                            59,
+                            60
+                        ],
+                        "name": "Hacking"
+                    }
+                ],
+                "colour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "frameSize": {
+                    "x": 100.0,
+                    "y": 100.0
+                },
+                "shader": {
+                    "fragmentFilePath": "DefaultSpriteF.glsl",
+                    "name": "DefaultSprite",
+                    "vertexFilePath": "DefaultSpriteV.glsl"
+                },
+                "texture": {
+                    "filePath": "Weapons/HackingDevice/hackingAnimation.png",
+                    "name": "hackingdevice"
+                },
+                "type": "animatedSprite"
+            },
             {
                 "name": "HackingDevice",
                 "type": "entityName"
@@ -1445,33 +1536,19 @@
         [
             {
                 "animations": [
-					{
-                        "frameTime": 1.0,
-                        "frames": [
-                            3
-                        ],
-                        "name": "Red"
-                    },
-					{
-                        "frameTime": 1.0,
-                        "frames": [
-                            2
-                        ],
-                        "name": "Blue"
-                    },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             1
                         ],
-                        "name": "Yellow"
+                        "name": "Large"
                     },
                     {
                         "frameTime": 1.0,
                         "frames": [
                             0
                         ],
-                        "name": "Green"
+                        "name": "Small"
                     }
                 ],
                 "colour": {
@@ -1562,7 +1639,7 @@
                             "y": 0.8999999761581421
                         },
                         "texture": {
-                            "filePath": "UI/Options_Menu/ui_options_background.png",
+                            "filePath": "UI/Options_Menu/ui_game_over_background.png",
                             "name": "Texture"
                         },
                         "zIdx": 0
@@ -1666,8 +1743,8 @@
                         "hidden": false,
                         "name": "Skull\u0000lement0",
                         "relativePos": {
-                            "x": 0.67,
-                            "y": 0.150000000149011612
+                            "x": 0.6700000166893005,
+                            "y": 0.15000000596046448
                         },
                         "relativeSize": {
                             "x": 0.05999999865889549,
@@ -1712,7 +1789,231 @@
                 "type": "uiWidget"
             }
         ],
-        [
+		[
+            {
+                "name": "LevelingUI",
+                "type": "entityName"
+            },
+            {
+                "type": "scriptComponent"
+            },
+            {
+                "elements": [
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": true,
+                        "hoverTexture": {
+                            "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
+                            "name": "Texture"
+                        },
+                        "name": "Option1\u0000tonElement0",
+                        "relativePos": {
+                            "x": 0.3499999940395355,
+                            "y": 0.699999988079071
+                        },
+                        "relativeSize": {
+                            "x": 0.10000000149011612,
+                            "y": 0.4000000059604645
+                        },
+                        "texture": {
+                            "filePath": "UI/Level_Up/ui_levelup_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                    {
+                        "absolutePos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "absoluteSize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "clickTexture": {
+                            "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
+                            "name": "Texture"
+                        },
+                        "colour": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "elementType": 2.0,
+                        "hidden": true,
+                        "hoverTexture": {
+                            "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
+                            "name": "Texture"
+                        },
+                        "name": "Option2\u0000tonElement1",
+                        "relativePos": {
+                            "x": 0.5,
+                            "y": 0.699999988079071
+                        },
+                        "relativeSize": {
+                            "x": 0.10000000149011612,
+                            "y": 0.4000000059604645
+                        },
+                        "texture": {
+                            "filePath": "UI/Level_Up/ui_levelup_button.png",
+                            "name": "Texture"
+                        },
+                        "zIdx": 0
+                    },
+                  {
+                    "absolutePos": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "absoluteSize": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "clickTexture": {
+                      "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
+                      "name": "Texture"
+                    },
+                    "colour": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "elementType": 2.0,
+                    "hidden": true,
+                    "hoverTexture": {
+                      "filePath": "UI/Level_Up/ui_levelup_button_pressed.png",
+                      "name": "Texture"
+                    },
+                    "name": "Option3\u0000tonElement2",
+                    "relativePos": {
+                      "x": 0.6499999761581421,
+                      "y": 0.699999988079071
+                    },
+                    "relativeSize": {
+                      "x": 0.10000000149011612,
+                      "y": 0.4000000059604645
+                    },
+                    "texture": {
+                      "filePath": "UI/Level_Up/ui_levelup_button.png",
+                      "name": "Texture"
+                    },
+                    "zIdx": 0
+                  },
+                  {
+                    "absolutePos": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "absoluteSize": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "colour": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "elementType": 1.0,
+                    "hidden": true,
+                    "name": "OptImg1\u0000ment0",
+                    "relativePos": {
+                      "x": 0.3499999940395355,
+                      "y": 0.699999988079071
+                    },
+                    "relativeSize": {
+                      "x": 0.10000000149011612,
+                      "y": 0.20000000298023224
+                    },
+                    "texture": {
+                      "filePath": "UI/transparent.png",
+                      "name": "Texture"
+                    },
+                    "zIdx": 0
+                  },
+                  {
+                    "absolutePos": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "absoluteSize": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "colour": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "elementType": 1.0,
+                    "hidden": true,
+                    "name": "OptImg2\u0000ment1",
+                    "relativePos": {
+                      "x": 0.5,
+                      "y": 0.699999988079071
+                    },
+                    "relativeSize": {
+                      "x": 0.10000000149011612,
+                      "y": 0.20000000298023224
+                    },
+                    "texture": {
+                      "filePath": "UI/transparent.png",
+                      "name": "Texture"
+                    },
+                    "zIdx": 0
+                  },
+                  {
+                    "absolutePos": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "absoluteSize": {
+                      "x": 0.0,
+                      "y": 0.0
+                    },
+                    "colour": {
+                      "x": 1.0,
+                      "y": 1.0,
+                      "z": 1.0
+                    },
+                    "elementType": 1.0,
+                    "hidden": true,
+                    "name": "OptImg3\u0000ment2",
+                    "relativePos": {
+                      "x": 0.6499999761581421,
+                      "y": 0.699999988079071
+                    },
+                    "relativeSize": {
+                      "x": 0.10000000149011612,
+                      "y": 0.20000000298023224
+                    },
+                    "texture": {
+                      "filePath": "UI/transparent.png",
+                      "name": "Texture"
+                    },
+                    "zIdx": 0
+                  }
+                ],
+                "type": "uiWidget"
+            }
+        ],
+		[
             {
                 "name": "XpBar",
                 "type": "entityName"

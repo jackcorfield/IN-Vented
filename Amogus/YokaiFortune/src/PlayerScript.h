@@ -1,7 +1,7 @@
 #pragma once
 #include "Resources/Script.h"
 #include "Amogus.h"
-
+//#include "LevelingScreen.h"
 #include <vector>
 #include <string>
 
@@ -28,7 +28,7 @@ class PlayerScript :
     public Script
 {
 public:
-    PlayerScript(EntityManager* entityManager, Entity parentEntityID, Entity GameOver, float speed);
+    PlayerScript(EntityManager* entityManager, Entity parentEntityID, Entity GameOver,float speed);
     ~PlayerScript();
 
     virtual void OnAttach() override;
@@ -45,9 +45,8 @@ public:
     const int GetXP() const { return m_playerXP; }
     const int GetXPToLevelUp() const { return m_levelUpXP; }
 
-    // INITIAL WEAPON
-    
     UI_WidgetComponent* m_UIWidget;
+   // LevelingScreen* m_levelScript;
 
     int m_weaponCount = 0;
     int m_equipCount = 5; //needs to be 5 higher than the weapon slots
@@ -68,6 +67,11 @@ public:
     float m_regeneration;
 
     float m_range; //Pick up distance
+
+    bool m_isDead;
+    bool m_needLevel;
+
+    EntityManager* m_entityManager;
 
 private:
     void UpdateSpriteAnimation(bool facingLeft, bool moving);
@@ -104,7 +108,6 @@ private:
 
     float m_invulnTime; // Stores length of time player is invulnerable after taking damage (prevents instant death from being hit every frame)
     float m_currentInvulnCooldown; // Counts down to 0 from m_invulnTime after taking damage
-    bool m_isDead;
 
     void KeyEvent(InputEvent* e);
 };

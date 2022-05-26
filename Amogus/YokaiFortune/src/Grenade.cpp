@@ -5,9 +5,9 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 {
 
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(DURATION, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 30));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(DURATION, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20)); 
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20));
@@ -120,6 +120,12 @@ void Grenade::OnUnattach()
 
 void Grenade::OnUpdate(float dt)
 {
+	if (m_pScript->m_isDead)
+	{
+		m_manager->DeleteEntity(m_weapon);
+	}
+
+
 	glm::vec2 currentPosition = m_manager->GetComponent<Transform>(m_player)->m_position;
 
 	m_currentCooldown -= dt;
