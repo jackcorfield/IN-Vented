@@ -27,7 +27,8 @@ protected:
         COOLDOWN,
         AREA,
         DURATION,
-        COUNT
+        COUNT,
+        DAMAGE
     };
 
     struct Projectiles
