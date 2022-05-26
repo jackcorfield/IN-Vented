@@ -178,13 +178,13 @@ public:
 		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
 		if (scriptC)
 		{
-			//scriptC->AttachScript<NeonKatana>(player, kCount, kCount);
+			scriptC->AttachScript<NeonKatana>(player, kCount, kCount);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
-			scriptC->AttachScript<Shuriken>(player, kCount, kCount);
+			//scriptC->AttachScript<Shuriken>(player, kCount, kCount);
 		}
 
 		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);

@@ -16,7 +16,7 @@ LaserGun::LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity p
 
 	m_baseProjectileSpeed = .1f; //Speed of projectiles
 	m_baseProjectileCooldown = 3; //How often weapon attacks
-	m_baseProjectileArea = 0.4f; //Size of weapon
+	m_baseProjectileArea = 0.6f; //Size of weapon
 	m_baseProjectileDuration = 2; //How long the projectile stays on the screen
 	m_baseProjectileCount = 4; //How many projectiles
 	m_projectileMax = 20;

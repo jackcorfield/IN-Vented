@@ -28,7 +28,7 @@ protected:
         AREA,
         DURATION,
         COUNT,
-        DAMAGE
+        COUNT
     };
 
     struct Projectiles
