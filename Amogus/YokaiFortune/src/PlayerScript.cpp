@@ -1,5 +1,4 @@
 #include "PlayerScript.h"
-
 // While it seems wrong to hard set viewport values, these are integral to gameplay anyway and should be constant
 #define MAX_Y 180.0f
 #define MIN_Y -180.0f
@@ -33,6 +32,8 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 {
 	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerScript::KeyEvent);
 
+	m_needLevel = false;
+
 	m_registeredKeys.W = false;
 	m_registeredKeys.A = false;
 	m_registeredKeys.S = false;
@@ -64,6 +65,7 @@ void PlayerScript::AddXP(int XPVal)
 	// Level up?
 	if (m_playerXP >= m_levelUpXP)
 	{
+		m_needLevel = true;
 		m_playerXP = m_playerXP - m_levelUpXP;
 		m_levelUpXP *= 2;
 	}
@@ -278,7 +280,7 @@ int PlayerScript::AddWeapon(Sprite* icon, int level)
 		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_weaponCount];
 		image->m_texture = icon->GetTexture();
 
-		UpdateLevel(m_weaponCount, level);
+		UpdateLevel(m_weaponCount, level+1);
 		m_weaponCount++;
 	}
 	else
@@ -426,6 +428,7 @@ glm::vec2 PlayerScript::GetIntersectionDepth(Entity collidedEntity)
 void PlayerScript::UpdateLevel(int elementNum, int num)
 {
 	UI_Text* text;
+
 	if(elementNum == 10)
 		text = (UI_Text*)m_UIWidget->m_elements[19];
 	else

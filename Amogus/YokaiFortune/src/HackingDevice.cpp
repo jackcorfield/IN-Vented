@@ -39,6 +39,8 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 
 	SetSprites(icon, sprite);
 
+	AnimatedSprite* templateASprite = GetComponent<AnimatedSprite>();
+
 	Entity newProjectile = m_manager->CreateEntity();
 
 	Transform* transform = GetComponent<Transform>();
@@ -49,12 +51,23 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 
 	m_originalTransformSize = glm::vec2(.25f * (m_baseProjectileArea + PercentageIncrease));
 	m_manager->AddComponent<Transform>(newProjectile, glm::vec2(1000.0f, 1000.0f), m_originalTransformSize);
-
-	m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
+	
+	AnimatedSprite* newASprite = m_manager->AddComponent<AnimatedSprite>(newProjectile, templateASprite->GetTexture(), templateASprite->getFrameSize(), templateASprite->GetColour(), templateASprite->GetShader());
+	//m_manager->AddComponent<Sprite>(newProjectile, m_sprite->GetTexture(), m_sprite->GetColour(), m_sprite->GetShader()); //replace later with animated sprite!
 
 	m_originalBoxSize = glm::vec2(60, 70);
 	m_originalBoxOffset = glm::vec2(0.0f, 25.0f);
 	m_manager->AddComponent<BoxCollider>(newProjectile, m_originalBoxSize, m_originalBoxOffset); // Needs a box collider that ignores player?
+
+	std::map<std::string, Animation> animations = templateASprite->getAnimations();
+	for (auto animationItr = animations.begin(); animationItr != animations.end(); animationItr++)
+	{
+		std::string name = animationItr->first;
+		float frameTime = animationItr->second.frameTime;
+		std::vector<unsigned int> frames = animationItr->second.frames;
+		newASprite->createAnimation(name, frames, frameTime);
+	}
+	newASprite->setAnimation("Hacking");
 
 	glm::vec2 direction(0, 0);
 
@@ -125,10 +138,6 @@ void HackingDevice::OnUpdate(float dt)
 	BoxCollider* boxCollider = m_manager->GetComponent<BoxCollider>(m_vecProjectiles[0].name);
 	boxCollider->m_size = m_originalBoxSize* (m_baseProjectileArea + PercentageIncrease);
 	boxCollider->m_offset = m_originalBoxOffset* ((m_baseProjectileArea + PercentageIncrease)/2.0f);
-
-	std::cout << PercentageIncrease << std::endl;
-	
-
 	m_playerPreviousPosition = currentPosition;
 }
 

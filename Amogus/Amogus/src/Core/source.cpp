@@ -63,7 +63,6 @@ void Application::Init()
 	InputHandler();
 
 	Run();
-
 	TerminateOpenGL();
 }
 

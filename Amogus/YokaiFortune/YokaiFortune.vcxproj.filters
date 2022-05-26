@@ -25,6 +25,7 @@
     <ClCompile Include="src\QuitButtonScript.cpp" />
     <ClCompile Include="src\OptionsMenu.cpp" />
     <ClCompile Include="src\XpBarScript.cpp" />
+    <ClCompile Include="src\LevelingScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CameraFollowScript.h" />
@@ -50,5 +51,6 @@
     <ClInclude Include="src\QuitButtonScript.h" />
     <ClInclude Include="src\OptionsMenu.h" />
     <ClInclude Include="src\XpBarScript.h" />
+    <ClInclude Include="src\LevelingScreen.h" />
   </ItemGroup>
 </Project>
