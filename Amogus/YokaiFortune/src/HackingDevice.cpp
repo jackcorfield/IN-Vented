@@ -7,10 +7,10 @@ HackingDevice::HackingDevice(EntityManager* entityManager, Entity parentEntityID
 	m_levelingInfo.push_back(std::make_pair(AREA, 40));
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 3));
+	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20));
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 20));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 3));
+	m_levelingInfo.push_back(std::make_pair(AREA, 20));
 
 	m_maxLevel = m_levelingInfo.size();
 

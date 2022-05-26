@@ -5,12 +5,12 @@ LaserGun::LaserGun(EntityManager* entityManager, Entity parentEntityID, Entity p
 {
 
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 	m_levelingInfo.push_back(std::make_pair(AREA, 10));
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 	m_levelingInfo.push_back(std::make_pair(SPEED, 50));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 20));
+	m_levelingInfo.push_back(std::make_pair(AREA, 20));
 
 	m_maxLevel = m_levelingInfo.size();
 
