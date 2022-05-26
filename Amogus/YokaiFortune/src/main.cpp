@@ -169,39 +169,11 @@ public:
 			scriptC->AttachScript<XpBarScript>(player);
 		}
 
-#pragma region Weapon Scripts
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(gGrenade);
-		if (scriptC)
-		{
-			//
-		}
-		// need to be ordered in draw order
-		scriptC = entityManager->GetComponent<ScriptComponent>(nKatana);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<NeonKatana>(player, nKatana, kCount);
-		}
-
 		scriptC = entityManager->GetComponent<ScriptComponent>(shuriken);
 		if (scriptC)
 		{
 			scriptC->AttachScript<Shuriken>(player, kCount, kCount);
 		}
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(lGun);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<LaserGun>(player, lGun, kCount);
-		}
-
-		scriptC = entityManager->GetComponent<ScriptComponent>(hDevice);
-		if (scriptC)
-		{
-			//scriptC->AttachScript<HackingDevice>(player, kCount, kCount);
-		}
-
-#pragma endregion
 	
 		scriptC = entityManager->GetComponent<ScriptComponent>(leveling);
 		if (scriptC)
