@@ -5,9 +5,9 @@ Grenade::Grenade(EntityManager* entityManager, Entity parentEntityID, Entity pla
 {
 
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(DURATION, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 30));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
+	m_levelingInfo.push_back(std::make_pair(DURATION, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20)); 
 	m_levelingInfo.push_back(std::make_pair(COOLDOWN, 10));
 	m_levelingInfo.push_back(std::make_pair(AREA, 20));
