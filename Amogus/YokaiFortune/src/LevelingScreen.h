@@ -62,6 +62,8 @@ public:
 
 	int m_itemNum = 0;
 
+	std::vector<ItemData*> selectedItems;
+
 	UI_ImageButton* button1;
 	UI_ImageButton* button2;
 	UI_ImageButton* button3;
