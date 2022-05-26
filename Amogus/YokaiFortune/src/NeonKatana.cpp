@@ -3,14 +3,13 @@
 NeonKatana::NeonKatana(EntityManager* entityManager, Entity parentEntityID, Entity player, Entity weapon, Entity m_killCounter, int level, bool moving, bool autoTarget) :
 	WeaponScript(entityManager, parentEntityID, player, weapon, m_killCounter, level, moving, autoTarget)
 {
-
 	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(AREA, 5));
 	m_levelingInfo.push_back(std::make_pair(AREA, 10));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 	m_levelingInfo.push_back(std::make_pair(AREA, 10)); 
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 10));
-	m_levelingInfo.push_back(std::make_pair(DAMAGE, 5));
+	m_levelingInfo.push_back(std::make_pair(AREA, 10));
+	m_levelingInfo.push_back(std::make_pair(COUNT, 1));
 
 	m_maxLevel = m_levelingInfo.size();
 
@@ -188,7 +187,7 @@ void NeonKatana::SpawnProjectile(int currentPos)
 	{
 		//odd -> left
 		m_manager->GetComponent<Transform>(newProjectile->name)->m_position = currentPosition + glm::vec2(20, 20*-currentPos);
-		m_manager->GetComponent<Transform>(newProjectile->name)->m_size.x = m_manager->GetComponent<Transform>(newProjectile->name)->m_size.x * -1;
+		m_manager->GetComponent<Transform>(newProjectile->name)->m_size =  glm::vec2(-1);
 	}
 
 	float PercentageIncrease = (m_baseProjectileDuration * m_pScript->m_projectileDuration) / 100;

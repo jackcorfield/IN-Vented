@@ -247,7 +247,7 @@
                             "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_button_press.png",
+                            "filePath": "UI/Options_Menu/ui_options_button_pressed.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -258,7 +258,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_button_press.png",
+                            "filePath": "UI/Options_Menu/ui_options_button_pressed.png",
                             "name": "Texture"
                         },
                         "name": "OptionsButton\u0000ment2",
@@ -613,82 +613,6 @@
                         },
                         "texture": {
                             "filePath": "UI/Options_Menu/ui_options_mute_button.png",
-                            "name": "Texture"
-                        },
-                        "zIdx": 0
-                    }
-                ],
-                "type": "uiWidget"
-            }
-        ],
-        [
-            {
-                "name": "XpBar",
-                "type": "entityName"
-            },
-            {
-                "type": "scriptComponent"
-            },
-            {
-                "elements": [
-                    {
-                        "absolutePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "absoluteSize": {
-                            "x": 200.0,
-                            "y": 200.0
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 1.0,
-                        "hidden": false,
-                        "name": "XpBackground\u0000",
-                        "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "texture": {
-                            "filePath": "UI/Health/healthbar.png",
-                            "name": "Texture"
-                        },
-                        "zIdx": 0
-                    },
-                    {
-                        "absolutePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "absoluteSize": {
-                            "x": 200.0,
-                            "y": 200.0
-                        },
-                        "colour": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        },
-                        "elementType": 1.0,
-                        "hidden": false,
-                        "name": "XpCurrent\u0000nt1",
-                        "relativePos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "relativeSize": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "texture": {
-                            "filePath": "UI/Health/healthbar.png",
                             "name": "Texture"
                         },
                         "zIdx": 0

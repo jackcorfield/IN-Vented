@@ -278,7 +278,7 @@ int PlayerScript::AddWeapon(Sprite* icon, int level)
 		UI_Image* image = (UI_Image*)m_UIWidget->m_elements[m_weaponCount];
 		image->m_texture = icon->GetTexture();
 
-		UpdateLevel(m_weaponCount, level);
+		UpdateLevel(m_weaponCount, level+1);
 		m_weaponCount++;
 	}
 	else
@@ -426,6 +426,7 @@ glm::vec2 PlayerScript::GetIntersectionDepth(Entity collidedEntity)
 void PlayerScript::UpdateLevel(int elementNum, int num)
 {
 	UI_Text* text;
+
 	if(elementNum == 10)
 		text = (UI_Text*)m_UIWidget->m_elements[19];
 	else

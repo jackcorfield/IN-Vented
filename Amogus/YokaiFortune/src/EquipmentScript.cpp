@@ -38,15 +38,14 @@ void EquipmentScript::OnUnattach()
 {
 }
 
-void EquipmentScript::OnLevelUp()
+bool EquipmentScript::OnLevelUp()
 {
 	if (!m_canLevel)
-		return;
+		return true;
 
 	if (m_currentLevel >= m_maxLevel)
 	{
-		m_canLevel = false;
-		return;
+		return true;
 	}
 
 	switch (m_levelingInfo[m_currentLevel].first)
@@ -70,4 +69,6 @@ void EquipmentScript::OnLevelUp()
 
 	m_currentLevel++;
 	m_pScript->UpdateLevel(m_elementNum-1, m_currentLevel);
+
+	return false;
 }
