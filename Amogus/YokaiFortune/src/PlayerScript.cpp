@@ -1,5 +1,4 @@
 #include "PlayerScript.h"
-
 // While it seems wrong to hard set viewport values, these are integral to gameplay anyway and should be constant
 #define MAX_Y 180.0f
 #define MIN_Y -180.0f
@@ -33,6 +32,8 @@ PlayerScript::PlayerScript(EntityManager* entityManager, Entity parentEntityID, 
 {
 	InputHandler::GetMapping("Input_Movement")->m_bus->subscribe(this, &PlayerScript::KeyEvent);
 
+	m_needLevel = false;
+
 	m_registeredKeys.W = false;
 	m_registeredKeys.A = false;
 	m_registeredKeys.S = false;
@@ -64,6 +65,7 @@ void PlayerScript::AddXP(int XPVal)
 	// Level up?
 	if (m_playerXP >= m_levelUpXP)
 	{
+		m_needLevel = true;
 		m_playerXP = m_playerXP - m_levelUpXP;
 		m_levelUpXP *= 2;
 	}

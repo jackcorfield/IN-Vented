@@ -8,6 +8,8 @@ LevelingScreen::LevelingScreen(EntityManager* entityManager, Entity parentEntity
 	m_Entities(entities),
 	m_entityManager(entityManager)
 {
+	m_pScript = (PlayerScript*)entityManager->GetComponent<ScriptComponent>(player)->GetAttachedScript();
+
 	m_UIWidget = entityManager->GetComponent<UI_WidgetComponent>(parentEntityID);
 
 	std::vector<UI_BaseElement*> elements = m_UIWidget->m_elements;
@@ -61,6 +63,13 @@ void LevelingScreen::OnUpdate(float dt)
 			m_items.erase(m_items.begin()+i, m_items.begin() + i+1);
 	}
 
+	if (m_pScript->m_needLevel)
+	{
+		SetUpButtons();
+		m_pScript->m_needLevel = false;
+	}
+		
+
 	if (m_UIWidget->m_elements[0]->m_hidden)
 		return;
 
@@ -89,7 +98,7 @@ void LevelingScreen::OnUpdate(float dt)
 	}
 
 	if (button2->m_state != ButtonState::BS_Click)
-		button1Click = false;
+		button2Click = false;
 
 	if (button2->m_state == ButtonState::BS_Click && button2Click == false)
 	{

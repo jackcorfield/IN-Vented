@@ -62,6 +62,8 @@ public:
 
 	int m_itemNum = 0;
 
+	PlayerScript* m_pScript;
+
 	std::vector<ItemData*> selectedItems;
 
 	UI_ImageButton* button1;
