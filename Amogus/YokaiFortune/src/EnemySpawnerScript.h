@@ -15,7 +15,7 @@ public:
 	virtual void OnRender(float dt) override;
 	virtual void OnUnattach() override;
 
-	unsigned int m_enemiesAlive; // The number of enemies currently alive.
+	void KillEnemy(Entity enemy);
 
 private:
 	void CalculateAllDirections();
@@ -36,12 +36,14 @@ private:
 	
 
 	float m_timeElapsedSinceLastWave; // Time elapsed since last wave of enemies was spawned
-	const unsigned int m_maxEnemiesAlive; // Hard cap on enemies alive at one time. Once this is reached, new enemies will despawn old enemies
+	const unsigned int m_maxEnemiesAlive; // Hard cap on active entities. Once this is reached, new enemies will despawn old enemies
+	unsigned int m_enemiesAlive; // The number of enemies created.
 	const float m_timeBetweenWaveSpawns; // Time that needs to elapse before another wave of enemies is spawned
 
 	float m_timeElapsedSinceLastSeek; // Time elapsed since enemies' direction was recalculated
 	const float m_timeBetweenSeeks; // Time that needs to elapse before enemies' direction is recalculated
 
 	std::vector<Entity> m_enemyEntities; // All enemy entities. Stored so that they can be reused upon new enemy spawn
+	std::vector<Entity> m_deadEnemies; // Enemies that have been killed. Prioritised in entity reuse
 	std::vector<Entity> m_templates; // Template entities used to create new enemies
 };

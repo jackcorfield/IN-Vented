@@ -16,6 +16,7 @@ public:
 	virtual void OnUnattach() override;
 
 	void SetDirection(const glm::vec2& direction);
+	bool m_isDead;
 
 private:
 	void UpdateSpriteAnimation(bool facingLeft);

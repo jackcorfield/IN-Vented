@@ -123,9 +123,6 @@ void HackingDevice::OnUpdate(float dt)
 	boxCollider->m_size = m_originalBoxSize* (m_baseProjectileArea + PercentageIncrease);
 	boxCollider->m_offset = m_originalBoxOffset* ((m_baseProjectileArea + PercentageIncrease)/2.0f);
 
-	std::cout << PercentageIncrease << std::endl;
-	
-
 	m_playerPreviousPosition = currentPosition;
 }
 
