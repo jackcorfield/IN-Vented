@@ -19,7 +19,7 @@ public:
 
 	void						SetGroup(FMOD::Channel* channel, FMOD::ChannelGroup* group) { channel->setChannelGroup(group); }
 	void						SetLoopCount(FMOD::Sound* sound, int LoopCount) { sound->setLoopCount(LoopCount); }
-	//1 full volume, 0 silent, going over 1 will make it louder but may distort audio
+	
 	void						SetVolume(FMOD::ChannelGroup* group, float volume) { group->setVolume(volume); }
 	void						SetPosition(const float x, const float y, const float velocityX, const float velocityY, FMOD::Channel* channel) { FMOD_VECTOR pos = { x, y, 0.0f }; FMOD_VECTOR vel = { velocityX,velocityY, 0.0f }; channel->set3DAttributes(&pos, &vel); }
 

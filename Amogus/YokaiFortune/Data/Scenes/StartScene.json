@@ -247,7 +247,7 @@
                             "y": 0.0
                         },
                         "clickTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_button_press.png",
+                            "filePath": "UI/Options_Menu/ui_options_button_pressed.png",
                             "name": "Texture"
                         },
                         "colour": {
@@ -258,7 +258,7 @@
                         "elementType": 2.0,
                         "hidden": false,
                         "hoverTexture": {
-                            "filePath": "UI/Options_Menu/ui_options_button_press.png",
+                            "filePath": "UI/Options_Menu/ui_options_button_pressed.png",
                             "name": "Texture"
                         },
                         "name": "OptionsButton\u0000ment2",
