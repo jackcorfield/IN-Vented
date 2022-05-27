@@ -122,7 +122,7 @@ void XpManager::SpawnOrb(glm::vec2 position, int XpVal, bool isRecurse)
 				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Yellow");
 			else if (XpVal <= 4000)
 				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Blue");
-			else if(XpVal <= 8000)
+			else
 				m_manager->GetComponent<AnimatedSprite>(orb.id)->setAnimation("Red");
 
 			m_manager->GetComponent<Transform>(orb.id)->m_position = position;
@@ -163,6 +163,6 @@ void XpManager::SpawnOrb(glm::vec2 position, int XpVal, bool isRecurse)
 		if (noPooledOrbs < m_poolingSize)
 			m_maximumPoolable = pooledXP;
 
-		SpawnOrb(newOrbPos, pooledXP);
+		SpawnOrb(newOrbPos, pooledXP, true);
 	}
 }
