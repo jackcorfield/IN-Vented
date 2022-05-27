@@ -45,7 +45,7 @@ void OptionsMenu::OnUpdate(float dt)
 		CloseMenu();
 	}
 
-	if (m_mute->m_state == ButtonState::BS_Click && bgmDownClick == false)
+	if (m_mute->m_state == ButtonState::BS_Click && muteClick == false)
 	{
 		Mute();
 	}
