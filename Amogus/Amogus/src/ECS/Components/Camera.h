@@ -11,6 +11,8 @@ public:
 	Camera(const float viewportWidth, const float viewportHeight, const float near = -1.0f, const float far = 1.0f, Framebuffer* renderTarget = nullptr) :
 		m_viewportWidth(viewportWidth),
 		m_viewportHeight(viewportHeight),
+		m_internalWidth(viewportWidth),
+		m_internalHeight(viewportHeight),
 		m_near(near),
 		m_far(far),
 		m_framebuffer(renderTarget),
